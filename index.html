@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light only">
 <title>La Goffinerie — Websites that work for you</title>
 <meta name="description" content="I build living websites for Belgian small businesses: Odoo integrations, calendar booking, AI digests, analytics you own. Fixed price. No subscriptions. You own it.">
@@ -24,7 +24,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.2 — lagoffinerie.be
+     LA GOFFINERIE v2.3 — lagoffinerie.be, iPhone pass
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
@@ -49,7 +49,8 @@
     :root{--paper:#faf8f2;--ink:#151515;} /* hard-locked light */
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  html,body{overflow-x:hidden;}
   body{
     font-family:var(--sans);color:var(--ink);background:var(--paper);
     -webkit-font-smoothing:antialiased;line-height:1.6;
@@ -119,7 +120,7 @@
 
   .bottombar{display:none;}
   @media(max-width:900px){
-    body{padding-bottom:74px;}
+    body{padding-bottom:calc(74px + env(safe-area-inset-bottom));}
     .nlinks{display:none;}
     .topnav .nwrap{height:60px;gap:12px;}
     .topnav .btn{padding:9px 14px;font-size:12.5px;}
@@ -139,7 +140,8 @@
     .bottombar a svg{width:21px;height:21px;}
     .bottombar a:hover,.bottombar a:active{color:var(--blue);}
   }
-  @media(max-width:420px){.topnav .logo-txt{display:none;}}
+  .topnav .btn,.topnav .logo-txt{white-space:nowrap;}
+  @media(max-width:560px){.topnav .logo-txt{display:none;}}
 
   /* ---------- hero ---------- */
   .hero{position:relative;padding:92px 0 64px;overflow:hidden;}
@@ -396,7 +398,7 @@
   @media (prefers-reduced-motion: reduce){.journey .jn,.journey .jn .jin,.step .n{transition:none;}}
 
   /* ---------- contact modal ---------- */
-  body.modal-open{overflow:hidden;}
+  body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden;}
   .modal-bg{position:fixed;inset:0;z-index:200;background:rgba(21,21,21,.55);
     backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
     display:flex;align-items:center;justify-content:center;padding:20px;animation:bgIn .25s ease both;}
@@ -440,6 +442,47 @@
   footer .flinks{display:flex;gap:18px;flex-wrap:wrap;}
   footer .flinks a{font-family:var(--disp);font-weight:600;font-size:13px;color:var(--ink-2);text-decoration:none;border-bottom:2px solid transparent;}
   footer .flinks a:hover{color:var(--ink);border-color:var(--blue);}
+
+
+  /* ---------- phones (≤ 600px): iPhone first ---------- */
+  @media(max-width:600px){
+    .wrap{padding:0 20px;}
+    section{padding:64px 0;}
+    .kick{font-size:10.5px;letter-spacing:.14em;}
+    .hero{padding:52px 0 44px;}
+    .hero h1{font-size:clamp(31px,9.2vw,40px);max-width:none;}
+    /* The underlined phrase may wrap: as an inline-block it moves to its own line(s) and keeps its underline. */
+    .hero h1 .u{white-space:normal;display:inline-block;}
+    .hero .sub{font-size:17px;margin-top:18px;}
+    .geo.g1{width:140px;height:130px;right:-54px;top:-26px;opacity:.7;}
+    .geo.g2{width:140px;height:130px;left:-66px;bottom:-66px;opacity:.28;}
+    .ctas{gap:12px;margin-top:26px;}
+    .ctas .btn,.quicklinks a,form button.btn{width:100%;justify-content:center;}
+    .hero .note{font-size:13.5px;}
+    h2{font-size:clamp(26px,7.4vw,30px);}
+    .sub{font-size:16px;}
+    .card{padding:20px 18px;}
+    .case{padding:22px 18px;box-shadow:6px 6px 0 var(--yellow);}
+    .case h3{font-size:21px;}
+    .stat .v{font-size:17px;}
+    .step{gap:14px;padding:18px 0;}
+    .step .n{width:34px;height:34px;font-size:14px;}
+    .support div{width:100%;text-align:center;}
+    .about{gap:18px;}
+    img.avatar,.avatar-fb{width:104px;height:104px;}
+    form{padding:22px 18px;box-shadow:6px 6px 0 var(--blue);}
+    /* 16px is the threshold below which iOS zooms the page on focus — and never zooms back. */
+    input,select,textarea{font-size:16px;}
+    .form-note{font-size:12px;}
+    footer .wrap{flex-direction:column;align-items:flex-start;gap:12px;}
+    .modal .lede{font-size:15px;}
+    .modal h3{font-size:22px;}
+  }
+  @media(max-width:360px){
+    .hero h1{font-size:29px;}
+    .topnav .btn{padding:9px 11px;font-size:12px;}
+    .langsw button{padding:6px 8px;}
+  }
 
   /* ---------- reveal ---------- */
   .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
@@ -980,7 +1023,10 @@ const FS = {
 const FORMSUBMIT_AJAX = 'https://formsubmit.co/ajax/goffin.simon@gmail.com';
 const FORM_TEMPLATE = document.getElementById('leadform').cloneNode(true);
 const modalBg = document.getElementById('leadmodal');
-let VARIANT='book', lastFocus=null, MODAL_OPENED=false, SUBMITTED=false, POPPED=false;
+let VARIANT='book', lastFocus=null, MODAL_OPENED=false, SUBMITTED=false, POPPED=false, lockY=0;
+/* iOS Safari ignores overflow:hidden on body: pin the body where it is, and put it back on close. */
+function lockScroll(){ lockY=window.scrollY||0; document.body.style.top=(-lockY)+'px'; document.body.classList.add('modal-open'); }
+function unlockScroll(){ document.body.classList.remove('modal-open'); document.body.style.top=''; window.scrollTo({top:lockY, behavior:'instant'}); }
 
 function applyModalText(){
   const t=(LM[LANG]||LM.en)[VARIANT];
@@ -1005,7 +1051,7 @@ function openLead(variant, source){
   VARIANT = variant==='auto' ? 'auto' : 'book';
   buildModalForm(); applyModalText();
   lastFocus=document.activeElement;
-  modalBg.hidden=false; modalBg.classList.remove('closing'); document.body.classList.add('modal-open');
+  modalBg.hidden=false; modalBg.classList.remove('closing'); lockScroll();
   MODAL_OPENED=true;
   const first=modalBg.querySelector('input:not([type=hidden]):not(.honey)');
   if(first && matchMedia('(hover: hover)').matches) setTimeout(()=>first.focus(), 400);
@@ -1014,7 +1060,7 @@ function openLead(variant, source){
 function closeLead(){
   if(modalBg.hidden) return;
   modalBg.classList.add('closing');
-  const done=()=>{ modalBg.hidden=true; modalBg.classList.remove('closing'); document.body.classList.remove('modal-open'); if(lastFocus && lastFocus.focus) lastFocus.focus(); };
+  const done=()=>{ modalBg.hidden=true; modalBg.classList.remove('closing'); unlockScroll(); if(lastFocus && lastFocus.focus) lastFocus.focus(); };
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) done(); else setTimeout(done, 200);
 }
 document.getElementById('lm-close').addEventListener('click', closeLead);
