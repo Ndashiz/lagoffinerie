@@ -35,6 +35,8 @@
   .langsw{display:flex;border:1.5px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;}
   .langsw button{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;border:none;background:transparent;color:var(--ink-2);padding:6px 11px;cursor:pointer;}
   .langsw button.active{background:var(--ink);color:var(--paper);}
+  .back{white-space:nowrap;}
+  @media(max-width:560px){.topnav .logo-txt{display:none;} .topnav .nwrap{gap:12px;padding:0 16px;} .nright{gap:10px;}}
   .kick{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:10px;margin-bottom:16px;}
   .kick::before{content:"";width:26px;height:2px;background:var(--red);}
   header.hero{padding:72px 0 30px;}
@@ -80,7 +82,7 @@
         <button id="lang-en" onclick="setLang('en')">EN</button>
         <button id="lang-fr" onclick="setLang('fr')">FR</button>
       </div>
-      <a class="back" href="./" data-i18n="back">← Back to the site</a>
+      <a class="back" href="./" data-i18n="back">← Back</a>
     </div>
   </div>
 </nav>
@@ -161,7 +163,7 @@
 <script>
 const FR = {
   title:"Cookies & vie privée — La Goffinerie",
-  back:"← Retour au site", kick:"Cookies &amp; vie privée",
+  back:"← Retour", kick:"Cookies &amp; vie privée",
   h1:"Pas de cookies de suivi. Voici exactement ce qui se passe à la place.",
   sub:"Cette page liste tout ce que le site enregistre sur votre appareil, ce qu'il mesure, et où vont vos coordonnées quand vous m'écrivez. Elle est écrite pour des humains, pas pour des juristes — et elle est complète.",
   s1_h:"Ce qui est enregistré sur votre appareil",

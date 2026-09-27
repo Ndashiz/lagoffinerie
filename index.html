@@ -17,14 +17,38 @@
 <meta property="og:description" content="Living websites for Belgian small businesses: Odoo integrations, calendar booking, AI digests, analytics you own. Fixed price. No subscriptions. You own it.">
 <meta property="og:locale" content="en_BE">
 <meta property="og:locale:alternate" content="fr_BE">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://lagoffinerie.be/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="La Goffinerie — des sites web qui se mettent au travail">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lagoffinerie.be/assets/og.png">
+<meta name="theme-color" content="#faf8f2">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png">
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 112" style="isolation:isolate"><path d="M62 6 L102 80 L22 80 Z" fill="%23EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="%232823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="%23E2452C" style="mix-blend-mode:multiply"/></svg>'>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "La Goffinerie",
+  "url": "https://lagoffinerie.be/",
+  "image": "https://lagoffinerie.be/assets/og.png",
+  "description": "Websites and dedicated solutions for Belgian small businesses: Odoo integrations, calendar booking, AI digests, analytics you own. Fixed price, no subscription.",
+  "telephone": "+32479487608",
+  "email": "goffin.simon@gmail.com",
+  "founder": { "@type": "Person", "name": "Simon Goffin", "sameAs": "https://www.linkedin.com/in/ndashiz/" },
+  "areaServed": [ { "@type": "City", "name": "Bruxelles" }, { "@type": "City", "name": "Liège" }, { "@type": "Country", "name": "Belgium" } ],
+  "availableLanguage": [ "fr", "en", "nl" ],
+  "priceRange": "€€",
+  "sameAs": [ "https://www.linkedin.com/in/ndashiz/" ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.3 — lagoffinerie.be, iPhone pass
+     LA GOFFINERIE v2.4 — lagoffinerie.be, quick wins (share image, phone, legal, autofill, one CTA)
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
@@ -369,6 +393,11 @@
   @media(max-width:900px){.live-pill{bottom:84px;}}
 
 
+  /* ---------- direct reach (phone, WhatsApp) ---------- */
+  .hero .reach{margin-top:10px;font-size:14.5px;color:var(--ink-2);}
+  .hero .reach a{font-family:var(--disp);font-weight:700;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--blue);white-space:nowrap;}
+  .quicklinks .qi{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;}
+  .quicklinks .qi.wa{fill:#25D366;stroke:#25D366;} .quicklinks .qi.wa .wa-in{fill:#fff;stroke:none;}
   /* ---------- founder photo ---------- */
   img.avatar{width:120px;height:120px;object-fit:cover;display:block;padding:0;font-size:0;background:var(--paper-2);}
   .avatar-fb{width:120px;height:120px;}
@@ -518,13 +547,13 @@
         <button id="lang-en" onclick="setLang('en')">EN</button>
         <button id="lang-fr" onclick="setLang('fr')">FR</button>
       </div>
-      <a class="btn primary" href="#contact" data-track="nav_book" data-open="nav" data-i18n="nav_book">Book a call</a>
+      <a class="btn primary" href="#contact" data-track="nav_book" data-open="nav" data-i18n="nav_book">Free call</a>
     </div>
   </div>
 </nav>
 
 <nav class="bottombar" aria-label="Mobile navigation">
-  <a href="#top" data-track="bb_home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg><span data-i18n="nav_home">Home</span></a>
+  <a href="tel:+32479487608" data-track="bb_call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-i18n="nav_call">Call</span></a>
   <a href="#work" data-track="bb_work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg><span data-i18n="nav_work">Work</span></a>
   <a href="#process" data-track="bb_process"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h10"/></svg><span data-i18n="nav_process">Method</span></a>
   <a href="#contact" data-track="bb_contact" data-open="bottombar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5c-1.7 0-3.3-.5-4.6-1.3L3 20l1.3-4.9A8.5 8.5 0 1 1 21 11.5z"/></svg><span data-i18n="nav_contact">Contact</span></a>
@@ -547,10 +576,11 @@
     <h1 data-i18n="hero_h1">I build websites that <span class="u">get to work.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span></h1>
     <p class="sub" data-i18n="hero_sub">Most websites just sit there. Yours can talk to your Odoo, fill your calendar, summarise your client interactions with AI, and tell you exactly what visitors do. One fixed price. No subscriptions. <strong>You own it.</strong></p>
     <div class="ctas">
-      <a class="btn primary" href="#contact" data-track="cta_hero_book" data-open="hero" data-i18n="hero_cta1">Book a free call</a>
+      <a class="btn primary" href="#contact" data-track="cta_hero_book" data-open="hero" data-i18n="hero_cta1">Book my free call</a>
       <a class="btn ghost" href="#work" data-track="cta_hero_work" data-i18n="hero_cta2">See our work ↓</a>
     </div>
     <p class="note" data-i18n="hero_note">30 minutes, no obligation. I'll tell you honestly what's worth building — and what it would be worth to your business.</p>
+    <p class="reach"><span data-i18n="hero_call">Or reach me directly:</span> <a href="tel:+32479487608" data-track="cta_phone">+32 479 48 76 08</a> · <a href="https://wa.me/32479487608" target="_blank" rel="noopener" data-track="cta_whatsapp" data-wa>WhatsApp</a></p>
   </div>
 </header>
 
@@ -730,6 +760,8 @@
     <h2 class="rv" data-i18n="ct_h2">Tell me what's eating your time.</h2>
     <p class="sub rv" data-i18n="ct_sub">A free 30-minute call. Tell me how you work today — I'll tell you honestly what's worth automating, and what it would be worth.</p>
     <div class="quicklinks rv">
+      <a href="tel:+32479487608" data-track="cta_phone"><svg class="qi" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-i18n="ct_call">Call</span>&nbsp;+32 479 48 76 08</a>
+      <a href="https://wa.me/32479487608" target="_blank" rel="noopener" data-track="cta_whatsapp" data-wa><svg class="qi wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path class="wa-in" d="M9.2 8.2c.2-.4.5-.4.7-.4h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2.1.4 0 .5l-.5.7c-.1.1-.2.3 0 .5a6 6 0 0 0 2.8 2.7c.2.1.4.1.5-.1l.7-.8c.2-.2.4-.2.6-.1l1.6.8c.3.1.4.3.4.5 0 .4-.2 1.2-.7 1.5-.5.4-1.2.6-2 .4a9.6 9.6 0 0 1-5.4-4.4c-.7-1.2-.8-2.2-.6-2.9z"/></svg>WhatsApp</a>
       <a href="mailto:goffin.simon@gmail.com" data-track="cta_email">✉&nbsp; goffin.simon@gmail.com</a>
       <a href="https://www.linkedin.com/in/ndashiz/" target="_blank" rel="noopener" data-track="cta_linkedin"><span class="li-ic">in</span>&nbsp;<span data-i18n="ct_li"> Connect on LinkedIn</span></a>
     </div>
@@ -741,12 +773,12 @@
       <input class="honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
       <input type="hidden" name="language" id="f-lang" value="en">
       <div class="frow">
-        <div><label for="f-name" data-i18n="f_name">Your name</label><input id="f-name" name="name" type="text" placeholder="Jean Dupont" required></div>
-        <div><label for="f-email" data-i18n="f_email">Your email</label><input id="f-email" name="email" type="email" placeholder="jean@bravoreno.be" required></div>
+        <div><label for="f-name" data-i18n="f_name">Your name</label><input id="f-name" name="name" type="text" placeholder="Jean Dupont" autocomplete="name" autocapitalize="words" enterkeyhint="next" required></div>
+        <div><label for="f-email" data-i18n="f_email">Your email</label><input id="f-email" name="email" type="email" placeholder="vous@entreprise.be" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="next" required></div>
       </div>
-      <div><label for="f-subject" data-i18n="f_subject">What can I help with?</label><input id="f-subject" name="subject" type="text" data-i18n-ph="f_subject_ph" placeholder="e.g. A website with automatic invoicing" required></div>
+      <div><label for="f-subject" data-i18n="f_subject">What can I help with?</label><input id="f-subject" name="subject" type="text" data-i18n-ph="f_subject_ph" placeholder="e.g. A website with automatic invoicing" autocomplete="off" enterkeyhint="next" required></div>
       <div class="frow">
-        <div><label for="f-phone" data-i18n="f_phone">Phone (optional)</label><input id="f-phone" name="phone" type="tel" placeholder="+32 ..."></div>
+        <div><label for="f-phone" data-i18n="f_phone">Phone (optional)</label><input id="f-phone" name="phone" type="tel" placeholder="+32 ..." autocomplete="tel" inputmode="tel" enterkeyhint="next"></div>
         <div><label for="f-availability" data-i18n="f_avail">When should I call you?</label>
           <select id="f-availability" name="availability" required>
             <option value="" disabled selected data-i18n="f_opt0">Choose a moment</option>
@@ -757,8 +789,8 @@
           </select>
         </div>
       </div>
-      <div><label for="f-message" data-i18n="f_msg">Anything else I should know? (optional)</label><textarea id="f-message" name="message" data-i18n-ph="f_msg_ph" placeholder="Tell me a bit about your business and what takes you the most time…"></textarea></div>
-      <button class="btn primary" type="submit" data-track="cta_form_submit" data-i18n="f_send">Request my free call</button>
+      <div><label for="f-message" data-i18n="f_msg">Anything else I should know? (optional)</label><textarea id="f-message" name="message" data-i18n-ph="f_msg_ph" placeholder="Tell me a bit about your business and what takes you the most time…" autocomplete="off" enterkeyhint="send"></textarea></div>
+      <button class="btn primary" type="submit" data-track="cta_form_submit" data-i18n="f_send">Book my free call</button>
       <p class="form-note" data-i18n="f_note">I reply personally within one business day. Your details are only used to contact you back. <a href="cookies.html">Privacy &amp; cookies.</a></p>
     </form>
   </div>
@@ -793,7 +825,7 @@
       </svg>
       La Goffinerie
     </span>
-    <nav class="flinks"><a href="cookies.html" data-track="foot_cookies" data-i18n="foot_cookies">Cookies &amp; privacy</a><a href="mailto:goffin.simon@gmail.com">goffin.simon@gmail.com</a></nav>
+    <nav class="flinks"><a href="mentions-legales.html" data-track="foot_legal" data-i18n="foot_legal">Legal notice</a><a href="cookies.html" data-track="foot_cookies" data-i18n="foot_cookies">Cookies &amp; privacy</a><a href="mailto:goffin.simon@gmail.com">goffin.simon@gmail.com</a></nav>
     <p data-i18n="foot">© 2026 La Goffinerie · Brussels &amp; Liège, Belgium · Built by hand (and a bit of AI).</p>
   </div>
 </footer>
@@ -806,11 +838,11 @@
    ========================================================= */
 const FR = {
   title:"La Goffinerie — Des sites web qui travaillent pour vous",
-  nav_alive:"Ce que je fais", nav_work:"Réalisations", nav_trust:"Confiance", nav_process:"Méthode", nav_about:"À propos", nav_book:"Réserver un appel", nav_home:"Accueil", nav_contact:"Contact",
+  nav_alive:"Ce que je fais", nav_work:"Réalisations", nav_trust:"Confiance", nav_process:"Méthode", nav_about:"À propos", nav_book:"Appel gratuit", nav_call:"Appeler", nav_contact:"Contact", hero_call:"Ou joignez-moi directement :", ct_call:"Appeler",
   hero_kick:"Sites web &amp; solutions dédiées · Belgique",
   hero_h1:'Je crée des sites web qui <span class="u">se mettent au travail.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span>',
   hero_sub:"La plupart des sites web ne font qu'exister. Le vôtre peut parler à votre Odoo, remplir votre agenda, résumer vos interactions clients grâce à l'IA, et vous dire exactement ce que font vos visiteurs. Un prix fixe. Pas d'abonnement. <strong>Il vous appartient.</strong>",
-  hero_cta1:"Réserver un appel gratuit", hero_cta2:"Voir nos réalisations ↓",
+  hero_cta1:"Réserver mon appel gratuit", hero_cta2:"Voir nos réalisations ↓",
   hero_note:"30 minutes, sans engagement. Je vous dirai honnêtement ce qui vaut la peine d'être construit — et ce que ça peut rapporter à votre entreprise.",
   alive_kick:"Ce que je construis",
   alive_h2:"Une brochure, c'est du poids mort. Un site vivant, ça rapporte.",
@@ -870,10 +902,10 @@ const FR = {
   f_phone:"Téléphone (optionnel)", f_avail:"Quand puis-je vous appeler ?",
   f_opt0:"Choisissez un moment", f_opt1:"Matin (9h–12h)", f_opt2:"Après-midi (12h–17h)", f_opt3:"Soir (17h–19h)", f_opt4:"N'importe quand",
   f_msg:"Autre chose à savoir ? (optionnel)", f_msg_ph:"Parlez-moi un peu de votre entreprise et de ce qui vous prend le plus de temps…",
-  f_send:"Demander mon appel gratuit",
+  f_send:"Réserver mon appel gratuit",
   f_note:"Je réponds personnellement sous un jour ouvrable. Vos coordonnées ne servent qu'à vous recontacter. <a href=\"cookies.html\">Vie privée &amp; cookies.</a>",
   j1:"On se rencontre", j2:"Plan &amp; prix", j3:"Conception", j4:"Construction ouverte", j5:"Vous testez", j6:"Remise des clés",
-  foot_cookies:"Cookies &amp; vie privée",
+  foot_cookies:"Cookies &amp; vie privée", foot_legal:"Mentions légales",
   foot:"© 2026 La Goffinerie · Bruxelles &amp; Liège, Belgique · Fait main (et un peu d'IA)."
 };
 const MARQ = {
@@ -904,6 +936,8 @@ function setLang(l, silent){
   document.getElementById('lang-en').classList.toggle('active', LANG==='en');
   document.getElementById('lang-fr').classList.toggle('active', LANG==='fr');
   const fl = document.getElementById('f-lang'); if(fl) fl.value = LANG;
+  const waText = LANG==='fr' ? "Bonjour Simon, je voudrais parler d'un site web pour mon entreprise." : "Hello Simon, I'd like to talk about a website for my business.";
+  document.querySelectorAll('[data-wa]').forEach(a=>{ a.href='https://wa.me/32479487608?text='+encodeURIComponent(waText); });
   try{ localStorage.setItem('lg_lang', LANG); }catch(e){}
   // Not on the silent init call: the modal dictionary is declared further down the script.
   if(!silent){ if(typeof track==='function') track('lang', LANG); if(typeof applyModalText==='function') applyModalText(); }
