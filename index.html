@@ -37,7 +37,7 @@
   "telephone": "+32479487608",
   "email": "info@lagoffinerie.be",
   "founder": { "@type": "Person", "name": "Simon Goffin", "sameAs": "https://www.linkedin.com/in/ndashiz/" },
-  "areaServed": [ { "@type": "City", "name": "Bruxelles" }, { "@type": "City", "name": "Liège" }, { "@type": "Country", "name": "Belgium" } ],
+  "areaServed": [ { "@type": "City", "name": "Bruxelles" }, { "@type": "City", "name": "Liège" }, { "@type": "Country", "name": "Belgium" }, { "@type": "Place", "name": "Europe" } ],
   "availableLanguage": [ "fr", "en", "nl" ],
   "priceRange": "€€",
   "sameAs": [ "https://www.linkedin.com/in/ndashiz/" ]
@@ -61,7 +61,7 @@
    "name": "How much does it cost?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "One fixed price, agreed in writing before anything starts, right after the free call. No subscription, no per-user fee. The only recurring cost is hosting: a few euros a month, paid directly to the host."
+    "text": "One fixed price, agreed in writing before anything starts, right after the free call. No subscription, no per-user fee, no surprise afterwards."
    }
   },
   {
@@ -109,7 +109,7 @@
    "name": "Who owns the site?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "You do: the code, the data and every access. You can host it elsewhere, hand it to someone else or change it yourself, with or without me."
+    "text": "You do: the code, the data and every access. You can take it anywhere, hand it to someone else or change it yourself, with or without me."
    }
   },
   {
@@ -137,7 +137,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.11 — 3D logo intro, switched on/off and paced from Jarvis
+     LA GOFFINERIE v2.13 — no hosting talk, founder rewritten (3D logo intro from v2.11 kept)
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
@@ -928,11 +928,11 @@
     <h2 class="rv" data-i18n="pr_h2">One fixed price, known before we start.</h2>
     <p class="sub rv" data-i18n="pr_sub">Three starting points. The exact price is fixed in writing after the free call, and it does not move afterwards. Prices exclude VAT.</p>
     <div class="plans">
-      <div class="plan rv"><div class="pn" data-i18n="pl1_n">Showcase site</div><div class="pp"><span data-i18n="from">from</span> <b data-price="vitrine">—</b> €</div><p data-i18n="pl1_p">A clean, fast site that brings enquiries: one to five pages, contact form, mobile-first, hosting set up, legal pages done.</p></div>
+      <div class="plan rv"><div class="pn" data-i18n="pl1_n">Showcase site</div><div class="pp"><span data-i18n="from">from</span> <b data-price="vitrine">—</b> €</div><p data-i18n="pl1_p">A clean, fast site that brings enquiries: one to five pages, contact form, mobile-first, legal pages done, online on day one.</p></div>
       <div class="plan rv is-star"><div class="pn" data-i18n="pl2_n">Living site</div><div class="pp"><span data-i18n="from">from</span> <b data-price="vivant">—</b> €</div><p data-i18n="pl2_p">The showcase site plus one or two integrations that work for you: calendar booking, automatic invoices, your CRM, a private analytics dashboard. Training included.</p></div>
       <div class="plan rv"><div class="pn" data-i18n="pl3_n">Tailor-made</div><div class="pp" data-i18n="pl3_price">on quote</div><p data-i18n="pl3_p">Internal tools, AI automations, several sites or a system of your own. We frame it together, then I quote it as one fixed price.</p></div>
     </div>
-    <p class="pr-note rv" data-i18n="pr_note">After delivery, your only recurring cost is hosting: <b data-price="hosting">—</b> € a month, paid directly to the host. No licence, no per-user fee.</p>
+    <p class="pr-note rv" data-i18n="pr_note">After delivery: no licence, no per-user fee, no subscription. The price you agreed is the price you pay.</p>
   </div>
 </section>
 
@@ -943,7 +943,7 @@
     <h2 class="rv" data-i18n="own_h2">Nothing more, nothing less — and it's yours.</h2>
     <div class="pillars">
       <div class="pillar rv"><span class="n" data-i18n="p1_n">01 — Exactly what you need</span><h3 data-i18n="p1_h">One solution, built around you</h3><p data-i18n="p1_p">I design around how <em>you</em> work — one place for everything, no switching between apps, no features you didn't ask for.</p></div>
-      <div class="pillar rv"><span class="n" data-i18n="p2_n">02 — No subscriptions</span><h3 data-i18n="p2_h">Pay once. Then just hosting.</h3><p data-i18n="p2_p">One fixed price, agreed before I build. After delivery, your only recurring cost is hosting — no licences, no per-user fees.</p></div>
+      <div class="pillar rv"><span class="n" data-i18n="p2_n">02 — No subscriptions</span><h3 data-i18n="p2_h">Pay once. That's it.</h3><p data-i18n="p2_p">One fixed price, agreed before I build. After delivery, no licence, no per-user fee, no subscription.</p></div>
       <div class="pillar rv"><span class="n" data-i18n="p3_n">03 — Do it together → do it yourself</span><h3 data-i18n="p3_h">I hand you the keys</h3><p data-i18n="p3_p">We frame and build the solution together. Step by step, you take over — until you're the one able to use, run, and even change it yourself with AI tools.</p></div>
     </div>
   </div>
@@ -956,7 +956,7 @@
     <p class="quote rv" data-i18n="trust_quote"><span class="q">"</span>Anyone can ask AI for a website these days. Why should I trust yours?<span class="q">"</span></p>
     <p class="trust-intro rv" data-i18n="trust_intro">Fair. AI makes me fast — but fast is worthless if your site goes down on a Saturday or leaks your client list. I spent the last six years shipping digital solutions for <strong>major actors across Belgium</strong>, where downtime and data leaks simply aren't an option. That discipline comes with every build:</p>
     <div class="grid">
-      <div class="card rv"><span class="tag t-blue" data-i18n="t1_tag">Reliability</span><h3 data-i18n="t1_h">Built to stay up</h3><p data-i18n="t1_p">Monitored hosting, updates deployed without taking your site down, and a plan for when things go wrong — by design, not by goodwill.</p></div>
+      <div class="card rv"><span class="tag t-blue" data-i18n="t1_tag">Reliability</span><h3 data-i18n="t1_h">Built to stay up</h3><p data-i18n="t1_p">Monitored around the clock, updated without taking your site down, and a plan for when things go wrong — by design, not by goodwill.</p></div>
       <div class="card rv"><span class="tag t-red" data-i18n="t2_tag">Security</span><h3 data-i18n="t2_h">Hardened against attacks</h3><p data-i18n="t2_p">HTTPS everywhere, protection against the common attacks and spam bots that target small-business sites daily.</p></div>
       <div class="card rv"><span class="tag t-yel" data-i18n="t3_tag">Your data</span><h3 data-i18n="t3_h">Database locked &amp; backed up</h3><p data-i18n="t3_p">Client data stored in a secured database, with an automated backup solution as an option — so one incident never means starting from zero.</p></div>
       <div class="card rv"><span class="tag t-blue" data-i18n="t4_tag">Discipline</span><h3 data-i18n="t4_h">Bank-grade delivery habits</h3><p data-i18n="t4_p">Documented, tested, and handed over properly. The same standards I apply leading delivery teams in the financial sector.</p></div>
@@ -1048,13 +1048,13 @@
     <h2 class="rv" data-i18n="faq_h2">The answers I give on every first call.</h2>
     <div class="faq rv">
       <details class="fq" data-track="faq_open"><summary><span data-i18n="q1">How long does a project take?</span></summary><p data-i18n="a1">Most projects take between three and six weeks from the first call to the handover, depending on the integrations. You see the progress every week and validate each step.</p></details>
-      <details class="fq" data-track="faq_open"><summary><span data-i18n="q2">How much does it cost?</span></summary><p data-i18n="a2">One fixed price, agreed in writing before anything starts, right after the free call. No subscription, no per-user fee. The only recurring cost is hosting: a few euros a month, paid directly to the host.</p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q2">How much does it cost?</span></summary><p data-i18n="a2">One fixed price, agreed in writing before anything starts, right after the free call. No subscription, no per-user fee, no surprise afterwards.</p></details>
       <details class="fq" data-track="faq_open"><summary><span data-i18n="q3">What do I need to provide?</span></summary><p data-i18n="a3">Your texts and photos (or the notes we take together on the call), your logo if you have one, and access to the tools the site must talk to, such as your calendar or Odoo. I handle everything else.</p></details>
       <details class="fq" data-track="faq_open"><summary><span data-i18n="q4">I already have a website. Can you start from it?</span></summary><p data-i18n="a4">Yes. I keep what works (content, domain name, ranking) and rebuild what holds you back. Your address does not change, and the old site stays online until the new one is ready.</p></details>
       <details class="fq" data-track="faq_open"><summary><span data-i18n="q5">Do I need Odoo?</span></summary><p data-i18n="a5">No. Odoo is one example of what the site can talk to. It works just as well with your calendar, your invoicing tool or a simple spreadsheet, and it works without any of them.</p></details>
       <details class="fq" data-track="faq_open"><summary><span data-i18n="q6">Who does the work?</span></summary><p data-i18n="a6">I do, from the first call to the handover. No agency, no subcontracting: one person who knows your project.</p></details>
       <details class="fq" data-track="faq_open"><summary><span data-i18n="q7">What happens after the delivery?</span></summary><p data-i18n="a7">One month of general support is included, and any defect is fixed free for six months. Anything new is quoted first as a small change request, so there are never surprises.</p></details>
-      <details class="fq" data-track="faq_open"><summary><span data-i18n="q8">Who owns the site?</span></summary><p data-i18n="a8">You do: the code, the data and every access. You can host it elsewhere, hand it to someone else or change it yourself, with or without me.</p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q8">Who owns the site?</span></summary><p data-i18n="a8">You do: the code, the data and every access. You can take it anywhere, hand it to someone else or change it yourself, with or without me.</p></details>
       <details class="fq" data-track="faq_open"><summary><span data-i18n="q9">How does payment work?</span></summary><p data-i18n="a9">A deposit when we start and the balance at delivery, both on invoice. Prices are quoted excluding VAT.</p></details>
       <details class="fq" data-track="faq_open"><summary><span data-i18n="q10">In which languages?</span></summary><p data-i18n="a10">French, English and Dutch for our exchanges. The site itself can be in one language or several.</p></details>
     </div>
@@ -1169,7 +1169,7 @@ const FR = {
   trust_kick:"La question légitime",
   trust_quote:'<span class="q">«&nbsp;</span>Aujourd\'hui, n\'importe qui peut demander un site à l\'IA. Pourquoi faire confiance au vôtre ?<span class="q">&nbsp;»</span>',
   trust_intro:"Bonne question. L'IA me rend rapide — mais la vitesse ne vaut rien si votre site tombe un samedi ou laisse fuiter votre fichier clients. J'ai passé les six dernières années à livrer des solutions digitales pour des <strong>acteurs majeurs en Belgique</strong>, où les pannes et les fuites de données ne sont tout simplement pas une option. Cette discipline accompagne chaque projet :",
-  t1_tag:"Fiabilité", t1_h:"Conçu pour rester en ligne", t1_p:"Hébergement supervisé, mises à jour déployées sans interruption, et un plan pour quand ça tourne mal — par conception, pas par bonne volonté.",
+  t1_tag:"Fiabilité", t1_h:"Conçu pour rester en ligne", t1_p:"Supervisé en continu, mis à jour sans interruption, et un plan pour quand ça tourne mal — par conception, pas par bonne volonté.",
   t2_tag:"Sécurité", t2_h:"Blindé contre les attaques", t2_p:"HTTPS partout, protection contre les attaques courantes et les bots de spam qui visent chaque jour les sites de petites entreprises.",
   t3_tag:"Vos données", t3_h:"Base de données verrouillée &amp; sauvegardée", t3_p:"Vos données clients sont stockées dans une base sécurisée, avec une solution de sauvegarde automatisée en option — un incident ne signifie jamais repartir de zéro.",
   t4_tag:"Discipline", t4_h:"Des habitudes de livraison bancaires", t4_p:"Documenté, testé, et transmis proprement. Les mêmes standards que j'applique en menant des équipes de delivery dans le secteur financier.",
@@ -1186,24 +1186,24 @@ const FR = {
   sup2:"Défauts corrigés <b>gratuitement pendant 6 mois</b>",
   sup3:"Hors périmètre ? Un devis de <b>change request</b> clair d'abord",
   pr_kick:"Combien ça coûte", pr_h2:"Un prix fixe, connu avant de commencer.", pr_sub:"Trois points de départ. Le prix exact est fixé par écrit après l'appel gratuit, et il ne bouge plus ensuite. Prix hors TVA.",
-  from:"à partir de", pl1_n:"Site vitrine", pl1_p:"Un site propre et rapide qui amène des demandes : une à cinq pages, formulaire de contact, pensé mobile d'abord, hébergement configuré, pages légales faites.",
+  from:"à partir de", pl1_n:"Site vitrine", pl1_p:"Un site propre et rapide qui amène des demandes : une à cinq pages, formulaire de contact, pensé mobile d'abord, pages légales faites, en ligne dès le premier jour.",
   pl2_n:"Site vivant", pl2_p:"Le site vitrine plus une ou deux intégrations qui travaillent pour vous : réservation d'agenda, factures automatiques, votre CRM, un tableau de bord privé. Formation incluse.",
   pl3_n:"Sur mesure", pl3_price:"sur devis", pl3_p:"Outils internes, automatisations IA, plusieurs sites ou un système à vous. Nous le cadrons ensemble, puis je le chiffre en un prix fixe.",
-  pr_note:"Après la livraison, votre seul coût récurrent est l'hébergement : <b data-price=\"hosting\">—</b> € par mois, payés directement à l'hébergeur. Pas de licence, pas de frais par utilisateur.",
+  pr_note:"Après la livraison : pas de licence, pas de frais par utilisateur, pas d'abonnement. Le prix convenu est le prix payé.",
   own_kick:"La méthode Goffinerie",
   own_h2:"Rien de plus, rien de moins — et c'est à vous.",
   p1_n:"01 — Exactement ce qu'il vous faut", p1_h:"Une solution, construite autour de vous", p1_p:"Je conçois autour de <em>votre</em> façon de travailler — un seul endroit pour tout, pas de zapping entre applis, pas de fonctions que vous n'avez pas demandées.",
-  p2_n:"02 — Pas d'abonnements", p2_h:"Payez une fois. Ensuite, juste l'hébergement.", p2_p:"Un prix fixe, convenu avant de construire. Après la livraison, votre seul coût récurrent est l'hébergement — pas de licences, pas de frais par utilisateur.",
+  p2_n:"02 — Pas d'abonnements", p2_h:"Payez une fois. C'est tout.", p2_p:"Un prix fixe, convenu avant de construire. Après la livraison, pas de licence, pas de frais par utilisateur, pas d'abonnement.",
   p3_n:"03 — On le fait ensemble → vous le faites vous-même", p3_h:"Je vous remets les clés", p3_p:"Nous cadrons et construisons la solution ensemble. Étape par étape, vous prenez la main — jusqu'à être capable de l'utiliser, la faire tourner, et même la modifier vous-même avec les outils IA.",
   faq_kick:"Questions avant d'appeler", faq_h2:"Les réponses que je donne à chaque premier appel.",
   q1:"Combien de temps prend un projet ?", a1:"La plupart des projets prennent entre trois et six semaines, du premier appel à la remise des clés, selon les intégrations. Vous voyez l'avancement chaque semaine et validez chaque étape.",
-  q2:"Combien ça coûte ?", a2:"Un prix fixe, convenu par écrit avant de commencer, juste après l'appel gratuit. Pas d'abonnement, pas de frais par utilisateur. Le seul coût récurrent est l'hébergement : quelques euros par mois, payés directement à l'hébergeur.",
+  q2:"Combien ça coûte ?", a2:"Un prix fixe, convenu par écrit avant de commencer, juste après l'appel gratuit. Pas d'abonnement, pas de frais par utilisateur, pas de surprise ensuite.",
   q3:"Que dois-je fournir ?", a3:"Vos textes et photos (ou les notes que nous prenons ensemble à l'appel), votre logo si vous en avez un, et les accès aux outils que le site doit utiliser, comme votre agenda ou Odoo. Je m'occupe du reste.",
   q4:"J'ai déjà un site. Pouvez-vous partir de là ?", a4:"Oui. Je garde ce qui fonctionne (contenu, nom de domaine, référencement) et je reconstruis ce qui vous freine. Votre adresse ne change pas, et l'ancien site reste en ligne jusqu'à ce que le nouveau soit prêt.",
   q5:"Faut-il utiliser Odoo ?", a5:"Non. Odoo est un exemple de ce à quoi le site peut se connecter. Ça marche aussi bien avec votre agenda, votre outil de facturation ou un simple tableur, et ça marche sans aucun d'eux.",
   q6:"Qui fait le travail ?", a6:"Moi, du premier appel à la remise des clés. Pas d'agence, pas de sous-traitance : une personne qui connaît votre projet.",
   q7:"Que se passe-t-il après la livraison ?", a7:"Un mois de support général est inclus, et tout défaut est corrigé gratuitement pendant six mois. Toute nouveauté fait d'abord l'objet d'un petit devis, donc jamais de surprise.",
-  q8:"À qui appartient le site ?", a8:"À vous : le code, les données et tous les accès. Vous pouvez l'héberger ailleurs, le confier à quelqu'un d'autre ou le modifier vous-même, avec ou sans moi.",
+  q8:"À qui appartient le site ?", a8:"À vous : le code, les données et tous les accès. Vous pouvez l'emporter où vous voulez, le confier à quelqu'un d'autre ou le modifier vous-même, avec ou sans moi.",
   q9:"Comment se passe le paiement ?", a9:"Un acompte au démarrage et le solde à la livraison, sur facture. Les prix s'entendent hors TVA.",
   q10:"Dans quelles langues ?", a10:"Français, anglais et néerlandais pour nos échanges. Le site lui-même peut être en une langue ou en plusieurs.",
   ct_kick:"Parlons-en",
@@ -1412,7 +1412,7 @@ function calendarLinks(slot){
   return { google:g, ics:'data:text/calendar;charset=utf-8,'+encodeURIComponent(ics) };
 }
 const FORMSUBMIT_AJAX = 'https://formsubmit.co/ajax/info@lagoffinerie.be';
-/* Configure when ready: PRICES = { vitrine:'1 900', vivant:'3 900', hosting:'12' } shows the pricing section and its nav link;
+/* Configure when ready: PRICES = { vitrine:'1 900', vivant:'3 900' } shows the pricing section and its nav link;
    BOOKING_URL = 'https://cal.com/…' (or a Google Calendar appointment page) shows the « choose a slot » buttons. */
 const PRICES = null;
 const BOOKING_URL = '';
