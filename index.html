@@ -43,12 +43,100 @@
   "sameAs": [ "https://www.linkedin.com/in/ndashiz/" ]
 }
 </script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "How long does a project take?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Most projects take between three and six weeks from the first call to the handover, depending on the integrations. You see the progress every week and validate each step."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How much does it cost?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "One fixed price, agreed in writing before anything starts, right after the free call. No subscription, no per-user fee. The only recurring cost is hosting: a few euros a month, paid directly to the host."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What do I need to provide?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Your texts and photos (or the notes we take together on the call), your logo if you have one, and access to the tools the site must talk to, such as your calendar or Odoo. I handle everything else."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "I already have a website. Can you start from it?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes. I keep what works (content, domain name, ranking) and rebuild what holds you back. Your address does not change, and the old site stays online until the new one is ready."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Do I need Odoo?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "No. Odoo is one example of what the site can talk to. It works just as well with your calendar, your invoicing tool or a simple spreadsheet, and it works without any of them."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Who does the work?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "I do, from the first call to the handover. No agency, no subcontracting: one person who knows your project."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What happens after the delivery?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "One month of general support is included, and any defect is fixed free for six months. Anything new is quoted first as a small change request, so there are never surprises."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Who owns the site?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "You do: the code, the data and every access. You can host it elsewhere, hand it to someone else or change it yourself, with or without me."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How does payment work?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "A deposit when we start and the balance at delivery, both on invoice. Prices are quoted excluding VAT."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "In which languages?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "French, English and Dutch for our exchanges. The site itself can be in one language or several."
+   }
+  }
+ ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.4 — lagoffinerie.be, quick wins (share image, phone, legal, autofill, one CTA)
+     LA GOFFINERIE v2.5 — P1: audience line, short hero, FAQ, a11y, pricing + booking ready to switch on
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
@@ -393,6 +481,44 @@
   @media(max-width:900px){.live-pill{bottom:84px;}}
 
 
+  /* ---------- accessibility ---------- */
+  .skip{position:absolute;left:-9999px;top:10px;z-index:300;background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;font-family:var(--disp);font-weight:700;text-decoration:none;}
+  .skip:focus{left:16px;}
+  :focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px;}
+  .btn:focus-visible,.quicklinks a:focus-visible,.modal-close:focus-visible{outline-offset:4px;}
+  .modal:focus{outline:none;}
+  input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--blue);outline-offset:1px;}
+
+  /* ---------- audience line ---------- */
+  .hero .who{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;color:var(--ink-2);}
+  .hero .who > span:first-child{margin-right:4px;font-weight:600;color:var(--ink);}
+
+  /* ---------- pricing ---------- */
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px;}
+  @media(max-width:900px){.plans{grid-template-columns:1fr;}}
+  .plan{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:24px 22px;position:relative;}
+  .plan.is-star{box-shadow:7px 7px 0 var(--yellow);}
+  .plan .pn{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);}
+  .plan .pp{font-family:var(--disp);font-weight:800;font-size:26px;margin:10px 0 10px;}
+  .plan .pp span{font-family:var(--sans);font-weight:500;font-size:14px;color:var(--ink-2);}
+  .plan p{font-size:15px;color:var(--ink-2);}
+  .pr-note{margin-top:22px;font-size:14.5px;color:var(--ink-2);}
+  .pr-note b{color:var(--ink);}
+
+  /* ---------- FAQ ---------- */
+  .faq{margin-top:34px;display:grid;gap:10px;}
+  .fq{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:0 20px;}
+  .fq summary{cursor:pointer;list-style:none;font-family:var(--disp);font-weight:700;font-size:16.5px;padding:16px 0;display:flex;justify-content:space-between;gap:16px;align-items:center;}
+  .fq summary::-webkit-details-marker{display:none;}
+  .fq summary::after{content:"+";font-family:var(--disp);font-size:24px;line-height:1;color:var(--blue);flex:none;transition:transform .2s;}
+  .fq[open] summary::after{transform:rotate(45deg);}
+  .fq p{padding:0 0 18px;color:var(--ink-2);font-size:15px;max-width:66ch;}
+
+  /* ---------- booking slot (shown when BOOKING_URL is set) ---------- */
+  .book-slot{margin:22px 0 6px;display:flex;flex-direction:column;gap:8px;align-items:flex-start;}
+  .book-slot .or{font-size:13.5px;color:var(--ink-2);}
+  .modal .book-slot{margin-top:18px;}
+
   /* ---------- direct reach (phone, WhatsApp) ---------- */
   .hero .reach{margin-top:10px;font-size:14.5px;color:var(--ink-2);}
   .hero .reach a{font-family:var(--disp);font-weight:700;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--blue);white-space:nowrap;}
@@ -523,6 +649,7 @@
 </style>
 </head>
 <body>
+<a class="skip" href="#top" data-i18n="skip">Skip to content</a>
 
 <!-- ================= SIDE / BOTTOM NAV ================= -->
 <nav class="topnav">
@@ -541,6 +668,8 @@
       <a href="#trust" data-track="nav_trust" data-i18n="nav_trust">Trust</a>
       <a href="#process" data-track="nav_process" data-i18n="nav_process">Method</a>
       <a href="#about" data-track="nav_about" data-i18n="nav_about">About</a>
+      <a href="#pricing" data-track="nav_pricing" data-i18n="nav_pricing" data-needs-prices hidden>Pricing</a>
+      <a href="#faq" data-track="nav_faq" data-i18n="nav_faq">FAQ</a>
     </div>
     <div class="nright">
       <div class="langsw" role="group" aria-label="Language">
@@ -560,7 +689,7 @@
 </nav>
 
 <!-- ================= HERO ================= -->
-<header class="hero" id="top">
+<header class="hero" id="top" tabindex="-1">
   <svg class="geo g1" viewBox="0 0 120 112" xmlns="http://www.w3.org/2000/svg" style="isolation:isolate" aria-hidden="true">
     <path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F"/>
     <rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE"/>
@@ -574,7 +703,8 @@
   <div class="wrap">
     <div class="kick" data-i18n="hero_kick">Websites &amp; dedicated solutions · Belgium</div>
     <h1 data-i18n="hero_h1">I build websites that <span class="u">get to work.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span></h1>
-    <p class="sub" data-i18n="hero_sub">Most websites just sit there. Yours can talk to your Odoo, fill your calendar, summarise your client interactions with AI, and tell you exactly what visitors do. One fixed price. No subscriptions. <strong>You own it.</strong></p>
+    <p class="sub" data-i18n="hero_sub">A website that fills your calendar, sends your invoices and tells you what your visitors do. Fixed price, no subscription. <strong>You own it.</strong></p>
+    <p class="who"><span data-i18n="hero_who">For tradespeople, shops and independents in Belgium</span><span class="chip" data-i18n="who1">Electrician</span><span class="chip" data-i18n="who2">Hair salon</span><span class="chip" data-i18n="who3">Practice</span><span class="chip" data-i18n="who4">Restaurant</span></p>
     <div class="ctas">
       <a class="btn primary" href="#contact" data-track="cta_hero_book" data-open="hero" data-i18n="hero_cta1">Book my free call</a>
       <a class="btn ghost" href="#work" data-track="cta_hero_work" data-i18n="hero_cta2">See our work ↓</a>
@@ -594,12 +724,12 @@
     <h2 class="rv" data-i18n="alive_h2">A brochure is dead weight. A living website earns its keep.</h2>
     <p class="sub rv" data-i18n="alive_sub">Every site I deliver looks sharp — that's the entry ticket. The difference is what it <em>does</em> for you after the visitor closes the tab.</p>
     <div class="grid">
-      <div class="card rv"><span class="plus">01</span><span class="tag t-blue" data-i18n="tag_integration">Integration</span><h3 data-i18n="c1_h">Talks to your Odoo</h3><p data-i18n="c1_p">Enquiries, contacts and invoices flow straight into the CRM you already run — no copy-paste, no lost leads.</p></div>
-      <div class="card rv"><span class="plus">02</span><span class="tag t-blue" data-i18n="tag_integration2">Integration</span><h3 data-i18n="c2_h">Fills your calendar</h3><p data-i18n="c2_p">Clients pick a slot on your site and it lands in your agenda. The back-and-forth of finding a date disappears.</p></div>
-      <div class="card rv"><span class="plus">03</span><span class="tag t-red" data-i18n="tag_ai">AI</span><h3 data-i18n="c3_h">Reads your inbox for you</h3><p data-i18n="c3_p">An AI digest summarises client interactions and unread messages into one short morning briefing, so nothing slips on busy days.</p></div>
-      <div class="card rv"><span class="plus">04</span><span class="tag t-red" data-i18n="tag_ai2">AI</span><h3 data-i18n="c4_h">Does the boring work</h3><p data-i18n="c4_p">Quotes drafted, invoices generated when a job closes, follow-ups sent. Your site handles the admin you do at 10pm.</p></div>
-      <div class="card rv"><span class="plus">05</span><span class="tag t-yel" data-i18n="tag_insight">Insight</span><h3 data-i18n="c5_h">Analytics you own</h3><p data-i18n="c5_p">Every visit and click captured to your own private dashboard — not shipped to a third party. See what visitors want, in plain language.</p></div>
-      <div class="card rv"><span class="plus">06</span><span class="tag t-yel" data-i18n="tag_addon">Add-on</span><h3 data-i18n="c6_h">Gets found on Google</h3><p data-i18n="c6_p">Optional SEO layer on top: structure, speed and content tuned so the people searching for your trade actually find you.</p></div>
+      <div class="card rv"><span class="plus" aria-hidden="true">01</span><span class="tag t-blue" data-i18n="tag_integration">Integration</span><h3 data-i18n="c1_h">Talks to your Odoo</h3><p data-i18n="c1_p">Enquiries, contacts and invoices flow straight into the CRM you already run — no copy-paste, no lost leads.</p></div>
+      <div class="card rv"><span class="plus" aria-hidden="true">02</span><span class="tag t-blue" data-i18n="tag_integration2">Integration</span><h3 data-i18n="c2_h">Fills your calendar</h3><p data-i18n="c2_p">Clients pick a slot on your site and it lands in your agenda. The back-and-forth of finding a date disappears.</p></div>
+      <div class="card rv"><span class="plus" aria-hidden="true">03</span><span class="tag t-red" data-i18n="tag_ai">AI</span><h3 data-i18n="c3_h">Reads your inbox for you</h3><p data-i18n="c3_p">An AI digest summarises client interactions and unread messages into one short morning briefing, so nothing slips on busy days.</p></div>
+      <div class="card rv"><span class="plus" aria-hidden="true">04</span><span class="tag t-red" data-i18n="tag_ai2">AI</span><h3 data-i18n="c4_h">Does the boring work</h3><p data-i18n="c4_p">Quotes drafted, invoices generated when a job closes, follow-ups sent. Your site handles the admin you do at 10pm.</p></div>
+      <div class="card rv"><span class="plus" aria-hidden="true">05</span><span class="tag t-yel" data-i18n="tag_insight">Insight</span><h3 data-i18n="c5_h">Analytics you own</h3><p data-i18n="c5_p">Every visit and click captured to your own private dashboard — not shipped to a third party. See what visitors want, in plain language.</p></div>
+      <div class="card rv"><span class="plus" aria-hidden="true">06</span><span class="tag t-yel" data-i18n="tag_addon">Add-on</span><h3 data-i18n="c6_h">Gets found on Google</h3><p data-i18n="c6_p">Optional SEO layer on top: structure, speed and content tuned so the people searching for your trade actually find you.</p></div>
     </div>
   </div>
 </section>
@@ -613,7 +743,7 @@
       <div class="left">
         <span class="badge" data-i18n="case_badge">Case study — Electrician</span>
         <h3 data-i18n="case_h3">"My website brings in clients, and invoices send themselves."</h3>
-        <div class="who">Bravo Reno<span data-i18n="case_who">Electrical works · Melaid, Belgium</span></div>
+        <div class="who"><a href="https://bravoreno.be" target="_blank" rel="noopener" data-track="case_site">Bravo Reno ↗</a><span data-i18n="case_who">Electrician &amp; locksmith · Wallonia &amp; Brussels</span></div>
       </div>
       <div class="right">
         <p data-i18n="case_p1">Bravo Reno needed a modern web presence and was drowning in admin. I built him a custom website connected to his real tools: an <strong>Odoo CRM integration</strong>, a <strong>Blitz integration</strong> that creates invoices automatically when a job is done, and every enquiry from the website redirected straight to his own inbox.</p>
@@ -626,6 +756,21 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ================= PRICING (shown when PRICES is configured in the script) ================= -->
+<section id="pricing" hidden>
+  <div class="wrap">
+    <div class="kick rv" data-i18n="pr_kick">What it costs</div>
+    <h2 class="rv" data-i18n="pr_h2">One fixed price, known before we start.</h2>
+    <p class="sub rv" data-i18n="pr_sub">Three starting points. The exact price is fixed in writing after the free call, and it does not move afterwards. Prices exclude VAT.</p>
+    <div class="plans">
+      <div class="plan rv"><div class="pn" data-i18n="pl1_n">Showcase site</div><div class="pp"><span data-i18n="from">from</span> <b data-price="vitrine">—</b> €</div><p data-i18n="pl1_p">A clean, fast site that brings enquiries: one to five pages, contact form, mobile-first, hosting set up, legal pages done.</p></div>
+      <div class="plan rv is-star"><div class="pn" data-i18n="pl2_n">Living site</div><div class="pp"><span data-i18n="from">from</span> <b data-price="vivant">—</b> €</div><p data-i18n="pl2_p">The showcase site plus one or two integrations that work for you: calendar booking, automatic invoices, your CRM, a private analytics dashboard. Training included.</p></div>
+      <div class="plan rv"><div class="pn" data-i18n="pl3_n">Tailor-made</div><div class="pp" data-i18n="pl3_price">on quote</div><p data-i18n="pl3_p">Internal tools, AI automations, several sites or a system of your own. We frame it together, then I quote it as one fixed price.</p></div>
+    </div>
+    <p class="pr-note rv" data-i18n="pr_note">After delivery, your only recurring cost is hosting: <b data-price="hosting">—</b> € a month, paid directly to the host. No licence, no per-user fee.</p>
   </div>
 </section>
 
@@ -753,12 +898,33 @@
   </div>
 </section>
 
+<!-- ================= FAQ ================= -->
+<section id="faq">
+  <div class="wrap">
+    <div class="kick rv" data-i18n="faq_kick">Questions before you call</div>
+    <h2 class="rv" data-i18n="faq_h2">The answers I give on every first call.</h2>
+    <div class="faq rv">
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q1">How long does a project take?</span></summary><p data-i18n="a1">Most projects take between three and six weeks from the first call to the handover, depending on the integrations. You see the progress every week and validate each step.</p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q2">How much does it cost?</span></summary><p data-i18n="a2">One fixed price, agreed in writing before anything starts, right after the free call. No subscription, no per-user fee. The only recurring cost is hosting: a few euros a month, paid directly to the host.</p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q3">What do I need to provide?</span></summary><p data-i18n="a3">Your texts and photos (or the notes we take together on the call), your logo if you have one, and access to the tools the site must talk to, such as your calendar or Odoo. I handle everything else.</p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q4">I already have a website. Can you start from it?</span></summary><p data-i18n="a4">Yes. I keep what works (content, domain name, ranking) and rebuild what holds you back. Your address does not change, and the old site stays online until the new one is ready.</p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q5">Do I need Odoo?</span></summary><p data-i18n="a5">No. Odoo is one example of what the site can talk to. It works just as well with your calendar, your invoicing tool or a simple spreadsheet, and it works without any of them.</p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q6">Who does the work?</span></summary><p data-i18n="a6">I do, from the first call to the handover. No agency, no subcontracting: one person who knows your project.</p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q7">What happens after the delivery?</span></summary><p data-i18n="a7">One month of general support is included, and any defect is fixed free for six months. Anything new is quoted first as a small change request, so there are never surprises.</p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q8">Who owns the site?</span></summary><p data-i18n="a8">You do: the code, the data and every access. You can host it elsewhere, hand it to someone else or change it yourself, with or without me.</p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q9">How does payment work?</span></summary><p data-i18n="a9">A deposit when we start and the balance at delivery, both on invoice. Prices are quoted excluding VAT.</p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q10">In which languages?</span></summary><p data-i18n="a10">French, English and Dutch for our exchanges. The site itself can be in one language or several.</p></details>
+    </div>
+  </div>
+</section>
+
 <!-- ================= CONTACT ================= -->
 <section id="contact">
   <div class="wrap">
     <div class="kick rv" data-i18n="ct_kick">Let's talk</div>
     <h2 class="rv" data-i18n="ct_h2">Tell me what's eating your time.</h2>
     <p class="sub rv" data-i18n="ct_sub">A free 30-minute call. Tell me how you work today — I'll tell you honestly what's worth automating, and what it would be worth.</p>
+    <div class="book-slot rv" data-needs-booking hidden><a class="btn primary" href="#" target="_blank" rel="noopener" data-track="cta_book_slot" data-book data-i18n="book_btn">Choose a slot now</a><p class="or" data-i18n="book_or">or leave your details below and I will call you back</p></div>
     <div class="quicklinks rv">
       <a href="tel:+32479487608" data-track="cta_phone"><svg class="qi" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-i18n="ct_call">Call</span>&nbsp;+32 479 48 76 08</a>
       <a href="https://wa.me/32479487608" target="_blank" rel="noopener" data-track="cta_whatsapp" data-wa><svg class="qi wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path class="wa-in" d="M9.2 8.2c.2-.4.5-.4.7-.4h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2.1.4 0 .5l-.5.7c-.1.1-.2.3 0 .5a6 6 0 0 0 2.8 2.7c.2.1.4.1.5-.1l.7-.8c.2-.2.4-.2.6-.1l1.6.8c.3.1.4.3.4.5 0 .4-.2 1.2-.7 1.5-.5.4-1.2.6-2 .4a9.6 9.6 0 0 1-5.4-4.4c-.7-1.2-.8-2.2-.6-2.9z"/></svg>WhatsApp</a>
@@ -805,11 +971,12 @@
     <svg class="geo mg2" viewBox="0 0 120 112" xmlns="http://www.w3.org/2000/svg" style="isolation:isolate" aria-hidden="true">
       <path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F"/><rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE"/><circle cx="90" cy="78" r="27" fill="#E2452C"/>
     </svg>
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="lm-title">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="lm-title" aria-describedby="lm-lede" tabindex="-1">
       <button class="modal-close" type="button" id="lm-close" aria-label="Close">×</button>
       <div class="kick" id="lm-kick">Let's talk</div>
       <h3 id="lm-title">Book a free 30-minute call</h3>
       <p class="lede" id="lm-lede">Tell me how you work today — I'll tell you honestly what's worth automating, and what it would be worth.</p>
+      <div class="book-slot" data-needs-booking hidden><a class="btn primary" href="#" target="_blank" rel="noopener" data-track="cta_book_slot" data-book data-i18n="book_btn">Choose a slot now</a><p class="or" data-i18n="book_or">or leave your details below and I will call you back</p></div>
       <div id="lm-slot"></div>
     </div>
   </div>
@@ -838,10 +1005,11 @@
    ========================================================= */
 const FR = {
   title:"La Goffinerie — Des sites web qui travaillent pour vous",
-  nav_alive:"Ce que je fais", nav_work:"Réalisations", nav_trust:"Confiance", nav_process:"Méthode", nav_about:"À propos", nav_book:"Appel gratuit", nav_call:"Appeler", nav_contact:"Contact", hero_call:"Ou joignez-moi directement :", ct_call:"Appeler",
+  nav_alive:"Ce que je fais", nav_work:"Réalisations", nav_trust:"Confiance", nav_process:"Méthode", nav_about:"À propos", nav_faq:"FAQ", nav_pricing:"Tarifs", nav_book:"Appel gratuit", nav_call:"Appeler", skip:"Aller au contenu", nav_contact:"Contact", hero_call:"Ou joignez-moi directement :", ct_call:"Appeler",
   hero_kick:"Sites web &amp; solutions dédiées · Belgique",
   hero_h1:'Je crée des sites web qui <span class="u">se mettent au travail.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span>',
-  hero_sub:"La plupart des sites web ne font qu'exister. Le vôtre peut parler à votre Odoo, remplir votre agenda, résumer vos interactions clients grâce à l'IA, et vous dire exactement ce que font vos visiteurs. Un prix fixe. Pas d'abonnement. <strong>Il vous appartient.</strong>",
+  hero_sub:"Un site qui remplit votre agenda, envoie vos factures et vous dit ce que font vos visiteurs. Prix fixe, pas d'abonnement. <strong>Il vous appartient.</strong>",
+  hero_who:"Pour les artisans, commerces et indépendants en Belgique", who1:"Électricien", who2:"Salon de coiffure", who3:"Cabinet", who4:"Restaurant",
   hero_cta1:"Réserver mon appel gratuit", hero_cta2:"Voir nos réalisations ↓",
   hero_note:"30 minutes, sans engagement. Je vous dirai honnêtement ce qui vaut la peine d'être construit — et ce que ça peut rapporter à votre entreprise.",
   alive_kick:"Ce que je construis",
@@ -865,7 +1033,7 @@ const FR = {
   work_h2:"Du vrai travail, pour de vraies entreprises.",
   case_badge:"Étude de cas — Électricien",
   case_h3:"« Mon site m'amène des clients, et les factures s'envoient toutes seules. »",
-  case_who:"Électricité générale · Melaid, Belgique",
+  case_who:"Électricien &amp; serrurier · Wallonie &amp; Bruxelles",
   case_p1:"Bravo Reno avait besoin d'une présence web moderne et croulait sous l'administratif. Je lui ai construit un site sur mesure connecté à ses vrais outils : une <strong>intégration Odoo CRM</strong>, une <strong>intégration Blitz</strong> qui crée les factures automatiquement quand un chantier se termine, et chaque demande du site redirigée directement vers sa boîte mail.",
   case_p2:"Et par-dessus, un <strong>rapport quotidien</strong> parcourt ses emails non lus et lui envoie un court digest chaque matin — même les jours où il ne peut pas les ouvrir un par un, il sait exactement quoi prioriser.",
   s1_v:"↑ Trafic", s1_k:"Plus de visiteurs sur le site",
@@ -884,6 +1052,11 @@ const FR = {
   sup1:"<b>1 mois</b> de support général inclus",
   sup2:"Défauts corrigés <b>gratuitement pendant 6 mois</b>",
   sup3:"Hors périmètre ? Un devis de <b>change request</b> clair d'abord",
+  pr_kick:"Combien ça coûte", pr_h2:"Un prix fixe, connu avant de commencer.", pr_sub:"Trois points de départ. Le prix exact est fixé par écrit après l'appel gratuit, et il ne bouge plus ensuite. Prix hors TVA.",
+  from:"à partir de", pl1_n:"Site vitrine", pl1_p:"Un site propre et rapide qui amène des demandes : une à cinq pages, formulaire de contact, pensé mobile d'abord, hébergement configuré, pages légales faites.",
+  pl2_n:"Site vivant", pl2_p:"Le site vitrine plus une ou deux intégrations qui travaillent pour vous : réservation d'agenda, factures automatiques, votre CRM, un tableau de bord privé. Formation incluse.",
+  pl3_n:"Sur mesure", pl3_price:"sur devis", pl3_p:"Outils internes, automatisations IA, plusieurs sites ou un système à vous. Nous le cadrons ensemble, puis je le chiffre en un prix fixe.",
+  pr_note:"Après la livraison, votre seul coût récurrent est l'hébergement : <b data-price=\"hosting\">—</b> € par mois, payés directement à l'hébergeur. Pas de licence, pas de frais par utilisateur.",
   own_kick:"La méthode Goffinerie",
   own_h2:"Rien de plus, rien de moins — et c'est à vous.",
   p1_n:"01 — Exactement ce qu'il vous faut", p1_h:"Une solution, construite autour de vous", p1_p:"Je conçois autour de <em>votre</em> façon de travailler — un seul endroit pour tout, pas de zapping entre applis, pas de fonctions que vous n'avez pas demandées.",
@@ -893,10 +1066,21 @@ const FR = {
   ab_h2:"Simon Goffin — fondateur",
   ab_p1:"En journée, je suis <strong>Product Manager dans une grande banque privée belge</strong>, où je mène des équipes transverses de plus de 10 experts seniors pour digitaliser l'entrée en relation client — avec, en vaisseau amiral, une ouverture de compte 100 % digitale en moins de 15 minutes. Avant cela : consultant senior en services financiers chez <strong>EY</strong>.",
   ab_p2:"Je me suis formé au développement full-stack au <strong>Wagon</strong> et suis titulaire d'un Master en sciences de gestion de <strong>Solvay</strong>. La Goffinerie, c'est la rencontre des deux : la discipline de la grande entreprise, appliquée aux entreprises comme la vôtre.",
+  faq_kick:"Questions avant d'appeler", faq_h2:"Les réponses que je donne à chaque premier appel.",
+  q1:"Combien de temps prend un projet ?", a1:"La plupart des projets prennent entre trois et six semaines, du premier appel à la remise des clés, selon les intégrations. Vous voyez l'avancement chaque semaine et validez chaque étape.",
+  q2:"Combien ça coûte ?", a2:"Un prix fixe, convenu par écrit avant de commencer, juste après l'appel gratuit. Pas d'abonnement, pas de frais par utilisateur. Le seul coût récurrent est l'hébergement : quelques euros par mois, payés directement à l'hébergeur.",
+  q3:"Que dois-je fournir ?", a3:"Vos textes et photos (ou les notes que nous prenons ensemble à l'appel), votre logo si vous en avez un, et les accès aux outils que le site doit utiliser, comme votre agenda ou Odoo. Je m'occupe du reste.",
+  q4:"J'ai déjà un site. Pouvez-vous partir de là ?", a4:"Oui. Je garde ce qui fonctionne (contenu, nom de domaine, référencement) et je reconstruis ce qui vous freine. Votre adresse ne change pas, et l'ancien site reste en ligne jusqu'à ce que le nouveau soit prêt.",
+  q5:"Faut-il utiliser Odoo ?", a5:"Non. Odoo est un exemple de ce à quoi le site peut se connecter. Ça marche aussi bien avec votre agenda, votre outil de facturation ou un simple tableur, et ça marche sans aucun d'eux.",
+  q6:"Qui fait le travail ?", a6:"Moi, du premier appel à la remise des clés. Pas d'agence, pas de sous-traitance : une personne qui connaît votre projet.",
+  q7:"Que se passe-t-il après la livraison ?", a7:"Un mois de support général est inclus, et tout défaut est corrigé gratuitement pendant six mois. Toute nouveauté fait d'abord l'objet d'un petit devis, donc jamais de surprise.",
+  q8:"À qui appartient le site ?", a8:"À vous : le code, les données et tous les accès. Vous pouvez l'héberger ailleurs, le confier à quelqu'un d'autre ou le modifier vous-même, avec ou sans moi.",
+  q9:"Comment se passe le paiement ?", a9:"Un acompte au démarrage et le solde à la livraison, sur facture. Les prix s'entendent hors TVA.",
+  q10:"Dans quelles langues ?", a10:"Français, anglais et néerlandais pour nos échanges. Le site lui-même peut être en une langue ou en plusieurs.",
   ct_kick:"Parlons-en",
   ct_h2:"Dites-moi ce qui mange votre temps.",
   ct_sub:"Un appel gratuit de 30 minutes. Racontez-moi comment vous travaillez aujourd'hui — je vous dirai honnêtement ce qui vaut la peine d'être automatisé, et ce que ça peut rapporter.",
-  ct_li:" Me contacter sur LinkedIn",
+  ct_li:" Me contacter sur LinkedIn", book_btn:"Choisir un créneau maintenant", book_or:"ou laissez vos coordonnées ci-dessous et je vous rappelle",
   f_name:"Votre nom", f_email:"Votre email",
   f_subject:"En quoi puis-je vous aider ?", f_subject_ph:"p. ex. Un site web avec facturation automatique",
   f_phone:"Téléphone (optionnel)", f_avail:"Quand puis-je vous appeler ?",
@@ -935,12 +1119,15 @@ function setLang(l, silent){
   track.innerHTML = items + items;
   document.getElementById('lang-en').classList.toggle('active', LANG==='en');
   document.getElementById('lang-fr').classList.toggle('active', LANG==='fr');
+  document.getElementById('lang-en').setAttribute('aria-pressed', String(LANG==='en'));
+  document.getElementById('lang-fr').setAttribute('aria-pressed', String(LANG==='fr'));
+  const lmc=document.getElementById('lm-close'); if(lmc) lmc.setAttribute('aria-label', LANG==='fr'?'Fermer':'Close');
   const fl = document.getElementById('f-lang'); if(fl) fl.value = LANG;
   const waText = LANG==='fr' ? "Bonjour Simon, je voudrais parler d'un site web pour mon entreprise." : "Hello Simon, I'd like to talk about a website for my business.";
   document.querySelectorAll('[data-wa]').forEach(a=>{ a.href='https://wa.me/32479487608?text='+encodeURIComponent(waText); });
   try{ localStorage.setItem('lg_lang', LANG); }catch(e){}
   // Not on the silent init call: the modal dictionary is declared further down the script.
-  if(!silent){ if(typeof track==='function') track('lang', LANG); if(typeof applyModalText==='function') applyModalText(); }
+  if(!silent){ if(typeof track==='function') track('lang', LANG); if(typeof applyModalText==='function') applyModalText(); if(typeof applyConfig==='function') applyConfig(); }
 }
 (function initLang(){
   let l = null;
@@ -1055,6 +1242,15 @@ const FS = {
   fr:{ ok_h:n=>'Merci'+(n?', '+n:'')+' !', ok_p:"J'ai bien reçu votre demande et je vous rappelle sous un jour ouvrable.", sending:"Envoi…" }
 };
 const FORMSUBMIT_AJAX = 'https://formsubmit.co/ajax/goffin.simon@gmail.com';
+/* Configure when ready: PRICES = { vitrine:'1 900', vivant:'3 900', hosting:'12' } shows the pricing section and its nav link;
+   BOOKING_URL = 'https://cal.com/…' (or a Google Calendar appointment page) shows the « choose a slot » buttons. */
+const PRICES = null;
+const BOOKING_URL = '';
+function applyConfig(){
+  if(PRICES){ document.querySelectorAll('[data-price]').forEach(el=>{ const v=PRICES[el.getAttribute('data-price')]; if(v) el.textContent=v; }); document.getElementById('pricing').hidden=false; document.querySelectorAll('[data-needs-prices]').forEach(el=>{ el.hidden=false; }); }
+  if(BOOKING_URL){ document.querySelectorAll('[data-book]').forEach(a=>{ a.href=BOOKING_URL; }); document.querySelectorAll('[data-needs-booking]').forEach(el=>{ el.hidden=false; }); }
+}
+applyConfig();
 const FORM_TEMPLATE = document.getElementById('leadform').cloneNode(true);
 const modalBg = document.getElementById('leadmodal');
 let VARIANT='book', lastFocus=null, MODAL_OPENED=false, SUBMITTED=false, POPPED=false, lockY=0;
@@ -1088,7 +1284,7 @@ function openLead(variant, source){
   modalBg.hidden=false; modalBg.classList.remove('closing'); lockScroll();
   MODAL_OPENED=true;
   const first=modalBg.querySelector('input:not([type=hidden]):not(.honey)');
-  if(first && matchMedia('(hover: hover)').matches) setTimeout(()=>first.focus(), 400);
+  setTimeout(()=>{ if(first && matchMedia('(hover: hover)').matches) first.focus(); else modalBg.querySelector('.modal').focus({preventScroll:true}); }, 400);
   track('modal', source||'other');
 }
 function closeLead(){
@@ -1100,6 +1296,15 @@ function closeLead(){
 document.getElementById('lm-close').addEventListener('click', closeLead);
 modalBg.addEventListener('click', e=>{ if(e.target===modalBg) closeLead(); });
 addEventListener('keydown', e=>{ if(e.key==='Escape') closeLead(); });
+/* Keep the keyboard inside the dialog while it is open. */
+modalBg.addEventListener('keydown', e=>{
+  if(e.key!=='Tab') return;
+  const f=[...modalBg.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(el=>!el.disabled && !el.hidden && el.offsetParent!==null && !el.classList.contains('honey'));
+  if(!f.length) return;
+  const first=f[0], last=f[f.length-1];
+  if(e.shiftKey && (document.activeElement===first || document.activeElement===modalBg.querySelector('.modal'))){ e.preventDefault(); last.focus(); }
+  else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+});
 document.querySelectorAll('[data-open]').forEach(el=>{
   el.addEventListener('click', e=>{ e.preventDefault(); openLead('book', el.getAttribute('data-open')); });
 });
@@ -1122,6 +1327,7 @@ function maybeAutoPopup(){
 function showOk(f, name){
   const t=FS[LANG]||FS.en;
   const box=document.createElement('div'); box.className='form-ok';
+  box.setAttribute('role','status'); box.setAttribute('aria-live','polite');
   box.innerHTML='<div class="tick">✓</div><div><h4></h4><p></p></div>';
   box.querySelector('h4').textContent=t.ok_h((name||'').split(' ')[0]);
   box.querySelector('p').textContent=t.ok_p;
