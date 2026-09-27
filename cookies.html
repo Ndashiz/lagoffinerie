@@ -99,7 +99,7 @@
   <div class="wrap">
     <section>
       <h2 data-i18n="s1_h">What is stored on your device</h2>
-      <p data-i18n="s1_p">The site sets <strong>no cookie of its own</strong>. It keeps four small values in your browser's storage, none of which identifies you or leaves your device:</p>
+      <p data-i18n="s1_p">The site sets <strong>no cookie of its own</strong>. It keeps six small values in your browser's storage, none of which identifies you or leaves your device:</p>
       <table>
         <thead><tr><th data-i18n="t_key">Key</th><th data-i18n="t_what">What it holds</th><th data-i18n="t_life">How long</th></tr></thead>
         <tbody>
@@ -107,6 +107,8 @@
           <tr><td>lg_pop</td><td data-i18n="r2_w">A flag saying the “need more information?” pop-up has already been shown, so it is not shown twice.</td><td data-i18n="r2_l">Until you close the tab.</td></tr>
           <tr><td>lg_slot</td><td data-i18n="r4_w">Only if the form falls back to a plain submission: the slot you proposed, so the thank-you message can still offer the calendar file. Removed as soon as it is read.</td><td data-i18n="r4_l">A few seconds.</td></tr>
           <tr><td>lg_crew</td><td data-i18n="r3_w">Only on my own devices: a flag that excludes my test visits from the statistics. It is never set for a visitor.</td><td data-i18n="r3_l">Until cleared.</td></tr>
+          <tr><td>lg_intro</td><td data-i18n="r5_w">A flag saying the logo animation has already played in this tab, so it does not play on every page you come back to.</td><td data-i18n="r5_l">Until you close the tab.</td></tr>
+          <tr><td>lg_intro_cfg</td><td data-i18n="r6_w">Whether the logo animation is switched on, and how fast it plays — the last setting read from my server, so the next visit does not have to wait for it.</td><td data-i18n="r6_l">Until you clear your browser storage.</td></tr>
         </tbody>
       </table>
       <p style="margin-top:12px" data-i18n="s1_p2">The site is hosted on <strong>GitHub Pages</strong>, which sets no cookie. Should a CDN such as <strong>Cloudflare</strong> ever be placed in front of it, it may set a short-lived security cookie (<code>__cf_bm</code>, about 30 minutes) to tell browsers from bots — strictly necessary to serve the page, and free of personal data.</p>
@@ -123,6 +125,7 @@
         <li data-i18n="s2_l5">the <strong>domain</strong> of the site that sent you here (never the full address), reduced to a category such as “LinkedIn” or “Google” before it is stored.</li>
       </ul>
       <p data-i18n="s2_p2">These events share a random session number that lives in the tab's memory and dies with it: a reload is a new session, and nothing links two visits together. <strong>No IP address, no browser fingerprint, no user agent and no cookie</strong> are stored. Visit lines are deleted after 30 days; daily totals are kept for 12 months.</p>
+      <p data-i18n="s2_p4">On the first load of a tab, the home page also asks the same server whether the logo animation is switched on, and how fast it should play. That request carries nothing about you, and nothing is recorded from it.</p>
       <p data-i18n="s2_p3">If your browser sends the <strong>Do Not Track</strong> or <strong>Global Privacy Control</strong> signal, the site sends a single anonymous page count and nothing else — no session, no timing, no referrer.</p>
     </section>
 
@@ -149,7 +152,7 @@
         <p><a href="mailto:goffin.simon@gmail.com">goffin.simon@gmail.com</a></p>
         <a class="btn" href="./#contact" data-i18n="cta">Back to the contact form</a>
       </div>
-      <p class="updated" data-i18n="updated">Last updated: 26 September 2026.</p>
+      <p class="updated" data-i18n="updated">Last updated: 27 September 2026.</p>
     </section>
   </div>
 </main>
@@ -168,12 +171,14 @@ const FR = {
   h1:"Pas de cookies de suivi. Voici exactement ce qui se passe à la place.",
   sub:"Cette page liste tout ce que le site enregistre sur votre appareil, ce qu'il mesure, et où vont vos coordonnées quand vous m'écrivez. Elle est écrite pour des humains, pas pour des juristes — et elle est complète.",
   s1_h:"Ce qui est enregistré sur votre appareil",
-  s1_p:"Le site ne dépose <strong>aucun cookie qui lui soit propre</strong>. Il garde quatre petites valeurs dans le stockage de votre navigateur, dont aucune ne vous identifie ni ne quitte votre appareil :",
+  s1_p:"Le site ne dépose <strong>aucun cookie qui lui soit propre</strong>. Il garde six petites valeurs dans le stockage de votre navigateur, dont aucune ne vous identifie ni ne quitte votre appareil :",
   t_key:"Clé", t_what:"Contenu", t_life:"Durée",
   r1_w:"Votre choix de langue (EN ou FR), pour que la page s'ouvre dans la langue choisie.", r1_l:"Jusqu'à ce que vous vidiez le stockage du navigateur.",
   r2_w:"Un drapeau indiquant que la fenêtre « besoin de plus d'informations ? » a déjà été montrée, pour ne pas l'afficher deux fois.", r2_l:"Jusqu'à la fermeture de l'onglet.",
   r4_w:"Uniquement si le formulaire se rabat sur un envoi classique : le créneau que vous avez proposé, pour que le message de remerciement puisse encore offrir le fichier d'agenda. Effacé dès qu'il est lu.", r4_l:"Quelques secondes.",
   r3_w:"Uniquement sur mes propres appareils : un drapeau qui exclut mes visites de test des statistiques. Il n'est jamais posé chez un visiteur.", r3_l:"Jusqu'à effacement.",
+  r5_w:"Un drapeau indiquant que l'animation du logo a déjà été jouée dans cet onglet, pour ne pas la rejouer à chaque retour sur la page.", r5_l:"Jusqu'à la fermeture de l'onglet.",
+  r6_w:"Si l'animation du logo est activée, et à quelle vitesse elle joue — le dernier réglage lu sur mon serveur, pour que la visite suivante n'ait pas à l'attendre.", r6_l:"Jusqu'à ce que vous vidiez le stockage du navigateur.",
   s1_p2:"Le site est hébergé sur <strong>GitHub Pages</strong>, qui ne dépose aucun cookie. Si un CDN comme <strong>Cloudflare</strong> était un jour placé devant, il pourrait déposer un cookie de sécurité de courte durée (<code>__cf_bm</code>, environ 30 minutes) pour distinguer les navigateurs des robots — strictement nécessaire pour servir la page, et sans donnée personnelle.",
   s2_h:"Mesure d'audience — en propre, sans tiers",
   s2_p1:"Pour savoir si le site fonctionne, il envoie une poignée d'événements anonymes à <strong>mon propre serveur</strong> (<code>jarvis.ndashiz.be</code>) — pas à Google Analytics, pas à une régie publicitaire :",
@@ -183,6 +188,7 @@ const FR = {
   s2_l4:"la langue, et si vous êtes sur téléphone, tablette ou ordinateur ;",
   s2_l5:"le <strong>domaine</strong> du site qui vous a envoyé ici (jamais l'adresse complète), réduit à une catégorie comme « LinkedIn » ou « Google » avant d'être enregistré.",
   s2_p2:"Ces événements partagent un numéro de session aléatoire qui vit dans la mémoire de l'onglet et meurt avec lui : un rechargement est une nouvelle session, et rien ne relie deux visites entre elles. <strong>Aucune adresse IP, aucune empreinte de navigateur, aucun user agent et aucun cookie</strong> ne sont conservés. Les lignes de visite sont supprimées après 30 jours ; les totaux quotidiens sont gardés 12 mois.",
+  s2_p4:"Au premier chargement d'un onglet, la page d'accueil demande aussi à ce même serveur si l'animation du logo est activée, et à quelle vitesse la jouer. Cette requête ne transporte rien sur vous, et rien n'en est enregistré.",
   s2_p3:"Si votre navigateur envoie le signal <strong>Do Not Track</strong> ou <strong>Global Privacy Control</strong>, le site n'envoie qu'un compteur de page anonyme et rien d'autre — ni session, ni durée, ni référent.",
   s3_h:"Quand vous m'écrivez",
   s3_p1:"Le formulaire de contact transmet vos nom, e-mail, sujet, téléphone (optionnel), disponibilité et message à <strong>FormSubmit</strong> (formsubmit.co), un service qui le dépose dans ma boîte mail, et une copie à mon propre serveur pour assurer le suivi. Les deux ne servent qu'à une chose : vous rappeler au sujet de votre demande.",
@@ -194,7 +200,7 @@ const FR = {
   s5_h:"Vos droits, et à qui les demander",
   s5_p:"En vertu du RGPD, vous pouvez demander ce que je détiens sur vous, le faire corriger ou supprimer, ou vous opposer à son utilisation. Il y a une seule personne derrière ce site, et une seule adresse :",
   cta:"Retour au formulaire de contact",
-  updated:"Dernière mise à jour : 26 septembre 2026.",
+  updated:"Dernière mise à jour : 27 septembre 2026.",
   foot:"© 2026 La Goffinerie · Bruxelles &amp; Liège, Belgique"
 };
 const EN_TITLE=document.title, EN={};

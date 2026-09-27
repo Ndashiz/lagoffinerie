@@ -133,10 +133,11 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://jarvis.ndashiz.be" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.10 — leads e-mailed by Jarvis through Resend, FormSubmit as the fallback
+     LA GOFFINERIE v2.11 — 3D logo intro, switched on/off and paced from Jarvis
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
@@ -665,9 +666,176 @@
     .rv{opacity:1;transform:none;transition:none;}
     .marq .track{animation:none;}
   }
+
+  /* ---------- intro : apparition 3D du logo ----------
+     Les trois formes du logo arrivent de loin, épaisses comme des
+     blocs de bois, se posent en couches (triangle / carré / rond),
+     s'aplatissent en logo (multiply), puis filent se ranger dans la
+     barre de navigation. Une fois par onglet (sessionStorage
+     lg_intro), jamais avec prefers-reduced-motion, ?intro=1 rejoue.
+     Aucune opacité sur les nœuds 3D (elle aplatirait le preserve-3d). */
+  :root{--lgW:min(58vw,250px);}
+  html.lg-lock{overflow:hidden;}
+  .lg-intro{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;}
+  .lg-intro .lg-bg{position:absolute;inset:0;background:var(--paper);}
+  .lg-scene{position:relative;display:flex;flex-direction:column;align-items:center;gap:clamp(18px,4vmin,30px);transform:translateY(-4vh);}
+  .lg-stage{position:relative;width:var(--lgW);height:calc(var(--lgW)*112/120);perspective:1200px;transform-origin:0 0;}
+  .lg-group{position:absolute;inset:0;transform-style:preserve-3d;}
+  .lg-piece{position:absolute;transform-style:preserve-3d;}
+  .lg-piece .f{position:absolute;inset:0;background:var(--side);transform:translateZ(calc(var(--i)*-1px));}
+  .lg-piece .f.face{background:var(--face);}
+  .lg-piece.tri{left:18.333%;top:5.357%;width:66.667%;height:66.071%;--face:#EDAF2F;--side:#926E24;}
+  .lg-piece.tri .f{clip-path:polygon(50% 0,100% 100%,0 100%);}
+  .lg-piece.sq{left:10%;top:42.857%;width:48.333%;height:51.786%;--face:#2823EE;--side:#201D93;}
+  .lg-piece.sq .f{border-radius:25.86%;}
+  .lg-piece.cir{left:52.5%;top:45.536%;width:45%;height:48.214%;--face:#E2452C;--side:#8C3120;}
+  .lg-piece.cir .f{border-radius:50%;}
+  .lg-flat{position:absolute;inset:0;width:100%;height:100%;opacity:0;}
+  .lg-word{overflow:hidden;font-family:var(--disp);font-weight:800;font-size:clamp(26px,6vw,44px);letter-spacing:-.02em;line-height:1.15;color:var(--ink);padding:0 .1em;}
+  .lg-word span{display:inline-block;transform:translateY(115%);}
 </style>
 </head>
 <body>
+<!-- ================= INTRO : apparition 3D du logo ================= -->
+<div class="lg-intro" id="lg-intro" aria-hidden="true">
+  <div class="lg-bg"></div>
+  <div class="lg-scene">
+    <div class="lg-stage">
+      <div class="lg-group">
+        <div class="lg-piece tri"></div>
+        <div class="lg-piece sq"></div>
+        <div class="lg-piece cir"></div>
+      </div>
+      <svg class="lg-flat" viewBox="0 0 120 112" xmlns="http://www.w3.org/2000/svg" style="isolation:isolate" aria-hidden="true">
+        <path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F" style="mix-blend-mode:multiply"/>
+        <rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE" style="mix-blend-mode:multiply"/>
+        <circle cx="90" cy="78" r="27" fill="#E2452C" style="mix-blend-mode:multiply"/>
+      </svg>
+    </div>
+    <div class="lg-word"><span>La Goffinerie</span></div>
+  </div>
+</div>
+<script>
+/* =========================================================
+   INTRO — the logo arrives in 3D (v2.11). Jarvis decides whether
+   it plays and how fast (Goffinerie page, "Logo intro" card),
+   through a public GET: a simple request, never a preflight.
+   The page waits for that answer 0.7 s at most, and only on the
+   first load of a tab. Last answer cached in localStorage: a
+   cached "off" waits for nothing. Late or no answer → the cache,
+   else NO intro — a switched-off intro never comes back because
+   Jarvis is down. Reduced motion → never, without asking.
+   ?intro=1 replays it once more in this tab (the switch still
+   decides). A click or a key speeds it up ×6, never cuts it.
+   No opacity on the 3D nodes: it would flatten preserve-3d.
+   ========================================================= */
+(function(){
+  const ov=document.getElementById('lg-intro'); if(!ov) return;
+  const root=document.documentElement;
+  const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const force=/[?&]intro=1/.test(location.search);
+  let seen=false; try{ seen=sessionStorage.getItem('lg_intro')==='1'; }catch(e){}
+  if(RM || !ov.animate || !window.fetch || (seen && !force)){ ov.remove(); return; }
+
+  const CFG_URL='https://jarvis.ndashiz.be/api/gf/config', CFG_KEY='lg_intro_cfg', WAIT=700;
+  function norm(c){
+    if(!c || typeof c!=='object' || typeof c.intro!=='boolean') return null;
+    const s=Number(c.speed);
+    return {intro:c.intro, speed:isFinite(s) && s>0 ? Math.min(2,Math.max(.5,s)) : 1};
+  }
+  let cached=null; try{ cached=norm(JSON.parse(localStorage.getItem(CFG_KEY)||'null')); }catch(e){}
+  const fresh=fetch(CFG_URL,{mode:'cors',credentials:'omit',cache:'no-store'})
+    .then(r=>r.ok?r.json():null).then(norm).catch(()=>null)
+    .then(c=>{ if(c){ try{ localStorage.setItem(CFG_KEY,JSON.stringify(c)); }catch(e){} } return c; });
+  if(cached && !cached.intro && !force){ ov.remove(); return; }
+  root.classList.add('lg-lock');
+
+  const anims=[]; let FAST=false, decided=false;
+  function fast(){ FAST=true; anims.forEach(a=>{ a.playbackRate=6; }); }
+  ov.addEventListener('pointerdown', fast);
+  addEventListener('keydown', fast, {once:true});
+  function done(){ ov.remove(); root.classList.remove('lg-lock'); }
+  /* A hidden tab has no frames, so the fade may never finish there: the timer removes it anyway. */
+  function skip(){ const a=ov.animate([{opacity:1},{opacity:0}],{duration:180,fill:'forwards'}); a.finished.then(done,done); setTimeout(done,300); }
+  function decide(c){
+    if(decided) return; decided=true;
+    if(!c || !c.intro){ skip(); return; }
+    try{ sessionStorage.setItem('lg_intro','1'); }catch(e){}
+    /* Start on the first frame actually drawn: a tab opened in the background keeps the paper
+       screen and plays the intro when it is shown, instead of burning it unseen. */
+    requestAnimationFrame(()=>play(c.speed));
+  }
+  const timer=setTimeout(()=>decide(cached), WAIT);
+  fresh.then(c=>{ clearTimeout(timer); decide(c || cached); });
+
+  function play(speed){
+    const stage=ov.querySelector('.lg-stage'), group=ov.querySelector('.lg-group'),
+          flat=ov.querySelector('.lg-flat'), word=ov.querySelector('.lg-word span'), bg=ov.querySelector('.lg-bg');
+    const P=1200, DEPTH=20, GAP=2;           /* perspective, épaisseur des blocs (px), jour entre les couches */
+    const T_FLAT=1700, T_FLY=2300;           /* timeline nominale : aplatissement, départ vers la barre (fin à 3 s) */
+    const K=.8/speed;                        /* ×1 = 2,4 s, la version validée le 2026-09-27 */
+    const t0=document.timeline.currentTime;
+    function run(el,kf,o){
+      const a=el.animate(kf,Object.assign({fill:'both',easing:'ease'},o,{delay:(o.delay||0)*K,duration:o.duration*K}));
+      a.startTime=t0; if(FAST) a.playbackRate=6; anims.push(a); return a;
+    }
+
+    /* Trajets : [x, y, z, rotX, rotY, rotZ] au départ ; z = étage au repos (0 derrière, 2 devant). */
+    const flights={
+      sq :{z:1, from:[-420, 260,  -900,  65, -55, -25], delay:0,   dur:1350},
+      tri:{z:0, from:[ 180,-460, -1100, -85,  20,  60], delay:220, dur:1350},
+      cir:{z:2, from:[ 520, 240,  -700,  30,  95,   0], delay:440, dur:1250}
+    };
+    const EASE='cubic-bezier(.35,.9,.3,1.03)';
+    const sr=stage.getBoundingClientRect();
+    ov.querySelectorAll('.lg-piece').forEach(p=>{
+      const f=flights[[...p.classList].find(c=>flights[c])];
+      for(let i=0;i<=DEPTH;i++){ const l=document.createElement('div'); l.className=i?'f':'f face'; l.style.setProperty('--i',i); p.appendChild(l); }
+      /* Au repos chaque étage est un peu plus proche de l'œil : on compense la perspective
+         (échelle + décalage vers le centre) pour que la pièce tombe pile sur le SVG plat. */
+      const r=p.getBoundingClientRect();
+      const px=(r.left+r.width/2)-(sr.left+sr.width/2), py=(r.top+r.height/2)-(sr.top+sr.height/2);
+      const Z=f.z*(DEPTH+GAP), k=(P-Z)/P, tx=-px*(1-k), ty=-py*(1-k);
+      const [x,y,z,rx,ry,rz]=f.from;
+      run(p,[
+        {transform:`translate3d(${x}px,${y}px,${z}px) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg) scale(${k})`},
+        {transform:`translate3d(${tx}px,${ty}px,${Z}px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(${k})`}
+      ],{delay:f.delay,duration:f.dur,easing:EASE});
+    });
+    /* Le plateau reste incliné pendant que les pièces se posent (on voit les tranches), puis s'aplatit. */
+    run(group,[
+      {transform:'rotateX(32deg) rotateY(-46deg)', easing:'cubic-bezier(.3,.6,.4,1)'},
+      {transform:'rotateX(15deg) rotateY(-21deg)', offset:.6, easing:'cubic-bezier(.5,0,.2,1)'},
+      {transform:'rotateX(0deg) rotateY(0deg)'}
+    ],{duration:T_FLAT+150});
+    run(word,[{transform:'translateY(115%)'},{transform:'translateY(0)'}],{delay:1150,duration:700,easing:'cubic-bezier(.2,.8,.2,1)'});
+    run(flat,[{opacity:0},{opacity:1}],{delay:T_FLAT,duration:300});
+    run(group,[{visibility:'visible'},{visibility:'hidden'}],{delay:T_FLAT+300,duration:1});
+
+    /* Le logo file se ranger sur sa place dans la barre (FLIP) ; sans barre, il s'envole simplement. */
+    function fly(){
+      const mark=document.querySelector('.topnav .logo .mark'), scene=stage.parentNode;
+      /* Position de la scène sans sa propre transformation, pour recalculer la cible à tout
+         moment — même en plein vol si la fenêtre change de taille. */
+      function target(){
+        const m=mark && mark.getBoundingClientRect(); if(!m || m.width<4) return 'translateY(-40vh) scale(.5)';
+        const sc=scene.getBoundingClientRect(), left=sc.left+stage.offsetLeft, top=sc.top+stage.offsetTop;
+        return `translate(${m.left-left}px,${m.top-top}px) scale(${m.width/stage.offsetWidth})`;
+      }
+      if(mark) mark.style.visibility='hidden';
+      const flight=run(stage,[{transform:'none'},{transform:target()}],{delay:T_FLY,duration:600,easing:'cubic-bezier(.7,0,.2,1)'});
+      addEventListener('resize', ()=>{ try{ flight.effect.setKeyframes([{transform:'none'},{transform:target()}]); }catch(e){} });
+      run(word,[{opacity:1},{opacity:0}],{delay:T_FLY,duration:250});
+      run(bg,[{opacity:1},{opacity:0}],{delay:T_FLY+200,duration:500});
+      const last=run(ov,[{opacity:1},{opacity:1}],{delay:T_FLY+700,duration:1});
+      last.finished.then(()=>{ done(); if(mark) mark.style.visibility=''; }).catch(()=>{});
+    }
+    if(document.readyState!=='loading') fly(); else addEventListener('DOMContentLoaded', fly);
+    window.__lgIntro={anims, speed, seek(t){ anims.forEach(a=>{ a.pause(); a.currentTime=t; }); }, resume(){ anims.forEach(a=>a.play()); }};
+  }
+})();
+</script>
+
 <a class="skip" href="#top" data-i18n="skip">Skip to content</a>
 
 <!-- ================= SIDE / BOTTOM NAV ================= -->
