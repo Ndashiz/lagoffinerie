@@ -136,7 +136,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.9 — Work on its own page
+     LA GOFFINERIE v2.10 — leads e-mailed by Jarvis through Resend, FormSubmit as the fallback
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
@@ -1139,6 +1139,16 @@ function send(path, obj, beacon){
     fetch(JARVIS.base+path,{method:'POST',keepalive:true,mode:'cors',credentials:'omit',headers:{'Content-Type':'text/plain'},body}).catch(()=>{});
   }catch(e){}
 }
+/* The lead: the one call whose answer matters. Jarvis stores it and sends the e-mails through Resend;
+   `mailed.owner === true` means Simon has it and the page can stop there. Anything else falls back. */
+async function postLead(obj, ms){
+  const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), ms||8000);
+  try{
+    const res = await fetch(JARVIS.base+JARVIS.leads, {method:'POST', mode:'cors', credentials:'omit', headers:{'Content-Type':'text/plain'}, body: JSON.stringify(obj), signal: ctrl.signal});
+    return await res.json();
+  }catch(e){ return null; }
+  finally{ clearTimeout(t); }
+}
 /* Do Not Track / Global Privacy Control: one anonymous page count, nothing else. */
 function track(e, i, extra, beacon){
   if(DNT && e!=='view') return;
@@ -1341,12 +1351,17 @@ function bindForm(f){
     const v = n=>(f.elements[n] && f.elements[n].value || '').trim();
     const slot = slotInfo(v('date'), v('time'));
     const fields = { name:v('name'), email:v('email'), subject:v('subject'), phone:v('phone')||null, availability: slot ? slot.availability : (v('date')+' '+v('time')).trim(), message:v('message')||null };
-    send(JARVIS.leads, Object.assign({ s:SESSION, l:LANG, via }, fields));   // keepalive: survives a navigation
     track('submit', via);
     SUBMITTED=true;
     const btn=f.querySelector('button[type=submit]'); const label=btn.innerHTML;
     f.dataset.busy='1'; btn.disabled=true; btn.textContent=(FS[LANG]||FS.en).sending;
-    let ok=false;
+    // 1. Jarvis: stores the lead and sends both e-mails (owner + prospect, with the .ics) through Resend.
+    const lead = Object.assign({ s:SESSION, l:LANG, via, slotStart: slot ? slot.start.toISOString() : null, slotEnd: slot ? slot.end.toISOString() : null }, fields);
+    const r = await postLead(lead, 8000);
+    let ok = !!(r && r.ok && r.mailed && r.mailed.owner);
+    if(ok){ showOk(f, fields.name, slot); return; }
+    // 2. Jarvis could not e-mail (not configured, down, or Resend failed): FormSubmit carries the mail.
+    if(!(r && r.ok)) send(JARVIS.leads, lead);   // keepalive retry of the copy, in case the wait above was the problem
     try{
       const res=await fetch(FORMSUBMIT_AJAX,{ method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
         body:JSON.stringify({ name:fields.name, email:fields.email, subject:fields.subject, phone:fields.phone||'', availability:fields.availability,
