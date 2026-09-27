@@ -9,6 +9,14 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/?lang=fr"/>
   </url>
   <url>
+    <loc>https://lagoffinerie.be/about.html</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/about.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/about.html?lang=fr"/>
+  </url>
+  <url>
     <loc>https://lagoffinerie.be/mentions-legales.html</loc>
     <lastmod>2026-09-27</lastmod>
     <changefreq>yearly</changefreq>

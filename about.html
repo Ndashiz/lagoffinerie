@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#faf8f2">
+<title>About — La Goffinerie</title>
+<meta name="description" content="Simon Goffin, founder of La Goffinerie: six years delivering digital products in Belgian banking, a developer's hands, three languages, one contact person.">
+<link rel="canonical" href="https://lagoffinerie.be/about.html">
+<link rel="alternate" hreflang="en" href="https://lagoffinerie.be/about.html?lang=en">
+<link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/about.html?lang=fr">
+<link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/about.html">
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="La Goffinerie">
+<meta property="og:url" content="https://lagoffinerie.be/about.html">
+<meta property="og:title" content="About Simon Goffin — La Goffinerie">
+<meta property="og:description" content="Six years delivering digital products in Belgian banking, a developer's hands, three languages, one contact person.">
+<meta property="og:image" content="https://lagoffinerie.be/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 112" style="isolation:isolate"><path d="M62 6 L102 80 L22 80 Z" fill="%23EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="%232823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="%23E2452C" style="mix-blend-mode:multiply"/></svg>'>
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme:light only;
+    --paper:#faf8f2;--paper-2:#f3f0e6;--ink:#151515;--ink-2:#3d4046;--line:#15151522;
+    --blue:#2823EE;--red:#E2452C;--yellow:#EDAF2F;
+    --mono:"JetBrains Mono",monospace;--sans:"Instrument Sans",sans-serif;--disp:"Sora",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  [hidden]{display:none!important;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  html,body{overflow-x:hidden;}
+  body{font-family:var(--sans);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;line-height:1.6;padding-top:66px;}
+  ::selection{background:var(--yellow);color:var(--ink);}
+  a{color:inherit;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 28px;}
+  h1,h2,h3{font-family:var(--disp);line-height:1.12;letter-spacing:-.015em;}
+  .skip{position:absolute;left:-9999px;top:10px;z-index:300;background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;font-family:var(--disp);font-weight:700;text-decoration:none;}
+  .skip:focus{left:16px;}
+  :focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px;}
+
+  /* ---------- nav, identical to the home page ---------- */
+  .topnav{position:fixed;top:0;left:0;right:0;z-index:80;background:rgba(250,248,242,.92);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border-bottom:2px solid var(--ink);}
+  .topnav .nwrap{max-width:1180px;margin:0 auto;padding:0 24px;height:66px;display:flex;align-items:center;gap:26px;}
+  .topnav .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);}
+  .topnav .logo .mark{width:32px;height:30px;flex:none;}
+  .topnav .logo-txt{font-family:var(--disp);font-weight:800;font-size:17px;line-height:1;letter-spacing:-.01em;}
+  .nlinks{display:flex;gap:2px;margin-left:auto;}
+  .nlinks a{font-family:var(--disp);font-weight:600;font-size:14px;color:var(--ink-2);text-decoration:none;padding:9px 13px;position:relative;transition:color .15s;}
+  .nlinks a::after{content:"";position:absolute;left:13px;right:13px;bottom:4px;height:2px;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform .18s ease;}
+  .nlinks a:hover,.nlinks a[aria-current]{color:var(--ink);}
+  .nlinks a:hover::after,.nlinks a[aria-current]::after{transform:scaleX(1);}
+  .nright{display:flex;align-items:center;gap:14px;margin-left:auto;}
+  .nlinks + .nright{margin-left:0;}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;border-radius:12px;padding:14px 24px;border:2px solid var(--ink);transition:transform .15s ease, box-shadow .15s ease;}
+  .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:5px 5px 0 var(--ink);}
+  .btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink);}
+  .topnav .btn{padding:10px 18px;font-size:13.5px;box-shadow:3px 3px 0 var(--ink);border-radius:10px;white-space:nowrap;}
+  .topnav .btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink);}
+  .topnav .logo-txt{white-space:nowrap;}
+  .langsw{display:flex;border:1.5px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;}
+  .langsw button{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;border:none;background:transparent;color:var(--ink-2);padding:6px 11px;cursor:pointer;min-height:36px;}
+  .langsw button.active{background:var(--ink);color:var(--paper);}
+  .bottombar{display:none;}
+  @media(max-width:900px){
+    body{padding-top:60px;padding-bottom:calc(74px + env(safe-area-inset-bottom));}
+    .nlinks{display:none;}
+    .topnav .nwrap{height:60px;gap:12px;}
+    .topnav .btn{padding:9px 14px;font-size:12.5px;}
+    .bottombar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:80;height:64px;background:rgba(250,248,242,.97);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border-top:2px solid var(--ink);align-items:stretch;justify-content:space-around;padding-bottom:env(safe-area-inset-bottom);}
+    .bottombar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex:1;font-family:var(--disp);font-weight:600;font-size:10.5px;color:var(--ink-2);text-decoration:none;}
+    .bottombar a svg{width:21px;height:21px;}
+    .bottombar a:hover,.bottombar a:active{color:var(--blue);}
+  }
+  @media(max-width:560px){.topnav .logo-txt{display:none;}}
+
+  /* ---------- page ---------- */
+  .kick{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .kick::before{content:"";width:26px;height:2px;background:var(--red);}
+  header.hero{padding:72px 0 10px;position:relative;overflow:hidden;}
+  h1{font-size:clamp(32px,5vw,52px);font-weight:800;max-width:18ch;}
+  .sub{margin-top:14px;font-size:18px;color:var(--ink-2);max-width:58ch;}
+  .geo{position:absolute;right:-40px;top:30px;width:220px;height:205px;transform:rotate(8deg);opacity:.85;pointer-events:none;z-index:0;}
+  .geo *{mix-blend-mode:multiply;}
+  header .wrap{position:relative;z-index:1;}
+  main{padding:20px 0 80px;}
+  section{padding:32px 0;}
+  h2{font-size:clamp(22px,3vw,30px);font-weight:800;margin-bottom:14px;max-width:26ch;}
+  p{max-width:66ch;}
+
+  .about{display:grid;grid-template-columns:auto 1fr;gap:34px;margin-top:10px;align-items:start;}
+  @media(max-width:720px){.about{grid-template-columns:1fr;}}
+  .avatar{width:150px;height:150px;border-radius:22px;border:2px solid var(--ink);box-shadow:8px 8px 0 var(--red);object-fit:cover;display:block;background:var(--paper-2);}
+  .avatar-fb{width:150px;height:150px;border-radius:22px;background:var(--ink);color:var(--yellow);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:800;font-size:38px;border:2px solid var(--ink);box-shadow:8px 8px 0 var(--red);}
+  .about p{font-size:16.5px;color:var(--ink-2);margin-bottom:14px;}
+  .about p strong{color:var(--ink);}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px;}
+  @media(max-width:760px){.grid3{grid-template-columns:1fr;}}
+  .card{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:22px 20px;transition:transform .18s ease, box-shadow .18s ease;}
+  .card:hover{transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--ink);}
+  .card h3{font-size:17.5px;font-weight:700;margin-bottom:8px;}
+  .card p{font-size:14.5px;color:var(--ink-2);}
+  .card .n{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:10px;}
+  .card:nth-child(1) .n{color:var(--red);} .card:nth-child(2) .n{color:#8a6206;} .card:nth-child(3) .n{color:var(--blue);}
+
+  .facts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 28px;margin-top:20px;}
+  @media(max-width:640px){.facts{grid-template-columns:1fr;}}
+  .fact{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:12px 0;border-top:1.5px dashed #15151533;font-size:15.5px;}
+  .fact svg{width:22px;height:22px;flex:none;fill:none;stroke:var(--blue);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-top:2px;}
+  .fact b{display:block;font-family:var(--disp);font-weight:700;}
+  .fact span{color:var(--ink-2);}
+
+  .chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px;}
+  .chip{font-family:var(--mono);font-size:11.5px;font-weight:500;border:1.5px solid var(--line);border-radius:999px;padding:7px 12px;background:#fff;}
+
+  .cta{margin-top:26px;background:var(--blue);color:#fff;border:2px solid var(--ink);border-radius:20px;padding:30px 28px;box-shadow:8px 8px 0 var(--yellow);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+  .cta h2{color:#fff;margin:0;max-width:22ch;}
+  .cta p{color:#d8d7ff;font-size:14.5px;margin-top:6px;}
+  .cta .btn{background:var(--yellow);border-color:var(--ink);color:var(--ink);box-shadow:5px 5px 0 rgba(0,0,0,.35);}
+  .cta .reach{flex-basis:100%;font-size:14px;color:#d8d7ff;}
+  .cta .reach a{color:#fff;font-family:var(--disp);font-weight:700;text-decoration:none;border-bottom:2px solid var(--yellow);white-space:nowrap;}
+
+  footer{border-top:2px solid var(--ink);padding:30px 0 40px;background:var(--paper);}
+  footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;}
+  footer .logo{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:700;}
+  footer .logo .mark{width:26px;height:24px;}
+  footer p{font-size:12.5px;color:var(--ink-2);}
+  footer .flinks{display:flex;gap:18px;flex-wrap:wrap;}
+  footer .flinks a{font-family:var(--disp);font-weight:600;font-size:13px;color:var(--ink-2);text-decoration:none;border-bottom:2px solid transparent;}
+  footer .flinks a:hover{color:var(--ink);border-color:var(--blue);}
+  @media(max-width:600px){
+    .wrap{padding:0 20px;} header.hero{padding:52px 0 6px;} .geo{width:150px;height:140px;right:-56px;top:-10px;opacity:.6;}
+    .avatar,.avatar-fb{width:120px;height:120px;} .cta{padding:24px 20px;} .cta .btn{width:100%;justify-content:center;}
+    footer .wrap{flex-direction:column;align-items:flex-start;gap:12px;}
+  }
+  @media (prefers-reduced-motion: reduce){.card,.btn{transition:none;}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<nav class="topnav">
+  <div class="nwrap">
+    <a class="logo" href="./" data-i18n-title="home">
+      <svg class="mark" viewBox="0 0 120 112" xmlns="http://www.w3.org/2000/svg" style="isolation:isolate" aria-hidden="true">
+        <path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F" style="mix-blend-mode:multiply"/>
+        <rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE" style="mix-blend-mode:multiply"/>
+        <circle cx="90" cy="78" r="27" fill="#E2452C" style="mix-blend-mode:multiply"/>
+      </svg>
+      <span class="logo-txt">La Goffinerie</span>
+    </a>
+    <div class="nlinks">
+      <a href="./#alive" data-i18n="nav_alive">What I build</a>
+      <a href="./#work" data-i18n="nav_work">Work</a>
+      <a href="./#trust" data-i18n="nav_trust">Trust</a>
+      <a href="./#process" data-i18n="nav_process">Method</a>
+      <a href="about.html" aria-current="page" data-i18n="nav_about">About</a>
+      <a href="./#faq" data-i18n="nav_faq">FAQ</a>
+    </div>
+    <div class="nright">
+      <div class="langsw" role="group" aria-label="Language">
+        <button id="lang-en" onclick="setLang('en')" aria-pressed="false">EN</button>
+        <button id="lang-fr" onclick="setLang('fr')" aria-pressed="false">FR</button>
+      </div>
+      <a class="btn primary" href="./#contact" data-i18n="nav_book">Free call</a>
+    </div>
+  </div>
+</nav>
+
+<nav class="bottombar" aria-label="Mobile navigation">
+  <a href="tel:+32479487608"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-i18n="nav_call">Call</span></a>
+  <a href="./#work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg><span data-i18n="nav_work">Work</span></a>
+  <a href="./#process"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h10"/></svg><span data-i18n="nav_process">Method</span></a>
+  <a href="./#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5c-1.7 0-3.3-.5-4.6-1.3L3 20l1.3-4.9A8.5 8.5 0 1 1 21 11.5z"/></svg><span data-i18n="nav_contact">Contact</span></a>
+</nav>
+
+<header class="hero" id="main" tabindex="-1">
+  <svg class="geo" viewBox="0 0 120 112" xmlns="http://www.w3.org/2000/svg" style="isolation:isolate" aria-hidden="true">
+    <path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F"/><rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE"/><circle cx="90" cy="78" r="27" fill="#E2452C"/>
+  </svg>
+  <div class="wrap">
+    <div class="kick" data-i18n="kick">Who's behind it</div>
+    <h1 data-i18n="h1">Simon Goffin — founder</h1>
+    <p class="sub" data-i18n="sub">Large-company discipline, applied to businesses like yours. One person who knows your project, from the first call to the handover.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section>
+      <div class="about">
+        <img class="avatar" src="assets/simon.jpg" alt="Simon Goffin" width="150" height="150" decoding="async"
+             onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'avatar-fb',textContent:'SG'}))">
+        <div>
+          <p data-i18n="p1">What I bring you is six years of shipping digital products where a slip costs real money. By day I am a <strong>Product Manager at a leading Belgian private bank</strong>, leading cross-functional teams of ten-plus senior experts to digitise client onboarding. The flagship: a fully digital account opening in under 15 minutes. Before that, senior financial-services consultant at <strong>EY</strong>.</p>
+          <p data-i18n="p2">I also build with my own hands: trained as a full-stack developer at <strong>Le Wagon</strong>, with a Master in Management Science from <strong>Solvay</strong>. La Goffinerie is where both sides meet: the method of a large organisation, applied to a small business that cannot afford a project that drifts.</p>
+          <p data-i18n="p3">It is a one-person company on purpose. You talk to the person who designs, builds and delivers your site, and who will still pick up the phone six months later.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 data-i18n="h_bring">What that means for you</h2>
+      <div class="grid3">
+        <div class="card"><span class="n" data-i18n="c1_n">Delivery</span><h3 data-i18n="c1_h">Projects that land on time</h3><p data-i18n="c1_p">A written scope, a fixed price and weekly progress you can see. The habits that banks impose on every project, applied to yours.</p></div>
+        <div class="card"><span class="n" data-i18n="c2_n">Craft</span><h3 data-i18n="c2_h">A developer's hands, a manager's head</h3><p data-i18n="c2_p">I do not hand your project to an agency. I design it, build it and connect it to your tools myself, then teach you to run it.</p></div>
+        <div class="card"><span class="n" data-i18n="c3_n">Security</span><h3 data-i18n="c3_h">Data treated like a bank's</h3><p data-i18n="c3_p">HTTPS everywhere, backups, documented access, data hosted in Europe, and a privacy page that says exactly what happens to it.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2 data-i18n="h_work">How we work together</h2>
+      <div class="facts">
+        <div class="fact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><b data-i18n="f1_b">I reply within one business day</b><span data-i18n="f1_s">by e-mail, phone or WhatsApp, whichever you used.</span></div></div>
+        <div class="fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><div><b data-i18n="f2_b">Calls on weekdays, 9:00 to 20:00</b><span data-i18n="f2_s">you pick the slot on the site, I confirm it.</span></div></div>
+        <div class="fact"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg><div><b data-i18n="f3_b">Three to six weeks per project</b><span data-i18n="f3_s">from the first call to the handover, depending on the integrations.</span></div></div>
+        <div class="fact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><div><b data-i18n="f4_b">French, English and Dutch</b><span data-i18n="f4_s">for our exchanges; your site in one language or several.</span></div></div>
+        <div class="fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.5 7-11.5a7 7 0 0 0-14 0C5 14.5 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><div><b data-i18n="f5_b">Brussels and Liège, remote across Belgium</b><span data-i18n="f5_s">the first call is by phone or video; on site when it helps.</span></div></div>
+        <div class="fact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 14l2 2 4-4"/></svg><div><b data-i18n="f6_b">Everything in writing</b><span data-i18n="f6_s">scope, price and planning before we start; documentation and access at the end.</span></div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2 data-i18n="h_creds">Training and certifications, in plain words</h2>
+      <div class="chips">
+        <span class="chip" data-i18n="cr1">Certified product owner and Scrum master (PSPO I, PSM I)</span>
+        <span class="chip" data-i18n="cr2">Full-stack web development, Le Wagon</span>
+        <span class="chip" data-i18n="cr3">Master in Management Science, Solvay</span>
+        <span class="chip" data-i18n="cr4">Microsoft Dynamics 365 and Azure fundamentals</span>
+        <span class="chip">FR · EN · NL</span>
+      </div>
+    </section>
+
+    <section>
+      <div class="cta">
+        <div>
+          <h2 data-i18n="cta_h">Tell me what's eating your time.</h2>
+          <p data-i18n="cta_p">A free 30-minute call, no obligation. Pick a day and a time on the site.</p>
+        </div>
+        <a class="btn" href="./#contact" data-i18n="cta_btn">Book my free call</a>
+        <p class="reach"><span data-i18n="cta_reach">Or reach me directly:</span> <a href="tel:+32479487608">+32 479 48 76 08</a> · <a href="https://wa.me/32479487608" target="_blank" rel="noopener">WhatsApp</a> · <a href="https://www.linkedin.com/in/ndashiz/" target="_blank" rel="noopener">LinkedIn</a></p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="logo">
+      <svg class="mark" viewBox="0 0 120 112" xmlns="http://www.w3.org/2000/svg" style="isolation:isolate" aria-hidden="true">
+        <path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F" style="mix-blend-mode:multiply"/>
+        <rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE" style="mix-blend-mode:multiply"/>
+        <circle cx="90" cy="78" r="27" fill="#E2452C" style="mix-blend-mode:multiply"/>
+      </svg>
+      La Goffinerie
+    </span>
+    <nav class="flinks"><a href="mentions-legales.html" data-i18n="foot_legal">Legal notice</a><a href="cookies.html" data-i18n="foot_cookies">Cookies &amp; privacy</a><a href="mailto:goffin.simon@gmail.com">goffin.simon@gmail.com</a></nav>
+    <p data-i18n="foot">© 2026 La Goffinerie · Brussels &amp; Liège, Belgium · Built by hand (and a bit of AI).</p>
+  </div>
+</footer>
+
+<script>
+const FR = {
+  title:"À propos — La Goffinerie",
+  skip:"Aller au contenu",
+  nav_alive:"Ce que je fais", nav_work:"Réalisations", nav_trust:"Confiance", nav_process:"Méthode", nav_about:"À propos", nav_faq:"FAQ", nav_book:"Appel gratuit", nav_call:"Appeler", nav_contact:"Contact",
+  kick:"Qui est derrière",
+  h1:"Simon Goffin — fondateur",
+  sub:"La discipline de la grande entreprise, appliquée aux entreprises comme la vôtre. Une seule personne qui connaît votre projet, du premier appel à la remise des clés.",
+  p1:"Ce que je vous apporte, ce sont six ans de livraison de produits digitaux là où un dérapage coûte de l'argent réel. En journée, je suis <strong>Product Manager dans une grande banque privée belge</strong>, où je mène des équipes transverses de plus de dix experts seniors pour digitaliser l'entrée en relation client. Le vaisseau amiral : une ouverture de compte 100 % digitale en moins de 15 minutes. Avant cela, consultant senior en services financiers chez <strong>EY</strong>.",
+  p2:"Je construis aussi de mes mains : formé au développement full-stack au <strong>Wagon</strong>, titulaire d'un Master en sciences de gestion de <strong>Solvay</strong>. La Goffinerie, c'est la rencontre des deux : la méthode d'une grande organisation, appliquée à une petite entreprise qui ne peut pas se permettre un projet qui dérive.",
+  p3:"C'est une entreprise d'une personne, volontairement. Vous parlez à celui qui conçoit, construit et livre votre site, et qui décrochera encore six mois plus tard.",
+  h_bring:"Ce que ça change pour vous",
+  c1_n:"Livraison", c1_h:"Des projets qui arrivent à l'heure", c1_p:"Un périmètre écrit, un prix fixe et un avancement hebdomadaire visible. Les habitudes que les banques imposent à chaque projet, appliquées au vôtre.",
+  c2_n:"Savoir-faire", c2_h:"Des mains de développeur, une tête de chef de projet", c2_p:"Je ne confie pas votre projet à une agence. Je le conçois, le construis et le connecte à vos outils moi-même, puis je vous apprends à le faire tourner.",
+  c3_n:"Sécurité", c3_h:"Des données traitées comme celles d'une banque", c3_p:"HTTPS partout, sauvegardes, accès documentés, données hébergées en Europe, et une page vie privée qui dit exactement ce qu'il en advient.",
+  h_work:"Comment on travaille ensemble",
+  f1_b:"Je réponds sous un jour ouvrable", f1_s:"par e-mail, téléphone ou WhatsApp, selon ce que vous avez utilisé.",
+  f2_b:"Appels en semaine, de 9h à 20h", f2_s:"vous choisissez le créneau sur le site, je le confirme.",
+  f3_b:"Trois à six semaines par projet", f3_s:"du premier appel à la remise des clés, selon les intégrations.",
+  f4_b:"Français, anglais et néerlandais", f4_s:"pour nos échanges ; votre site en une langue ou en plusieurs.",
+  f5_b:"Bruxelles et Liège, à distance partout en Belgique", f5_s:"le premier appel se fait par téléphone ou en visio ; sur place quand ça aide.",
+  f6_b:"Tout par écrit", f6_s:"périmètre, prix et planning avant de commencer ; documentation et accès à la fin.",
+  h_creds:"Formations et certifications, en clair",
+  cr1:"Certifié product owner et Scrum master (PSPO I, PSM I)", cr2:"Développement web full-stack, Le Wagon", cr3:"Master en sciences de gestion, Solvay", cr4:"Fondamentaux Microsoft Dynamics 365 et Azure",
+  cta_h:"Dites-moi ce qui mange votre temps.", cta_p:"Un appel gratuit de 30 minutes, sans engagement. Choisissez un jour et une heure sur le site.", cta_btn:"Réserver mon appel gratuit", cta_reach:"Ou joignez-moi directement :",
+  foot_legal:"Mentions légales", foot_cookies:"Cookies &amp; vie privée",
+  foot:"© 2026 La Goffinerie · Bruxelles &amp; Liège, Belgique · Fait main (et un peu d'IA)."
+};
+const EN_TITLE=document.title, EN={};
+document.querySelectorAll('[data-i18n]').forEach(el=>{ EN[el.getAttribute('data-i18n')]=el.innerHTML; });
+let LANG='en';
+function setLang(l){
+  LANG=(l==='fr')?'fr':'en';
+  document.documentElement.lang=LANG;
+  document.title=(LANG==='fr')?FR.title:EN_TITLE;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.getAttribute('data-i18n'); el.innerHTML=(LANG==='fr'&&FR[k]!==undefined)?FR[k]:EN[k]; });
+  document.getElementById('lang-en').classList.toggle('active',LANG==='en');
+  document.getElementById('lang-fr').classList.toggle('active',LANG==='fr');
+  document.getElementById('lang-en').setAttribute('aria-pressed', String(LANG==='en'));
+  document.getElementById('lang-fr').setAttribute('aria-pressed', String(LANG==='fr'));
+  try{ localStorage.setItem('lg_lang',LANG); }catch(e){}
+}
+(function(){
+  let l=null;
+  try{ l=new URLSearchParams(location.search).get('lang'); }catch(e){}
+  if(l!=='en'&&l!=='fr'){ try{ l=localStorage.getItem('lg_lang'); }catch(e){ l=null; } }
+  if(l!=='en'&&l!=='fr'){ const nav=(navigator.languages&&navigator.languages[0])||navigator.language||'en'; l=String(nav).toLowerCase().startsWith('fr')?'fr':'en'; }
+  setLang(l);
+})();
+</script>
+</body>
+</html>

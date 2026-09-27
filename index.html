@@ -136,7 +136,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.7 — slots until 20:00, one height for every field
+     LA GOFFINERIE v2.8 — fixed top bar, form only in the pop-up, About on its own page
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
@@ -166,8 +166,10 @@
   html,body{overflow-x:hidden;}
   body{
     font-family:var(--sans);color:var(--ink);background:var(--paper);
-    -webkit-font-smoothing:antialiased;line-height:1.6;
+    -webkit-font-smoothing:antialiased;line-height:1.6;padding-top:66px;
   }
+  /* Anchored sections must not slide under the fixed bar. */
+  section[id],header[id],[id^="f-"]{scroll-margin-top:80px;}
   ::selection{background:var(--yellow);color:var(--ink);}
   .wrap{max-width:1060px;margin:0 auto;padding:0 28px;}
   h1,h2,h3{font-family:var(--disp);line-height:1.12;letter-spacing:-.015em;}
@@ -197,7 +199,7 @@
 
   /* ---------- top nav (desktop) / bottom bar (mobile) ---------- */
   .topnav{
-    position:sticky;top:0;z-index:80;
+    position:fixed;top:0;left:0;right:0;z-index:80;
     background:rgba(250,248,242,.92);
     backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);
     border-bottom:2px solid var(--ink);
@@ -233,7 +235,7 @@
 
   .bottombar{display:none;}
   @media(max-width:900px){
-    body{padding-bottom:calc(74px + env(safe-area-inset-bottom));}
+    body{padding-top:60px;padding-bottom:calc(74px + env(safe-area-inset-bottom));}
     .nlinks{display:none;}
     .topnav .nwrap{height:60px;gap:12px;}
     .topnav .btn{padding:9px 14px;font-size:12.5px;}
@@ -684,7 +686,7 @@
       <a href="#work" data-track="nav_work" data-i18n="nav_work">Work</a>
       <a href="#trust" data-track="nav_trust" data-i18n="nav_trust">Trust</a>
       <a href="#process" data-track="nav_process" data-i18n="nav_process">Method</a>
-      <a href="#about" data-track="nav_about" data-i18n="nav_about">About</a>
+      <a href="about.html" data-track="nav_about" data-i18n="nav_about">About</a>
       <a href="#pricing" data-track="nav_pricing" data-i18n="nav_pricing" data-needs-prices hidden>Pricing</a>
       <a href="#faq" data-track="nav_faq" data-i18n="nav_faq">FAQ</a>
     </div>
@@ -896,25 +898,6 @@
   </div>
 </section>
 
-<!-- ================= ABOUT ================= -->
-<section id="about">
-  <div class="wrap">
-    <div class="kick rv" data-i18n="ab_kick">Who's behind it</div>
-    <h2 class="rv" data-i18n="ab_h2">Simon Goffin — founder</h2>
-    <div class="about rv">
-      <img class="avatar" src="assets/simon.jpg" alt="Simon Goffin" width="120" height="120" loading="lazy" decoding="async"
-           onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'avatar avatar-fb',textContent:'SG'}))">
-      <div>
-        <p data-i18n="ab_p1">By day, I'm a <strong>Product Manager at a leading Belgian private bank</strong>, where I lead cross-functional teams of 10+ senior experts digitising client onboarding — the flagship being a fully digital account opening in under 15 minutes. Before that: senior financial services consultant at <strong>EY</strong>.</p>
-        <p data-i18n="ab_p2">I trained as a full-stack developer at <strong>Le Wagon</strong> and hold a Master in Management Science from <strong>Solvay</strong>. La Goffinerie is where both sides meet: enterprise discipline, applied to businesses like yours.</p>
-        <div class="chips">
-          <span class="chip">PSPO I</span><span class="chip">PSM I</span><span class="chip">Dynamics 365</span><span class="chip">Azure Fundamentals</span><span class="chip">FR · EN · NL</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ================= FAQ ================= -->
 <section id="faq">
   <div class="wrap">
@@ -948,7 +931,9 @@
       <a href="mailto:goffin.simon@gmail.com" data-track="cta_email">✉&nbsp; goffin.simon@gmail.com</a>
       <a href="https://www.linkedin.com/in/ndashiz/" target="_blank" rel="noopener" data-track="cta_linkedin"><span class="li-ic">in</span>&nbsp;<span data-i18n="ct_li"> Connect on LinkedIn</span></a>
     </div>
-    <form class="rv" id="leadform" data-via="inline" action="https://formsubmit.co/goffin.simon@gmail.com" method="POST">
+    <div class="ctas rv"><a class="btn primary" href="#contact" data-track="cta_contact_book" data-open="contact" data-i18n="ct_btn">Book my free call</a></div>
+    <p class="form-note rv" data-i18n="ct_note">Pick a day and a time in the window that opens; I confirm within one business day. <a href="cookies.html">Privacy &amp; cookies.</a></p>
+    <form class="rv" id="leadform" data-via="inline" action="https://formsubmit.co/goffin.simon@gmail.com" method="POST" hidden>
       <input type="hidden" name="_subject" value="New automation lead — lagoffinerie">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
@@ -1078,10 +1063,6 @@ const FR = {
   p1_n:"01 — Exactement ce qu'il vous faut", p1_h:"Une solution, construite autour de vous", p1_p:"Je conçois autour de <em>votre</em> façon de travailler — un seul endroit pour tout, pas de zapping entre applis, pas de fonctions que vous n'avez pas demandées.",
   p2_n:"02 — Pas d'abonnements", p2_h:"Payez une fois. Ensuite, juste l'hébergement.", p2_p:"Un prix fixe, convenu avant de construire. Après la livraison, votre seul coût récurrent est l'hébergement — pas de licences, pas de frais par utilisateur.",
   p3_n:"03 — On le fait ensemble → vous le faites vous-même", p3_h:"Je vous remets les clés", p3_p:"Nous cadrons et construisons la solution ensemble. Étape par étape, vous prenez la main — jusqu'à être capable de l'utiliser, la faire tourner, et même la modifier vous-même avec les outils IA.",
-  ab_kick:"Qui est derrière",
-  ab_h2:"Simon Goffin — fondateur",
-  ab_p1:"En journée, je suis <strong>Product Manager dans une grande banque privée belge</strong>, où je mène des équipes transverses de plus de 10 experts seniors pour digitaliser l'entrée en relation client — avec, en vaisseau amiral, une ouverture de compte 100 % digitale en moins de 15 minutes. Avant cela : consultant senior en services financiers chez <strong>EY</strong>.",
-  ab_p2:"Je me suis formé au développement full-stack au <strong>Wagon</strong> et suis titulaire d'un Master en sciences de gestion de <strong>Solvay</strong>. La Goffinerie, c'est la rencontre des deux : la discipline de la grande entreprise, appliquée aux entreprises comme la vôtre.",
   faq_kick:"Questions avant d'appeler", faq_h2:"Les réponses que je donne à chaque premier appel.",
   q1:"Combien de temps prend un projet ?", a1:"La plupart des projets prennent entre trois et six semaines, du premier appel à la remise des clés, selon les intégrations. Vous voyez l'avancement chaque semaine et validez chaque étape.",
   q2:"Combien ça coûte ?", a2:"Un prix fixe, convenu par écrit avant de commencer, juste après l'appel gratuit. Pas d'abonnement, pas de frais par utilisateur. Le seul coût récurrent est l'hébergement : quelques euros par mois, payés directement à l'hébergeur.",
@@ -1096,7 +1077,7 @@ const FR = {
   ct_kick:"Parlons-en",
   ct_h2:"Dites-moi ce qui mange votre temps.",
   ct_sub:"Un appel gratuit de 30 minutes. Racontez-moi comment vous travaillez aujourd'hui — je vous dirai honnêtement ce qui vaut la peine d'être automatisé, et ce que ça peut rapporter.",
-  ct_li:" Me contacter sur LinkedIn", book_btn:"Choisir un créneau maintenant", book_or:"ou laissez vos coordonnées ci-dessous et je vous rappelle",
+  ct_li:" Me contacter sur LinkedIn", ct_btn:"Réserver mon appel gratuit", ct_note:"Choisissez un jour et une heure dans la fenêtre qui s'ouvre ; je confirme sous un jour ouvrable. <a href=\"cookies.html\">Vie privée &amp; cookies.</a>", book_btn:"Choisir un créneau maintenant", book_or:"ou laissez vos coordonnées ci-dessous et je vous rappelle",
   f_name:"Votre nom", f_email:"Votre email",
   f_subject:"En quoi puis-je vous aider ?", f_subject_ph:"p. ex. Un site web avec facturation automatique",
   f_phone:"Téléphone (optionnel)", f_date:"Quel jour puis-je vous appeler ?", f_time:"À quelle heure ?", f_opt0:"Choisissez une heure",
@@ -1316,7 +1297,7 @@ function buildModalForm(){
   if(slot.querySelector('form')) return;
   slot.innerHTML='';
   const f=FORM_TEMPLATE.cloneNode(true);
-  f.id='leadform-modal'; f.setAttribute('data-via','modal');
+  f.id='leadform-modal'; f.setAttribute('data-via','modal'); f.hidden=false;   // the page copy is hidden; the pop-up copy is the one people fill in
   f.querySelectorAll('[id]').forEach(el=>{ el.id='m-'+el.id; });
   f.querySelectorAll('label[for]').forEach(el=>{ el.setAttribute('for','m-'+el.getAttribute('for')); });
   f.classList.remove('rv');
@@ -1419,7 +1400,8 @@ setupSlot(document.getElementById('leadform'));
 try{
   if(new URLSearchParams(location.search).get('sent')==='1'){
     let saved=null; try{ saved=JSON.parse(localStorage.getItem('lg_slot')||'null'); localStorage.removeItem('lg_slot'); }catch(e){}
-    showOk(document.getElementById('leadform'), saved?saved.n:'', saved?slotInfo(saved.d, saved.t):null);
+    const lf=document.getElementById('leadform'); lf.hidden=false;
+    showOk(lf, saved?saved.n:'', saved?slotInfo(saved.d, saved.t):null);
     history.replaceState(null,'',location.pathname+'#contact');
     setTimeout(()=>document.getElementById('contact').scrollIntoView({block:'start'}), 50);
   }
