@@ -1076,7 +1076,7 @@
     </div>
     <div class="ctas rv"><a class="btn primary" href="#contact" data-track="cta_contact_book" data-open="contact" data-i18n="ct_btn">Book my free call</a></div>
     <p class="form-note rv" data-i18n="ct_note">Pick a day and a time in the window that opens; I confirm within one business day. <a href="cookies.html">Privacy &amp; cookies.</a></p>
-    <form class="rv" id="leadform" data-via="inline" action="https://formsubmit.co/goffin.simon@gmail.com" method="POST" hidden>
+    <form class="rv" id="leadform" data-via="inline" action="https://formsubmit.co/info@lagoffinerie.be" method="POST" hidden>
       <input type="hidden" name="_subject" value="New automation lead — lagoffinerie">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
@@ -1411,7 +1411,7 @@ function calendarLinks(slot){
   const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//La Goffinerie//Call//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','BEGIN:VEVENT','UID:'+uid,'DTSTAMP:'+(new Date()).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,''),'DTSTART:'+slot.z0,'DTEND:'+slot.z1,'SUMMARY:'+title,'DESCRIPTION:'+desc,'LOCATION:'+loc,'URL:https://lagoffinerie.be/','STATUS:TENTATIVE','END:VEVENT','END:VCALENDAR'].join('\r\n');
   return { google:g, ics:'data:text/calendar;charset=utf-8,'+encodeURIComponent(ics) };
 }
-const FORMSUBMIT_AJAX = 'https://formsubmit.co/ajax/goffin.simon@gmail.com';
+const FORMSUBMIT_AJAX = 'https://formsubmit.co/ajax/info@lagoffinerie.be';
 /* Configure when ready: PRICES = { vitrine:'1 900', vivant:'3 900', hosting:'12' } shows the pricing section and its nav link;
    BOOKING_URL = 'https://cal.com/…' (or a Google Calendar appointment page) shows the « choose a slot » buttons. */
 const PRICES = null;
