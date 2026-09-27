@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light only">
-<title>Cookies &amp; privacy — La Goffinerie</title>
+<title>Cookie policy — La Goffinerie</title>
 <meta name="description" content="What La Goffinerie stores on your device, what it measures, and where your contact details go.">
 <link rel="canonical" href="https://lagoffinerie.be/cookies.html">
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 112" style="isolation:isolate"><path d="M62 6 L102 80 L22 80 Z" fill="%23EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="%232823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="%23E2452C" style="mix-blend-mode:multiply"/></svg>'>
@@ -63,6 +63,9 @@
   footer{border-top:2px solid var(--ink);padding:30px 0 40px;}
   footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;}
   footer p{font-size:12.5px;}
+  footer .flinks{display:flex;gap:16px;flex-wrap:wrap;}
+  footer .flinks a{font-family:var(--disp);font-weight:600;font-size:13px;color:var(--ink-2);text-decoration:none;border-bottom:2px solid transparent;}
+  footer .flinks a:hover{color:var(--ink);border-color:var(--blue);}
   @media(max-width:640px){table,thead,tbody,tr,th,td{display:block;} thead{display:none;} td{border-top:0;padding:4px 12px;} tr{border-top:1px solid var(--line);padding:8px 0;} td:first-child{padding-top:10px;} td:last-child{padding-bottom:10px;}}
 </style>
 </head>
@@ -89,16 +92,23 @@
 
 <header class="hero">
   <div class="wrap">
-    <div class="kick" data-i18n="kick">Cookies &amp; privacy</div>
-    <h1 data-i18n="h1">No tracking cookies. Here is exactly what happens instead.</h1>
-    <p class="sub" data-i18n="sub">This page lists everything the site stores on your device, what it measures, and where your details go when you write to me. It is written for humans, not lawyers — and it is complete.</p>
+    <div class="kick" data-i18n="kick">Cookie policy</div>
+    <h1 data-i18n="h1">Cookie policy: no tracking cookies, and exactly what happens instead.</h1>
+    <p class="sub" data-i18n="sub">What a cookie is, why this site does not need any to track you, what it stores on your device instead, and the choices you have. Written for humans, not lawyers — and complete.</p>
   </div>
 </header>
 
 <main>
   <div class="wrap">
     <section>
-      <h2 data-i18n="s1_h">What is stored on your device</h2>
+      <h2 data-i18n="s0_h">What is a cookie?</h2>
+      <p data-i18n="s0_p1">A cookie is a small text file that a website's server places in your computer's browser or on your mobile device when you visit the site. Thanks to this cookie, information about your visit is recorded.</p>
+      <p data-i18n="s0_p2">A site's server can only read the cookies it has itself placed. It has no access to any other information on your computer or mobile device.</p>
+    </section>
+
+    <section>
+      <h2 data-i18n="s1_h">Why, and which cookies, on lagoffinerie.be?</h2>
+      <p data-i18n="s1_why">Most sites use cookies for two reasons: to let you browse comfortably, and to measure their audience. This site does both <strong>without any tracking cookie</strong>: it keeps a few preferences in your browser's own storage (never sent anywhere), and it measures its audience with anonymous events that carry no cookie, no IP address and no fingerprint. Accepting cookies is therefore <strong>not required</strong> to access the site or any of its features, and no cookie banner is needed.</p>
       <p data-i18n="s1_p">The site sets <strong>no cookie of its own</strong>. It keeps six small values in your browser's storage, none of which identifies you or leaves your device:</p>
       <table>
         <thead><tr><th data-i18n="t_key">Key</th><th data-i18n="t_what">What it holds</th><th data-i18n="t_life">How long</th></tr></thead>
@@ -145,7 +155,9 @@
     </section>
 
     <section>
-      <h2 data-i18n="s5_h">Your rights, and who to ask</h2>
+      <h2 data-i18n="s5_h">Your choices regarding cookies</h2>
+      <p data-i18n="s5_choice">There is no tracking cookie to refuse here. If you want to keep even the local preferences off your device, your browser can block site data for lagoffinerie.be or clear it at any time (Settings → Privacy → Site data): the site keeps working, it simply forgets your language between two visits. If your browser sends the <strong>Do Not Track</strong> or <strong>Global Privacy Control</strong> signal, the audience measurement is reduced to a single anonymous page count.</p>
+      <p data-i18n="s5_pol">The full picture (purposes, legal bases, processors, retention, every right) is in the <a href="donnees-personnelles.html">personal data protection policy</a>.</p>
       <p data-i18n="s5_p">Under the GDPR you can ask what I hold about you, have it corrected or deleted, or object to its use. There is one person behind this site, and one address:</p>
       <div class="card">
         <p><strong>Simon Goffin</strong> — La Goffinerie, Belgium</p>
@@ -160,17 +172,22 @@
 <footer>
   <div class="wrap">
     <span style="font-family:var(--disp);font-weight:700">La Goffinerie</span>
+    <nav class="flinks"><a href="mentions-legales.html" data-i18n="foot_legal">Legal notice</a><a href="cgu.html" data-i18n="foot_cgu">Terms of use</a><a href="donnees-personnelles.html" data-i18n="foot_privacy">Data protection</a><a href="cookies.html" data-i18n="foot_cookies">Cookies</a></nav>
     <p data-i18n="foot">© 2026 La Goffinerie · Brussels &amp; Liège, Belgium</p>
   </div>
 </footer>
 
 <script>
 const FR = {
-  title:"Cookies & vie privée — La Goffinerie",
-  back:"← Retour", kick:"Cookies &amp; vie privée",
-  h1:"Pas de cookies de suivi. Voici exactement ce qui se passe à la place.",
-  sub:"Cette page liste tout ce que le site enregistre sur votre appareil, ce qu'il mesure, et où vont vos coordonnées quand vous m'écrivez. Elle est écrite pour des humains, pas pour des juristes — et elle est complète.",
-  s1_h:"Ce qui est enregistré sur votre appareil",
+  title:"Politique relative aux cookies — La Goffinerie",
+  back:"← Retour", kick:"Politique relative aux cookies",
+  h1:"Politique relative aux cookies : pas de cookies de suivi, et exactement ce qui se passe à la place.",
+  sub:"Ce qu'est un cookie, pourquoi ce site n'en a besoin d'aucun pour vous suivre, ce qu'il enregistre sur votre appareil à la place, et les choix dont vous disposez. Écrit pour des humains, pas pour des juristes — et complet.",
+  s0_h:"Qu'est-ce qu'un cookie ?",
+  s0_p1:"Un cookie est un petit fichier texte que le serveur d'un site installe dans le navigateur de votre ordinateur ou sur votre appareil mobile lorsque vous consultez le site. Grâce à ce cookie, des informations sur votre visite sont enregistrées.",
+  s0_p2:"Le serveur d'un site ne peut lire que les cookies qu'il a lui-même installés. Il n'a accès à aucune autre information se trouvant sur votre ordinateur ou votre appareil mobile.",
+  s1_h:"Pourquoi, et quels cookies, sur lagoffinerie.be ?",
+  s1_why:"La plupart des sites utilisent des cookies pour deux raisons : permettre une navigation confortable, et réaliser des statistiques de visite. Ce site fait les deux <strong>sans aucun cookie de suivi</strong> : il garde quelques préférences dans le stockage de votre navigateur (jamais envoyées nulle part), et il mesure sa fréquentation par des événements anonymes sans cookie, sans adresse IP et sans empreinte. Accepter les cookies n'est donc <strong>pas nécessaire</strong> pour accéder au site ni à ses fonctionnalités, et aucun bandeau n'est requis.",
   s1_p:"Le site ne dépose <strong>aucun cookie qui lui soit propre</strong>. Il garde six petites valeurs dans le stockage de votre navigateur, dont aucune ne vous identifie ni ne quitte votre appareil :",
   t_key:"Clé", t_what:"Contenu", t_life:"Durée",
   r1_w:"Votre choix de langue (EN ou FR), pour que la page s'ouvre dans la langue choisie.", r1_l:"Jusqu'à ce que vous vidiez le stockage du navigateur.",
@@ -197,10 +214,12 @@ const FR = {
   s4_l1:"<strong>Google Fonts</strong> — les trois polices sont chargées depuis les serveurs de Google, qui voient donc votre adresse IP au chargement de la page. Aucun cookie n'est déposé.",
   s4_l2:"<strong>GitHub Pages</strong> — l'hébergement garde des journaux serveur standard, pour la sécurité.",
   s4_l3:"<strong>FormSubmit</strong> — uniquement quand vous envoyez le formulaire de contact (voir ci-dessus).",
-  s5_h:"Vos droits, et à qui les demander",
+  s5_h:"Vos choix concernant les cookies",
+  s5_choice:"Il n'y a ici aucun cookie de suivi à refuser. Si vous préférez ne pas conserver même ces préférences locales, votre navigateur peut bloquer les données du site lagoffinerie.be ou les effacer à tout moment (Réglages → Confidentialité → Données de sites) : le site continue de fonctionner, il oublie simplement votre langue entre deux visites. Si votre navigateur envoie le signal <strong>Do Not Track</strong> ou <strong>Global Privacy Control</strong>, la mesure d'audience se réduit à un seul compteur de page anonyme.", s5_pol:"Le tableau complet (finalités, bases légales, sous-traitants, durées, chacun de vos droits) est dans la <a href=\"donnees-personnelles.html\">politique de protection des données</a>.",
   s5_p:"En vertu du RGPD, vous pouvez demander ce que je détiens sur vous, le faire corriger ou supprimer, ou vous opposer à son utilisation. Il y a une seule personne derrière ce site, et une seule adresse :",
   cta:"Retour au formulaire de contact",
   updated:"Dernière mise à jour : 27 septembre 2026.",
+  foot_legal:"Mentions légales", foot_cgu:"CGU", foot_privacy:"Protection des données", foot_cookies:"Cookies",
   foot:"© 2026 La Goffinerie · Bruxelles &amp; Liège, Belgique"
 };
 const EN_TITLE=document.title, EN={};

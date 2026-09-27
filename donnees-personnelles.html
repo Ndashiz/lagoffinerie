@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>Personal data protection — La Goffinerie</title>
+<meta name="description" content="How La Goffinerie collects, uses, shares and keeps personal data, and the rights you have over it.">
+<link rel="canonical" href="https://lagoffinerie.be/donnees-personnelles.html">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 112" style="isolation:isolate"><path d="M62 6 L102 80 L22 80 Z" fill="%23EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="%232823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="%23E2452C" style="mix-blend-mode:multiply"/></svg>'>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme:light only;
+    --paper:#faf8f2;--paper-2:#f3f0e6;--ink:#151515;--ink-2:#3d4046;--line:#15151522;
+    --blue:#2823EE;--red:#E2452C;--yellow:#EDAF2F;
+    --mono:"JetBrains Mono",monospace;--sans:"Instrument Sans",sans-serif;--disp:"Sora",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--sans);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;line-height:1.65;}
+  ::selection{background:var(--yellow);color:var(--ink);}
+  a{color:inherit;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 28px;}
+  h1,h2{font-family:var(--disp);line-height:1.15;letter-spacing:-.015em;}
+  .topnav{position:sticky;top:0;z-index:80;background:rgba(250,248,242,.92);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border-bottom:2px solid var(--ink);}
+  .topnav .nwrap{max-width:1180px;margin:0 auto;padding:0 24px;height:66px;display:flex;align-items:center;gap:26px;}
+  .topnav .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);}
+  .topnav .logo .mark{width:32px;height:30px;flex:none;}
+  .topnav .logo-txt{font-family:var(--disp);font-weight:800;font-size:17px;line-height:1;letter-spacing:-.01em;}
+  .nright{display:flex;align-items:center;gap:14px;margin-left:auto;}
+  .back{font-family:var(--disp);font-weight:600;font-size:14px;color:var(--ink-2);text-decoration:none;}
+  .back:hover{color:var(--ink);}
+  .langsw{display:flex;border:1.5px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;}
+  .langsw button{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;border:none;background:transparent;color:var(--ink-2);padding:6px 11px;cursor:pointer;}
+  .langsw button.active{background:var(--ink);color:var(--paper);}
+  .back{white-space:nowrap;}
+  @media(max-width:560px){.topnav .logo-txt{display:none;} .topnav .nwrap{gap:12px;padding:0 16px;} .nright{gap:10px;}}
+  .kick{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .kick::before{content:"";width:26px;height:2px;background:var(--red);}
+  header.hero{padding:72px 0 30px;}
+  h1{font-size:clamp(32px,5vw,50px);font-weight:800;max-width:18ch;}
+  .sub{margin-top:16px;font-size:17.5px;color:var(--ink-2);max-width:60ch;}
+  main{padding:20px 0 90px;}
+  section{padding:26px 0;border-top:1.5px dashed #15151533;}
+  h2{font-size:22px;font-weight:800;margin-bottom:12px;}
+  p,li{font-size:15.5px;color:var(--ink-2);}
+  p+p{margin-top:10px;}
+  ul{padding-left:20px;margin-top:8px;}
+  li{margin-bottom:6px;}
+  strong{color:var(--ink);}
+  code{font-family:var(--mono);font-size:12.5px;background:#fff;border:1.5px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--ink);}
+  table{width:100%;border-collapse:collapse;margin-top:12px;background:#fff;border:2px solid var(--ink);border-radius:14px;overflow:hidden;font-size:14px;}
+  th,td{text-align:left;padding:10px 12px;vertical-align:top;border-top:1px solid var(--line);}
+  th{font-family:var(--disp);font-size:12.5px;font-weight:700;background:var(--paper-2);border-top:0;}
+  td:first-child{font-family:var(--mono);font-size:12.5px;white-space:nowrap;}
+  .card{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:20px 22px;margin-top:14px;box-shadow:6px 6px 0 var(--yellow);}
+  .card p{color:var(--ink-2);}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;border-radius:12px;padding:12px 20px;border:2px solid var(--ink);background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:5px 5px 0 var(--ink);transition:transform .15s,box-shadow .15s;margin-top:14px;}
+  .btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink);}
+  .legal h2{font-size:19px;margin:26px 0 8px;}
+  .legal h3{font-family:var(--disp);font-size:16px;font-weight:700;margin:16px 0 6px;}
+  .legal p,.legal li{font-size:15px;color:var(--ink-2);}
+  .legal ul{margin:6px 0 10px 20px;}
+  .legal p+p{margin-top:8px;}
+  .updated{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:30px;}
+  footer{border-top:2px solid var(--ink);padding:30px 0 40px;}
+  footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;}
+  footer p{font-size:12.5px;}
+  footer .flinks{display:flex;gap:16px;flex-wrap:wrap;}
+  footer .flinks a{font-family:var(--disp);font-weight:600;font-size:13px;color:var(--ink-2);text-decoration:none;border-bottom:2px solid transparent;}
+  footer .flinks a:hover{color:var(--ink);border-color:var(--blue);}
+  @media(max-width:640px){table,thead,tbody,tr,th,td{display:block;} thead{display:none;} td{border-top:0;padding:4px 12px;} tr{border-top:1px solid var(--line);padding:8px 0;} td:first-child{padding-top:10px;} td:last-child{padding-bottom:10px;}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <div class="nwrap">
+    <a class="logo" href="./">
+      <svg class="mark" viewBox="0 0 120 112" xmlns="http://www.w3.org/2000/svg" style="isolation:isolate" aria-hidden="true">
+        <path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F" style="mix-blend-mode:multiply"/>
+        <rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE" style="mix-blend-mode:multiply"/>
+        <circle cx="90" cy="78" r="27" fill="#E2452C" style="mix-blend-mode:multiply"/>
+      </svg>
+      <span class="logo-txt">La Goffinerie</span>
+    </a>
+    <div class="nright">
+      <div class="langsw" role="group" aria-label="Language">
+        <button id="lang-en" onclick="setLang('en')">EN</button>
+        <button id="lang-fr" onclick="setLang('fr')">FR</button>
+      </div>
+      <a class="back" href="./" data-i18n="back">← Back</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kick" data-i18n="kick">Personal data protection</div>
+    <h1 data-i18n="h1">Policy on the protection of personal data.</h1>
+    <p class="sub" data-i18n="sub">What La Goffinerie collects about you, why, for how long, with whom it is shared, and the rights you have over it.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+<div class="legal" data-lang="fr" hidden>
+<h2>1. Traitement de vos données à caractère personnel</h2>
+<p>Le traitement de vos données à caractère personnel est effectué dans le respect de la législation en vigueur, à savoir notamment le Règlement (UE) 2016/679 du Parlement européen et du Conseil du 27 avril 2016 relatif à la protection des personnes physiques à l'égard du traitement des données à caractère personnel et à la libre circulation de ces données (« RGPD ») et la loi du 30 juillet 2018 relative à la protection des personnes physiques à l'égard des traitements de données à caractère personnel. Au sens du RGPD, La Goffinerie (Simon Goffin, coordonnées sur la page <a href="mentions-legales.html">Mentions légales</a>) est responsable du traitement de vos données à caractère personnel.</p>
+<p>Les données à caractère personnel désignent toute information se rapportant à une personne physique identifiée ou identifiable, telle qu'un nom, un numéro de téléphone, une adresse e-mail.</p>
+<p>Elles peuvent concerner les clients, les prospects, les utilisateurs du site internet de La Goffinerie ou d'autres parties prenantes. La Goffinerie recueille uniquement les données personnelles nécessaires pour mener ses activités, ou requises par la loi.</p>
+<p>Les catégories de données personnelles traitées par La Goffinerie sont les suivantes :</p>
+<ul>
+<li>données d'identification et coordonnées (nom, adresse e-mail, numéro de téléphone) et le contenu de votre demande (sujet, message, créneau d'appel proposé), récoltées via le formulaire de contact ;</li>
+<li>données de navigation anonymes lors de l'utilisation du site : pages et sections consultées, clics, langue, type d'appareil, durée de visite, catégorie du site d'origine. Ces données sont rattachées à un identifiant de session aléatoire qui vit dans l'onglet et meurt avec lui ; aucune adresse IP, aucun cookie et aucune empreinte de navigateur ne sont conservés (voir la <a href="cookies.html">politique relative aux cookies</a>) ;</li>
+<li>autres données que vous nous fournissez lors d'une prise de contact par e-mail, téléphone ou WhatsApp.</li>
+</ul>
+<p>La Goffinerie ne collecte pas et n'utilise pas de données personnelles sensibles telles que celles relatives à la santé, aux croyances religieuses, politiques ou philosophiques, à l'orientation sexuelle ou à l'appartenance ethnique.</p>
+
+<h2>2. Finalités et bases légales du traitement</h2>
+<p>Vos données sont collectées pour les finalités suivantes :</p>
+<ul>
+<li>répondre à une demande envoyée via le formulaire de contact, par e-mail, téléphone ou WhatsApp, et convenir d'un appel ;</li>
+<li>préparer, exécuter, maintenir et améliorer les services de La Goffinerie, y compris la relation contractuelle avec les entreprises clientes ;</li>
+<li>établir les devis, factures et documents comptables requis par la loi ;</li>
+<li>analyser de façon anonyme la fréquentation et l'usage du site afin de l'améliorer ;</li>
+<li>vous envoyer, avec votre accord, des informations utiles relatives aux activités et aux services de La Goffinerie.</li>
+</ul>
+<p>Les bases légales de ces traitements sont, selon le cas : votre consentement (formulaire de contact, communications), l'exécution d'un contrat ou de mesures précontractuelles prises à votre demande, le respect d'une obligation légale (comptabilité, facturation) et l'intérêt légitime de La Goffinerie (sécurité du site, statistiques anonymes).</p>
+
+<h2>3. Divulgation de vos données à des tiers</h2>
+<p>Les données personnelles recueillies par La Goffinerie sont conservées en toute sécurité et ne sont accessibles qu'à son responsable, chargé de réaliser la finalité pour laquelle elles ont été collectées.</p>
+<p>Ces données peuvent être transmises à des tiers à votre demande, lorsque cela s'avère nécessaire pour réaliser la finalité poursuivie, ou dans les cas prévus par la loi. Pour faire fonctionner ce site et répondre à vos demandes, La Goffinerie fait appel aux sous-traitants suivants, qui traitent les données uniquement sur ses instructions et pour des finalités précises : un service d'envoi d'e-mails (Resend) pour les accusés de réception et les notifications, un service de relais de formulaire (FormSubmit) utilisé uniquement en secours, un service d'hébergement du site (GitHub) et un service de polices de caractères (Google Fonts). Un tiers ne peut traiter ces données à des fins propres, indépendantes des finalités pour lesquelles La Goffinerie fait appel à lui.</p>
+<p>Certains de ces sous-traitants sont établis en dehors de l'Espace économique européen, notamment aux États-Unis. Un tel transfert n'a lieu que si le pays offre des garanties jugées appropriées par la Commission européenne (décision d'adéquation, par exemple le cadre de protection des données UE–États-Unis) ou si des garanties contractuelles équivalentes sont en place. Les données de mesure d'audience et la copie de vos demandes sont, elles, traitées sur un serveur situé dans l'Union européenne.</p>
+
+<h2>4. Durée de conservation</h2>
+<p>La Goffinerie ne conserve pas vos données à caractère personnel plus longtemps qu'il n'est nécessaire pour la finalité pour laquelle elles sont collectées. Les demandes de contact sont conservées le temps de leur traitement et au plus vingt-quatre mois après le dernier échange, sauf relation contractuelle en cours ; les documents comptables sont conservés pendant la durée légale ; les données de navigation anonymes sont conservées trente jours pour les lignes de visite et douze mois pour les totaux quotidiens. Lorsque les données ne sont plus nécessaires, La Goffinerie les supprime ou les anonymise ; elle les anonymise si elle souhaite encore les utiliser à des fins statistiques.</p>
+
+<h2>5. Vos droits</h2>
+<p>Conformément à la législation en vigueur, vous disposez des droits suivants par rapport au traitement de vos données à caractère personnel.</p>
+<h3>6. Droit de consultation</h3>
+<p>Si vous souhaitez consulter les données que nous traitons à votre sujet, vous pouvez exercer votre droit d'accès. Nous vous fournirons un aperçu le plus complet possible de vos données, notamment : les finalités du traitement ; les catégories de données à caractère personnel ; les destinataires ou catégories de destinataires ; l'existence d'un transfert à des tiers ; la durée de conservation envisagée ou, à défaut, les critères utilisés pour la déterminer.</p>
+<h3>7. Droit de rectification</h3>
+<p>Il peut arriver que certaines données que nous détenons à votre sujet ne soient pas ou plus correctes. Vous pouvez toujours demander que ces données soient rectifiées ou complétées.</p>
+<h3>8. Droit de demander la suppression</h3>
+<p>Si vous pensez qu'un traitement de certaines données est inapproprié, vous pouvez demander que ces données soient supprimées.</p>
+<h3>9. Droit à la limitation du traitement</h3>
+<p>Vous pouvez demander la limitation du traitement si : l'exactitude des données est mise en cause, pendant la période nécessaire à leur vérification ; le traitement est illicite et vous ne souhaitez pas l'effacement des données ; La Goffinerie n'a plus besoin des données mais vous en avez besoin pour l'exercice ou la justification d'une action en justice ; une opposition a été introduite contre le traitement, dans l'attente de la vérification des intérêts légitimes qui pourraient primer sur les vôtres.</p>
+<h3>10. Droit d'opposition</h3>
+<p>Quand les données à caractère personnel sont traitées à des fins de marketing direct, vous pouvez toujours vous opposer au traitement. Vous pouvez également vous opposer à un traitement spécifique vous concernant. La Goffinerie cessera alors le traitement, à moins qu'elle ne démontre qu'il existe des motifs légitimes et impérieux pour le traitement qui prévalent sur vos intérêts, ou qui se rapportent à l'exercice ou la justification d'une action en justice.</p>
+<h3>11. Droit de refuser un traitement entièrement automatisé</h3>
+<p>Vous avez le droit de ne pas faire l'objet d'une décision fondée exclusivement sur un traitement automatisé. La Goffinerie n'effectue aucun traitement de données entièrement automatisé, sans intervention humaine.</p>
+<h3>12. Droit de retrait du consentement</h3>
+<p>Si vous avez donné votre consentement à La Goffinerie pour une finalité de traitement déterminée, vous pouvez à tout moment retirer ce consentement par l'envoi d'un e-mail, sans que cela n'affecte la licéité du traitement effectué avant le retrait.</p>
+<h3>13. Exercice de vos droits</h3>
+<p>Veillez à être précis dans votre demande ; nous pourrons ainsi la traiter de manière concrète et correcte. Lorsque vous exercez un droit, nous pouvons être amenés à vous demander de justifier de votre identité afin d'éviter que quelqu'un d'autre n'exerce vos droits à votre place.</p>
+<p>Pour exercer vos droits ou obtenir plus d'informations à ce sujet, contactez le responsable du traitement via les coordonnées affichées sur la page <a href="mentions-legales.html">Mentions légales</a> ou par e-mail à <a href="mailto:info@lagoffinerie.be">info@lagoffinerie.be</a>. Nous répondons dans un délai d'un mois. Vous disposez également du droit d'introduire une réclamation auprès de l'Autorité de protection des données (rue de la Presse 35, 1000 Bruxelles, <a href="https://www.autoriteprotectiondonnees.be" target="_blank" rel="noopener">autoriteprotectiondonnees.be</a>).</p>
+<p class="updated">Dernière mise à jour : 27 septembre 2026.</p>
+</div>
+<div class="legal" data-lang="en" hidden>
+<h2>1. Processing of your personal data</h2>
+<p>Your personal data is processed in accordance with the applicable legislation, in particular Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data (“GDPR”) and the Belgian Act of 30 July 2018 on the protection of natural persons with regard to the processing of personal data. Within the meaning of the GDPR, La Goffinerie (Simon Goffin, details on the <a href="mentions-legales.html">Legal notice</a> page) is the controller of your personal data.</p>
+<p>Personal data means any information relating to an identified or identifiable natural person, such as a name, a telephone number or an e-mail address.</p>
+<p>It may concern clients, prospects, users of La Goffinerie's website or other stakeholders. La Goffinerie only collects the personal data necessary to carry out its activities, or required by law.</p>
+<p>The categories of personal data processed by La Goffinerie are the following:</p>
+<ul>
+<li>identification and contact data (name, e-mail address, telephone number) and the content of your request (subject, message, proposed call slot), collected through the contact form;</li>
+<li>anonymous browsing data when using the site: pages and sections viewed, clicks, language, device type, visit duration, category of the referring site. This data is tied to a random session identifier that lives in the tab and dies with it; no IP address, no cookie and no browser fingerprint is kept (see the <a href="cookies.html">cookie policy</a>);</li>
+<li>other data you provide when contacting us by e-mail, telephone or WhatsApp.</li>
+</ul>
+<p>La Goffinerie does not collect or use sensitive personal data such as data relating to health, religious, political or philosophical beliefs, sexual orientation or ethnic origin.</p>
+
+<h2>2. Purposes and legal bases of the processing</h2>
+<p>Your data is collected for the following purposes:</p>
+<ul>
+<li>answering a request sent through the contact form, by e-mail, telephone or WhatsApp, and arranging a call;</li>
+<li>preparing, performing, maintaining and improving La Goffinerie's services, including the contractual relationship with client companies;</li>
+<li>drawing up the quotes, invoices and accounting documents required by law;</li>
+<li>analysing, anonymously, how the site is visited and used in order to improve it;</li>
+<li>sending you, with your agreement, useful information about La Goffinerie's activities and services.</li>
+</ul>
+<p>The legal bases for these operations are, depending on the case: your consent (contact form, communications), the performance of a contract or of pre-contractual steps taken at your request, compliance with a legal obligation (accounting, invoicing) and La Goffinerie's legitimate interest (site security, anonymous statistics).</p>
+
+<h2>3. Disclosure of your data to third parties</h2>
+<p>The personal data collected by La Goffinerie is stored securely and is only accessible to its manager, in charge of fulfilling the purpose for which it was collected.</p>
+<p>This data may be transmitted to third parties at your request, where necessary to fulfil the purpose pursued, or in the cases provided for by law. To run this site and answer your requests, La Goffinerie relies on the following processors, which process data only on its instructions and for specific purposes: an e-mail delivery service (Resend) for acknowledgements and notifications, a form relay service (FormSubmit) used only as a fallback, a website hosting service (GitHub) and a web font service (Google Fonts). A third party may not process this data for its own purposes, independent of the purposes for which La Goffinerie uses it.</p>
+<p>Some of these processors are established outside the European Economic Area, in particular in the United States. Such a transfer only takes place where the country offers safeguards deemed adequate by the European Commission (an adequacy decision, for instance the EU–US Data Privacy Framework) or where equivalent contractual safeguards are in place. Audience measurement data and the copy of your requests are processed on a server located in the European Union.</p>
+
+<h2>4. Retention period</h2>
+<p>La Goffinerie does not keep your personal data longer than necessary for the purpose for which it is collected. Contact requests are kept for the time needed to handle them and for at most twenty-four months after the last exchange, unless a contractual relationship is ongoing; accounting documents are kept for the statutory period; anonymous browsing data is kept thirty days for visit lines and twelve months for daily totals. When the data is no longer needed, La Goffinerie deletes or anonymises it; it anonymises the data if it still wishes to use it for statistical purposes.</p>
+
+<h2>5. Your rights</h2>
+<p>In accordance with the applicable legislation, you have the following rights regarding the processing of your personal data.</p>
+<h3>6. Right of access</h3>
+<p>If you wish to see the data we process about you, you can exercise your right of access. We will provide you with as complete an overview as possible, including: the purposes of the processing; the categories of personal data; the recipients or categories of recipients; whether the data is transferred to third parties; the envisaged retention period or, failing that, the criteria used to determine it.</p>
+<h3>7. Right to rectification</h3>
+<p>Some data we hold about you may be, or become, incorrect. You can always ask for it to be rectified or completed.</p>
+<h3>8. Right to erasure</h3>
+<p>If you believe the processing of certain data is inappropriate, you can ask for that data to be deleted.</p>
+<h3>9. Right to restriction of processing</h3>
+<p>You can ask for the processing to be restricted where: the accuracy of the data is contested, for the period needed to verify it; the processing is unlawful and you do not want the data erased; La Goffinerie no longer needs the data but you need it to establish, exercise or defend a legal claim; you have objected to the processing, pending the verification of whether legitimate grounds override yours.</p>
+<h3>10. Right to object</h3>
+<p>Where personal data is processed for direct marketing purposes, you can always object to the processing. You can also object to a specific processing concerning you. La Goffinerie will then stop the processing, unless it demonstrates compelling legitimate grounds for the processing which override your interests, or which relate to the establishment, exercise or defence of legal claims.</p>
+<h3>11. Right not to be subject to fully automated processing</h3>
+<p>You have the right not to be subject to a decision based solely on automated processing. La Goffinerie does not carry out any fully automated processing of data without human intervention.</p>
+<h3>12. Right to withdraw consent</h3>
+<p>If you have given La Goffinerie your consent for a specific processing purpose, you can withdraw it at any time by e-mail, without affecting the lawfulness of the processing carried out before the withdrawal.</p>
+<h3>13. Exercising your rights</h3>
+<p>Please be precise in your request so that we can handle it concretely and correctly. When you exercise a right, we may ask you to prove your identity, so that nobody else exercises your rights in your place.</p>
+<p>To exercise your rights or obtain more information, contact the controller through the details shown on the <a href="mentions-legales.html">Legal notice</a> page or by e-mail at <a href="mailto:info@lagoffinerie.be">info@lagoffinerie.be</a>. We answer within one month. You also have the right to lodge a complaint with the Belgian Data Protection Authority (rue de la Presse 35, 1000 Brussels, <a href="https://www.dataprotectionauthority.be" target="_blank" rel="noopener">dataprotectionauthority.be</a>).</p>
+<p class="updated">Last updated: 27 September 2026.</p>
+</div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span style="font-family:var(--disp);font-weight:700">La Goffinerie</span>
+    <nav class="flinks"><a href="mentions-legales.html" data-i18n="foot_legal">Legal notice</a><a href="cgu.html" data-i18n="foot_cgu">Terms of use</a><a href="donnees-personnelles.html" data-i18n="foot_privacy">Data protection</a><a href="cookies.html" data-i18n="foot_cookies">Cookies</a></nav>
+    <p data-i18n="foot">© 2026 La Goffinerie · Brussels &amp; Liège, Belgium</p>
+  </div>
+</footer>
+
+<script>
+const FR = {
+  title:"Protection des données — La Goffinerie",
+  back:"← Retour", kick:"Protection des données personnelles",
+  h1:"Politique relative à la protection des données à caractère personnel.",
+  sub:"Ce que La Goffinerie collecte à votre sujet, pourquoi, pendant combien de temps, avec qui c'est partagé, et les droits dont vous disposez.",
+  foot_legal:"Mentions légales", foot_cgu:"CGU", foot_privacy:"Protection des données", foot_cookies:"Cookies",
+  foot:"© 2026 La Goffinerie · Bruxelles &amp; Liège, Belgique"
+};
+const EN_TITLE=document.title, EN={};
+document.querySelectorAll('[data-i18n]').forEach(el=>{ EN[el.getAttribute('data-i18n')]=el.innerHTML; });
+let LANG='en';
+function setLang(l){
+  LANG=(l==='fr')?'fr':'en';
+  document.documentElement.lang=LANG;
+  document.title=(LANG==='fr')?FR.title:EN_TITLE;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.getAttribute('data-i18n'); el.innerHTML=(LANG==='fr'&&FR[k]!==undefined)?FR[k]:EN[k]; });
+  document.querySelectorAll('[data-lang]').forEach(el=>{ el.hidden = el.getAttribute('data-lang')!==LANG; });
+  document.getElementById('lang-en').classList.toggle('active',LANG==='en');
+  document.getElementById('lang-fr').classList.toggle('active',LANG==='fr');
+  try{ localStorage.setItem('lg_lang',LANG); }catch(e){}
+}
+(function(){
+  let l=null;
+  try{ l=new URLSearchParams(location.search).get('lang'); }catch(e){}
+  if(l!=='en'&&l!=='fr'){ try{ l=localStorage.getItem('lg_lang'); }catch(e){ l=null; } }
+  if(l!=='en'&&l!=='fr'){ const nav=(navigator.languages&&navigator.languages[0])||navigator.language||'en'; l=String(nav).toLowerCase().startsWith('fr')?'fr':'en'; }
+  setLang(l);
+})();
+</script>
+</body>
+</html>
