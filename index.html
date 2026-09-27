@@ -136,7 +136,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.5 — P1: audience line, short hero, FAQ, a11y, pricing + booking ready to switch on
+     LA GOFFINERIE v2.6 — the call gets a day and a time, and lands in the visitor's calendar
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
@@ -161,6 +161,7 @@
     :root{--paper:#faf8f2;--ink:#151515;} /* hard-locked light */
   }
   *{box-sizing:border-box;margin:0;padding:0;}
+  [hidden]{display:none!important;}
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
   html,body{overflow-x:hidden;}
   body{
@@ -592,6 +593,12 @@
   .form-ok p{color:var(--ink-2);font-size:15px;}
   .btn[disabled]{opacity:.6;cursor:progress;transform:none!important;}
   .form-note a{color:var(--ink);font-weight:600;}
+  .slot-note{display:flex;align-items:flex-end;font-size:12.5px;color:var(--ink-2);padding-bottom:4px;}
+  input[type=date]{min-height:46px;-webkit-appearance:none;appearance:none;}
+  .cal-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+  .cal-btns a{display:inline-flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:700;font-size:14px;text-decoration:none;color:var(--ink);background:#fff;border:2px solid var(--ink);border-radius:999px;padding:10px 16px;box-shadow:4px 4px 0 var(--ink);transition:transform .15s,box-shadow .15s;}
+  .cal-btns a:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);}
+  .form-ok .slot{font-family:var(--mono);font-size:13px;color:var(--ink);margin-top:6px;}
 
   /* ---------- footer links ---------- */
   footer .flinks{display:flex;gap:18px;flex-wrap:wrap;}
@@ -935,6 +942,7 @@
       <input type="hidden" name="_subject" value="New automation lead — lagoffinerie">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_autoresponse" value="Bien reçu / Well received — merci pour votre demande à La Goffinerie. Je vous confirme le créneau proposé sous un jour ouvrable. / Thank you for your request. I will confirm the proposed slot within one business day. — Simon Goffin, +32 479 48 76 08">
       <input type="hidden" name="_next" value="https://lagoffinerie.be/?sent=1#contact">
       <input class="honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
       <input type="hidden" name="language" id="f-lang" value="en">
@@ -945,15 +953,15 @@
       <div><label for="f-subject" data-i18n="f_subject">What can I help with?</label><input id="f-subject" name="subject" type="text" data-i18n-ph="f_subject_ph" placeholder="e.g. A website with automatic invoicing" autocomplete="off" enterkeyhint="next" required></div>
       <div class="frow">
         <div><label for="f-phone" data-i18n="f_phone">Phone (optional)</label><input id="f-phone" name="phone" type="tel" placeholder="+32 ..." autocomplete="tel" inputmode="tel" enterkeyhint="next"></div>
-        <div><label for="f-availability" data-i18n="f_avail">When should I call you?</label>
-          <select id="f-availability" name="availability" required>
-            <option value="" disabled selected data-i18n="f_opt0">Choose a moment</option>
-            <option data-i18n="f_opt1">Morning (9:00–12:00)</option>
-            <option data-i18n="f_opt2">Afternoon (12:00–17:00)</option>
-            <option data-i18n="f_opt3">Evening (17:00–19:00)</option>
-            <option data-i18n="f_opt4">Anytime</option>
+        <div><label for="f-date" data-i18n="f_date">Which day should I call?</label><input id="f-date" name="date" type="date" required></div>
+      </div>
+      <div class="frow">
+        <div><label for="f-time" data-i18n="f_time">At what time?</label>
+          <select id="f-time" name="time" required>
+            <option value="" disabled selected data-i18n="f_opt0">Choose a time</option>
           </select>
         </div>
+        <div class="slot-note"><span data-i18n="f_slot_note">A proposed slot of 30 minutes. I confirm it within one business day, and you can add it to your calendar right away.</span></div>
       </div>
       <div><label for="f-message" data-i18n="f_msg">Anything else I should know? (optional)</label><textarea id="f-message" name="message" data-i18n-ph="f_msg_ph" placeholder="Tell me a bit about your business and what takes you the most time…" autocomplete="off" enterkeyhint="send"></textarea></div>
       <button class="btn primary" type="submit" data-track="cta_form_submit" data-i18n="f_send">Book my free call</button>
@@ -1083,8 +1091,9 @@ const FR = {
   ct_li:" Me contacter sur LinkedIn", book_btn:"Choisir un créneau maintenant", book_or:"ou laissez vos coordonnées ci-dessous et je vous rappelle",
   f_name:"Votre nom", f_email:"Votre email",
   f_subject:"En quoi puis-je vous aider ?", f_subject_ph:"p. ex. Un site web avec facturation automatique",
-  f_phone:"Téléphone (optionnel)", f_avail:"Quand puis-je vous appeler ?",
-  f_opt0:"Choisissez un moment", f_opt1:"Matin (9h–12h)", f_opt2:"Après-midi (12h–17h)", f_opt3:"Soir (17h–19h)", f_opt4:"N'importe quand",
+  f_phone:"Téléphone (optionnel)", f_date:"Quel jour puis-je vous appeler ?", f_time:"À quelle heure ?", f_opt0:"Choisissez une heure",
+  f_slot_note:"Un créneau proposé de 30 minutes. Je le confirme sous un jour ouvrable, et vous pouvez l'ajouter tout de suite à votre agenda.",
+  f_weekday:"Choisissez un jour de semaine.", ok_slot:"Créneau proposé :", ok_confirm:"Je vous le confirme par e-mail sous un jour ouvrable.", cal_google:"Ajouter à Google Agenda", cal_ics:"Ajouter à mon agenda (Apple, Outlook)", ev_title:"Appel avec La Goffinerie (à confirmer)", ev_desc:"Appel de 30 minutes avec Simon Goffin, La Goffinerie. Créneau proposé via lagoffinerie.be, confirmation sous un jour ouvrable.",
   f_msg:"Autre chose à savoir ? (optionnel)", f_msg_ph:"Parlez-moi un peu de votre entreprise et de ce qui vous prend le plus de temps…",
   f_send:"Réserver mon appel gratuit",
   f_note:"Je réponds personnellement sous un jour ouvrable. Vos coordonnées ne servent qu'à vous recontacter. <a href=\"cookies.html\">Vie privée &amp; cookies.</a>",
@@ -1238,9 +1247,38 @@ const LM = {
        auto:{kick:"Toujours là ?", h:"Besoin de plus d'informations ?", lede:"Vous pouvez nous contacter — laissez vos coordonnées et je vous rappelle sous un jour ouvrable, sans engagement."} }
 };
 const FS = {
-  en:{ ok_h:n=>'Thanks'+(n?', '+n:'')+'!', ok_p:"I've got your request and will call you back within one business day.", sending:"Sending…" },
-  fr:{ ok_h:n=>'Merci'+(n?', '+n:'')+' !', ok_p:"J'ai bien reçu votre demande et je vous rappelle sous un jour ouvrable.", sending:"Envoi…" }
+  en:{ ok_h:n=>'Thanks'+(n?', '+n:'')+'!', ok_p:"I've got your request and will call you back within one business day.", sending:"Sending…", ok_slot:"Proposed slot:", ok_confirm:"I confirm it by e-mail within one business day.", cal_google:"Add to Google Calendar", cal_ics:"Add to my calendar (Apple, Outlook)", ev_title:"Call with La Goffinerie (to be confirmed)", ev_desc:"30-minute call with Simon Goffin, La Goffinerie. Slot proposed via lagoffinerie.be, confirmed within one business day.", weekday:"Please choose a weekday." },
+  fr:{ ok_h:n=>'Merci'+(n?', '+n:'')+' !', ok_p:"J'ai bien reçu votre demande et je vous rappelle sous un jour ouvrable.", sending:"Envoi…", ok_slot:"Créneau proposé :", ok_confirm:"Je vous le confirme par e-mail sous un jour ouvrable.", cal_google:"Ajouter à Google Agenda", cal_ics:"Ajouter à mon agenda (Apple, Outlook)", ev_title:"Appel avec La Goffinerie (à confirmer)", ev_desc:"Appel de 30 minutes avec Simon Goffin, La Goffinerie. Créneau proposé via lagoffinerie.be, confirmation sous un jour ouvrable.", weekday:"Choisissez un jour de semaine." }
 };
+/* ── The slot: business days, 09:00–18:30 by half hours, at least tomorrow, at most 60 days out ── */
+const SLOT_TIMES = []; for(let h=9; h<19; h++){ SLOT_TIMES.push(String(h).padStart(2,'0')+':00'); if(h<18) SLOT_TIMES.push(String(h).padStart(2,'0')+':30'); }
+function isoDate(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function nextBusinessDay(from){ const d=new Date(from); d.setDate(d.getDate()+1); while(d.getDay()===0||d.getDay()===6) d.setDate(d.getDate()+1); return d; }
+function setupSlot(f){
+  const date=f.querySelector('input[name=date]'), time=f.querySelector('select[name=time]');
+  if(!date||!time) return;
+  const min=nextBusinessDay(new Date()), max=new Date(); max.setDate(max.getDate()+60);
+  date.min=isoDate(min); date.max=isoDate(max); if(!date.value) date.value=isoDate(min);
+  if(time.options.length<=1) SLOT_TIMES.forEach(t=>{ const o=document.createElement('option'); o.value=t; o.textContent=t; time.appendChild(o); });
+  date.addEventListener('input', ()=>{ const d=new Date(date.value+'T12:00:00'); const wk=!isNaN(d)&&(d.getDay()===0||d.getDay()===6); date.setCustomValidity(wk?(FS[LANG]||FS.en).weekday:''); if(wk) date.reportValidity(); });
+}
+/* A slot as the visitor typed it → ISO local start, UTC stamps for the calendar links, and a readable label. */
+function slotInfo(dateStr, timeStr){
+  if(!dateStr||!timeStr) return null;
+  const start=new Date(dateStr+'T'+timeStr+':00'); if(isNaN(start)) return null;
+  const end=new Date(start.getTime()+30*60000);
+  const z=d=>d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+  const label=start.toLocaleDateString(LANG==='fr'?'fr-BE':'en-GB',{weekday:'long',day:'numeric',month:'long'})+', '+timeStr;
+  return { start, end, z0:z(start), z1:z(end), label, availability: dateStr+' '+timeStr+'–'+String(end.getHours()).padStart(2,'0')+':'+String(end.getMinutes()).padStart(2,'0') };
+}
+function calendarLinks(slot){
+  const t=FS[LANG]||FS.en;
+  const title=t.ev_title, desc=t.ev_desc, loc='Tel. +32 479 48 76 08';
+  const g='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(title)+'&dates='+slot.z0+'/'+slot.z1+'&details='+encodeURIComponent(desc)+'&location='+encodeURIComponent(loc);
+  const uid=SESSION+'-'+slot.z0+'@lagoffinerie.be';
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//La Goffinerie//Call//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','BEGIN:VEVENT','UID:'+uid,'DTSTAMP:'+(new Date()).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,''),'DTSTART:'+slot.z0,'DTEND:'+slot.z1,'SUMMARY:'+title,'DESCRIPTION:'+desc,'LOCATION:'+loc,'URL:https://lagoffinerie.be/','STATUS:TENTATIVE','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  return { google:g, ics:'data:text/calendar;charset=utf-8,'+encodeURIComponent(ics) };
+}
 const FORMSUBMIT_AJAX = 'https://formsubmit.co/ajax/goffin.simon@gmail.com';
 /* Configure when ready: PRICES = { vitrine:'1 900', vivant:'3 900', hosting:'12' } shows the pricing section and its nav link;
    BOOKING_URL = 'https://cal.com/…' (or a Google Calendar appointment page) shows the « choose a slot » buttons. */
@@ -1276,6 +1314,7 @@ function buildModalForm(){
   slot.appendChild(f);
   setLang(LANG, true);   // the clone was taken before any translation
   bindForm(f);
+  setupSlot(f);
 }
 function openLead(variant, source){
   VARIANT = variant==='auto' ? 'auto' : 'book';
@@ -1324,15 +1363,20 @@ function maybeAutoPopup(){
    LEAD CAPTURE — Jarvis copy (keepalive) + FormSubmit e-mail over
    AJAX; if that fails, a plain form POST (FormSubmit's own page).
    ========================================================= */
-function showOk(f, name){
+function showOk(f, name, slot){
   const t=FS[LANG]||FS.en;
   const box=document.createElement('div'); box.className='form-ok';
   box.setAttribute('role','status'); box.setAttribute('aria-live','polite');
-  box.innerHTML='<div class="tick">✓</div><div><h4></h4><p></p></div>';
+  box.innerHTML='<div class="tick">✓</div><div><h4></h4><p></p><p class="slot"></p><div class="cal-btns"></div></div>';
   box.querySelector('h4').textContent=t.ok_h((name||'').split(' ')[0]);
-  box.querySelector('p').textContent=t.ok_p;
+  box.querySelector('p').textContent = slot ? t.ok_confirm : t.ok_p;
+  if(slot){
+    box.querySelector('.slot').textContent=t.ok_slot+' '+slot.label;
+    const l=calendarLinks(slot), c=box.querySelector('.cal-btns');
+    c.innerHTML='<a href="'+l.google+'" target="_blank" rel="noopener" data-track="cal_google">📅 '+t.cal_google+'</a><a href="'+l.ics+'" download="la-goffinerie-appel.ics" data-track="cal_ics">🗓 '+t.cal_ics+'</a>';
+  } else { box.querySelector('.slot').remove(); box.querySelector('.cal-btns').remove(); }
   f.replaceWith(box);
-  if(box.closest('#leadmodal')) setTimeout(closeLead, 4500);
+  if(box.closest('#leadmodal') && !slot) setTimeout(closeLead, 4500);
 }
 function bindForm(f){
   f.addEventListener('submit', async e=>{
@@ -1341,7 +1385,8 @@ function bindForm(f){
     if(f.querySelector('[name=_honey]').value) return;            // a bot filled the hidden field
     const via = f.getAttribute('data-via')||'inline';
     const v = n=>(f.elements[n] && f.elements[n].value || '').trim();
-    const fields = { name:v('name'), email:v('email'), subject:v('subject'), phone:v('phone')||null, availability:v('availability'), message:v('message')||null };
+    const slot = slotInfo(v('date'), v('time'));
+    const fields = { name:v('name'), email:v('email'), subject:v('subject'), phone:v('phone')||null, availability: slot ? slot.availability : (v('date')+' '+v('time')).trim(), message:v('message')||null };
     send(JARVIS.leads, Object.assign({ s:SESSION, l:LANG, via }, fields));   // keepalive: survives a navigation
     track('submit', via);
     SUBMITTED=true;
@@ -1355,15 +1400,17 @@ function bindForm(f){
       const data=await res.json().catch(()=>({}));
       ok = res.ok && String(data.success)!=='false';
     }catch(err){ ok=false; }
-    if(ok){ showOk(f, fields.name); }
-    else { delete f.dataset.busy; btn.disabled=false; btn.innerHTML=label; f.submit(); }
+    if(ok){ showOk(f, fields.name, slot); }
+    else { try{ localStorage.setItem('lg_slot', JSON.stringify({d:v('date'), t:v('time'), n:fields.name})); }catch(e){} delete f.dataset.busy; btn.disabled=false; btn.innerHTML=label; f.submit(); }
   });
 }
 bindForm(document.getElementById('leadform'));
+setupSlot(document.getElementById('leadform'));
 /* Back from FormSubmit's plain POST (no-JS or AJAX fallback): show the thanks in place. */
 try{
   if(new URLSearchParams(location.search).get('sent')==='1'){
-    showOk(document.getElementById('leadform'), '');
+    let saved=null; try{ saved=JSON.parse(localStorage.getItem('lg_slot')||'null'); localStorage.removeItem('lg_slot'); }catch(e){}
+    showOk(document.getElementById('leadform'), saved?saved.n:'', saved?slotInfo(saved.d, saved.t):null);
     history.replaceState(null,'',location.pathname+'#contact');
     setTimeout(()=>document.getElementById('contact').scrollIntoView({block:'start'}), 50);
   }

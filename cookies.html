@@ -99,12 +99,13 @@
   <div class="wrap">
     <section>
       <h2 data-i18n="s1_h">What is stored on your device</h2>
-      <p data-i18n="s1_p">The site sets <strong>no cookie of its own</strong>. It keeps three small values in your browser's storage, none of which identifies you or leaves your device:</p>
+      <p data-i18n="s1_p">The site sets <strong>no cookie of its own</strong>. It keeps four small values in your browser's storage, none of which identifies you or leaves your device:</p>
       <table>
         <thead><tr><th data-i18n="t_key">Key</th><th data-i18n="t_what">What it holds</th><th data-i18n="t_life">How long</th></tr></thead>
         <tbody>
           <tr><td>lg_lang</td><td data-i18n="r1_w">Your language choice (EN or FR), so the page opens in the language you picked.</td><td data-i18n="r1_l">Until you clear your browser storage.</td></tr>
           <tr><td>lg_pop</td><td data-i18n="r2_w">A flag saying the “need more information?” pop-up has already been shown, so it is not shown twice.</td><td data-i18n="r2_l">Until you close the tab.</td></tr>
+          <tr><td>lg_slot</td><td data-i18n="r4_w">Only if the form falls back to a plain submission: the slot you proposed, so the thank-you message can still offer the calendar file. Removed as soon as it is read.</td><td data-i18n="r4_l">A few seconds.</td></tr>
           <tr><td>lg_crew</td><td data-i18n="r3_w">Only on my own devices: a flag that excludes my test visits from the statistics. It is never set for a visitor.</td><td data-i18n="r3_l">Until cleared.</td></tr>
         </tbody>
       </table>
@@ -167,10 +168,11 @@ const FR = {
   h1:"Pas de cookies de suivi. Voici exactement ce qui se passe à la place.",
   sub:"Cette page liste tout ce que le site enregistre sur votre appareil, ce qu'il mesure, et où vont vos coordonnées quand vous m'écrivez. Elle est écrite pour des humains, pas pour des juristes — et elle est complète.",
   s1_h:"Ce qui est enregistré sur votre appareil",
-  s1_p:"Le site ne dépose <strong>aucun cookie qui lui soit propre</strong>. Il garde trois petites valeurs dans le stockage de votre navigateur, dont aucune ne vous identifie ni ne quitte votre appareil :",
+  s1_p:"Le site ne dépose <strong>aucun cookie qui lui soit propre</strong>. Il garde quatre petites valeurs dans le stockage de votre navigateur, dont aucune ne vous identifie ni ne quitte votre appareil :",
   t_key:"Clé", t_what:"Contenu", t_life:"Durée",
   r1_w:"Votre choix de langue (EN ou FR), pour que la page s'ouvre dans la langue choisie.", r1_l:"Jusqu'à ce que vous vidiez le stockage du navigateur.",
   r2_w:"Un drapeau indiquant que la fenêtre « besoin de plus d'informations ? » a déjà été montrée, pour ne pas l'afficher deux fois.", r2_l:"Jusqu'à la fermeture de l'onglet.",
+  r4_w:"Uniquement si le formulaire se rabat sur un envoi classique : le créneau que vous avez proposé, pour que le message de remerciement puisse encore offrir le fichier d'agenda. Effacé dès qu'il est lu.", r4_l:"Quelques secondes.",
   r3_w:"Uniquement sur mes propres appareils : un drapeau qui exclut mes visites de test des statistiques. Il n'est jamais posé chez un visiteur.", r3_l:"Jusqu'à effacement.",
   s1_p2:"Le site est hébergé sur <strong>GitHub Pages</strong>, qui ne dépose aucun cookie. Si un CDN comme <strong>Cloudflare</strong> était un jour placé devant, il pourrait déposer un cookie de sécurité de courte durée (<code>__cf_bm</code>, environ 30 minutes) pour distinguer les navigateurs des robots — strictement nécessaire pour servir la page, et sans donnée personnelle.",
   s2_h:"Mesure d'audience — en propre, sans tiers",
