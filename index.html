@@ -136,7 +136,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.6 — the call gets a day and a time, and lands in the visitor's calendar
+     LA GOFFINERIE v2.7 — slots until 20:00, one height for every field
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
@@ -453,15 +453,26 @@
     background:#fff;border:2px solid var(--ink);border-radius:20px;padding:30px;
     box-shadow:8px 8px 0 var(--blue);
   }
-  .frow{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:end;}
+  .frow > div{min-width:0;}
   @media(max-width:640px){.frow{grid-template-columns:1fr;}}
   label{font-family:var(--disp);font-weight:600;font-size:13.5px;display:block;margin-bottom:6px;}
   input,select,textarea{
-    width:100%;font-family:var(--sans);font-size:15px;color:var(--ink);
-    background:var(--paper);border:1.5px solid #15151544;border-radius:10px;padding:12px 14px;
+    display:block;width:100%;min-width:0;height:48px;box-sizing:border-box;
+    font-family:var(--sans);font-size:15px;line-height:1.3;color:var(--ink);
+    background:var(--paper);border:1.5px solid #15151544;border-radius:10px;padding:0 14px;margin:0;
+    -webkit-appearance:none;appearance:none;
   }
   input:focus,select:focus,textarea:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:transparent;}
-  textarea{min-height:100px;resize:vertical;}
+  textarea{height:auto;min-height:110px;padding:12px 14px;resize:vertical;line-height:1.5;}
+  /* One chevron for every select, on every platform. */
+  select{padding-right:42px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23151515' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:16px;}
+  select:invalid,select option[value=""]{color:#7a7d86;}
+  /* iOS draws the date value centred in a smaller box; make it read like the other fields. */
+  input[type=date]{text-align:left;}
+  input[type=date]::-webkit-date-and-time-value{text-align:left;height:1.3em;line-height:1.3;}
+  input[type=date]::-webkit-calendar-picker-indicator{opacity:.75;cursor:pointer;}
+  input::placeholder,textarea::placeholder{color:#8a8d96;opacity:1;}
   .form-note{font-size:12.5px;color:var(--ink-2);}
 
   footer{border-top:2px solid var(--ink);padding:30px 0 40px;background:var(--paper);}
@@ -593,8 +604,7 @@
   .form-ok p{color:var(--ink-2);font-size:15px;}
   .btn[disabled]{opacity:.6;cursor:progress;transform:none!important;}
   .form-note a{color:var(--ink);font-weight:600;}
-  .slot-note{display:flex;align-items:flex-end;font-size:12.5px;color:var(--ink-2);padding-bottom:4px;}
-  input[type=date]{min-height:46px;-webkit-appearance:none;appearance:none;}
+  .slot-note{margin-top:-6px;font-size:12.5px;color:var(--ink-2);}
   .cal-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
   .cal-btns a{display:inline-flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:700;font-size:14px;text-decoration:none;color:var(--ink);background:#fff;border:2px solid var(--ink);border-radius:999px;padding:10px 16px;box-shadow:4px 4px 0 var(--ink);transition:transform .15s,box-shadow .15s;}
   .cal-btns a:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);}
@@ -952,17 +962,15 @@
       </div>
       <div><label for="f-subject" data-i18n="f_subject">What can I help with?</label><input id="f-subject" name="subject" type="text" data-i18n-ph="f_subject_ph" placeholder="e.g. A website with automatic invoicing" autocomplete="off" enterkeyhint="next" required></div>
       <div class="frow">
-        <div><label for="f-phone" data-i18n="f_phone">Phone (optional)</label><input id="f-phone" name="phone" type="tel" placeholder="+32 ..." autocomplete="tel" inputmode="tel" enterkeyhint="next"></div>
         <div><label for="f-date" data-i18n="f_date">Which day should I call?</label><input id="f-date" name="date" type="date" required></div>
-      </div>
-      <div class="frow">
         <div><label for="f-time" data-i18n="f_time">At what time?</label>
           <select id="f-time" name="time" required>
             <option value="" disabled selected data-i18n="f_opt0">Choose a time</option>
           </select>
         </div>
-        <div class="slot-note"><span data-i18n="f_slot_note">A proposed slot of 30 minutes. I confirm it within one business day, and you can add it to your calendar right away.</span></div>
       </div>
+      <p class="slot-note" data-i18n="f_slot_note">A proposed slot of 30 minutes. I confirm it within one business day, and you can add it to your calendar right away.</p>
+      <div><label for="f-phone" data-i18n="f_phone">Phone (optional)</label><input id="f-phone" name="phone" type="tel" placeholder="+32 ..." autocomplete="tel" inputmode="tel" enterkeyhint="next"></div>
       <div><label for="f-message" data-i18n="f_msg">Anything else I should know? (optional)</label><textarea id="f-message" name="message" data-i18n-ph="f_msg_ph" placeholder="Tell me a bit about your business and what takes you the most time…" autocomplete="off" enterkeyhint="send"></textarea></div>
       <button class="btn primary" type="submit" data-track="cta_form_submit" data-i18n="f_send">Book my free call</button>
       <p class="form-note" data-i18n="f_note">I reply personally within one business day. Your details are only used to contact you back. <a href="cookies.html">Privacy &amp; cookies.</a></p>
@@ -1251,7 +1259,8 @@ const FS = {
   fr:{ ok_h:n=>'Merci'+(n?', '+n:'')+' !', ok_p:"J'ai bien reçu votre demande et je vous rappelle sous un jour ouvrable.", sending:"Envoi…", ok_slot:"Créneau proposé :", ok_confirm:"Je vous le confirme par e-mail sous un jour ouvrable.", cal_google:"Ajouter à Google Agenda", cal_ics:"Ajouter à mon agenda (Apple, Outlook)", ev_title:"Appel avec La Goffinerie (à confirmer)", ev_desc:"Appel de 30 minutes avec Simon Goffin, La Goffinerie. Créneau proposé via lagoffinerie.be, confirmation sous un jour ouvrable.", weekday:"Choisissez un jour de semaine." }
 };
 /* ── The slot: business days, 09:00–18:30 by half hours, at least tomorrow, at most 60 days out ── */
-const SLOT_TIMES = []; for(let h=9; h<19; h++){ SLOT_TIMES.push(String(h).padStart(2,'0')+':00'); if(h<18) SLOT_TIMES.push(String(h).padStart(2,'0')+':30'); }
+/* 09:00 → 20:00 by half hours, the last call starting at 20:00. */
+const SLOT_TIMES = []; for(let h=9; h<=20; h++){ SLOT_TIMES.push(String(h).padStart(2,'0')+':00'); if(h<20) SLOT_TIMES.push(String(h).padStart(2,'0')+':30'); }
 function isoDate(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function nextBusinessDay(from){ const d=new Date(from); d.setDate(d.getDate()+1); while(d.getDay()===0||d.getDay()===6) d.setDate(d.getDate()+1); return d; }
 function setupSlot(f){
