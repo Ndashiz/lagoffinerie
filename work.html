@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light only">
 <meta name="theme-color" content="#faf8f2">
 <title>Work — La Goffinerie</title>
-<meta name="description" content="Real work for real businesses: the Bravo Reno case study, a living website with Odoo CRM, automatic invoicing and a daily AI digest.">
+<meta name="description" content="Real work for real businesses: the Bravo Reno living website with Odoo CRM, automatic invoicing and a daily AI digest, plus the tools I build and run myself.">
 <link rel="canonical" href="https://lagoffinerie.be/work.html">
 <link rel="alternate" hreflang="en" href="https://lagoffinerie.be/work.html?lang=en">
 <link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/work.html?lang=fr">
@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="La Goffinerie">
 <meta property="og:url" content="https://lagoffinerie.be/work.html">
 <meta property="og:title" content="Work — La Goffinerie">
-<meta property="og:description" content="Real work for real businesses: the Bravo Reno case study, a living website with Odoo CRM, automatic invoicing and a daily AI digest.">
+<meta property="og:description" content="Real work for real businesses: the Bravo Reno living website with Odoo CRM, automatic invoicing and a daily AI digest, plus the tools I build and run myself.">
 <meta property="og:image" content="https://lagoffinerie.be/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 112" style="isolation:isolate"><path d="M62 6 L102 80 L22 80 Z" fill="%23EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="%232823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="%23E2452C" style="mix-blend-mode:multiply"/></svg>'>
@@ -35,16 +35,18 @@
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
   html,body{overflow-x:hidden;}
   body{font-family:var(--sans);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;line-height:1.6;padding-top:66px;}
+  section[id],header[id]{scroll-margin-top:84px;}
   ::selection{background:var(--yellow);color:var(--ink);}
   a{color:inherit;}
-  .wrap{max-width:900px;margin:0 auto;padding:0 28px;}
+  .wrap{max-width:960px;margin:0 auto;padding:0 28px;}
   h1,h2,h3{font-family:var(--disp);line-height:1.12;letter-spacing:-.015em;}
   .skip{position:absolute;left:-9999px;top:10px;z-index:300;background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;font-family:var(--disp);font-weight:700;text-decoration:none;}
   .skip:focus{left:16px;}
   :focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px;}
 
   /* ---------- nav, identical to the home page ---------- */
-  .topnav{position:fixed;top:0;left:0;right:0;z-index:80;background:rgba(250,248,242,.92);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border-bottom:2px solid var(--ink);}
+  .topnav{position:fixed;top:0;left:0;right:0;z-index:80;background:rgba(250,248,242,.92);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border-bottom:2px solid var(--ink);transition:box-shadow .25s;}
+  html.scrolled .topnav{box-shadow:0 10px 24px -18px rgba(0,0,0,.45);}
   .topnav .nwrap{max-width:1180px;margin:0 auto;padding:0 24px;height:66px;display:flex;align-items:center;gap:26px;}
   .topnav .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);}
   .topnav .logo .mark{width:32px;height:30px;flex:none;}
@@ -59,6 +61,7 @@
   .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;border-radius:12px;padding:14px 24px;border:2px solid var(--ink);transition:transform .15s ease, box-shadow .15s ease;}
   .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:5px 5px 0 var(--ink);}
   .btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink);}
+  .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink);}
   .topnav .btn{padding:10px 18px;font-size:13.5px;box-shadow:3px 3px 0 var(--ink);border-radius:10px;white-space:nowrap;}
   .topnav .btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink);}
   .topnav .logo-txt{white-space:nowrap;}
@@ -74,62 +77,46 @@
     .bottombar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:80;height:64px;background:rgba(250,248,242,.97);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border-top:2px solid var(--ink);align-items:stretch;justify-content:space-around;padding-bottom:env(safe-area-inset-bottom);}
     .bottombar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex:1;font-family:var(--disp);font-weight:600;font-size:10.5px;color:var(--ink-2);text-decoration:none;}
     .bottombar a svg{width:21px;height:21px;}
-    .bottombar a:hover,.bottombar a:active{color:var(--blue);}
+    .bottombar a:hover,.bottombar a:active,.bottombar a[aria-current]{color:var(--blue);}
   }
   @media(max-width:560px){.topnav .logo-txt{display:none;}}
 
   /* ---------- page ---------- */
   .kick{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:10px;margin-bottom:16px;}
-  .kick::before{content:"";width:26px;height:2px;background:var(--red);}
+  .kick::before{content:"";width:26px;height:2px;background:var(--red);transform-origin:left;}
   header.hero{padding:72px 0 10px;position:relative;overflow:hidden;}
   h1{font-size:clamp(32px,5vw,52px);font-weight:800;max-width:18ch;}
   .sub{margin-top:14px;font-size:18px;color:var(--ink-2);max-width:58ch;}
-  .geo{position:absolute;right:-40px;top:30px;width:220px;height:205px;transform:rotate(8deg);opacity:.85;pointer-events:none;z-index:0;}
+  .geo{position:absolute;right:-40px;top:30px;width:220px;height:205px;--rot:8deg;transform:rotate(var(--rot));opacity:.85;pointer-events:none;z-index:0;animation:drift 10s ease-in-out infinite alternate;}
   .geo *{mix-blend-mode:multiply;}
   header .wrap{position:relative;z-index:1;}
   main{padding:20px 0 80px;}
-  section{padding:32px 0;}
+  section{padding:26px 0;}
   h2{font-size:clamp(22px,3vw,30px);font-weight:800;margin-bottom:14px;max-width:26ch;}
   p{max-width:66ch;}
 
-  .about{display:grid;grid-template-columns:auto 1fr;gap:34px;margin-top:10px;align-items:start;}
-  @media(max-width:720px){.about{grid-template-columns:1fr;}}
-  .avatar{width:150px;height:150px;border-radius:22px;border:2px solid var(--ink);box-shadow:8px 8px 0 var(--red);object-fit:cover;display:block;background:var(--paper-2);}
-  .avatar-fb{width:150px;height:150px;border-radius:22px;background:var(--ink);color:var(--yellow);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:800;font-size:38px;border:2px solid var(--ink);box-shadow:8px 8px 0 var(--red);}
-  .about p{font-size:16.5px;color:var(--ink-2);margin-bottom:14px;}
-  .about p strong{color:var(--ink);}
+  /* ---------- project index ---------- */
+  .pidx{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px;}
+  .pidx a{font-family:var(--disp);font-weight:700;font-size:13px;text-decoration:none;border:2px solid var(--ink);border-radius:999px;padding:8px 14px;background:#fff;display:inline-flex;align-items:center;gap:8px;transition:transform .15s,box-shadow .15s;}
+  .pidx a i{width:9px;height:9px;border-radius:50%;background:var(--blue);display:inline-block;}
+  .pidx a:nth-child(2) i{background:var(--red);} .pidx a:nth-child(3) i{background:var(--yellow);} .pidx a:nth-child(5) i{background:var(--red);}
+  .pidx a:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);}
 
-  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px;}
-  @media(max-width:760px){.grid3{grid-template-columns:1fr;}}
-  .card{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:22px 20px;transition:transform .18s ease, box-shadow .18s ease;}
-  .card:hover{transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--ink);}
-  .card h3{font-size:17.5px;font-weight:700;margin-bottom:8px;}
-  .card p{font-size:14.5px;color:var(--ink-2);}
-  .card .n{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:10px;}
-  .card:nth-child(1) .n{color:var(--red);} .card:nth-child(2) .n{color:#8a6206;} .card:nth-child(3) .n{color:var(--blue);}
-
-  .facts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 28px;margin-top:20px;}
-  @media(max-width:640px){.facts{grid-template-columns:1fr;}}
-  .fact{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:12px 0;border-top:1.5px dashed #15151533;font-size:15.5px;}
-  .fact svg{width:22px;height:22px;flex:none;fill:none;stroke:var(--blue);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-top:2px;}
-  .fact b{display:block;font-family:var(--disp);font-weight:700;}
-  .fact span{color:var(--ink-2);}
-
-  .chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px;}
-  .chip{font-family:var(--mono);font-size:11.5px;font-weight:500;border:1.5px solid var(--line);border-radius:999px;padding:7px 12px;background:#fff;}
-
-  .cta{margin-top:26px;background:var(--blue);color:#fff;border:2px solid var(--ink);border-radius:20px;padding:30px 28px;box-shadow:8px 8px 0 var(--yellow);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
-  .cta h2{color:#fff;margin:0;max-width:22ch;}
-  .cta p{color:#d8d7ff;font-size:14.5px;margin-top:6px;}
-  .cta .btn{background:var(--yellow);border-color:var(--ink);color:var(--ink);box-shadow:5px 5px 0 rgba(0,0,0,.35);}
-  .cta .reach{flex-basis:100%;font-size:14px;color:#d8d7ff;}
-  .cta .reach a{color:#fff;font-family:var(--disp);font-weight:700;text-decoration:none;border-bottom:2px solid var(--yellow);white-space:nowrap;}
-
-  /* ---------- case study ---------- */
-  .case{display:grid;grid-template-columns:1fr 1.25fr;gap:36px;margin-top:34px;background:#fff;border:2px solid var(--ink);border-radius:20px;padding:34px;box-shadow:8px 8px 0 var(--yellow);}
-  @media(max-width:900px){.case{grid-template-columns:1fr;padding:26px;}}
-  @media(max-width:600px){.case{padding:22px 18px;box-shadow:6px 6px 0 var(--yellow);}}
+  /* ---------- case ---------- */
+  .case{display:grid;grid-template-columns:1fr 1.25fr;gap:28px 36px;background:#fff;border:2px solid var(--ink);border-radius:20px;padding:34px;box-shadow:8px 8px 0 var(--yellow);}
+  .case.c-blue{box-shadow:8px 8px 0 var(--blue);} .case.c-red{box-shadow:8px 8px 0 var(--red);}
+  @media(max-width:900px){.case{grid-template-columns:1fr;padding:26px;gap:22px;}}
+  @media(max-width:600px){.case{padding:18px 16px;box-shadow:6px 6px 0 var(--yellow);} .case.c-blue{box-shadow:6px 6px 0 var(--blue);} .case.c-red{box-shadow:6px 6px 0 var(--red);}}
+  .shot{grid-column:1/-1;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--paper-2);}
+  .shot .sbar{display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--paper-2);border-bottom:2px solid var(--ink);}
+  .shot .sbar i{width:10px;height:10px;border-radius:50%;background:var(--red);display:inline-block;}
+  .shot .sbar i:nth-child(2){background:var(--yellow);} .shot .sbar i:nth-child(3){background:var(--blue);}
+  .shot .sbar span{margin-left:8px;font-family:var(--mono);font-size:11px;color:var(--ink-2);}
+  .shot .frame{aspect-ratio:16/9;overflow:hidden;background:#111;}
+  .shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .7s cubic-bezier(.2,.8,.2,1);}
+  .case:hover .shot img{transform:scale(1.025);}
   .badge{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--yellow);border-radius:7px;padding:5px 10px;margin-bottom:16px;}
+  .c-blue .badge{color:#c9c7ff;} .c-red .badge{color:#ffd2ca;}
   .case h2{font-size:clamp(21px,2.6vw,27px);font-weight:800;line-height:1.2;margin:0;max-width:none;}
   .case .who{margin-top:14px;font-weight:600;}
   .case .who a{color:var(--ink);text-decoration:none;border-bottom:2px solid var(--blue);}
@@ -141,6 +128,7 @@
   .stat .v{font-family:var(--disp);font-weight:800;font-size:18px;color:var(--blue);}
   .stat .k{font-size:12.5px;color:var(--ink-2);margin-top:2px;}
   .tools{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px;}
+  .chip{font-family:var(--mono);font-size:11.5px;font-weight:500;border:1.5px solid var(--line);border-radius:999px;padding:7px 12px;background:#fff;}
   .next{margin-top:26px;background:#fff;border:2px dashed var(--ink);border-radius:20px;padding:26px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;}
   .next h2{margin:0;max-width:24ch;}
   .next p{color:var(--ink-2);font-size:15px;margin-top:6px;}
@@ -153,12 +141,24 @@
   footer .flinks{display:flex;gap:18px;flex-wrap:wrap;}
   footer .flinks a{font-family:var(--disp);font-weight:600;font-size:13px;color:var(--ink-2);text-decoration:none;border-bottom:2px solid transparent;}
   footer .flinks a:hover{color:var(--ink);border-color:var(--blue);}
+
+  /* ---------- motion ---------- */
+  @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+  @keyframes drift{0%{transform:rotate(var(--rot)) translateY(0)}100%{transform:rotate(calc(var(--rot) + 4deg)) translateY(-14px)}}
+  header.hero .wrap > *{animation:rise .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0) * .09s);}
+  header.hero .wrap > :nth-child(2){--i:1} header.hero .wrap > :nth-child(3){--i:2} header.hero .wrap > :nth-child(4){--i:3}
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+  .rv.on{opacity:1;transform:none;}
+  @media (prefers-reduced-motion: reduce){
+    .rv{opacity:1;transform:none;transition:none;}
+    header.hero .wrap > *,.geo{animation:none;}
+    .shot img,.btn,.pidx a{transition:none;}
+  }
   @media(max-width:600px){
     .wrap{padding:0 20px;} header.hero{padding:52px 0 6px;} .geo{width:130px;height:120px;right:-62px;top:-34px;opacity:.38;}
-    .avatar,.avatar-fb{width:120px;height:120px;} .cta{padding:24px 20px;} .cta .btn{width:100%;justify-content:center;}
+    .next{padding:22px 18px;} .next .btn{width:100%;justify-content:center;}
     footer .wrap{flex-direction:column;align-items:flex-start;gap:12px;}
   }
-  @media (prefers-reduced-motion: reduce){.card,.btn{transition:none;}}
 </style>
 </head>
 <body>
@@ -176,8 +176,7 @@
     <div class="nlinks">
       <a href="./#alive" data-i18n="nav_alive">What I build</a>
       <a href="work.html" aria-current="page" data-i18n="nav_work">Work</a>
-      <a href="./#trust" data-i18n="nav_trust">Trust</a>
-      <a href="./#process" data-i18n="nav_process">Method</a>
+      <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
       <a href="about.html" data-i18n="nav_about">About</a>
       <a href="./#faq" data-i18n="nav_faq">FAQ</a>
     </div>
@@ -193,8 +192,8 @@
 
 <nav class="bottombar" aria-label="Mobile navigation">
   <a href="tel:+32479487608"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-i18n="nav_call">Call</span></a>
-  <a href="work.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg><span data-i18n="nav_work">Work</span></a>
-  <a href="./#process"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h10"/></svg><span data-i18n="nav_process">Method</span></a>
+  <a href="work.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg><span data-i18n="nav_work">Work</span></a>
+  <a href="pricing.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 12h20"/></svg><span data-i18n="nav_pricing">Pricing</span></a>
   <a href="./#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5c-1.7 0-3.3-.5-4.6-1.3L3 20l1.3-4.9A8.5 8.5 0 1 1 21 11.5z"/></svg><span data-i18n="nav_contact">Contact</span></a>
 </nav>
 
@@ -205,38 +204,152 @@
   <div class="wrap">
     <div class="kick" data-i18n="kick">They trust us</div>
     <h1 data-i18n="h1">Real work, for real businesses.</h1>
-    <p class="sub" data-i18n="sub">Not mock-ups: sites that run every day for people who have better things to do than admin. Here is the first one, in detail.</p>
+    <p class="sub" data-i18n="sub">Not mock-ups: sites and tools that run every day. Here they are, one by one, starting with a client.</p>
+    <nav class="pidx" aria-label="Projects">
+      <a href="#bravoreno"><i></i>Bravo Reno</a>
+      <a href="#lazysyndic"><i></i>LazySyndic</a>
+      <a href="#jarvis"><i></i>Jarvis</a>
+      <a href="#scrumpoker"><i></i>Scrum Poker</a>
+      <a href="#virtualcoffee"><i></i>Virtual Coffee</a>
+    </nav>
   </div>
 </header>
 
 <main>
   <div class="wrap">
-    <section>
-      <div class="case">
+
+    <!-- ================= BRAVO RENO ================= -->
+    <section id="bravoreno">
+      <article class="case rv">
+        <div class="shot"><div class="sbar"><i></i><i></i><i></i><span>bravoreno.be</span></div><div class="frame"><img src="assets/work/bravoreno.jpg" alt="The Bravo Reno website, home page" loading="lazy" width="1200" height="617"></div></div>
         <div class="left">
-          <span class="badge" data-i18n="case_badge">Case study — Electrician</span>
-          <h2 data-i18n="case_h3">"My website brings in clients, and invoices send themselves."</h2>
-          <div class="who"><a href="https://bravoreno.be" target="_blank" rel="noopener">Bravo Reno &#8599;&#xFE0E;</a><span data-i18n="case_who">Electrician &amp; locksmith · Wallonia &amp; Brussels</span></div>
+          <span class="badge" data-i18n="b_badge">Case study — Electrician</span>
+          <h2 data-i18n="b_h">"My website brings in clients, and invoices send themselves."</h2>
+          <div class="who"><a href="https://bravoreno.be" target="_blank" rel="noopener">Bravo Reno &#8599;&#xFE0E;</a><span data-i18n="b_who">Electrician &amp; locksmith · Wallonia &amp; Brussels</span></div>
           <div class="tools">
-            <span class="chip">Odoo CRM</span><span class="chip">Blitz</span><span class="chip" data-i18n="tool_ai">AI daily digest</span><span class="chip" data-i18n="tool_form">Enquiry routing</span>
+            <span class="chip">Odoo CRM</span><span class="chip">Blitz</span><span class="chip" data-i18n="b_tool_ai">AI daily digest</span><span class="chip" data-i18n="b_tool_form">Enquiry routing</span>
           </div>
         </div>
         <div class="right">
-          <p data-i18n="case_p0"><strong>The situation.</strong> A modern web presence to build, and an owner drowning in admin: quotes, invoices and an inbox he could not keep up with between two jobs.</p>
-          <p data-i18n="case_p1"><strong>What I built.</strong> A custom website connected to his real tools: an <strong>Odoo CRM integration</strong> so every enquiry lands in his client file, a <strong>Blitz integration</strong> that creates the invoice automatically when a job is done, and every request from the site routed straight to his own inbox.</p>
-          <p data-i18n="case_p2"><strong>On top of that</strong>, a <strong>daily report</strong> reads through his unread e-mails and sends him one short digest every morning, so even on days he cannot open them one by one, he knows exactly what to prioritise.</p>
+          <p data-i18n="b_p0"><strong>The situation.</strong> A modern web presence to build, and an owner drowning in admin: quotes, invoices and an inbox he could not keep up with between two jobs.</p>
+          <p data-i18n="b_p1"><strong>What I built.</strong> A custom website connected to his real tools: an <strong>Odoo CRM integration</strong> so every enquiry lands in his client file, a <strong>Blitz integration</strong> that creates the invoice automatically when a job is done, and every request from the site routed straight to his own inbox.</p>
+          <p data-i18n="b_p2"><strong>On top of that</strong>, a <strong>daily report</strong> reads through his unread e-mails and sends him one short digest every morning, so even on days he cannot open them one by one, he knows exactly what to prioritise.</p>
           <div class="stats">
-            <div class="stat"><div class="v" data-i18n="s1_v">↑ Traffic</div><div class="k" data-i18n="s1_k">More visitors to the website</div></div>
-            <div class="stat"><div class="v" data-i18n="s2_v">↑ Clients</div><div class="k" data-i18n="s2_k">More enquiries converted to jobs</div></div>
-            <div class="stat"><div class="v" data-i18n="s3_v">Auto</div><div class="k" data-i18n="s3_k">Invoices via Blitz · leads in Odoo CRM</div></div>
-            <div class="stat"><div class="v" data-i18n="s4_v">Daily</div><div class="k" data-i18n="s4_k">One digest of unread e-mails to prioritise</div></div>
+            <div class="stat"><div class="v" data-i18n="b_s1v">↑ Traffic</div><div class="k" data-i18n="b_s1k">More visitors to the website</div></div>
+            <div class="stat"><div class="v" data-i18n="b_s2v">↑ Clients</div><div class="k" data-i18n="b_s2k">More enquiries converted to jobs</div></div>
+            <div class="stat"><div class="v" data-i18n="b_s3v">Auto</div><div class="k" data-i18n="b_s3k">Invoices via Blitz · leads in Odoo CRM</div></div>
+            <div class="stat"><div class="v" data-i18n="b_s4v">Daily</div><div class="k" data-i18n="b_s4k">One digest of unread e-mails to prioritise</div></div>
           </div>
         </div>
-      </div>
+      </article>
+    </section>
+
+    <!-- ================= LAZYSYNDIC ================= -->
+    <section id="lazysyndic">
+      <article class="case c-blue rv">
+        <div class="shot"><div class="sbar"><i></i><i></i><i></i><span>lazysyndic · demo data</span></div><div class="frame"><img src="assets/work/lazysyndic.jpg" alt="The LazySyndic dashboard: reserve fund, balances, who pays what" loading="lazy" width="1200" height="750"></div></div>
+        <div class="left">
+          <span class="badge" data-i18n="l_badge">Own product — Co-ownership</span>
+          <h2 data-i18n="l_h">The co-ownership on autopilot.</h2>
+          <div class="who"><a href="https://ndashiz.be/lazysyndic/" target="_blank" rel="noopener">LazySyndic &#8599;&#xFE0E;</a><span data-i18n="l_who">Web app for a volunteer syndic · in production</span></div>
+          <div class="tools">
+            <span class="chip" data-i18n="l_t1">Bank import</span><span class="chip" data-i18n="l_t2">Auto categorisation</span><span class="chip" data-i18n="l_t3">PDF reports</span><span class="chip" data-i18n="l_t4">General-meeting module</span>
+          </div>
+        </div>
+        <div class="right">
+          <p data-i18n="l_p0"><strong>The situation.</strong> A volunteer syndic spends his evenings on bank statements, payment reminders and the yearly general-meeting pack.</p>
+          <p data-i18n="l_p1"><strong>What I built.</strong> A web application that imports the bank statements, categorises every line by rules and aliases, tracks who paid what, keeps the budget and the allocation keys, and generates the general-meeting documents as PDF: report, payment statements, results and annexes. An interactive module carries the convocation, the notes and the minutes.</p>
+          <p data-i18n="l_p2"><strong>Under the hood</strong>, the data lives in a secured database with access rules per role: the syndic writes, invited co-owners read. The same discipline I apply to a client's site.</p>
+          <div class="stats">
+            <div class="stat"><div class="v" data-i18n="l_s1v">Auto</div><div class="k" data-i18n="l_s1k">Bank lines categorised by rules</div></div>
+            <div class="stat"><div class="v" data-i18n="l_s2v">PDF</div><div class="k" data-i18n="l_s2k">The general-meeting pack, generated</div></div>
+            <div class="stat"><div class="v" data-i18n="l_s3v">Shared</div><div class="k" data-i18n="l_s3k">Co-owners read, the syndic writes</div></div>
+            <div class="stat"><div class="v" data-i18n="l_s4v">Live</div><div class="k" data-i18n="l_s4k">In production, used for a real building</div></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ================= JARVIS ================= -->
+    <section id="jarvis">
+      <article class="case rv">
+        <div class="shot"><div class="sbar"><i></i><i></i><i></i><span>jarvis · design mock-up</span></div><div class="frame"><img src="assets/work/jarvis.jpg" alt="The Jarvis back office: dashboard with briefing, tasks and figures" loading="lazy" width="1200" height="750"></div></div>
+        <div class="left">
+          <span class="badge" data-i18n="j_badge">Internal tool — Back office</span>
+          <h2 data-i18n="j_h">Everything I sell, I run myself first.</h2>
+          <div class="who"><span class="nolink">Jarvis</span><span data-i18n="j_who">Private back office · behind this very site</span></div>
+          <div class="tools">
+            <span class="chip" data-i18n="j_t1">Enquiries &amp; e-mails</span><span class="chip" data-i18n="j_t2">Audience stats</span><span class="chip" data-i18n="j_t3">Tasks &amp; reminders</span><span class="chip" data-i18n="j_t4">Calendar</span>
+          </div>
+        </div>
+        <div class="right">
+          <p data-i18n="j_p0"><strong>The situation.</strong> Running a business on the side means a lot of small tasks nobody has time for: prospects to follow up, confirmations to send, figures to watch, reminders to keep.</p>
+          <p data-i18n="j_p1"><strong>What I built.</strong> One back office that receives every enquiry from this site and sends the confirmation e-mails with the calendar invitation, measures the audience of lagoffinerie.be without any third-party tracker, and keeps tasks, reminders, the calendar and the figures in one place.</p>
+          <p data-i18n="j_p2"><strong>Why it matters to you</strong>: it is the proving ground. The integrations, e-mail flows and dashboards I propose to a client have run here first.</p>
+          <div class="stats">
+            <div class="stat"><div class="v" data-i18n="j_s1v">0</div><div class="k" data-i18n="j_s1k">Third-party trackers on this site</div></div>
+            <div class="stat"><div class="v" data-i18n="j_s2v">1</div><div class="k" data-i18n="j_s2k">Place for enquiries, e-mails and audience</div></div>
+            <div class="stat"><div class="v" data-i18n="j_s3v">Auto</div><div class="k" data-i18n="j_s3k">Confirmation e-mails with the calendar file</div></div>
+            <div class="stat"><div class="v" data-i18n="j_s4v">Daily</div><div class="k" data-i18n="j_s4k">Tasks, reminders and calendar in one view</div></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ================= SCRUM POKER ================= -->
+    <section id="scrumpoker">
+      <article class="case c-red rv">
+        <div class="shot"><div class="sbar"><i></i><i></i><i></i><span>ndashiz.be/scrumpoker</span></div><div class="frame"><img src="assets/work/scrumpoker.jpg" alt="Scrum Poker: create a session or join with a session ID" loading="lazy" width="1200" height="750"></div></div>
+        <div class="left">
+          <span class="badge" data-i18n="s_badge">Team tool — Real time</span>
+          <h2 data-i18n="s_h">A session in thirty seconds, no accounts.</h2>
+          <div class="who"><a href="https://ndashiz.be/scrumpoker/" target="_blank" rel="noopener">Scrum Poker &#8599;&#xFE0E;</a><span data-i18n="s_who">Planning poker for product teams · free</span></div>
+          <div class="tools">
+            <span class="chip" data-i18n="s_t1">Real time</span><span class="chip" data-i18n="s_t2">QR code</span><span class="chip" data-i18n="s_t3">No accounts</span><span class="chip" data-i18n="s_t4">Phone first</span>
+          </div>
+        </div>
+        <div class="right">
+          <p data-i18n="s_p0"><strong>The situation.</strong> Estimating a backlog with a team needs a tool that takes less time than the estimation itself.</p>
+          <p data-i18n="s_p1"><strong>What I built.</strong> Create a session, share the QR code, everyone votes blind on their phone, and the cards flip together. Sessions are ephemeral and the votes stay in the team's browsers: nothing to install, nothing to sign up for.</p>
+          <p data-i18n="s_p2"><strong>Why it matters to you</strong>: a small tool, but the same recipe as a client project. One job, done well, usable on a phone in the corridor.</p>
+          <div class="stats">
+            <div class="stat"><div class="v" data-i18n="s_s1v">Live</div><div class="k" data-i18n="s_s1k">Votes revealed together, instantly</div></div>
+            <div class="stat"><div class="v" data-i18n="s_s2v">0</div><div class="k" data-i18n="s_s2k">Accounts, installs or sign-ups</div></div>
+            <div class="stat"><div class="v" data-i18n="s_s3v">QR</div><div class="k" data-i18n="s_s3k">The team joins by scanning</div></div>
+            <div class="stat"><div class="v" data-i18n="s_s4v">Phone</div><div class="k" data-i18n="s_s4k">Works in the corridor, one hand</div></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ================= VIRTUAL COFFEE ================= -->
+    <section id="virtualcoffee">
+      <article class="case c-blue rv">
+        <div class="shot"><div class="sbar"><i></i><i></i><i></i><span>ndashiz.be/virtualcoffee</span></div><div class="frame"><img src="assets/work/virtualcoffee.jpg" alt="Virtual Coffee: a 3D café where Simon sits at a table with his résumé" loading="lazy" width="1200" height="630"></div></div>
+        <div class="left">
+          <span class="badge" data-i18n="v_badge">Side project — 3D experience</span>
+          <h2 data-i18n="v_h">An interactive 3D résumé, with a voice.</h2>
+          <div class="who"><a href="https://ndashiz.be/virtualcoffee/" target="_blank" rel="noopener">Virtual Coffee &#8599;&#xFE0E;</a><span data-i18n="v_who">My résumé as a café you walk into</span></div>
+          <div class="tools">
+            <span class="chip">Three.js</span><span class="chip" data-i18n="v_t2">3D in the browser</span><span class="chip" data-i18n="v_t3">Voice</span><span class="chip" data-i18n="v_t4">One-finger controls</span>
+          </div>
+        </div>
+        <div class="right">
+          <p data-i18n="v_p0"><strong>The situation.</strong> A résumé is read in forty seconds. I wanted a recruiter to spend ten minutes with me instead.</p>
+          <p data-i18n="v_p1"><strong>What I built.</strong> A 3D café: you walk in, take the seat across the table, and I talk you through my experience out loud while the CV lies on the table. The PDF and LinkedIn are always one tap away, and it works on a phone with a single finger.</p>
+          <p data-i18n="v_p2"><strong>Why it matters to you</strong>: it shows the other end of what I build. When a website should be an experience, not a brochure.</p>
+          <div class="stats">
+            <div class="stat"><div class="v" data-i18n="v_s1v">3D</div><div class="k" data-i18n="v_s1k">A café you walk through, in the browser</div></div>
+            <div class="stat"><div class="v" data-i18n="v_s2v">Voice</div><div class="k" data-i18n="v_s2k">The CV told out loud, section by section</div></div>
+            <div class="stat"><div class="v" data-i18n="v_s3v">1 tap</div><div class="k" data-i18n="v_s3k">PDF and LinkedIn, always within reach</div></div>
+            <div class="stat"><div class="v" data-i18n="v_s4v">Phone</div><div class="k" data-i18n="v_s4k">Tap the floor to walk, one finger</div></div>
+          </div>
+        </div>
+      </article>
     </section>
 
     <section>
-      <div class="next">
+      <div class="next rv">
         <div>
           <h2 data-i18n="next_h">Your business, the next case?</h2>
           <p data-i18n="next_p">A free 30-minute call to see what would be worth automating for you, and what it would bring in.</p>
@@ -265,21 +378,65 @@
 const FR = {
   title:"Réalisations — La Goffinerie",
   skip:"Aller au contenu",
-  nav_alive:"Ce que je fais", nav_work:"Réalisations", nav_trust:"Confiance", nav_process:"Méthode", nav_about:"À propos", nav_faq:"FAQ", nav_book:"Appel gratuit", nav_call:"Appeler", nav_contact:"Contact",
+  nav_alive:"Ce que je fais", nav_work:"Réalisations", nav_pricing:"Tarifs", nav_about:"À propos", nav_faq:"FAQ", nav_book:"Appel gratuit", nav_call:"Appeler", nav_contact:"Contact",
   kick:"Ils nous font confiance",
   h1:"Du vrai travail, pour de vraies entreprises.",
-  sub:"Pas des maquettes : des sites qui tournent chaque jour pour des gens qui ont mieux à faire que de l'administratif. Voici le premier, en détail.",
-  case_badge:"Étude de cas — Électricien",
-  case_h3:"« Mon site m'amène des clients, et les factures s'envoient toutes seules. »",
-  case_who:"Électricien &amp; serrurier · Wallonie &amp; Bruxelles",
-  tool_ai:"Digest IA quotidien", tool_form:"Routage des demandes",
-  case_p0:"<strong>La situation.</strong> Une présence web moderne à construire, et un patron qui croulait sous l'administratif : devis, factures et une boîte mail impossible à suivre entre deux chantiers.",
-  case_p1:"<strong>Ce que j'ai construit.</strong> Un site sur mesure connecté à ses vrais outils : une <strong>intégration Odoo CRM</strong> pour que chaque demande atterrisse dans son fichier clients, une <strong>intégration Blitz</strong> qui crée la facture automatiquement quand un chantier se termine, et chaque demande du site redirigée directement vers sa boîte mail.",
-  case_p2:"<strong>Et par-dessus</strong>, un <strong>rapport quotidien</strong> parcourt ses e-mails non lus et lui envoie un court digest chaque matin — même les jours où il ne peut pas les ouvrir un par un, il sait exactement quoi prioriser.",
-  s1_v:"↑ Trafic", s1_k:"Plus de visiteurs sur le site",
-  s2_v:"↑ Clients", s2_k:"Plus de demandes converties en chantiers",
-  s3_v:"Auto", s3_k:"Factures via Blitz · leads dans Odoo CRM",
-  s4_v:"Quotidien", s4_k:"Un digest des e-mails non lus à prioriser",
+  sub:"Pas des maquettes : des sites et des outils qui tournent chaque jour. Les voici, un par un, en commençant par un client.",
+  b_badge:"Étude de cas — Électricien",
+  b_h:"« Mon site m'amène des clients, et les factures s'envoient toutes seules. »",
+  b_who:"Électricien &amp; serrurier · Wallonie &amp; Bruxelles",
+  b_tool_ai:"Digest IA quotidien", b_tool_form:"Routage des demandes",
+  b_p0:"<strong>La situation.</strong> Une présence web moderne à construire, et un patron qui croulait sous l'administratif : devis, factures et une boîte mail impossible à suivre entre deux chantiers.",
+  b_p1:"<strong>Ce que j'ai construit.</strong> Un site sur mesure connecté à ses vrais outils : une <strong>intégration Odoo CRM</strong> pour que chaque demande atterrisse dans son fichier clients, une <strong>intégration Blitz</strong> qui crée la facture automatiquement quand un chantier se termine, et chaque demande du site redirigée directement vers sa boîte mail.",
+  b_p2:"<strong>Et par-dessus</strong>, un <strong>rapport quotidien</strong> parcourt ses e-mails non lus et lui envoie un court digest chaque matin — même les jours où il ne peut pas les ouvrir un par un, il sait exactement quoi prioriser.",
+  b_s1v:"↑ Trafic", b_s1k:"Plus de visiteurs sur le site",
+  b_s2v:"↑ Clients", b_s2k:"Plus de demandes converties en chantiers",
+  b_s3v:"Auto", b_s3k:"Factures via Blitz · leads dans Odoo CRM",
+  b_s4v:"Quotidien", b_s4k:"Un digest des e-mails non lus à prioriser",
+  l_badge:"Produit maison — Copropriété",
+  l_h:"La copropriété en pilote automatique.",
+  l_who:"Application web pour syndic bénévole · en production",
+  l_t1:"Import bancaire", l_t2:"Catégorisation auto", l_t3:"Rapports PDF", l_t4:"Module d'assemblée générale",
+  l_p0:"<strong>La situation.</strong> Un syndic bénévole passe ses soirées sur les relevés bancaires, les rappels de paiement et le dossier annuel de l'assemblée générale.",
+  l_p1:"<strong>Ce que j'ai construit.</strong> Une application web qui importe les relevés bancaires, catégorise chaque ligne par règles et alias, suit qui a payé quoi, tient le budget et les clés de répartition, et génère les documents de l'assemblée générale en PDF : rapport, comptes de paiement, résultats et annexes. Un module interactif porte la convocation, les notes et le procès-verbal.",
+  l_p2:"<strong>Sous le capot</strong>, les données vivent dans une base sécurisée avec des règles d'accès par rôle : le syndic écrit, les copropriétaires invités lisent. La même discipline que j'applique au site d'un client.",
+  l_s1v:"Auto", l_s1k:"Lignes bancaires catégorisées par règles",
+  l_s2v:"PDF", l_s2k:"Le dossier d'assemblée générale, généré",
+  l_s3v:"Partagé", l_s3k:"Les copropriétaires lisent, le syndic écrit",
+  l_s4v:"En prod", l_s4k:"En production, pour un vrai immeuble",
+  j_badge:"Outil interne — Back-office",
+  j_h:"Tout ce que je vends, je le fais tourner d'abord pour moi.",
+  j_who:"Back-office privé · derrière ce site même",
+  j_t1:"Demandes &amp; e-mails", j_t2:"Statistiques d'audience", j_t3:"Tâches &amp; rappels", j_t4:"Agenda",
+  j_p0:"<strong>La situation.</strong> Mener une activité en parallèle, c'est beaucoup de petites tâches pour lesquelles personne n'a le temps : des prospects à relancer, des confirmations à envoyer, des chiffres à surveiller, des rappels à tenir.",
+  j_p1:"<strong>Ce que j'ai construit.</strong> Un seul back-office qui reçoit chaque demande de ce site et envoie les e-mails de confirmation avec l'invitation d'agenda, mesure l'audience de lagoffinerie.be sans aucun traceur tiers, et garde les tâches, les rappels, l'agenda et les chiffres au même endroit.",
+  j_p2:"<strong>Ce que ça change pour vous</strong> : c'est le banc d'essai. Les intégrations, les flux d'e-mails et les tableaux de bord que je propose à un client ont tourné ici d'abord.",
+  j_s1v:"0", j_s1k:"Traceur tiers sur ce site",
+  j_s2v:"1", j_s2k:"Endroit pour les demandes, les e-mails et l'audience",
+  j_s3v:"Auto", j_s3k:"E-mails de confirmation avec le fichier d'agenda",
+  j_s4v:"Quotidien", j_s4k:"Tâches, rappels et agenda en une vue",
+  s_badge:"Outil d'équipe — Temps réel",
+  s_h:"Une session en trente secondes, sans compte.",
+  s_who:"Planning poker pour équipes produit · gratuit",
+  s_t1:"Temps réel", s_t2:"QR code", s_t3:"Sans compte", s_t4:"Téléphone d'abord",
+  s_p0:"<strong>La situation.</strong> Estimer un backlog en équipe demande un outil qui prend moins de temps que l'estimation elle-même.",
+  s_p1:"<strong>Ce que j'ai construit.</strong> Créez une session, partagez le QR code, chacun vote à l'aveugle sur son téléphone, et les cartes se retournent ensemble. Les sessions sont éphémères et les votes restent dans les navigateurs de l'équipe : rien à installer, rien à créer.",
+  s_p2:"<strong>Ce que ça change pour vous</strong> : un petit outil, mais la même recette qu'un projet client. Une seule tâche, bien faite, utilisable sur un téléphone dans le couloir.",
+  s_s1v:"Live", s_s1k:"Les votes révélés ensemble, instantanément",
+  s_s2v:"0", s_s2k:"Compte, installation ou inscription",
+  s_s3v:"QR", s_s3k:"L'équipe rejoint en scannant",
+  s_s4v:"Téléphone", s_s4k:"Marche dans le couloir, d'une main",
+  v_badge:"Projet perso — Expérience 3D",
+  v_h:"Un CV interactif en 3D, avec une voix.",
+  v_who:"Mon CV sous forme de café dans lequel on entre",
+  v_t2:"3D dans le navigateur", v_t3:"Voix", v_t4:"Contrôle à un doigt",
+  v_p0:"<strong>La situation.</strong> Un CV se lit en quarante secondes. Je voulais qu'un recruteur passe dix minutes avec moi à la place.",
+  v_p1:"<strong>Ce que j'ai construit.</strong> Un café en 3D : vous entrez, vous prenez la chaise en face de moi, et je vous raconte mon parcours de vive voix pendant que le CV est posé sur la table. Le PDF et LinkedIn restent à un geste, et ça marche sur un téléphone avec un seul doigt.",
+  v_p2:"<strong>Ce que ça change pour vous</strong> : ça montre l'autre bout de ce que je construis. Quand un site doit être une expérience, pas une brochure.",
+  v_s1v:"3D", v_s1k:"Un café qu'on traverse, dans le navigateur",
+  v_s2v:"Voix", v_s2k:"Le CV raconté à voix haute, section par section",
+  v_s3v:"1 geste", v_s3k:"PDF et LinkedIn, toujours à portée",
+  v_s4v:"Téléphone", v_s4k:"Touchez le sol pour marcher, un seul doigt",
   next_h:"Votre entreprise, le prochain cas ?", next_p:"Un appel gratuit de 30 minutes pour voir ce qui vaudrait la peine d'être automatisé chez vous, et ce que ça rapporterait.", next_btn:"Réserver mon appel gratuit",
   foot_legal:"Mentions légales", foot_cgu:"CGU", foot_privacy:"Protection des données", foot_cookies:"Cookies",
   foot:"© 2026 La Goffinerie · Bruxelles &amp; Liège, Belgique · Fait main (et un peu d'IA)."
@@ -305,6 +462,10 @@ function setLang(l){
   if(l!=='en'&&l!=='fr'){ const nav=(navigator.languages&&navigator.languages[0])||navigator.language||'en'; l=String(nav).toLowerCase().startsWith('fr')?'fr':'en'; }
   setLang(l);
 })();
+/* --- scroll reveal + nav shadow --- */
+const rvObs=new IntersectionObserver(es=>{ es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('on'); rvObs.unobserve(en.target); } }); },{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
+addEventListener('scroll',()=>{ document.documentElement.classList.toggle('scrolled', scrollY>8); },{passive:true});
 </script>
 </body>
 </html>
