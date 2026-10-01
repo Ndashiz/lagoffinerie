@@ -145,7 +145,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.16 — work carousel, pricing & method page, the AI question in the FAQ, more motion
+     LA GOFFINERIE v2.17 — the method in motion, the contact section reworked, Belgium-based footer
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
@@ -381,17 +381,28 @@
 
   /* ---------- contact ---------- */
   #contact{padding-bottom:96px;}
-  .quicklinks{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px;}
-  .quicklinks a{
-    display:inline-flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:600;font-size:14.5px;
-    text-decoration:none;border:2px solid var(--ink);border-radius:999px;padding:11px 18px;background:#fff;
-    transition:transform .15s,box-shadow .15s;
-  }
-  .quicklinks a:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink);}
-  .quicklinks .li-ic{
-    display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:4px;
-    background:#0a66c2;color:#fff;font-family:Arial,sans-serif;font-weight:700;font-size:12px;
-  }
+  .cgrid{display:grid;grid-template-columns:1.15fr .95fr;gap:44px;align-items:start;margin-top:4px;}
+  @media(max-width:900px){.cgrid{grid-template-columns:1fr;gap:28px;}}
+  .cmain .ctas{margin-top:28px;}
+  .cmain .form-note{margin-top:12px;max-width:52ch;}
+  .cfacts{list-style:none;margin-top:26px;display:grid;gap:9px;}
+  .cfacts li{display:flex;gap:10px;align-items:center;font-size:14.5px;color:var(--ink-2);font-weight:500;}
+  .cfacts svg{width:20px;height:20px;flex:none;fill:none;stroke:var(--blue);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;}
+  .ccard{background:#fff;border:2px solid var(--ink);border-radius:20px;padding:22px 22px 12px;box-shadow:8px 8px 0 var(--yellow);}
+  .ccard .label{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px;}
+  .crow{display:flex;align-items:center;gap:14px;padding:13px 2px;border-top:1.5px dashed #15151533;text-decoration:none;color:var(--ink);transition:transform .15s;}
+  .crow:first-of-type{border-top:0;}
+  .crow:hover{transform:translateX(3px);}
+  .crow:hover .arr{color:var(--blue);transform:translateX(3px);}
+  .crow .ci{flex:none;width:42px;height:42px;border-radius:12px;border:2px solid var(--ink);background:var(--paper);display:flex;align-items:center;justify-content:center;}
+  .crow .ci svg{width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .crow .ci.wa{background:#25D366;border-color:#25D366;}
+  .crow .ci.wa svg path{fill:#fff;stroke:#fff;} .crow .ci.wa .wa-in{fill:#25D366;stroke:none;}
+  .crow .ci.li{background:#0a66c2;border-color:#0a66c2;color:#fff;font-family:Arial,sans-serif;font-weight:700;font-size:16px;}
+  .crow .ct{display:flex;flex-direction:column;min-width:0;line-height:1.3;}
+  .crow .ct small{font-size:12px;color:var(--ink-2);font-weight:500;}
+  .crow .ct b{font-family:var(--disp);font-weight:700;font-size:15.5px;overflow-wrap:anywhere;}
+  .crow .arr{margin-left:auto;font-family:var(--disp);font-weight:800;color:var(--ink-2);transition:transform .15s,color .15s;}
   form{
     margin-top:30px;display:flex;flex-direction:column;gap:16px;
     background:#fff;border:2px solid var(--ink);border-radius:20px;padding:30px;
@@ -441,7 +452,7 @@
   .skip{position:absolute;left:-9999px;top:10px;z-index:300;background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;font-family:var(--disp);font-weight:700;text-decoration:none;}
   .skip:focus{left:16px;}
   :focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px;}
-  .btn:focus-visible,.quicklinks a:focus-visible,.modal-close:focus-visible{outline-offset:4px;}
+  .btn:focus-visible,.crow:focus-visible,.modal-close:focus-visible{outline-offset:4px;}
   .modal:focus{outline:none;}
   input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--blue);outline-offset:1px;}
 
@@ -466,8 +477,6 @@
   /* ---------- direct reach (phone, WhatsApp) ---------- */
   .hero .reach{margin-top:10px;font-size:14.5px;color:var(--ink-2);}
   .hero .reach a{font-family:var(--disp);font-weight:700;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--blue);white-space:nowrap;}
-  .quicklinks .qi{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;}
-  .quicklinks .qi.wa{fill:#25D366;stroke:#25D366;} .quicklinks .qi.wa .wa-in{fill:#fff;stroke:none;}
   /* ---------- founder photo ---------- */
   img.avatar{width:120px;height:120px;object-fit:cover;display:block;padding:0;font-size:0;background:var(--paper-2);}
   .avatar-fb{width:120px;height:120px;}
@@ -519,6 +528,9 @@
   .pflow h3{font-size:17.5px;margin-bottom:6px;}
   .pflow p{font-size:14.5px;color:var(--ink-2);}
   #process .ctas{margin-top:34px;}
+  .pflow li .pn{transition:transform .35s cubic-bezier(.34,1.56,.64,1);}
+  .pflow li.act .pn{transform:scale(1.14);}
+  .pflow li h3{transition:color .3s;} .pflow li.act h3{color:var(--blue);}
   @media(max-width:900px){.pflow{grid-template-columns:1fr 1fr;} .pflow::before{display:none;}}
 
   /* ---------- motion ---------- */
@@ -545,12 +557,12 @@
   .grid .card.rv:nth-child(2){transition-delay:.07s} .grid .card.rv:nth-child(3){transition-delay:.14s}
   .grid .card.rv:nth-child(4){transition-delay:.21s} .grid .card.rv:nth-child(5){transition-delay:.28s} .grid .card.rv:nth-child(6){transition-delay:.35s}
   .fq p{animation:evin .35s ease both;}
-  .quicklinks a:active{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink);}
   @media (prefers-reduced-motion: reduce){
     .hero .wrap > *{opacity:1;animation:none;}
     .hero h1 .u svg path{stroke-dashoffset:0;animation:none;}
     .geo.g1,.geo.g2,.pflow.on::before,.fq p{animation:none;}
     .rv.kick::before{transform:none;transition:none;}
+    .pflow li .pn,.pflow li h3{transition:none;}
     .slide .frame img,.cbtn,.cdots button{transition:none;}
   }
 
@@ -619,7 +631,8 @@
     .geo.g1{width:140px;height:130px;right:-54px;top:-26px;opacity:.7;}
     .geo.g2{width:140px;height:130px;left:-66px;bottom:-66px;opacity:.28;}
     .ctas{gap:12px;margin-top:26px;}
-    .ctas .btn,.quicklinks a,form button.btn{width:100%;justify-content:center;}
+    .ctas .btn,form button.btn{width:100%;justify-content:center;}
+    .ccard{padding:16px 16px 8px;box-shadow:6px 6px 0 var(--yellow);} .crow .ct b{font-size:15px;} .cfacts{margin-top:22px;}
     .hero .note{font-size:13.5px;}
     h2{font-size:clamp(26px,7.4vw,30px);}
     .sub{font-size:16px;}
@@ -1015,17 +1028,27 @@
 <section id="contact">
   <div class="wrap">
     <div class="kick rv" data-i18n="ct_kick">Let's talk</div>
-    <h2 class="rv" data-i18n="ct_h2">Tell me what's eating your time.</h2>
-    <p class="sub rv" data-i18n="ct_sub">A free 30-minute call. Tell me how you work today — I'll tell you honestly what's worth automating, and what it would be worth.</p>
-    <div class="book-slot rv" data-needs-booking hidden><a class="btn primary" href="#" target="_blank" rel="noopener" data-track="cta_book_slot" data-book data-i18n="book_btn">Choose a slot now</a><p class="or" data-i18n="book_or">or leave your details below and I will call you back</p></div>
-    <div class="quicklinks rv">
-      <a href="tel:+32479487608" data-track="cta_phone"><svg class="qi" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-i18n="ct_call">Call</span>&nbsp;+32 479 48 76 08</a>
-      <a href="https://wa.me/32479487608" target="_blank" rel="noopener" data-track="cta_whatsapp" data-wa><svg class="qi wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path class="wa-in" d="M9.2 8.2c.2-.4.5-.4.7-.4h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2.1.4 0 .5l-.5.7c-.1.1-.2.3 0 .5a6 6 0 0 0 2.8 2.7c.2.1.4.1.5-.1l.7-.8c.2-.2.4-.2.6-.1l1.6.8c.3.1.4.3.4.5 0 .4-.2 1.2-.7 1.5-.5.4-1.2.6-2 .4a9.6 9.6 0 0 1-5.4-4.4c-.7-1.2-.8-2.2-.6-2.9z"/></svg>WhatsApp</a>
-      <a href="mailto:info@lagoffinerie.be" data-track="cta_email">✉&nbsp; info@lagoffinerie.be</a>
-      <a href="https://www.linkedin.com/in/ndashiz/" target="_blank" rel="noopener" data-track="cta_linkedin"><span class="li-ic">in</span>&nbsp;<span data-i18n="ct_li"> Connect on LinkedIn</span></a>
+    <div class="cgrid">
+      <div class="cmain">
+        <h2 class="rv" data-i18n="ct_h2">Tell me what's eating your time.</h2>
+        <p class="sub rv" data-i18n="ct_sub">A free 30-minute call. Tell me how you work today — I'll tell you honestly what's worth automating, and what it would be worth.</p>
+        <div class="book-slot rv" data-needs-booking hidden><a class="btn primary" href="#" target="_blank" rel="noopener" data-track="cta_book_slot" data-book data-i18n="book_btn">Choose a slot now</a><p class="or" data-i18n="book_or">or leave your details below and I will call you back</p></div>
+        <div class="ctas rv"><a class="btn primary" href="#contact" data-track="cta_contact_book" data-open="contact" data-i18n="ct_btn">Book my free call</a></div>
+        <p class="form-note rv" data-i18n="ct_note">Pick a day and a time in the window that opens; I confirm within one business day. <a href="cookies.html">Privacy &amp; cookies.</a></p>
+        <ul class="cfacts rv">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="cf1">I reply within one business day</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="cf2">Calls on weekdays, 9:00 to 20:00</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="cf3">Belgium-based, working with SMEs across Europe</span></li>
+        </ul>
+      </div>
+      <aside class="ccard rv" aria-labelledby="ct-direct">
+        <div class="label" id="ct-direct" data-i18n="ct_direct">Or reach me directly</div>
+        <a class="crow" href="tel:+32479487608" data-track="cta_phone"><span class="ci"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><span class="ct"><small data-i18n="ct_call">Call</small><b>+32 479 48 76 08</b></span><span class="arr" aria-hidden="true">→</span></a>
+        <a class="crow" href="https://wa.me/32479487608" target="_blank" rel="noopener" data-track="cta_whatsapp" data-wa><span class="ci wa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path class="wa-in" d="M9.2 8.2c.2-.4.5-.4.7-.4h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2.1.4 0 .5l-.5.7c-.1.1-.2.3 0 .5a6 6 0 0 0 2.8 2.7c.2.1.4.1.5-.1l.7-.8c.2-.2.4-.2.6-.1l1.6.8c.3.1.4.3.4.5 0 .4-.2 1.2-.7 1.5-.5.4-1.2.6-2 .4a9.6 9.6 0 0 1-5.4-4.4c-.7-1.2-.8-2.2-.6-2.9z"/></svg></span><span class="ct"><small>WhatsApp</small><b data-i18n="ct_wa">Send me a message</b></span><span class="arr" aria-hidden="true">→</span></a>
+        <a class="crow" href="mailto:info@lagoffinerie.be" data-track="cta_email"><span class="ci"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><span class="ct"><small data-i18n="ct_mail">E-mail</small><b>info@lagoffinerie.be</b></span><span class="arr" aria-hidden="true">→</span></a>
+        <a class="crow" href="https://www.linkedin.com/in/ndashiz/" target="_blank" rel="noopener" data-track="cta_linkedin"><span class="ci li">in</span><span class="ct"><small>LinkedIn</small><b>Simon Goffin</b></span><span class="arr" aria-hidden="true">→</span></a>
+      </aside>
     </div>
-    <div class="ctas rv"><a class="btn primary" href="#contact" data-track="cta_contact_book" data-open="contact" data-i18n="ct_btn">Book my free call</a></div>
-    <p class="form-note rv" data-i18n="ct_note">Pick a day and a time in the window that opens; I confirm within one business day. <a href="cookies.html">Privacy &amp; cookies.</a></p>
     <form class="rv" id="leadform" data-via="inline" action="https://formsubmit.co/info@lagoffinerie.be" method="POST" hidden>
       <input type="hidden" name="_subject" value="New automation lead — lagoffinerie">
       <input type="hidden" name="_captcha" value="false">
@@ -1087,7 +1110,7 @@
       La Goffinerie
     </span>
     <nav class="flinks"><a href="mentions-legales.html" data-track="foot_legal" data-i18n="foot_legal">Legal notice</a><a href="cgu.html" data-track="foot_legal" data-i18n="foot_cgu">Terms of use</a><a href="donnees-personnelles.html" data-track="foot_legal" data-i18n="foot_privacy">Data protection</a><a href="cookies.html" data-track="foot_cookies" data-i18n="foot_cookies">Cookies</a><a href="mailto:info@lagoffinerie.be">info@lagoffinerie.be</a></nav>
-    <p data-i18n="foot">© 2026 La Goffinerie · Brussels &amp; Liège, Belgium · Built by hand (and a bit of AI).</p>
+    <p data-i18n="foot">© 2026 La Goffinerie · Belgium-based.</p>
   </div>
 </footer>
 
@@ -1148,7 +1171,9 @@ const FR = {
   ct_kick:"Parlons-en",
   ct_h2:"Dites-moi ce qui mange votre temps.",
   ct_sub:"Un appel gratuit de 30 minutes. Racontez-moi comment vous travaillez aujourd'hui — je vous dirai honnêtement ce qui vaut la peine d'être automatisé, et ce que ça peut rapporter.",
-  ct_li:" Me contacter sur LinkedIn", ct_btn:"Réserver mon appel gratuit", ct_note:"Choisissez un jour et une heure dans la fenêtre qui s'ouvre ; je confirme sous un jour ouvrable. <a href=\"cookies.html\">Vie privée &amp; cookies.</a>", book_btn:"Choisir un créneau maintenant", book_or:"ou laissez vos coordonnées ci-dessous et je vous rappelle",
+  ct_direct:"Ou joignez-moi directement", ct_wa:"M'écrire un message", ct_mail:"E-mail",
+  cf1:"Je réponds sous un jour ouvrable", cf2:"Appels en semaine, de 9h à 20h", cf3:"Basé en Belgique, au service des PME en Europe",
+  ct_btn:"Réserver mon appel gratuit", ct_note:"Choisissez un jour et une heure dans la fenêtre qui s'ouvre ; je confirme sous un jour ouvrable. <a href=\"cookies.html\">Vie privée &amp; cookies.</a>", book_btn:"Choisir un créneau maintenant", book_or:"ou laissez vos coordonnées ci-dessous et je vous rappelle",
   f_name:"Votre nom", f_email:"Votre email",
   f_subject:"En quoi puis-je vous aider ?", f_subject_ph:"p. ex. Un site web avec facturation automatique",
   f_phone:"Téléphone (optionnel)", f_date:"Quel jour puis-je vous appeler ?", f_time:"À quelle heure ?", f_opt0:"Choisissez une heure",
@@ -1158,7 +1183,7 @@ const FR = {
   f_send:"Réserver mon appel gratuit",
   f_note:"Je réponds personnellement sous un jour ouvrable. Vos coordonnées ne servent qu'à vous recontacter. <a href=\"cookies.html\">Vie privée &amp; cookies.</a>",
   foot_cookies:"Cookies", foot_legal:"Mentions légales", foot_cgu:"CGU", foot_privacy:"Protection des données",
-  foot:"© 2026 La Goffinerie · Bruxelles &amp; Liège, Belgique · Fait main (et un peu d'IA)."
+  foot:"© 2026 La Goffinerie · Basée en Belgique."
 };
 const MARQ = {
   en:["Odoo sync","Calendar booking","AI daily digest","Visitor analytics","Auto-invoicing","Lead tracking","SEO"],
@@ -1533,6 +1558,19 @@ let caroLabels = null;
   new IntersectionObserver(es=>{ es.forEach(en=>{ visible=en.isIntersecting; }); },{threshold:.35}).observe(rail);
   let rs; addEventListener('resize', ()=>{ clearTimeout(rs); rs=setTimeout(()=>{ rail.scrollTo({left:left(cur), behavior:'instant'}); }, 120); });
   paint(); start();
+})();
+
+/* --- the four steps light up in turn while they are on screen --- */
+(function(){
+  const flow=document.querySelector('.pflow'); if(!flow || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const items=[...flow.children]; let i=-1, timer=null, hover=false, seen=false;
+  function tick(){ i=(i+1)%items.length; items.forEach((li,k)=>li.classList.toggle('act',k===i)); }
+  function start(){ if(timer || hover || !seen || document.hidden) return; tick(); timer=setInterval(tick, 2200); }
+  function stop(){ clearInterval(timer); timer=null; }
+  flow.addEventListener('pointerenter', ()=>{ hover=true; stop(); });
+  flow.addEventListener('pointerleave', ()=>{ hover=false; start(); });
+  new IntersectionObserver(es=>{ es.forEach(en=>{ seen=en.isIntersecting; }); if(seen) start(); else stop(); },{threshold:.4}).observe(flow);
+  document.addEventListener('visibilitychange', ()=>{ if(document.hidden) stop(); else start(); });
 })();
 
 /* --- the bar gets a shadow once the page has moved --- */

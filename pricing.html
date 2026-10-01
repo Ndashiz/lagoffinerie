@@ -132,17 +132,18 @@
   .pillar:nth-child(2){border-color:var(--yellow);}
   .pillar:nth-child(3){border-color:var(--blue);}
 
-  /* ---------- process ---------- */
+  /* ---------- method: the animated journey ---------- */
   #process{background:var(--paper-2);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
-  .journey-wrap{margin-top:36px;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .meth{margin-top:36px;}
+  .journey-wrap{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
   .journey-wrap::-webkit-scrollbar{display:none;}
   .journey{display:block;width:100%;min-width:760px;height:auto;}
-  .journey .jpath{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-dasharray:7 8;stroke-linecap:round;opacity:.5;animation:march 1.6s linear infinite;}
-  @keyframes march{to{stroke-dashoffset:-30;}}
-  .journey .jn{opacity:.42;transition:opacity .35s ease;}
+  .journey .jpath{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-dasharray:7 8;stroke-linecap:round;opacity:.35;}
+  .journey .jdone{fill:none;stroke:var(--blue);stroke-width:3.5;stroke-linecap:round;}
+  .journey .jn{opacity:.5;transition:opacity .35s ease;}
   .journey .jn .jin{transition:transform .45s cubic-bezier(.34,1.56,.64,1);transform-box:fill-box;transform-origin:center;}
   .journey .jn.on{opacity:1;}
-  .journey .jn.on .jin{transform:scale(1.1);}
+  .journey .jn.on .jin{transform:scale(1.12);}
   .journey .jn .shape{mix-blend-mode:multiply;}
   .journey .jn .num{font-family:var(--disp);font-weight:800;font-size:21px;fill:#fff;text-anchor:middle;}
   .journey .jn .num.dark{fill:var(--ink);}
@@ -150,20 +151,105 @@
   .journey .jn .ico{color:var(--ink-2);}
   .journey .jn.on .ico{color:var(--blue);}
   .journey .jn.on .lbl{fill:var(--blue);}
-  .steps{margin-top:40px;display:flex;flex-direction:column;gap:0;}
-  .step{display:flex;gap:22px;padding:20px 4px;border-top:1.5px dashed #15151533;align-items:flex-start;}
-  .step:last-child{border-bottom:1.5px dashed #15151533;}
-  .step .n{font-family:var(--disp);font-weight:800;font-size:15px;flex:none;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--ink);background:#fff;transition:background .25s, color .25s, transform .3s cubic-bezier(.34,1.56,.64,1);}
-  .step.act .n{background:var(--ink);color:var(--yellow);transform:scale(1.1);}
+  #courier .cr{fill:var(--ink);stroke:var(--yellow);stroke-width:3;}
+  #courier .ring{fill:none;stroke:var(--blue);stroke-width:2;opacity:0;transform-box:fill-box;transform-origin:center;}
+  #courier:not(.moving) .ring{animation:ring 1.5s ease-out infinite;}
+  @keyframes ring{0%{transform:scale(1);opacity:.8}100%{transform:scale(3.2);opacity:0}}
+  /* the scenes */
+  .sc{opacity:0;transition:opacity .25s ease;}
+  .sc.on{opacity:1;}
+  .sc rect,.sc circle,.sc path,.sc line{fill:#fff;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .sc line{fill:none;}
+  .sc .dot{fill:var(--blue);stroke:none;}
+  .sc .mini{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.12em;fill:var(--blue);stroke:none;opacity:0;}
+  .sc .stamp circle,.sc .chk circle{fill:var(--blue);stroke:none;}
+  .sc .v,.sc .x{fill:none;stroke:#fff;stroke-width:2.4;}
+  .sc .c3 circle{fill:var(--red);}
+  .sc .bp .blk{fill:#2823EE33;stroke:var(--blue);}
+  .sc .pen path{fill:var(--yellow);}
+  .sc .site .b1 rect{fill:var(--blue);stroke:none;} .sc .site .b2 circle{fill:var(--red);stroke:none;}
+  .sc .site .b3 path,.sc .site .b4 rect{fill:var(--yellow);stroke:none;}
+  .sc .eye circle{fill:var(--ink);stroke:none;}
+  .sc .cur path{fill:var(--ink);stroke:#fff;}
+  .sc .key circle{fill:var(--yellow);} .sc .key path{fill:none;}
+  .sc .lock rect{fill:var(--blue);} .sc .lock .shk path{fill:none;}
+  .sc .pc circle{fill:var(--red);stroke:none;} .sc .pc rect{fill:var(--blue);stroke:none;} .sc .pc path{fill:var(--yellow);stroke:none;}
+  /* a CSS transform must never land on a group carrying a translate() attribute: it would replace it */
+  .sc .bub,.sc .doc,.sc .stamp,.sc .bp,.sc .pen,.sc .penin,.sc .br,.sc .eye,.sc .eyein,.sc .cur,.sc .curin,.sc .chk,.sc .key,.sc .keyin,.sc .lock,.sc .shk,.sc .pc,.sc .blk{transform-box:fill-box;transform-origin:center;}
+  .sc .bub,.sc .doc,.sc .stamp,.sc .bp,.sc .pen,.sc .eye,.sc .cur,.sc .chk,.sc .key,.sc .lock,.sc .blk{transform:scale(0);}
+  .sc .br,.sc .pc{opacity:0;}
+  .sc .ln{stroke-dasharray:26;stroke-dashoffset:26;}
+  .sc .bp .frame{stroke-dasharray:172;stroke-dashoffset:172;}
+  .sc.on .bub{animation:pop .5s cubic-bezier(.34,1.56,.64,1) both;} .sc.on .b1{animation-delay:.2s} .sc.on .b2{animation-delay:1.2s}
+  .sc.on .dot{animation:blink 1.1s ease-in-out infinite;} .sc.on .dot:nth-child(3){animation-delay:.2s} .sc.on .dot:nth-child(4){animation-delay:.4s}
+  .sc.on .doc{animation:pop .5s .15s cubic-bezier(.34,1.56,.64,1) both;}
+  .sc.on .doc .ln{animation:draw .45s ease both;} .sc.on .doc .ln:nth-of-type(1){animation-delay:.7s} .sc.on .doc .ln:nth-of-type(2){animation-delay:1s} .sc.on .doc .ln:nth-of-type(3){animation-delay:1.3s}
+  .sc.on .stamp{animation:pop .5s 1.9s cubic-bezier(.34,1.56,.64,1) both;}
+  .sc.on .mini{animation:fadein .4s 2.2s ease both;}
+  .sc.on .bp{animation:pop .4s .1s ease both;}
+  .sc.on .bp .frame{animation:draw .9s .3s ease both;}
+  .sc.on .bp .ln{animation:draw .5s ease both;} .sc.on .bp .ln:nth-of-type(1){animation-delay:1.1s} .sc.on .bp .ln:nth-of-type(2){animation-delay:1.4s}
+  .sc.on .bp .blk{animation:pop .4s 1.9s cubic-bezier(.34,1.56,.64,1) both;}
+  .sc.on .pen{animation:pop .4s .5s ease both;} .sc.on .penin{animation:wiggle 1.2s 1s ease-in-out infinite;}
+  .sc.on .br{animation:drop .6s cubic-bezier(.34,1.56,.64,1) both;} .sc.on .b1{animation-delay:.3s} .sc.on .b2{animation-delay:.8s} .sc.on .b3{animation-delay:1.3s} .sc.on .b4{animation-delay:1.9s}
+  .sc.on .eye{animation:pop .4s .2s ease both;} .sc.on .eyein{animation:blinkEye 3s 1.5s ease-in-out infinite;}
+  .sc.on .cur{animation:pop .4s .2s ease both;} .sc.on .curin{animation:tap 1.1s .8s ease-in-out infinite;}
+  .sc.on .chk{animation:pop .45s cubic-bezier(.34,1.56,.64,1) both;} .sc.on .c1{animation-delay:.6s} .sc.on .c2{animation-delay:1.3s} .sc.on .c3{animation-delay:2s}
+  .sc.on .c3 circle{animation:fixc .4s 2.9s ease both;} .sc.on .c3 .x{animation:fadeout .3s 2.9s ease both;} .sc.on .c3 .v{opacity:0;animation:fadein .3s 3.1s ease both;}
+  .sc.on .key{animation:pop .4s .2s ease both;} .sc.on .keyin{animation:turn .6s 1s cubic-bezier(.34,1.56,.64,1) both;}
+  .sc.on .lock{animation:pop .4s .3s ease both;} .sc.on .shk{animation:lift .5s 1.6s cubic-bezier(.34,1.56,.64,1) both;}
+  .sc.on .pc{animation:burst 1.1s ease-out both;}
+  .sc.on .pc:nth-child(1){animation-delay:1.9s} .sc.on .pc:nth-child(2){animation-delay:1.95s} .sc.on .pc:nth-child(3){animation-delay:2s}
+  .sc.on .pc:nth-child(4){animation-delay:2.05s} .sc.on .pc:nth-child(5){animation-delay:2.1s} .sc.on .pc:nth-child(6){animation-delay:2.15s}
+  @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+  @keyframes blink{0%,100%{opacity:.25}50%{opacity:1}}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  @keyframes fadeout{to{opacity:0}}
+  @keyframes drop{from{opacity:0;transform:translateY(-34px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes wiggle{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+  @keyframes blinkEye{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+  @keyframes tap{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-3px,3px) scale(.85)}}
+  @keyframes fixc{to{fill:var(--blue)}}
+  @keyframes turn{to{transform:rotate(90deg)}}
+  @keyframes lift{to{transform:translate(-3px,-7px) rotate(-25deg)}}
+  @keyframes burst{0%{opacity:0;transform:translate(0,0) scale(.4)}15%{opacity:1}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(1)}}
+  /* the step rail */
+  .mrail{display:flex;gap:8px;margin-top:14px;align-items:stretch;overflow-x:auto;scrollbar-width:none;padding:4px 2px 6px;}
+  .mrail::-webkit-scrollbar{display:none;}
+  .mtab{position:relative;flex:1 1 0;min-width:122px;display:flex;align-items:center;gap:8px;padding:9px 12px 12px;border:2px solid var(--ink);border-radius:12px;background:#fff;cursor:pointer;font-family:var(--disp);font-weight:700;font-size:13px;line-height:1.2;color:var(--ink-2);text-align:left;overflow:hidden;transition:transform .15s,box-shadow .15s;}
+  .mtab:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink);}
+  .mtab.on{background:var(--ink);color:#fff;}
+  .mtab .mn{flex:none;width:24px;height:24px;border-radius:50%;background:var(--paper-2);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;}
+  .mtab.on .mn{background:var(--yellow);}
+  .mtab .mbar{position:absolute;left:0;right:0;bottom:0;height:4px;}
+  .mtab .mbar i{display:block;height:100%;width:0;background:var(--blue);}
+  .mtab.on .mbar i{animation:mfill var(--step,4.8s) linear both;}
+  @keyframes mfill{from{width:0}to{width:100%}}
+  .mplay{flex:none;width:46px;border:2px solid var(--ink);border-radius:12px;background:#fff;cursor:pointer;font-size:13px;font-family:var(--disp);font-weight:800;color:var(--ink);transition:transform .15s,box-shadow .15s;}
+  .mplay:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink);}
+  /* the reading panel: the active step's text */
+  .mpanel{margin-top:14px;background:#fff;border:2px solid var(--ink);border-radius:16px;padding:20px 22px;min-height:124px;box-shadow:6px 6px 0 var(--yellow);}
+  html.js .mpanel .step:not(.on){display:none;}
+  .mpanel .step.on{animation:stepin .4s ease both;}
+  @keyframes stepin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .step{display:flex;gap:18px;align-items:flex-start;}
+  .step + .step{margin-top:18px;}
+  .step .n{font-family:var(--disp);font-weight:800;font-size:15px;flex:none;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--ink);background:var(--ink);color:var(--yellow);}
   .step h3{font-size:17px;margin-bottom:4px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-  .step h3 .ico{width:22px;height:22px;flex:none;color:var(--ink-2);}
-  .step.act h3 .ico{color:var(--blue);}
+  .step h3 .ico{width:22px;height:22px;flex:none;color:var(--blue);}
   .step h3 > span[data-i18n]{display:contents;}
   .step p{font-size:15px;color:var(--ink-2);max-width:66ch;}
   .flag{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--blue);color:#fff;border-radius:6px;padding:3px 8px;}
-  .support{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;}
+  .support{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap;}
   .support div{font-size:13.5px;font-weight:600;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:9px 16px;}
   .support b{color:var(--blue);}
+  @media (prefers-reduced-motion: reduce){
+    .sc.on *{animation-duration:.001s!important;animation-delay:0s!important;animation-iteration-count:1!important;}
+    #courier .ring,.mpanel .step.on{animation:none;}
+    .mtab.on .mbar i{animation:none;width:0;}
+    .journey .jn,.journey .jn .jin,.mtab{transition:none;}
+  }
 
   /* ---------- trust ---------- */
   .trust-intro{margin-top:14px;font-size:17px;color:var(--ink-2);max-width:62ch;}
@@ -211,11 +297,10 @@
   .plans .plan.rv:nth-child(2){transition-delay:.1s} .plans .plan.rv:nth-child(3){transition-delay:.2s}
   .pillars .pillar.rv:nth-child(2){transition-delay:.1s} .pillars .pillar.rv:nth-child(3){transition-delay:.2s}
   .grid .card.rv:nth-child(2){transition-delay:.08s} .grid .card.rv:nth-child(3){transition-delay:.16s} .grid .card.rv:nth-child(4){transition-delay:.24s}
-  .steps .step.rv:nth-child(n+2){transition-delay:.06s}
-  @media (prefers-reduced-motion: reduce){
+    @media (prefers-reduced-motion: reduce){
     .rv,.rv.kick::before{opacity:1;transform:none;transition:none;}
     header.hero .wrap > *,.geo,.journey .jpath{animation:none;}
-    .journey .jn,.journey .jn .jin,.step .n,.card,.plan,.btn{transition:none;}
+    .card,.plan,.btn{transition:none;}
   }
 
   @media(max-width:600px){
@@ -224,7 +309,7 @@
     .kick{font-size:10.5px;letter-spacing:.14em;}
     h2{font-size:clamp(25px,7.2vw,30px);} .sub{font-size:16px;}
     .plan{padding:20px 18px;} .incl{padding:22px 18px;box-shadow:6px 6px 0 var(--blue);}
-    .step{gap:14px;padding:18px 0;} .step .n{width:34px;height:34px;font-size:14px;}
+    .step{gap:14px;} .step .n{width:34px;height:34px;font-size:14px;} .mpanel{padding:18px 16px;box-shadow:5px 5px 0 var(--yellow);} .mtab{min-width:112px;font-size:12.5px;}
     .support div{width:100%;text-align:center;}
     .cta{padding:24px 20px;} .cta .btn{width:100%;justify-content:center;}
     footer .wrap{flex-direction:column;align-items:flex-start;gap:12px;}
@@ -351,48 +436,103 @@
         <symbol id="gi-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7 16 2.5-6.5L20 11z"/></symbol>
         <symbol id="gi-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="12" r="4"/><path d="M12 12h9"/><path d="M18 12v3"/><path d="M15 12v2"/></symbol>
       </svg>
-      <div class="journey-wrap rv" aria-hidden="true">
-        <svg class="journey" viewBox="0 0 960 250" xmlns="http://www.w3.org/2000/svg" style="isolation:isolate">
-          <path class="jpath" d="M100 95 C176 95 176 155 252 155 S328 95 404 95 S480 155 556 155 S632 95 708 95 S784 155 860 155"/>
-          <g class="jn on" data-step="1" transform="translate(100,95)"><g class="jin">
-            <g transform="translate(0,-66)"><use href="#gi-1" class="ico" x="-14" y="-14" width="28" height="28"/></g>
-            <circle class="shape" r="31" fill="#E2452C"/><text class="num" y="8">1</text>
-            <text class="lbl" y="58" data-i18n="j1">We meet</text>
-          </g></g>
-          <g class="jn" data-step="2" transform="translate(252,155)"><g class="jin">
-            <g transform="translate(0,-66)"><use href="#gi-2" class="ico" x="-14" y="-14" width="28" height="28"/></g>
-            <rect class="shape" x="-30" y="-30" width="60" height="60" rx="15" fill="#2823EE"/><text class="num" y="8">2</text>
-            <text class="lbl" y="58" data-i18n="j2">Plan &amp; price</text>
-          </g></g>
-          <g class="jn" data-step="3" transform="translate(404,95)"><g class="jin">
-            <g transform="translate(0,-66)"><use href="#gi-3" class="ico" x="-14" y="-14" width="28" height="28"/></g>
-            <path class="shape" d="M0 -36 L36 26 L-36 26 Z" fill="#EDAF2F"/><text class="num dark" y="19">3</text>
-            <text class="lbl" y="58" data-i18n="j3">Design</text>
-          </g></g>
-          <g class="jn" data-step="4" transform="translate(556,155)"><g class="jin">
-            <g transform="translate(0,-66)"><use href="#gi-4" class="ico" x="-14" y="-14" width="28" height="28"/></g>
-            <circle class="shape" r="31" fill="#E2452C"/><text class="num" y="8">4</text>
-            <text class="lbl" y="58" data-i18n="j4">Build in the open</text>
-          </g></g>
-          <g class="jn" data-step="5" transform="translate(708,95)"><g class="jin">
-            <g transform="translate(0,-66)"><use href="#gi-5" class="ico" x="-14" y="-14" width="28" height="28"/></g>
-            <rect class="shape" x="-30" y="-30" width="60" height="60" rx="15" fill="#2823EE"/><text class="num" y="8">5</text>
-            <text class="lbl" y="58" data-i18n="j5">You test</text>
-          </g></g>
-          <g class="jn" data-step="6" transform="translate(860,155)"><g class="jin">
-            <g transform="translate(0,-66)"><use href="#gi-6" class="ico" x="-14" y="-14" width="28" height="28"/></g>
-            <path class="shape" d="M0 -36 L36 26 L-36 26 Z" fill="#EDAF2F"/><text class="num dark" y="19">6</text>
-            <text class="lbl" y="58" data-i18n="j6">Handover</text>
-          </g></g>
-        </svg>
-      </div>
-      <div class="steps">
-        <div class="step rv" data-step="1"><div class="n">1</div><div><h3><svg class="ico" aria-hidden="true"><use href="#gi-1"/></svg><span data-i18n="st1_h">We meet</span></h3><p data-i18n="st1_p">A free introduction call to understand your needs and how you work today.</p></div></div>
-        <div class="step rv" data-step="2"><div class="n">2</div><div><h3><svg class="ico" aria-hidden="true"><use href="#gi-2"/></svg><span data-i18n="st2_h">We agree on the plan <span class="flag">You validate</span></span></h3><p data-i18n="st2_p">I propose an approach, define exactly what will be delivered, and give you one fixed price. Nothing starts without your green light.</p></div></div>
-        <div class="step rv" data-step="3"><div class="n">3</div><div><h3><svg class="ico" aria-hidden="true"><use href="#gi-3"/></svg><span data-i18n="st3_h">We design</span></h3><p data-i18n="st3_p">Full architecture and documentation — the blueprint we both work from.</p></div></div>
-        <div class="step rv" data-step="4"><div class="n">4</div><div><h3><svg class="ico" aria-hidden="true"><use href="#gi-4"/></svg><span data-i18n="st4_h">We build, in the open</span></h3><p data-i18n="st4_p">You see progress throughout. Along the way, I train you to use — and change — what's being built.</p></div></div>
-        <div class="step rv" data-step="5"><div class="n">5</div><div><h3><svg class="ico" aria-hidden="true"><use href="#gi-5"/></svg><span data-i18n="st5_h">You test it</span></h3><p data-i18n="st5_p">You use the solution on real work before delivery. What doesn't fit gets fixed.</p></div></div>
-        <div class="step rv" data-step="6"><div class="n">6</div><div><h3><svg class="ico" aria-hidden="true"><use href="#gi-6"/></svg><span data-i18n="st6_h">Delivery &amp; handover</span></h3><p data-i18n="st6_p">It's yours — code, data, and the keys. You can run it, and with AI tools, even change it yourself.</p></div></div>
+      <div class="meth rv" id="meth">
+        <div class="journey-wrap" aria-hidden="true">
+          <svg class="journey" viewBox="0 0 960 330" xmlns="http://www.w3.org/2000/svg" style="isolation:isolate">
+            <path class="jpath" d="M100 120 C176 120 176 210 252 210 S328 120 404 120 S480 210 556 210 S632 120 708 120 S784 210 860 210"/>
+            <path class="jdone" d="M100 120 C176 120 176 210 252 210 S328 120 404 120 S480 210 556 210 S632 120 708 120 S784 210 860 210"/>
+            <g class="jn on" data-step="1" transform="translate(100,120)"><g class="jin">
+              <g transform="translate(0,-66)"><use href="#gi-1" class="ico" x="-14" y="-14" width="28" height="28"/></g>
+              <circle class="shape" r="31" fill="#E2452C"/><text class="num" y="8">1</text>
+              <text class="lbl" y="58" data-i18n="j1">We meet</text>
+            </g></g>
+            <g class="jn" data-step="2" transform="translate(252,210)"><g class="jin">
+              <g transform="translate(0,-66)"><use href="#gi-2" class="ico" x="-14" y="-14" width="28" height="28"/></g>
+              <rect class="shape" x="-30" y="-30" width="60" height="60" rx="15" fill="#2823EE"/><text class="num" y="8">2</text>
+              <text class="lbl" y="58" data-i18n="j2">Plan &amp; price</text>
+            </g></g>
+            <g class="jn" data-step="3" transform="translate(404,120)"><g class="jin">
+              <g transform="translate(0,-66)"><use href="#gi-3" class="ico" x="-14" y="-14" width="28" height="28"/></g>
+              <path class="shape" d="M0 -36 L36 26 L-36 26 Z" fill="#EDAF2F"/><text class="num dark" y="19">3</text>
+              <text class="lbl" y="58" data-i18n="j3">Design</text>
+            </g></g>
+            <g class="jn" data-step="4" transform="translate(556,210)"><g class="jin">
+              <g transform="translate(0,-66)"><use href="#gi-4" class="ico" x="-14" y="-14" width="28" height="28"/></g>
+              <circle class="shape" r="31" fill="#E2452C"/><text class="num" y="8">4</text>
+              <text class="lbl" y="58" data-i18n="j4">Build in the open</text>
+            </g></g>
+            <g class="jn" data-step="5" transform="translate(708,120)"><g class="jin">
+              <g transform="translate(0,-66)"><use href="#gi-5" class="ico" x="-14" y="-14" width="28" height="28"/></g>
+              <rect class="shape" x="-30" y="-30" width="60" height="60" rx="15" fill="#2823EE"/><text class="num" y="8">5</text>
+              <text class="lbl" y="58" data-i18n="j5">You test</text>
+            </g></g>
+            <g class="jn" data-step="6" transform="translate(860,210)"><g class="jin">
+              <g transform="translate(0,-66)"><use href="#gi-6" class="ico" x="-14" y="-14" width="28" height="28"/></g>
+              <path class="shape" d="M0 -36 L36 26 L-36 26 Z" fill="#EDAF2F"/><text class="num dark" y="19">6</text>
+              <text class="lbl" y="58" data-i18n="j6">Handover</text>
+            </g></g>
+            <!-- scenes: one per step, every animated bit in its own group UNDER a positioning group -->
+            <g class="sc" data-step="1" transform="translate(100,120)">
+              <g transform="translate(-64,-50)"><g class="bub b1"><rect x="-22" y="-13" width="44" height="26" rx="9"/><circle class="dot" cx="-8" cy="0" r="2.6"/><circle class="dot" cx="0" cy="0" r="2.6"/><circle class="dot" cx="8" cy="0" r="2.6"/></g></g>
+              <g transform="translate(64,-30)"><g class="bub b2"><rect x="-22" y="-13" width="44" height="26" rx="9"/><circle class="dot" cx="-8" cy="0" r="2.6"/><circle class="dot" cx="0" cy="0" r="2.6"/><circle class="dot" cx="8" cy="0" r="2.6"/></g></g>
+            </g>
+            <g class="sc" data-step="2" transform="translate(252,210)">
+              <g transform="translate(64,-44)"><g class="doc"><rect x="-16" y="-20" width="32" height="40" rx="4"/><line class="ln" x1="-9" y1="-9" x2="9" y2="-9"/><line class="ln" x1="-9" y1="-2" x2="9" y2="-2"/><line class="ln" x1="-9" y1="5" x2="4" y2="5"/></g></g>
+              <g transform="translate(-62,-38)"><g class="stamp"><circle r="13"/><path class="v" d="M-6 0l4 4 8-8"/></g></g>
+              <g transform="translate(-62,-66)"><text class="mini" text-anchor="middle" data-i18n="sc_fixed">FIXED PRICE</text></g>
+            </g>
+            <g class="sc" data-step="3" transform="translate(404,120)">
+              <g transform="translate(-66,-42)"><g class="bp"><rect class="frame" x="-24" y="-18" width="48" height="36" rx="3"/><line class="ln" x1="-24" y1="-6" x2="24" y2="-6"/><line class="ln" x1="-8" y1="-6" x2="-8" y2="18"/><rect class="blk" x="-1" y="1" width="20" height="12" rx="2"/></g></g>
+              <g transform="translate(60,-50)"><g class="pen"><g class="penin"><path d="M-8 8 L6 -6 l4 4 L-4 12 z"/><path d="M-8 8 l-2 6 6-2z"/></g></g></g>
+            </g>
+            <g class="sc" data-step="4" transform="translate(556,210)">
+              <g transform="translate(64,-34)"><g class="site"><line class="base" x1="-30" y1="16" x2="30" y2="16"/>
+                <g class="br b1"><rect x="-26" y="0" width="16" height="16" rx="3"/></g>
+                <g class="br b2"><circle cx="0" cy="8" r="8"/></g>
+                <g class="br b3"><path d="M10 16 h16 l-8 -16 z"/></g>
+                <g class="br b4"><rect x="-16" y="-18" width="16" height="16" rx="3"/></g>
+              </g></g>
+              <g transform="translate(-62,-44)"><g class="eye"><g class="eyein"><path d="M-14 0 Q0 -11 14 0 Q0 11 -14 0z"/><circle cx="0" cy="0" r="4"/></g></g></g>
+            </g>
+            <g class="sc" data-step="5" transform="translate(708,120)">
+              <g transform="translate(60,-46)"><g class="cur"><g class="curin"><path d="M0 0 L0 16 L4.5 12 L8 19 L11 17.5 L7.5 10.5 L13 10 z"/></g></g></g>
+              <g transform="translate(-58,-58)"><g class="chk c1"><circle r="9"/><path class="v" d="M-4 0l3 3 5-6"/></g></g>
+              <g transform="translate(-74,-32)"><g class="chk c2"><circle r="9"/><path class="v" d="M-4 0l3 3 5-6"/></g></g>
+              <g transform="translate(-58,-6)"><g class="chk c3"><circle r="9"/><path class="x" d="M-4 -4l8 8M4 -4l-8 8"/><path class="v" d="M-4 0l3 3 5-6"/></g></g>
+            </g>
+            <g class="sc" data-step="6" transform="translate(860,210)">
+              <g transform="translate(-66,-44)"><g class="key"><g class="keyin"><circle cx="-8" cy="0" r="6"/><path d="M-2 0 H14 M8 0 v5 M12 0 v4"/></g></g></g>
+              <g transform="translate(60,-48)"><g class="lock"><g class="shk"><path d="M-7 -2 V-8 a7 7 0 0 1 14 0 V-2"/></g><rect x="-11" y="-2" width="22" height="16" rx="3"/></g></g>
+              <g class="conf">
+                <g class="pc" style="--tx:-54px;--ty:-70px"><circle r="4"/></g>
+                <g class="pc" style="--tx:40px;--ty:-80px"><rect x="-4" y="-4" width="8" height="8" rx="2"/></g>
+                <g class="pc" style="--tx:74px;--ty:-28px"><path d="M0 -5 l5 9 h-10z"/></g>
+                <g class="pc" style="--tx:-80px;--ty:-18px"><rect x="-4" y="-4" width="8" height="8" rx="2"/></g>
+                <g class="pc" style="--tx:-28px;--ty:-86px"><path d="M0 -5 l5 9 h-10z"/></g>
+                <g class="pc" style="--tx:66px;--ty:-64px"><circle r="4"/></g>
+              </g>
+            </g>
+            <!-- the token that walks the route -->
+            <g id="courier" transform="translate(100,120)"><circle class="ring" r="8"/><circle class="cr" r="7"/></g>
+          </svg>
+        </div>
+        <div class="mrail" role="tablist" aria-label="Steps" id="mrail">
+          <button class="mtab on" role="tab" type="button" data-step="1" aria-selected="true"><span class="mn">1</span><span class="ml" data-i18n="j1">We meet</span><span class="mbar"><i></i></span></button>
+          <button class="mtab" role="tab" type="button" data-step="2" aria-selected="false"><span class="mn">2</span><span class="ml" data-i18n="j2">Plan &amp; price</span><span class="mbar"><i></i></span></button>
+          <button class="mtab" role="tab" type="button" data-step="3" aria-selected="false"><span class="mn">3</span><span class="ml" data-i18n="j3">Design</span><span class="mbar"><i></i></span></button>
+          <button class="mtab" role="tab" type="button" data-step="4" aria-selected="false"><span class="mn">4</span><span class="ml" data-i18n="j4">Build in the open</span><span class="mbar"><i></i></span></button>
+          <button class="mtab" role="tab" type="button" data-step="5" aria-selected="false"><span class="mn">5</span><span class="ml" data-i18n="j5">You test</span><span class="mbar"><i></i></span></button>
+          <button class="mtab" role="tab" type="button" data-step="6" aria-selected="false"><span class="mn">6</span><span class="ml" data-i18n="j6">Handover</span><span class="mbar"><i></i></span></button>
+          <button class="mplay" id="mplay" type="button" aria-pressed="true" aria-label="Pause the animation">&#10074;&#10074;</button>
+        </div>
+        <div class="mpanel" id="mpanel" aria-live="polite">
+        <div class="step on" data-step="1"><div class="n">1</div><div><h3><svg class="ico" aria-hidden="true"><use href="#gi-1"/></svg><span data-i18n="st1_h">We meet</span></h3><p data-i18n="st1_p">A free introduction call to understand your needs and how you work today.</p></div></div>
+        <div class="step" data-step="2"><div class="n">2</div><div><h3><svg class="ico" aria-hidden="true"><use href="#gi-2"/></svg><span data-i18n="st2_h">We agree on the plan <span class="flag">You validate</span></span></h3><p data-i18n="st2_p">I propose an approach, define exactly what will be delivered, and give you one fixed price. Nothing starts without your green light.</p></div></div>
+        <div class="step" data-step="3"><div class="n">3</div><div><h3><svg class="ico" aria-hidden="true"><use href="#gi-3"/></svg><span data-i18n="st3_h">We design</span></h3><p data-i18n="st3_p">Full architecture and documentation — the blueprint we both work from.</p></div></div>
+        <div class="step" data-step="4"><div class="n">4</div><div><h3><svg class="ico" aria-hidden="true"><use href="#gi-4"/></svg><span data-i18n="st4_h">We build, in the open</span></h3><p data-i18n="st4_p">You see progress throughout. Along the way, I train you to use — and change — what's being built.</p></div></div>
+        <div class="step" data-step="5"><div class="n">5</div><div><h3><svg class="ico" aria-hidden="true"><use href="#gi-5"/></svg><span data-i18n="st5_h">You test it</span></h3><p data-i18n="st5_p">You use the solution on real work before delivery. What doesn't fit gets fixed.</p></div></div>
+        <div class="step" data-step="6"><div class="n">6</div><div><h3><svg class="ico" aria-hidden="true"><use href="#gi-6"/></svg><span data-i18n="st6_h">Delivery &amp; handover</span></h3><p data-i18n="st6_p">It's yours — code, data, and the keys. You can run it, and with AI tools, even change it yourself.</p></div></div>
+        </div>
       </div>
       <div class="support rv">
         <div data-i18n="sup1"><b>1 month</b> of general support included</div>
@@ -444,7 +584,7 @@
       La Goffinerie
     </span>
     <nav class="flinks"><a href="mentions-legales.html" data-i18n="foot_legal">Legal notice</a><a href="cgu.html" data-i18n="foot_cgu">Terms of use</a><a href="donnees-personnelles.html" data-i18n="foot_privacy">Data protection</a><a href="cookies.html" data-i18n="foot_cookies">Cookies</a><a href="mailto:info@lagoffinerie.be">info@lagoffinerie.be</a></nav>
-    <p data-i18n="foot">© 2026 La Goffinerie · Brussels &amp; Liège, Belgium · Built by hand (and a bit of AI).</p>
+    <p data-i18n="foot">© 2026 La Goffinerie · Belgium-based.</p>
   </div>
 </footer>
 
@@ -481,6 +621,7 @@ const FR = {
   proc_h2:"Transparent du premier rendez-vous à la remise des clés.",
   proc_sub:"Vous validez chaque étape. Vous voyez tout. Et vous testez la solution vous-même — le jour de la livraison, vous savez déjà la faire tourner.",
   j1:"On se rencontre", j2:"Plan &amp; prix", j3:"Conception", j4:"Construction ouverte", j5:"Vous testez", j6:"Remise des clés",
+  sc_fixed:"PRIX FIXE",
   st1_h:"On se rencontre", st1_p:"Un appel d'introduction gratuit pour comprendre vos besoins et votre façon de travailler.",
   st2_h:'On valide le plan <span class="flag">Vous validez</span>', st2_p:"Je propose une approche, je définis exactement ce qui sera livré, et je vous donne un prix fixe unique. Rien ne démarre sans votre feu vert.",
   st3_h:"On conçoit", st3_p:"Architecture complète et documentation — le plan sur lequel nous travaillons tous les deux.",
@@ -500,7 +641,7 @@ const FR = {
   cta_h:"Dites-moi ce qui mange votre temps.", cta_p:"Un appel gratuit de 30 minutes, sans engagement. Le prix exact arrive juste après, par écrit.", cta_btn:"Réserver mon appel gratuit", cta_reach:"Ou joignez-moi directement :",
   faq_more:"D'autres questions ?", faq_link:"Lire la FAQ →",
   foot_legal:"Mentions légales", foot_cgu:"CGU", foot_privacy:"Protection des données", foot_cookies:"Cookies",
-  foot:"© 2026 La Goffinerie · Bruxelles &amp; Liège, Belgique · Fait main (et un peu d'IA)."
+  foot:"© 2026 La Goffinerie · Basée en Belgique."
 };
 /* Prices come from config.js (one place for the home page and this one). Until they are set,
    each plan shows « fixed price after the free call » instead of a number. */
@@ -525,6 +666,7 @@ function setLang(l){
   document.getElementById('lang-fr').setAttribute('aria-pressed', String(LANG==='fr'));
   try{ localStorage.setItem('lg_lang',LANG); }catch(e){}
   applyPrices();   // the translated price cells are rewritten by the dictionary
+  if(window.methLabels) window.methLabels();
 }
 (function(){
   let l=null;
@@ -534,21 +676,89 @@ function setLang(l){
   setLang(l);
 })();
 
-/* --- the illustration follows the step being read --- */
-const stepObs=new IntersectionObserver(es=>{
-  es.forEach(en=>{
-    if(!en.isIntersecting) return;
-    const n=en.target.getAttribute('data-step');
-    document.querySelectorAll('.journey .jn').forEach(g=>g.classList.toggle('on', g.getAttribute('data-step')===n));
-    document.querySelectorAll('.step').forEach(st=>st.classList.toggle('act', st===en.target));
-    const wrap=document.querySelector('.journey-wrap'), node=document.querySelector('.journey .jn[data-step="'+n+'"]');
-    if(wrap && node && wrap.scrollWidth>wrap.clientWidth+4){
-      try{ const b=node.getBBox(), scale=wrap.querySelector('svg').clientWidth/960;
-        wrap.scrollTo({left:Math.max(0,(b.x+b.width/2)*scale - wrap.clientWidth/2), behavior:'smooth'}); }catch(e){}
-    }
+/* =========================================================
+   THE METHOD, IN MOTION — a token walks the route from step to
+   step (requestAnimationFrame along the path), each node plays
+   its scene (CSS keyframes switched on by a class), the rail shows
+   the step and its countdown, the panel shows its text. Autoplay
+   waits for the stage to be on screen, stops while a hand, the
+   keyboard or the pause button is on it, while the tab is hidden,
+   and never starts with prefers-reduced-motion (steps still work
+   by hand, scenes jump to their end state).
+   ========================================================= */
+document.documentElement.classList.add('js');
+(function(){
+  const box=document.getElementById('meth'); if(!box) return;
+  const svg=box.querySelector('svg.journey'), path=svg.querySelector('.jpath'), done=svg.querySelector('.jdone');
+  const nodes=[...svg.querySelectorAll('.jn')], scenes=[...svg.querySelectorAll('.sc')], courier=svg.querySelector('#courier');
+  const tabs=[...box.querySelectorAll('.mtab')], steps=[...box.querySelectorAll('.mpanel .step')];
+  const playBtn=document.getElementById('mplay'), wrap=box.querySelector('.journey-wrap');
+  const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const N=nodes.length, STEP_MS=4800, TRAVEL_MS=950;
+  box.style.setProperty('--step', STEP_MS+'ms');
+  const total=path.getTotalLength();
+  done.style.strokeDasharray=String(total); done.style.strokeDashoffset=String(total);
+  /* where along the route each node sits */
+  const at=nodes.map(g=>{
+    const m=/translate\(([\d.]+),([\d.]+)\)/.exec(g.getAttribute('transform')); const nx=+m[1], ny=+m[2];
+    let best=0, bd=Infinity;
+    for(let l=0;l<=total;l+=2){ const p=path.getPointAtLength(l); const d=(p.x-nx)*(p.x-nx)+(p.y-ny)*(p.y-ny); if(d<bd){ bd=d; best=l; } }
+    return best;
   });
-},{rootMargin:'-42% 0px -42% 0px', threshold:0});
-document.querySelectorAll('.step[data-step]').forEach(st=>stepObs.observe(st));
+  let cur=-1, pos=at[0], timer=null, raf=0, running=false, userPaused=RM, held=false, visible=false, started=false;
+  function place(l){ pos=l; const p=path.getPointAtLength(l); courier.setAttribute('transform','translate('+p.x.toFixed(1)+','+p.y.toFixed(1)+')'); done.style.strokeDashoffset=String(Math.max(0,total-l)); }
+  function restartBar(){ const bar=tabs[Math.max(0,cur)].querySelector('.mbar i'); bar.style.animation='none'; void bar.offsetWidth; bar.style.animation=''; bar.style.animationPlayState=running?'running':'paused'; }
+  function show(i){
+    nodes.forEach((g,k)=>g.classList.toggle('on',k===i));
+    scenes.forEach((sc,k)=>sc.classList.toggle('on',k===i));
+    tabs.forEach((t,k)=>{ t.classList.toggle('on',k===i); t.setAttribute('aria-selected',String(k===i)); });
+    steps.forEach((st,k)=>st.classList.toggle('on',k===i));
+    restartBar();
+    if(wrap && wrap.scrollWidth>wrap.clientWidth+4){
+      try{ const b=nodes[i].getBBox(), scale=svg.clientWidth/960;
+        wrap.scrollTo({left:Math.max(0,(b.x+b.width/2)*scale-wrap.clientWidth/2), behavior:RM?'instant':'smooth'}); }catch(e){}
+    }
+  }
+  function travel(from,to,ms,cb){
+    cancelAnimationFrame(raf); const t0=performance.now();
+    const ease=t=>t<.5 ? 2*t*t : -1+(4-2*t)*t;
+    (function f(now){ const k=Math.min(1,(now-t0)/ms); place(from+(to-from)*ease(k)); if(k<1) raf=requestAnimationFrame(f); else cb(); })(t0);
+  }
+  function go(i, instant){
+    i=(i+N)%N; clearTimeout(timer); const prev=cur; cur=i;
+    nodes.forEach(g=>g.classList.remove('on')); scenes.forEach(sc=>sc.classList.remove('on'));
+    const arrive=()=>{ courier.classList.remove('moving'); show(i); clearTimeout(timer); if(running) timer=setTimeout(()=>go(cur+1), STEP_MS); };
+    if(instant || RM || prev<0){ place(at[i]); arrive(); return; }
+    courier.classList.add('moving');
+    travel(pos, at[i], Math.min(1500, TRAVEL_MS*Math.max(1, Math.abs(i-prev)*.6)), arrive);
+  }
+  function want(){ return !userPaused && !held && visible && !document.hidden; }
+  function sync(){
+    const w=want();
+    if(w && !running){ running=true; restartBar(); clearTimeout(timer); timer=setTimeout(()=>go(cur+1), STEP_MS); }
+    else if(!w && running){ running=false; clearTimeout(timer); tabs.forEach(t=>{ t.querySelector('.mbar i').style.animationPlayState='paused'; }); }
+  }
+  window.methLabels=function(){
+    const fr=LANG==='fr';
+    playBtn.setAttribute('aria-label', userPaused ? (fr?"Lancer l'animation":'Play the animation') : (fr?'Mettre en pause':'Pause the animation'));
+    playBtn.innerHTML = userPaused ? '&#9654;' : '&#10074;&#10074;';
+    playBtn.setAttribute('aria-pressed', String(!userPaused));
+    box.querySelector('.mrail').setAttribute('aria-label', fr?'Étapes':'Steps');
+  };
+  tabs.forEach((t,k)=>t.addEventListener('click', ()=>{ go(k); }));
+  box.querySelector('.mrail').addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'){ e.preventDefault(); go(cur+1); tabs[cur].focus(); }
+    if(e.key==='ArrowLeft'){ e.preventDefault(); go(cur-1); tabs[cur].focus(); }
+  });
+  playBtn.addEventListener('click', ()=>{ userPaused=!userPaused; window.methLabels(); sync(); if(!userPaused && !running && want()) sync(); });
+  box.addEventListener('pointerenter', ()=>{ held=true; sync(); });
+  box.addEventListener('pointerleave', ()=>{ held=false; sync(); });
+  box.addEventListener('focusin', e=>{ if(e.target.closest('.mtab')){ held=true; sync(); } });
+  box.addEventListener('focusout', e=>{ if(e.target.closest('.mtab')){ held=false; sync(); } });
+  document.addEventListener('visibilitychange', sync);
+  new IntersectionObserver(es=>{ es.forEach(en=>{ visible=en.isIntersecting; }); if(visible && !started){ started=true; go(0,true); } sync(); },{threshold:.3}).observe(wrap);
+  place(at[0]); nodes[0].classList.add('on'); window.methLabels();
+})();
 
 /* --- scroll reveal + nav shadow --- */
 const rvObs=new IntersectionObserver(es=>{ es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('on'); rvObs.unobserve(en.target); } }); },{threshold:.12});
