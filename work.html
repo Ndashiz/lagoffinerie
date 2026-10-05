@@ -128,6 +128,11 @@
   .stat .v{font-family:var(--disp);font-weight:800;font-size:18px;color:var(--blue);}
   .stat .k{font-size:12.5px;color:var(--ink-2);margin-top:2px;}
   .tools{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px;}
+  .feat{list-style:none;counter-reset:feat;display:grid;gap:14px;margin-top:4px;}
+  .feat li{counter-increment:feat;display:grid;grid-template-columns:30px 1fr;column-gap:12px;align-items:start;font-size:15px;line-height:1.55;color:var(--ink-2);}
+  .feat li::before{content:counter(feat);grid-row:1 / span 2;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--yellow);font-family:var(--disp);font-weight:800;font-size:13.5px;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .feat b{font-family:var(--disp);font-weight:700;font-size:15.5px;line-height:1.3;color:var(--ink);display:block;margin-bottom:2px;}
+  .feat span{display:block;}
   .chip{font-family:var(--mono);font-size:11.5px;font-weight:500;border:1.5px solid var(--line);border-radius:999px;padding:7px 12px;background:#fff;}
   .next{margin-top:26px;background:#fff;border:2px dashed var(--ink);border-radius:20px;padding:26px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;}
   .next h2{margin:0;max-width:24ch;}
@@ -249,23 +254,22 @@
       <article class="case c-blue rv">
         <div class="shot"><div class="sbar"><i></i><i></i><i></i><span>lazysyndic · demo data</span></div><div class="frame"><img src="assets/work/lazysyndic.jpg" alt="The LazySyndic dashboard: reserve fund, balances, who pays what" loading="lazy" width="1200" height="750"></div></div>
         <div class="left">
-          <span class="badge" data-i18n="l_badge">Own product — Co-ownership</span>
+          <span class="badge" data-i18n="l_badge">Case study — Volunteer syndic</span>
           <h2 data-i18n="l_h">The co-ownership on autopilot.</h2>
-          <div class="who"><a href="https://ndashiz.be/lazysyndic/" target="_blank" rel="noopener">LazySyndic &#8599;&#xFE0E;</a><span data-i18n="l_who">Web app for a volunteer syndic · in production</span></div>
+          <div class="who"><a href="https://ndashiz.be/lazysyndic/" target="_blank" rel="noopener">LazySyndic &#8599;&#xFE0E;</a><span data-i18n="l_who">Co-ownership management platform · in production</span></div>
           <div class="tools">
-            <span class="chip" data-i18n="l_t1">Bank import</span><span class="chip" data-i18n="l_t2">Auto categorisation</span><span class="chip" data-i18n="l_t3">PDF reports</span><span class="chip" data-i18n="l_t4">General-meeting module</span>
+            <span class="chip" data-i18n="l_t1">Transactions &amp; categories</span><span class="chip" data-i18n="l_t2">Financial reports</span><span class="chip" data-i18n="l_t3">Meeting invitations</span><span class="chip" data-i18n="l_t4">E-signature</span>
           </div>
         </div>
         <div class="right">
-          <p data-i18n="l_p0"><strong>The situation.</strong> A volunteer syndic spends his evenings on bank statements, payment reminders and the yearly general-meeting pack.</p>
-          <p data-i18n="l_p1"><strong>What I built.</strong> A web application that imports the bank statements, categorises every line by rules and aliases, tracks who paid what, keeps the budget and the allocation keys, and generates the general-meeting documents as PDF: report, payment statements, results and annexes. An interactive module carries the convocation, the notes and the minutes.</p>
-          <p data-i18n="l_p2"><strong>Under the hood</strong>, the data lives in a secured database with access rules per role: the syndic writes, invited co-owners read. The same discipline I apply to a client's site.</p>
-          <div class="stats">
-            <div class="stat"><div class="v" data-i18n="l_s1v">Auto</div><div class="k" data-i18n="l_s1k">Bank lines categorised by rules</div></div>
-            <div class="stat"><div class="v" data-i18n="l_s2v">PDF</div><div class="k" data-i18n="l_s2k">The general-meeting pack, generated</div></div>
-            <div class="stat"><div class="v" data-i18n="l_s3v">Shared</div><div class="k" data-i18n="l_s3k">Co-owners read, the syndic writes</div></div>
-            <div class="stat"><div class="v" data-i18n="l_s4v">Live</div><div class="k" data-i18n="l_s4k">In production, used for a real building</div></div>
-          </div>
+          <p data-i18n="l_p0">My client is a volunteer syndic. To simplify and automate the running of the co-ownership, we built him a website that brings every task of the syndic's job into one place.</p>
+          <p data-i18n="l_lead"><strong>The platform lets him, among other things:</strong></p>
+          <ol class="feat">
+            <li><b data-i18n="l_f1h">Manage the financial transactions</b><span data-i18n="l_f1p">Tracking of the transactions made on the payment and reserve accounts. Each transaction is automatically assigned to an expense category, which makes the bookkeeping easy to follow.</span></li>
+            <li><b data-i18n="l_f2h">Generate financial reports automatically</b><span data-i18n="l_f2p">Reports that sum up all the transactions, including the detailed balances of the co-ownership's accounts, so that co-owners get a clear view of the financial situation.</span></li>
+            <li><b data-i18n="l_f3h">Automate the invitations to general meetings</b><span data-i18n="l_f3p">The convocations to the general meetings are sent automatically, which simplifies their organisation and avoids oversights.</span></li>
+            <li><b data-i18n="l_f4h">Centralise the decisions and conclusions of the meetings</b><span data-i18n="l_f4p">The conclusions and decisions taken at the general meetings are recorded, with a built-in e-signature tool so the documents are signed directly online.</span></li>
+          </ol>
         </div>
       </article>
     </section>
@@ -393,17 +397,16 @@ const FR = {
   b_s2v:"↑ Clients", b_s2k:"Plus de demandes converties en chantiers",
   b_s3v:"Auto", b_s3k:"Factures via Blitz · leads dans Odoo CRM",
   b_s4v:"Quotidien", b_s4k:"Un digest des e-mails non lus à prioriser",
-  l_badge:"Produit maison — Copropriété",
+  l_badge:"Étude de cas — Syndic bénévole",
   l_h:"La copropriété en pilote automatique.",
-  l_who:"Application web pour syndic bénévole · en production",
-  l_t1:"Import bancaire", l_t2:"Catégorisation auto", l_t3:"Rapports PDF", l_t4:"Module d'assemblée générale",
-  l_p0:"<strong>La situation.</strong> Un syndic bénévole passe ses soirées sur les relevés bancaires, les rappels de paiement et le dossier annuel de l'assemblée générale.",
-  l_p1:"<strong>Ce que j'ai construit.</strong> Une application web qui importe les relevés bancaires, catégorise chaque ligne par règles et alias, suit qui a payé quoi, tient le budget et les clés de répartition, et génère les documents de l'assemblée générale en PDF : rapport, comptes de paiement, résultats et annexes. Un module interactif porte la convocation, les notes et le procès-verbal.",
-  l_p2:"<strong>Sous le capot</strong>, les données vivent dans une base sécurisée avec des règles d'accès par rôle : le syndic écrit, les copropriétaires invités lisent. La même discipline que j'applique au site d'un client.",
-  l_s1v:"Auto", l_s1k:"Lignes bancaires catégorisées par règles",
-  l_s2v:"PDF", l_s2k:"Le dossier d'assemblée générale, généré",
-  l_s3v:"Partagé", l_s3k:"Les copropriétaires lisent, le syndic écrit",
-  l_s4v:"En prod", l_s4k:"En production, pour un vrai immeuble",
+  l_who:"Plateforme de gestion de copropriété · en production",
+  l_t1:"Transactions &amp; catégories", l_t2:"Rapports financiers", l_t3:"Convocations d'AG", l_t4:"Signature électronique",
+  l_p0:"Mon client est syndic bénévole. Afin de faciliter et d'automatiser la gestion de la copropriété, nous lui avons créé un site web centralisant l'ensemble des tâches liées à la gestion du syndic.",
+  l_lead:"<strong>La plateforme permet notamment de :</strong>",
+  l_f1h:"Gérer les transactions financières", l_f1p:"Suivi des transactions effectuées sur les comptes de paiement et de réserve. Chaque transaction est automatiquement attribuée à une catégorie de dépense afin de faciliter le suivi comptable.",
+  l_f2h:"Générer automatiquement des rapports financiers", l_f2p:"Création de rapports récapitulant l'ensemble des transactions, avec notamment le détail des soldes des différents comptes de la copropriété, afin de permettre aux copropriétaires d'avoir une vision claire de la situation financière.",
+  l_f3h:"Automatiser les invitations aux assemblées générales", l_f3p:"Envoi automatique des convocations aux assemblées générales (AG), afin de simplifier leur organisation et d'éviter les oublis.",
+  l_f4h:"Centraliser les décisions et conclusions des AG", l_f4p:"Enregistrement des conclusions et décisions prises lors des assemblées générales, avec intégration d'un outil de signature électronique permettant de faire signer les documents directement en ligne.",
   j_badge:"Outil interne — Back-office",
   j_h:"Tout ce que je vends, je le fais tourner d'abord pour moi.",
   j_who:"Back-office privé · derrière ce site même",
