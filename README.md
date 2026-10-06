@@ -9,6 +9,11 @@ Static pages, vanilla HTML/CSS/JS, bilingual EN/FR (auto-detected, manual toggle
   `work.html` (all the work, one case per project), `pricing.html` (the three plans, the six-step
   method, the guarantees), `about.html`, the legal pages (`mentions-legales.html`, `cgu.html`,
   `donnees-personnelles.html`, `cookies.html` — keep it true), `404.html`, `robots.txt`, `sitemap.xml`.
+- **Site state**: `site-state.js`, loaded by every page — reads the public `GET /api/gf/config` of Jarvis
+  (the call the home page already makes for its logo intro) and renders what the owner switched on there:
+  a full-screen maintenance screen (fresh answers only, re-checked every 60 s, fail-open) and an announcement
+  banner above the top bar (three tones, optional link, period, × for the visit). Keys `lg_site_cfg` and
+  `lg_banner` are listed on `cookies.html`. `404.html` is the GitHub Pages not-found page, in the site's style.
 - **Config**: `config.js` holds the two switches read by the home and pricing pages: `PRICES`
   (the « from » prices, shown on `pricing.html` once set) and `BOOKING_URL` (shows the « choose a
   slot now » buttons). `assets/work/*.jpg` are the project illustrations of the carousel and cases.

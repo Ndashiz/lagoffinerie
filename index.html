@@ -145,7 +145,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.23 — the top bar lets the page show through (canvas comment)
+     LA GOFFINERIE v2.24 — coloured rotating words + logo shapes that answer, paper-plane send, maintenance screen and banner driven from Jarvis, new 404
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
@@ -275,7 +275,12 @@
   }
   /* The thing I build rotates: all the words sit in one grid cell, so the line is as wide as the
      longest one and never reflows. The hidden words fade in from below and out towards the top. */
-  .hero h1 .rot{display:inline-grid;vertical-align:baseline;text-align:left;color:var(--blue);}
+  .hero h1 .rot{display:inline-grid;vertical-align:baseline;text-align:left;}
+  .hero h1 .rot b[data-tone="blue"]{color:var(--blue);} .hero h1 .rot b[data-tone="red"]{color:var(--red);} .hero h1 .rot b[data-tone="yellow"]{color:#B07608;}
+  /* The logo shape of the word's colour answers: it swells by 15 % as the word comes in (the hero carries data-tone). */
+  .geo.g1 rect,.geo.g1 circle,.geo.g1 path{transform-box:fill-box;transform-origin:center;}
+  .hero[data-tone="blue"] .geo.g1 rect,.hero[data-tone="red"] .geo.g1 circle,.hero[data-tone="yellow"] .geo.g1 path{animation:shapepop .6s cubic-bezier(.34,1.56,.64,1) both;}
+  @keyframes shapepop{0%{transform:scale(1)}45%{transform:scale(1.15)}100%{transform:scale(1)}}
   .hero h1 .rot b{grid-area:1/1;font-weight:inherit;white-space:nowrap;opacity:0;transform:translateY(.35em);transition:opacity .45s ease,transform .5s cubic-bezier(.2,.8,.2,1);}
   .hero h1 .rot b.on{opacity:1;transform:none;}
   .hero h1 .rot b.out{opacity:0;transform:translateY(-.35em);}
@@ -555,6 +560,7 @@
     .hero .wrap > *{opacity:1;animation:none;}
     .hero h1 .u svg path{stroke-dashoffset:0;animation:none;}
     .hero h1 .rot b{transition:none;}
+    .geo.g1 rect,.geo.g1 circle,.geo.g1 path{animation:none!important;}
     .geo.g1,.geo.g2,.pflow.on::before,.fq p{animation:none;}
     .rv.kick::before{transform:none;transition:none;}
     .pflow li .pn,.pflow li h3{transition:none;}
@@ -590,7 +596,15 @@
   @keyframes mdOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(20px) scale(.96)}}
   @keyframes geoPop{from{opacity:0;transform:scale(.2) rotate(60deg)}to{opacity:var(--o);transform:scale(1) rotate(var(--r))}}
   @media(max-width:640px){.modal{padding:28px 20px 22px;border-radius:18px;} .modal-wrap .geo{display:none;} .modal-bg{padding:12px;}}
-  @media (prefers-reduced-motion: reduce){.modal,.modal-bg,.modal-wrap .geo{animation:none!important;}}
+  /* Sent: the window folds (0.38 s), a paper plane takes off towards the top right (0.7 s), the thanks unfold. */
+  .modal.folding{animation:lgFold .38s cubic-bezier(.6,0,.8,.4) forwards;}
+  .modal.unfold{animation:lgUnfold .45s cubic-bezier(.22,1.4,.36,1) both;}
+  @keyframes lgFold{to{transform:perspective(900px) rotateY(-34deg) rotateZ(-8deg) scale(.82);opacity:.15}}
+  @keyframes lgUnfold{from{transform:scale(.9) translateY(12px);opacity:0}to{transform:none;opacity:1}}
+  .lg-plane{position:absolute;left:50%;top:50%;width:150px;height:100px;margin:-50px 0 0 -75px;z-index:3;pointer-events:none;animation:lgFly .7s cubic-bezier(.3,.5,.5,1) forwards;}
+  .lg-plane svg{width:100%;height:100%;overflow:visible;}
+  @keyframes lgFly{0%{transform:translate(0,0) rotate(-22deg) scale(.85);opacity:0}12%{opacity:1}100%{transform:translate(min(70vw,900px),-70vh) rotate(-32deg) scale(.4);opacity:0}}
+  @media (prefers-reduced-motion: reduce){.modal,.modal-bg,.modal-wrap .geo,.modal.folding,.modal.unfold,.lg-plane{animation:none!important;}}
 
   /* ---------- form states ---------- */
   .honey{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;}
@@ -887,7 +901,7 @@
   </svg>
   <div class="wrap">
     <div class="kick" data-i18n="hero_kick">Websites, apps &amp; small programs · Belgium</div>
-    <h1 data-i18n="hero_h1">I build <span class="rot"><span class="vh">websites, apps and small programs</span><b class="on" aria-hidden="true">websites</b><b aria-hidden="true">apps</b><b aria-hidden="true">small programs</b></span> <span class="u">that get to work for you.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span></h1>
+    <h1 data-i18n="hero_h1">I build <span class="rot"><span class="vh">websites, apps and small programs</span><b class="on" data-tone="blue" aria-hidden="true">websites</b><b data-tone="red" aria-hidden="true">apps</b><b data-tone="yellow" aria-hidden="true">small programs</b></span> <span class="u">that get to work for you.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span></h1>
     <p class="sub" data-i18n="hero_sub">A website that fills your calendar, sends your invoices and tells you what your visitors do. Fixed price, no subscription. <strong>You own it.</strong></p>
     <p class="who"><span data-i18n="hero_who">For tradespeople, shops and independents in Belgium</span><span class="chip" data-i18n="who1">Electrician</span><span class="chip" data-i18n="who2">Hair salon</span><span class="chip" data-i18n="who3">Practice</span><span class="chip" data-i18n="who4">Restaurant</span></p>
     <div class="ctas">
@@ -1118,7 +1132,7 @@ const FR = {
   title:"La Goffinerie — Des sites web qui travaillent pour vous",
   nav_alive:"Ce que je fais", nav_work:"Réalisations", nav_about:"À propos", nav_faq:"FAQ", nav_pricing:"Tarifs", nav_book:"Appel gratuit", nav_call:"Appeler", skip:"Aller au contenu", nav_contact:"Contact", hero_call:"Ou joignez-moi directement :", ct_call:"Appeler",
   hero_kick:"Sites web, applications &amp; petits programmes · Belgique",
-  hero_h1:'<span class="rot"><span class="vh">Des sites web, des applications, de petits programmes</span><b class="on" aria-hidden="true">Des sites web</b><b aria-hidden="true">Des applications</b><b aria-hidden="true">De petits programmes</b></span> <span class="u">qui travaillent pour vous.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span>',
+  hero_h1:'<span class="rot"><span class="vh">Des sites web, des applications, de petits programmes</span><b class="on" data-tone="blue" aria-hidden="true">Des sites web</b><b data-tone="red" aria-hidden="true">Des applications</b><b data-tone="yellow" aria-hidden="true">De petits programmes</b></span> <span class="u">qui travaillent pour vous.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span>',
   hero_sub:"Un site qui remplit votre agenda, envoie vos factures et vous dit ce que font vos visiteurs. Prix fixe, pas d'abonnement. <strong>Il vous appartient.</strong>",
   hero_who:"Pour les artisans, commerces et indépendants en Belgique", who1:"Électricien", who2:"Salon de coiffure", who3:"Cabinet", who4:"Restaurant",
   hero_cta1:"Réserver mon appel gratuit", hero_cta2:"Voir nos réalisations →",
@@ -1400,6 +1414,7 @@ function buildModalForm(){
   setupSlot(f);
 }
 function openLead(variant, source){
+  const mb=modalBg.querySelector('.modal'); if(mb) mb.classList.remove('folding','unfold');
   VARIANT = variant==='auto' ? 'auto' : 'book';
   buildModalForm(); applyModalText();
   lastFocus=document.activeElement;
@@ -1446,6 +1461,21 @@ function maybeAutoPopup(){
    LEAD CAPTURE — Jarvis copy (keepalive) + FormSubmit e-mail over
    AJAX; if that fails, a plain form POST (FormSubmit's own page).
    ========================================================= */
+/* The sent form folds into a paper plane that flies off; resolves when the thanks may be shown. Nothing to
+   fold outside the modal, and nothing at all with prefers-reduced-motion. */
+function flyAway(f){
+  const modal=f.closest('.modal'), wrap=f.closest('.modal-wrap');
+  if(!modal || !wrap || matchMedia('(prefers-reduced-motion: reduce)').matches) return Promise.resolve();
+  return new Promise(res=>{
+    modal.classList.remove('unfold'); modal.classList.add('folding');
+    setTimeout(()=>{
+      const p=document.createElement('div'); p.className='lg-plane';
+      p.innerHTML='<svg viewBox="0 0 120 80" fill="none" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 42 L114 8 L72 74 L58 50 Z" fill="#fff" stroke="#151515" stroke-width="3"/><path d="M58 50 L114 8 L64 62 Z" fill="#f3f0e6" stroke="#151515" stroke-width="2.5"/><path d="M6 42 L58 50 L114 8" stroke="#151515" stroke-width="2.5"/><path d="M96 13.5 L114 8 L107 26 Z" fill="#2823EE"/></svg>';
+      wrap.appendChild(p);
+      setTimeout(()=>{ p.remove(); modal.classList.remove('folding'); modal.classList.add('unfold'); res(); }, 680);
+    }, 380);
+  });
+}
 function showOk(f, name, slot){
   const t=FS[LANG]||FS.en;
   const box=document.createElement('div'); box.className='form-ok';
@@ -1478,7 +1508,7 @@ function bindForm(f){
     const lead = Object.assign({ s:SESSION, l:LANG, via, slotStart: slot ? slot.start.toISOString() : null, slotEnd: slot ? slot.end.toISOString() : null }, fields);
     const r = await postLead(lead, 8000);
     let ok = !!(r && r.ok && r.mailed && r.mailed.owner);
-    if(ok){ showOk(f, fields.name, slot); return; }
+    if(ok){ await flyAway(f); showOk(f, fields.name, slot); return; }
     // 2. Jarvis could not e-mail (not configured, down, or Resend failed): FormSubmit carries the mail.
     if(!(r && r.ok)) send(JARVIS.leads, lead);   // keepalive retry of the copy, in case the wait above was the problem
     try{
@@ -1488,7 +1518,7 @@ function bindForm(f){
       const data=await res.json().catch(()=>({}));
       ok = res.ok && String(data.success)!=='false';
     }catch(err){ ok=false; }
-    if(ok){ showOk(f, fields.name, slot); }
+    if(ok){ await flyAway(f); showOk(f, fields.name, slot); }
     else { try{ localStorage.setItem('lg_slot', JSON.stringify({d:v('date'), t:v('time'), n:fields.name})); }catch(e){} delete f.dataset.busy; btn.disabled=false; btn.innerHTML=label; f.submit(); }
   });
 }
@@ -1583,9 +1613,11 @@ function heroRot(){
     cur.classList.remove('on'); cur.classList.add('out');
     setTimeout(()=>cur.classList.remove('out'), 550);
     ws[i].classList.add('on');
+    const hero=document.querySelector('.hero'); if(hero) hero.dataset.tone=ws[i].dataset.tone||'';
   }, 2600);
 }
 heroRot();
 </script>
+<script src="site-state.js" defer></script>
 </body>
 </html>

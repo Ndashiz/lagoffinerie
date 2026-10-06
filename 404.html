@@ -1,27 +1,122 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#faf8f2">
 <meta name="robots" content="noindex">
-<title>Page not found — La Goffinerie</title>
+<title>Page introuvable — La Goffinerie</title>
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 112" style="isolation:isolate"><path d="M62 6 L102 80 L22 80 Z" fill="%23EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="%232823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="%23E2452C" style="mix-blend-mode:multiply"/></svg>'>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
+  /* LA GOFFINERIE v2.24 — the 404: a screen that shows the error, its cable cut in two (from the design canvas). */
+  :root{--paper:#faf8f2;--paper-2:#f3f0e6;--ink:#151515;--ink-2:#3d4046;--blue:#2823EE;--red:#E2452C;--yellow:#EDAF2F;--disp:"Sora",system-ui,sans-serif;--sans:"Instrument Sans",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#faf8f2;color:#151515;font-family:"Instrument Sans",system-ui,sans-serif;padding:28px;text-align:center}
-  .box{max-width:520px}
-  svg{width:120px;height:112px;margin-bottom:22px}
-  h1{font-family:"Sora",system-ui,sans-serif;font-size:clamp(28px,5vw,42px);font-weight:800;line-height:1.1;letter-spacing:-.015em}
-  p{margin-top:14px;font-size:17px;color:#3d4046}
-  a.btn{display:inline-flex;margin-top:26px;font-family:"Sora",system-ui,sans-serif;font-weight:700;text-decoration:none;color:#fff;background:#2823EE;border:2px solid #2823EE;border-radius:12px;padding:14px 24px;box-shadow:5px 5px 0 #151515}
+  html,body{min-height:100%}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;}
+  a{color:inherit}
+  .wrap{max-width:1060px;width:100%;margin:0 auto;padding:0 28px;}
+  .topnav{height:66px;border-bottom:2px solid var(--ink);background:rgba(250,248,242,.66);backdrop-filter:blur(10px) saturate(1.15);-webkit-backdrop-filter:blur(10px) saturate(1.15);display:flex;align-items:center;gap:26px;padding:0 24px;position:sticky;top:0;z-index:80;}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--disp);font-weight:800;font-size:17px;letter-spacing:-.01em}
+  .logo svg{width:32px;height:30px}
+  .links{display:flex;gap:2px;margin-left:auto;font-family:var(--disp);font-weight:600;font-size:14px}
+  .links a{padding:9px 13px;color:var(--ink-2);text-decoration:none;border-radius:8px}
+  .links a:hover{color:var(--ink);background:#15151510}
+  .cta{display:inline-flex;align-items:center;font-family:var(--disp);font-weight:700;font-size:13.5px;color:#fff;background:var(--blue);border:2px solid var(--blue);border-radius:10px;padding:10px 18px;box-shadow:3px 3px 0 var(--ink);text-decoration:none;white-space:nowrap}
+  main{flex-grow:1;position:relative;overflow:hidden;display:flex;align-items:center;padding:56px 0;}
+  .geo{position:absolute;left:-70px;bottom:-90px;width:230px;height:215px;transform:rotate(-14deg);opacity:.3;pointer-events:none}
+  .grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+  .kick{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2)}
+  .kick::before{content:"";width:26px;height:2px;background:var(--red)}
+  h1{margin-top:16px;font-family:var(--disp);font-weight:800;font-size:clamp(32px,4.4vw,52px);line-height:1.1;letter-spacing:-.015em;text-wrap:balance}
+  .sub{margin-top:18px;font-size:18px;color:var(--ink-2);max-width:46ch}
+  .ctas{display:flex;gap:16px;flex-wrap:wrap;margin-top:30px}
+  .btn{display:inline-flex;align-items:center;font-family:var(--disp);font-weight:700;font-size:15px;border-radius:12px;padding:14px 24px;text-decoration:none;border:2px solid var(--ink);color:var(--ink);background:transparent;box-shadow:5px 5px 0 #15151522;transition:transform .15s,box-shadow .15s}
+  .btn.primary{color:#fff;background:var(--blue);border-color:var(--blue);box-shadow:5px 5px 0 var(--ink)}
+  .btn:hover{transform:translate(-2px,-2px)}
+  .more{margin-top:26px;font-size:14.5px;color:var(--ink-2)}
+  .more a{font-family:var(--disp);font-weight:700;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--blue)}
+  .art{display:flex;justify-content:center}
+  .art svg{display:block;width:100%;max-width:520px;height:auto;overflow:visible}
+  footer{border-top:2px solid var(--ink);padding:30px 0 40px}
+  footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+  footer .brand{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:700}
+  footer .brand svg{width:26px;height:24px}
+  footer nav{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--disp);font-weight:600;font-size:13px}
+  footer nav a{color:var(--ink-2);text-decoration:none}
+  footer p{font-size:12.5px;color:var(--ink-2)}
+  [data-lang]{display:none}
+  html[lang="fr"] [data-lang="fr"],html[lang="en"] [data-lang="en"]{display:revert}
+  @media(max-width:900px){.grid{grid-template-columns:1fr;gap:28px}.art{order:-1}.art svg{max-width:360px}.links{display:none}}
+  @media(max-width:600px){.wrap{padding:0 20px}.topnav{height:60px;padding:0 16px}main{padding:36px 0}.sub{font-size:16px}.btn{width:100%;justify-content:center}}
 </style>
 </head>
 <body>
-<div class="box">
-  <svg viewBox="0 0 120 112" xmlns="http://www.w3.org/2000/svg" style="isolation:isolate" aria-hidden="true"><path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="#E2452C" style="mix-blend-mode:multiply"/></svg>
-  <h1>This page doesn't exist.<br>The rest of the site does.</h1>
-  <p>Cette page n'existe pas — le reste du site, oui.</p>
-  <a class="btn" href="/">La Goffinerie</a>
-</div>
+<nav class="topnav">
+  <a class="logo" href="/"><svg viewBox="0 0 120 112" style="isolation:isolate" aria-hidden="true"><path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="#E2452C" style="mix-blend-mode:multiply"/></svg>La Goffinerie</a>
+  <div class="links">
+    <a href="/#alive"><span data-lang="fr">Ce que je fais</span><span data-lang="en">What I build</span></a>
+    <a href="/work.html"><span data-lang="fr">Réalisations</span><span data-lang="en">Work</span></a>
+    <a href="/pricing.html"><span data-lang="fr">Tarifs</span><span data-lang="en">Pricing</span></a>
+    <a href="/about.html"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a>
+    <a href="/#faq">FAQ</a>
+  </div>
+  <a class="cta" href="/#contact"><span data-lang="fr">Appel gratuit</span><span data-lang="en">Free call</span></a>
+</nav>
+
+<main>
+  <svg class="geo" viewBox="0 0 120 112" style="isolation:isolate" aria-hidden="true"><path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="#E2452C" style="mix-blend-mode:multiply"/></svg>
+  <div class="wrap grid">
+    <div>
+      <div class="kick"><span data-lang="fr">Erreur 404</span><span data-lang="en">Error 404</span></div>
+      <h1><span data-lang="fr">Cette page n'existe pas — ou plus.</span><span data-lang="en">This page doesn't exist — or not anymore.</span></h1>
+      <p class="sub"><span data-lang="fr">L'adresse a peut-être changé, ou le lien était cassé. Rien de grave : voici les sorties.</span><span data-lang="en">The address may have changed, or the link was broken. No harm done: here are the ways out.</span></p>
+      <div class="ctas">
+        <a class="btn primary" href="/"><span data-lang="fr">Retour à l'accueil</span><span data-lang="en">Back to the home page</span></a>
+        <a class="btn" href="/work.html"><span data-lang="fr">Voir les réalisations →</span><span data-lang="en">See the work →</span></a>
+      </div>
+      <p class="more"><span data-lang="fr">Ou directement : </span><span data-lang="en">Or straight to: </span><a href="/pricing.html"><span data-lang="fr">Tarifs</span><span data-lang="en">Pricing</span></a> · <a href="/about.html"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a> · <a href="/#faq">FAQ</a> · <a href="/#contact"><span data-lang="fr">Me contacter</span><span data-lang="en">Contact me</span></a></p>
+    </div>
+    <div class="art">
+      <svg viewBox="0 0 560 380" fill="none" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Un écran affiche une erreur 404 ; son câble d'alimentation est coupé en deux">
+        <rect x="70" y="30" width="320" height="226" rx="18" fill="#fff" stroke="#151515" stroke-width="3"/>
+        <rect x="86" y="46" width="288" height="186" rx="10" fill="#151515"/>
+        <text x="230" y="120" text-anchor="middle" fill="#fff" style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:58px;font-weight:600;letter-spacing:.04em">404</text>
+        <rect x="128" y="146" width="204" height="64" rx="8" fill="#faf8f2" stroke="#151515" stroke-width="2"/>
+        <circle cx="156" cy="178" r="12" fill="#E2452C"/><path d="M150.5 172.5l11 11M161.5 172.5l-11 11" stroke="#fff" stroke-width="2.4"/>
+        <rect x="180" y="168" width="110" height="8" rx="4" fill="#15151533"/><rect x="180" y="184" width="76" height="8" rx="4" fill="#15151533"/>
+        <rect x="296" y="166" width="24" height="24" rx="6" fill="#2823EE"/><path d="M303 178h10M308 173l5 5-5 5" stroke="#fff" stroke-width="2"/>
+        <path d="M206 256 L254 256 L272 302 L188 302 Z" fill="#f3f0e6" stroke="#151515" stroke-width="3"/>
+        <rect x="150" y="302" width="160" height="16" rx="8" fill="#151515"/>
+        <path d="M360 236 C360 300 410 316 432 316" stroke="#151515" stroke-width="5"/><path d="M432 316l10 -8M432 316l9 8" stroke="#E2452C" stroke-width="3"/>
+        <path d="M470 318 C500 318 512 346 536 346" stroke="#151515" stroke-width="5"/><path d="M470 318l-10 -8M470 318l-9 8" stroke="#E2452C" stroke-width="3"/>
+        <path d="M451 296l2.5 7 7 2.5-7 2.5-2.5 7-2.5-7-7-2.5 7-2.5z" fill="#EDAF2F"/><path d="M444 334l1.8 4.8 4.8 1.8-4.8 1.8-1.8 4.8-1.8-4.8-4.8-1.8 4.8-1.8z" fill="#EDAF2F"/><path d="M458 330l6-4M460 338l7 1" stroke="#E2452C" stroke-width="2.4"/>
+        <rect x="530" y="332" width="26" height="28" rx="5" fill="#fff" stroke="#151515" stroke-width="3"/><rect x="520" y="338" width="10" height="5" rx="2" fill="#151515"/><rect x="520" y="349" width="10" height="5" rx="2" fill="#151515"/>
+        <path d="M36 350h490" stroke="#15151533" stroke-width="2" stroke-dasharray="6 8"/>
+      </svg>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="brand"><svg viewBox="0 0 120 112" style="isolation:isolate" aria-hidden="true"><path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="#E2452C" style="mix-blend-mode:multiply"/></svg>La Goffinerie</span>
+    <nav><a href="/mentions-legales.html"><span data-lang="fr">Mentions légales</span><span data-lang="en">Legal notice</span></a><a href="/cgu.html"><span data-lang="fr">CGU</span><span data-lang="en">Terms</span></a><a href="/donnees-personnelles.html"><span data-lang="fr">Protection des données</span><span data-lang="en">Privacy</span></a><a href="/cookies.html">Cookies</a><a href="mailto:info@lagoffinerie.be">info@lagoffinerie.be</a></nav>
+    <p><span data-lang="fr">© 2026 La Goffinerie · Basée en Belgique.</span><span data-lang="en">© 2026 La Goffinerie · Belgium-based.</span></p>
+  </div>
+</footer>
+<script>
+/* The visitor's language: the choice saved by the site, else the browser's. */
+(function(){
+  var l=null; try{ l=localStorage.getItem('lg_lang'); }catch(e){}
+  if(l!=='en' && l!=='fr'){ var nav=(navigator.languages && navigator.languages[0]) || navigator.language || 'en'; l=String(nav).toLowerCase().indexOf('fr')===0 ? 'fr' : 'en'; }
+  document.documentElement.lang=l;
+  document.title = l==='fr' ? 'Page introuvable — La Goffinerie' : 'Page not found — La Goffinerie';
+})();
+</script>
+<script src="/site-state.js" defer></script>
 </body>
 </html>

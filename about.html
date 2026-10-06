@@ -303,5 +303,6 @@ const rvObs=new IntersectionObserver(es=>{ es.forEach(en=>{ if(en.isIntersecting
 document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
 addEventListener('scroll',()=>{ document.documentElement.classList.toggle('scrolled', scrollY>8); },{passive:true});
 </script>
+<script src="site-state.js" defer></script>
 </body>
 </html>

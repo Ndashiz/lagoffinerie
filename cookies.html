@@ -109,7 +109,7 @@
     <section>
       <h2 data-i18n="s1_h">Why, and which cookies, on lagoffinerie.be?</h2>
       <p data-i18n="s1_why">Most sites use cookies for two reasons: to let you browse comfortably, and to measure their audience. This site does both <strong>without any tracking cookie</strong>: it keeps a few preferences in your browser's own storage (never sent anywhere), and it measures its audience with anonymous events that carry no cookie, no IP address and no fingerprint. Accepting cookies is therefore <strong>not required</strong> to access the site or any of its features, and no cookie banner is needed.</p>
-      <p data-i18n="s1_p">The site sets <strong>no cookie of its own</strong>. It keeps six small values in your browser's storage, none of which identifies you or leaves your device:</p>
+      <p data-i18n="s1_p">The site sets <strong>no cookie of its own</strong>. It keeps eight small values in your browser's storage, none of which identifies you or leaves your device:</p>
       <table>
         <thead><tr><th data-i18n="t_key">Key</th><th data-i18n="t_what">What it holds</th><th data-i18n="t_life">How long</th></tr></thead>
         <tbody>
@@ -119,6 +119,8 @@
           <tr><td>lg_crew</td><td data-i18n="r3_w">Only on my own devices: a flag that excludes my test visits from the statistics. It is never set for a visitor.</td><td data-i18n="r3_l">Until cleared.</td></tr>
           <tr><td>lg_intro</td><td data-i18n="r5_w">A flag saying the logo animation has already played in this tab, so it does not play on every page you come back to.</td><td data-i18n="r5_l">Until you close the tab.</td></tr>
           <tr><td>lg_intro_cfg</td><td data-i18n="r6_w">Whether the logo animation is switched on, and how fast it plays — the last setting read from my server, so the next visit does not have to wait for it.</td><td data-i18n="r6_l">Until you clear your browser storage.</td></tr>
+          <tr><td>lg_site_cfg</td><td data-i18n="r8_w">The last answer from my server about the site's state — whether a maintenance screen or an announcement banner is on, and their text — so the next page does not have to wait for it. Maintenance is never shown from this copy, only from a fresh answer.</td><td data-i18n="r8_l">Until you clear your browser storage.</td></tr>
+          <tr><td>lg_banner</td><td data-i18n="r9_w">The announcement banner you closed with its ×, so it stays closed while you browse the site.</td><td data-i18n="r9_l">Until you close the tab.</td></tr>
         </tbody>
       </table>
       <p style="margin-top:12px" data-i18n="s1_p2">The site is hosted on <strong>GitHub Pages</strong>, which sets no cookie. Should a CDN such as <strong>Cloudflare</strong> ever be placed in front of it, it may set a short-lived security cookie (<code>__cf_bm</code>, about 30 minutes) to tell browsers from bots — strictly necessary to serve the page, and free of personal data.</p>
@@ -188,13 +190,15 @@ const FR = {
   s0_p2:"Le serveur d'un site ne peut lire que les cookies qu'il a lui-même installés. Il n'a accès à aucune autre information se trouvant sur votre ordinateur ou votre appareil mobile.",
   s1_h:"Pourquoi, et quels cookies, sur lagoffinerie.be ?",
   s1_why:"La plupart des sites utilisent des cookies pour deux raisons : permettre une navigation confortable, et réaliser des statistiques de visite. Ce site fait les deux <strong>sans aucun cookie de suivi</strong> : il garde quelques préférences dans le stockage de votre navigateur (jamais envoyées nulle part), et il mesure sa fréquentation par des événements anonymes sans cookie, sans adresse IP et sans empreinte. Accepter les cookies n'est donc <strong>pas nécessaire</strong> pour accéder au site ni à ses fonctionnalités, et aucun bandeau n'est requis.",
-  s1_p:"Le site ne dépose <strong>aucun cookie qui lui soit propre</strong>. Il garde six petites valeurs dans le stockage de votre navigateur, dont aucune ne vous identifie ni ne quitte votre appareil :",
+  s1_p:"Le site ne dépose <strong>aucun cookie qui lui soit propre</strong>. Il garde huit petites valeurs dans le stockage de votre navigateur, dont aucune ne vous identifie ni ne quitte votre appareil :",
   t_key:"Clé", t_what:"Contenu", t_life:"Durée",
   r1_w:"Votre choix de langue (EN ou FR), pour que la page s'ouvre dans la langue choisie.", r1_l:"Jusqu'à ce que vous vidiez le stockage du navigateur.",
   r2_w:"Un drapeau indiquant que la fenêtre « besoin de plus d'informations ? » a déjà été montrée, pour ne pas l'afficher deux fois.", r2_l:"Jusqu'à la fermeture de l'onglet.",
   r4_w:"Uniquement si le formulaire se rabat sur un envoi classique : le créneau que vous avez proposé, pour que le message de remerciement puisse encore offrir le fichier d'agenda. Effacé dès qu'il est lu.", r4_l:"Quelques secondes.",
   r3_w:"Uniquement sur mes propres appareils : un drapeau qui exclut mes visites de test des statistiques. Il n'est jamais posé chez un visiteur.", r3_l:"Jusqu'à effacement.",
   r5_w:"Un drapeau indiquant que l'animation du logo a déjà été jouée dans cet onglet, pour ne pas la rejouer à chaque retour sur la page.", r5_l:"Jusqu'à la fermeture de l'onglet.",
+  r8_w:"La dernière réponse de mon serveur sur l'état du site — si un écran de maintenance ou une bannière d'annonce est active, et leur texte — pour que la page suivante n'ait pas à l'attendre. La maintenance n'est jamais affichée depuis cette copie, seulement depuis une réponse fraîche.", r8_l:"Jusqu'à ce que vous vidiez le stockage de votre navigateur.",
+  r9_w:"La bannière d'annonce que vous avez fermée avec son ×, pour qu'elle reste fermée pendant votre visite.", r9_l:"Jusqu'à la fermeture de l'onglet.",
   r6_w:"Si l'animation du logo est activée, et à quelle vitesse elle joue — le dernier réglage lu sur mon serveur, pour que la visite suivante n'ait pas à l'attendre.", r6_l:"Jusqu'à ce que vous vidiez le stockage du navigateur.",
   s1_p2:"Le site est hébergé sur <strong>GitHub Pages</strong>, qui ne dépose aucun cookie. Si un CDN comme <strong>Cloudflare</strong> était un jour placé devant, il pourrait déposer un cookie de sécurité de courte durée (<code>__cf_bm</code>, environ 30 minutes) pour distinguer les navigateurs des robots — strictement nécessaire pour servir la page, et sans donnée personnelle.",
   s2_h:"Mesure d'audience — en propre, sans tiers",
@@ -242,5 +246,6 @@ function setLang(l){
   setLang(l);
 })();
 </script>
+<script src="site-state.js" defer></script>
 </body>
 </html>
