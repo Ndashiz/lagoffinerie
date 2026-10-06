@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light only">
 <title>La Goffinerie — Websites that work for you</title>
-<meta name="description" content="I build living websites for Belgian small businesses: Odoo integrations, calendar booking, AI digests, analytics you own. Fixed price. No subscriptions. You own it.">
+<meta name="description" content="I build living websites for Belgian small businesses: Odoo integrations, calendar booking, AI digests, analytics you own. Fixed price. No mandatory subscription. You own it.">
 <link rel="canonical" href="https://lagoffinerie.be/">
 <link rel="alternate" hreflang="en" href="https://lagoffinerie.be/?lang=en">
 <link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/?lang=fr">
@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="La Goffinerie">
 <meta property="og:url" content="https://lagoffinerie.be/">
 <meta property="og:title" content="La Goffinerie — Websites that work for you">
-<meta property="og:description" content="Living websites for Belgian small businesses: Odoo integrations, calendar booking, AI digests, analytics you own. Fixed price. No subscriptions. You own it.">
+<meta property="og:description" content="Living websites for Belgian small businesses: Odoo integrations, calendar booking, AI digests, analytics you own. Fixed price. No mandatory subscription. You own it.">
 <meta property="og:locale" content="en_BE">
 <meta property="og:locale:alternate" content="fr_BE">
 <meta property="og:image" content="https://lagoffinerie.be/assets/og.png">
@@ -33,7 +33,7 @@
   "name": "La Goffinerie",
   "url": "https://lagoffinerie.be/",
   "image": "https://lagoffinerie.be/assets/og.png",
-  "description": "Websites and dedicated solutions for Belgian small businesses: Odoo integrations, calendar booking, AI digests, analytics you own. Fixed price, no subscription.",
+  "description": "Websites and dedicated solutions for Belgian small businesses: Odoo integrations, calendar booking, AI digests, analytics you own. Fixed price, no mandatory subscription.",
   "telephone": "+32479487608",
   "email": "info@lagoffinerie.be",
   "founder": { "@type": "Person", "name": "Simon Goffin", "sameAs": "https://www.linkedin.com/in/ndashiz/" },
@@ -61,7 +61,7 @@
    "name": "How much does it cost?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "One fixed price, agreed in writing before anything starts, right after the free call. No subscription, no per-user fee, no surprise afterwards."
+    "text": "A showcase site and a site connected to your tools each have a starting price, shown on the pricing page. The exact price is set in writing after the free call and does not move afterwards. After that, no mandatory subscription: you run the site yourself, or hand it to me for a monthly fee. The online estimator gives an indicative range in two minutes."
    }
   },
   {
@@ -69,7 +69,7 @@
    "name": "What do I need to provide?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Your texts and photos (or the notes we take together on the call), your logo if you have one, and access to the tools the site must talk to, such as your calendar or Odoo. I handle everything else."
+    "text": "Your texts and photos (or the notes we take together on the call), your logo if you have one, and access to the tools the site must talk to, such as your calendar or your invoicing tool. I handle everything else."
    }
   },
   {
@@ -101,7 +101,7 @@
    "name": "Anyone can ask AI for a website these days. Why trust yours?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Fair question. AI makes me fast, but fast is worthless if your site goes down on a Saturday or leaks your client list. I spent the last six years shipping digital solutions for major actors across Belgium, where downtime and data leaks are not an option. Every build comes with that discipline: monitored and updated without interruption, hardened against the common attacks, a secured and backed-up database, and a documented, tested handover."
+    "text": "Fair question. AI makes me fast, but fast is worthless if your site goes down on a Saturday or leaks your client list. I spent the last six years shipping digital solutions for major actors across Belgium, where downtime and data leaks are not an option. Every build comes with that discipline: monitored and updated for you if you choose the maintenance plan, protected against the common attacks, a secured and backed-up database, and a documented, tested handover."
    }
   },
   {
@@ -109,7 +109,15 @@
    "name": "What happens after the delivery?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "One month of general support is included, and any defect is fixed free for six months. Anything new is quoted first as a small change request, so there are never surprises."
+    "text": "Five hours of maintenance are included, to use within three months, and any defect is fixed free for six months. After that, you run the site yourself or take the maintenance plan. New features always get a small quote first."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What does maintenance cover?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Keeping what exists working: technical issues, interface issues, updates and anything that breaks on its own, with a response within one working day. It does not cover change requests or new features, which are quoted separately, nor repairing damage caused by changes you make to the code or technical settings, which is billed separately at the hourly rate."
    }
   },
   {
@@ -145,7 +153,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.24 — coloured rotating words + logo shapes that answer, paper-plane send, maintenance screen and banner driven from Jarvis, new 404
+     LA GOFFINERIE v2.25 — the project estimator (estimator.js), every price from config.js, maintenance offer after delivery
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
@@ -468,6 +476,8 @@
   .fq summary::after{content:"+";font-family:var(--disp);font-size:24px;line-height:1;color:var(--blue);flex:none;transition:transform .2s;}
   .fq[open] summary::after{transform:rotate(45deg);}
   .fq p{padding:0 0 18px;color:var(--ink-2);font-size:15px;max-width:66ch;}
+  .fq p a{color:var(--ink);font-family:var(--disp);font-weight:700;text-decoration:none;border-bottom:2px solid var(--blue);white-space:nowrap;}
+  button.btn{line-height:inherit;}
 
   /* ---------- booking slot (shown when BOOKING_URL is set) ---------- */
   .book-slot{margin:22px 0 6px;display:flex;flex-direction:column;gap:8px;align-items:flex-start;}
@@ -748,7 +758,8 @@
   const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const force=/[?&]intro=1/.test(location.search);
   let seen=false; try{ seen=sessionStorage.getItem('lg_intro')==='1'; }catch(e){}
-  if(RM || !ov.animate || !window.fetch || (seen && !force)){ ov.remove(); ready(); return; }
+  const booking=/[?&]book=1/.test(location.search);   /* opened to book a call (from the pricing page or an e-mail): straight to the form */
+  if(RM || booking || !ov.animate || !window.fetch || (seen && !force)){ ov.remove(); ready(); return; }
 
   const CFG_URL='https://jarvis.ndashiz.be/api/gf/config', CFG_KEY='lg_intro_cfg', WAIT=700;
   function norm(c){
@@ -902,7 +913,7 @@
   <div class="wrap">
     <div class="kick" data-i18n="hero_kick">Websites, apps &amp; small programs · Belgium</div>
     <h1 data-i18n="hero_h1">I build <span class="rot"><span class="vh">websites, apps and small programs</span><b class="on" data-tone="blue" aria-hidden="true">websites</b><b data-tone="red" aria-hidden="true">apps</b><b data-tone="yellow" aria-hidden="true">small programs</b></span> <span class="u">that get to work for you.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span></h1>
-    <p class="sub" data-i18n="hero_sub">A website that fills your calendar, sends your invoices and tells you what your visitors do. Fixed price, no subscription. <strong>You own it.</strong></p>
+    <p class="sub" data-i18n="hero_sub">A website that fills your calendar, sends your invoices and tells you what your visitors do. Fixed price. No mandatory subscription. <strong>You own it.</strong></p>
     <p class="who"><span data-i18n="hero_who">For tradespeople, shops and independents in Belgium</span><span class="chip" data-i18n="who1">Electrician</span><span class="chip" data-i18n="who2">Hair salon</span><span class="chip" data-i18n="who3">Practice</span><span class="chip" data-i18n="who4">Restaurant</span></p>
     <div class="ctas">
       <a class="btn primary" href="#contact" data-track="cta_hero_book" data-open="hero" data-i18n="hero_cta1">Book my free call</a>
@@ -926,7 +937,7 @@
       <div class="card rv"><span class="plus" aria-hidden="true">03</span><span class="tag t-red" data-i18n="tag_ai">AI</span><h3 data-i18n="c3_h">Reads your inbox for you</h3><p data-i18n="c3_p">An AI digest summarises client interactions and unread messages into one short morning briefing, so nothing slips on busy days.</p></div>
       <div class="card rv"><span class="plus" aria-hidden="true">04</span><span class="tag t-red" data-i18n="tag_ai2">AI</span><h3 data-i18n="c4_h">Does the boring work</h3><p data-i18n="c4_p">Quotes drafted, invoices generated when a job closes, follow-ups sent. Your site handles the admin you do at 10pm.</p></div>
       <div class="card rv"><span class="plus" aria-hidden="true">05</span><span class="tag t-yel" data-i18n="tag_insight">Insight</span><h3 data-i18n="c5_h">Analytics you own</h3><p data-i18n="c5_p">Every visit and click captured to your own private dashboard — not shipped to a third party. See what visitors want, in plain language.</p></div>
-      <div class="card rv"><span class="plus" aria-hidden="true">06</span><span class="tag t-yel" data-i18n="tag_addon">Add-on</span><h3 data-i18n="c6_h">Gets found on Google</h3><p data-i18n="c6_p">Optional SEO layer on top: structure, speed and content tuned so the people searching for your trade actually find you.</p></div>
+      <div class="card rv"><span class="plus" aria-hidden="true">06</span><span class="tag t-yel" data-i18n="tag_addon">Add-on</span><h3 data-i18n="c6_h">Gets found on Google</h3><p data-i18n="c6_p">Basic SEO and a Google Business profile, as an option: structure, speed and content looked after, to help the people searching for your trade find you.</p></div>
     </div>
   </div>
 </section>
@@ -1004,9 +1015,9 @@
       <li><span class="pn">1</span><h3 data-i18n="ps1_h">Free call</h3><p data-i18n="ps1_p">30 minutes to understand how you work today, and what is worth building.</p></li>
       <li><span class="pn">2</span><h3 data-i18n="ps2_h">Plan &amp; fixed price</h3><p data-i18n="ps2_p">What will be delivered, in writing, for one price. Nothing starts without your green light.</p></li>
       <li><span class="pn">3</span><h3 data-i18n="ps3_h">Build in the open</h3><p data-i18n="ps3_p">You follow the progress every week and test it on real work before delivery.</p></li>
-      <li><span class="pn">4</span><h3 data-i18n="ps4_h">Handover</h3><p data-i18n="ps4_p">Code, data and keys are yours. One month of support, defects fixed free for six months.</p></li>
+      <li><span class="pn">4</span><h3 data-i18n="ps4_h">Handover</h3><p data-i18n="ps4_p">Code, data and keys are yours. 5 hours of maintenance included within 3 months, defects fixed free for six months.</p></li>
     </ol>
-    <div class="ctas rv"><a class="btn ghost" href="pricing.html" data-track="cta_pricing" data-i18n="proc_btn">The method and the pricing, in detail →</a></div>
+    <div class="ctas rv"><button class="btn primary" type="button" data-estimator="home" data-track="cta_estimate" data-i18n="proc_est">Estimate my project</button><a class="btn ghost" href="pricing.html" data-track="cta_pricing" data-i18n="proc_btn">The method and the pricing, in detail →</a></div>
   </div>
 </section>
 
@@ -1017,13 +1028,14 @@
     <h2 class="rv" data-i18n="faq_h2">The answers I give on every first call.</h2>
     <div class="faq rv">
       <details class="fq" data-track="faq_open"><summary><span data-i18n="q1">How long does a project take?</span></summary><p data-i18n="a1">Most projects take between three and six weeks from the first call to the handover, depending on the integrations. You see the progress every week and validate each step.</p></details>
-      <details class="fq" data-track="faq_open"><summary><span data-i18n="q2">How much does it cost?</span></summary><p data-i18n="a2">One fixed price, agreed in writing before anything starts, right after the free call. No subscription, no per-user fee, no surprise afterwards.</p></details>
-      <details class="fq" data-track="faq_open"><summary><span data-i18n="q3">What do I need to provide?</span></summary><p data-i18n="a3">Your texts and photos (or the notes we take together on the call), your logo if you have one, and access to the tools the site must talk to, such as your calendar or Odoo. I handle everything else.</p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q2">How much does it cost?</span></summary><p data-i18n="a2">A showcase site starts at <span data-price="vitrine">—</span> excl. VAT, a site connected to your tools at <span data-price="connecte">—</span> excl. VAT. The exact price is set in writing after the free call and does not move afterwards. After that, no mandatory subscription: you run the site yourself, or hand it to me for a monthly fee. <a href="#estimate" data-estimator="faq" data-track="faq_estimate">Estimate your project in two minutes →</a></p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q3">What do I need to provide?</span></summary><p data-i18n="a3">Your texts and photos (or the notes we take together on the call), your logo if you have one, and access to the tools the site must talk to, such as your calendar or your invoicing tool. I handle everything else.</p></details>
       <details class="fq" data-track="faq_open"><summary><span data-i18n="q4">I already have a website. Can you start from it?</span></summary><p data-i18n="a4">Yes. I keep what works (content, domain name, ranking) and rebuild what holds you back. Your address does not change, and the old site stays online until the new one is ready.</p></details>
       <details class="fq" data-track="faq_open"><summary><span data-i18n="q5">Do I need Odoo?</span></summary><p data-i18n="a5">No. Odoo is one example of what the site can talk to. It works just as well with your calendar, your invoicing tool or a simple spreadsheet, and it works without any of them.</p></details>
       <details class="fq" data-track="faq_open"><summary><span data-i18n="q6">Who does the work?</span></summary><p data-i18n="a6">I do, from the first call to the handover. No agency, no subcontracting: one person who knows your project.</p></details>
-      <details class="fq" data-track="faq_open"><summary><span data-i18n="q11">Anyone can ask AI for a website these days. Why trust yours?</span></summary><p data-i18n="a11">Fair question. AI makes me fast, but fast is worthless if your site goes down on a Saturday or leaks your client list. I spent the last six years shipping digital solutions for major actors across Belgium, where downtime and data leaks are not an option. Every build comes with that discipline: monitored and updated without interruption, hardened against the common attacks, a secured and backed-up database, and a documented, tested handover.</p></details>
-      <details class="fq" data-track="faq_open"><summary><span data-i18n="q7">What happens after the delivery?</span></summary><p data-i18n="a7">One month of general support is included, and any defect is fixed free for six months. Anything new is quoted first as a small change request, so there are never surprises.</p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q11">Anyone can ask AI for a website these days. Why trust yours?</span></summary><p data-i18n="a11">Fair question. AI makes me fast, but fast is worthless if your site goes down on a Saturday or leaks your client list. I spent the last six years shipping digital solutions for major actors across Belgium, where downtime and data leaks are not an option. Every build comes with that discipline: monitored and updated for you if you choose the maintenance plan, protected against the common attacks, a secured and backed-up database, and a documented, tested handover.</p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q7">What happens after the delivery?</span></summary><p data-i18n="a7">Five hours of maintenance are included, to use within three months, and any defect is fixed free for six months. After that, you run the site yourself or take the maintenance plan. New features always get a small quote first.</p></details>
+      <details class="fq" data-track="faq_open"><summary><span data-i18n="q12">What does maintenance cover?</span></summary><p data-i18n="a12">Keeping what exists working: technical issues, interface issues, updates, and anything that breaks on its own. Response within one working day. It does not cover change requests or new features, which are quoted separately, nor repairing damage caused by changes you make to the code or technical settings, billed separately at the hourly rate (<span data-price="hourly">—</span>/h).</p></details>
       <details class="fq" data-track="faq_open"><summary><span data-i18n="q8">Who owns the site?</span></summary><p data-i18n="a8">You do: the code, the data and every access. You can take it anywhere, hand it to someone else or change it yourself, with or without me.</p></details>
       <details class="fq" data-track="faq_open"><summary><span data-i18n="q9">How does payment work?</span></summary><p data-i18n="a9">A deposit when we start and the balance at delivery, both on invoice. Prices are quoted excluding VAT.</p></details>
       <details class="fq" data-track="faq_open"><summary><span data-i18n="q10">In which languages?</span></summary><p data-i18n="a10">French, English and Dutch for our exchanges. The site itself can be in one language or several.</p></details>
@@ -1122,6 +1134,7 @@
 </footer>
 
 <script src="config.js"></script>
+<script src="estimator.js"></script>
 <script>
 /* =========================================================
    I18N — EN inline (snapshot at load), FR dictionary below.
@@ -1133,7 +1146,7 @@ const FR = {
   nav_alive:"Ce que je fais", nav_work:"Réalisations", nav_about:"À propos", nav_faq:"FAQ", nav_pricing:"Tarifs", nav_book:"Appel gratuit", nav_call:"Appeler", skip:"Aller au contenu", nav_contact:"Contact", hero_call:"Ou joignez-moi directement :", ct_call:"Appeler",
   hero_kick:"Sites web, applications &amp; petits programmes · Belgique",
   hero_h1:'<span class="rot"><span class="vh">Des sites web, des applications, de petits programmes</span><b class="on" data-tone="blue" aria-hidden="true">Des sites web</b><b data-tone="red" aria-hidden="true">Des applications</b><b data-tone="yellow" aria-hidden="true">De petits programmes</b></span> <span class="u">qui travaillent pour vous.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span>',
-  hero_sub:"Un site qui remplit votre agenda, envoie vos factures et vous dit ce que font vos visiteurs. Prix fixe, pas d'abonnement. <strong>Il vous appartient.</strong>",
+  hero_sub:"Un site qui remplit votre agenda, envoie vos factures et vous dit ce que font vos visiteurs. Prix fixe. Pas d'abonnement obligatoire. <strong>Il vous appartient.</strong>",
   hero_who:"Pour les artisans, commerces et indépendants en Belgique", who1:"Électricien", who2:"Salon de coiffure", who3:"Cabinet", who4:"Restaurant",
   hero_cta1:"Réserver mon appel gratuit", hero_cta2:"Voir nos réalisations →",
   hero_note:"30 minutes, sans engagement. Je vous dirai honnêtement ce qui vaut la peine d'être construit — et ce que ça peut rapporter à votre entreprise.",
@@ -1146,7 +1159,7 @@ const FR = {
   c3_h:"Lit votre boîte mail pour vous", c3_p:"Un digest IA résume vos interactions clients et messages non lus en un court briefing matinal — rien ne passe à la trappe les jours chargés.",
   c4_h:"Fait le travail ennuyeux", c4_p:"Devis préparés, factures générées à la clôture d'un chantier, relances envoyées. Votre site gère l'administratif que vous faites à 22h.",
   c5_h:"Des analytics à vous", c5_p:"Chaque visite et chaque clic capturés dans votre propre tableau de bord privé — rien n'est expédié chez un tiers. Comprenez ce que veulent vos visiteurs, en langage clair.",
-  c6_h:"Être trouvé sur Google", c6_p:"Une couche SEO en option : structure, vitesse et contenu optimisés pour que ceux qui cherchent votre métier vous trouvent vraiment.",
+  c6_h:"Être trouvé sur Google", c6_p:"SEO de base et fiche Google Business, en option : structure, vitesse et contenu soignés, pour aider ceux qui cherchent votre métier à vous trouver.",
   work_kick:"Réalisations",
   work_h2:"Du vrai travail, pour de vraies entreprises.",
   work_sub:"Des sites et des outils qui tournent chaque jour : des projets clients, et un projet personnel. Quelques-uns, en une minute.",
@@ -1161,17 +1174,18 @@ const FR = {
   ps1_h:"Appel gratuit", ps1_p:"30 minutes pour comprendre comment vous travaillez aujourd'hui, et ce qui vaut la peine d'être construit.",
   ps2_h:"Plan &amp; prix fixe", ps2_p:"Ce qui sera livré, par écrit, pour un seul prix. Rien ne démarre sans votre feu vert.",
   ps3_h:"Construction ouverte", ps3_p:"Vous suivez l'avancement chaque semaine et testez sur du vrai travail avant la livraison.",
-  ps4_h:"Remise des clés", ps4_p:"Le code, les données et les clés sont à vous. Un mois de support, défauts corrigés gratuitement six mois.",
-  proc_btn:"La méthode et les tarifs, en détail →",
+  ps4_h:"Remise des clés", ps4_p:"Le code, les données et les clés sont à vous. 5 heures d'entretien incluses dans les 3 mois, défauts corrigés gratuitement six mois.",
+  proc_est:"Estimer mon projet", proc_btn:"La méthode et les tarifs, en détail →",
   faq_kick:"Questions avant d'appeler", faq_h2:"Les réponses que je donne à chaque premier appel.",
   q1:"Combien de temps prend un projet ?", a1:"La plupart des projets prennent entre trois et six semaines, du premier appel à la remise des clés, selon les intégrations. Vous voyez l'avancement chaque semaine et validez chaque étape.",
-  q2:"Combien ça coûte ?", a2:"Un prix fixe, convenu par écrit avant de commencer, juste après l'appel gratuit. Pas d'abonnement, pas de frais par utilisateur, pas de surprise ensuite.",
-  q3:"Que dois-je fournir ?", a3:"Vos textes et photos (ou les notes que nous prenons ensemble à l'appel), votre logo si vous en avez un, et les accès aux outils que le site doit utiliser, comme votre agenda ou Odoo. Je m'occupe du reste.",
+  q2:"Combien ça coûte ?", a2:"Un site vitrine démarre à <span data-price=\"vitrine\">—</span> HTVA, un site connecté à vos outils à <span data-price=\"connecte\">—</span> HTVA. Le prix exact est fixé par écrit après l'appel gratuit et ne bouge plus. Ensuite, pas d'abonnement obligatoire : vous gérez le site vous-même, ou vous me le confiez pour un montant mensuel. <a href=\"#estimate\" data-estimator=\"faq\" data-track=\"faq_estimate\">Estimez votre projet en deux minutes →</a>",
+  q3:"Que dois-je fournir ?", a3:"Vos textes et photos (ou les notes que nous prenons ensemble à l'appel), votre logo si vous en avez un, et les accès aux outils que le site doit utiliser, comme votre agenda ou votre outil de facturation. Je m'occupe du reste.",
   q4:"J'ai déjà un site. Pouvez-vous partir de là ?", a4:"Oui. Je garde ce qui fonctionne (contenu, nom de domaine, référencement) et je reconstruis ce qui vous freine. Votre adresse ne change pas, et l'ancien site reste en ligne jusqu'à ce que le nouveau soit prêt.",
   q5:"Faut-il utiliser Odoo ?", a5:"Non. Odoo est un exemple de ce à quoi le site peut se connecter. Ça marche aussi bien avec votre agenda, votre outil de facturation ou un simple tableur, et ça marche sans aucun d'eux.",
   q6:"Qui fait le travail ?", a6:"Moi, du premier appel à la remise des clés. Pas d'agence, pas de sous-traitance : une personne qui connaît votre projet.",
-  q11:"Aujourd'hui, n'importe qui peut demander un site à l'IA. Pourquoi faire confiance au vôtre ?", a11:"Bonne question. L'IA me rend rapide, mais la vitesse ne vaut rien si votre site tombe un samedi ou laisse fuiter votre fichier clients. J'ai passé les six dernières années à livrer des solutions digitales pour des acteurs majeurs en Belgique, où les pannes et les fuites de données ne sont pas une option. Cette discipline accompagne chaque projet : supervisé et mis à jour sans interruption, protégé contre les attaques courantes, une base de données sécurisée et sauvegardée, et une remise des clés documentée et testée.",
-  q7:"Que se passe-t-il après la livraison ?", a7:"Un mois de support général est inclus, et tout défaut est corrigé gratuitement pendant six mois. Toute nouveauté fait d'abord l'objet d'un petit devis, donc jamais de surprise.",
+  q11:"Aujourd'hui, n'importe qui peut demander un site à l'IA. Pourquoi faire confiance au vôtre ?", a11:"Bonne question. L'IA me rend rapide, mais la vitesse ne vaut rien si votre site tombe un samedi ou laisse fuiter votre fichier clients. J'ai passé les six dernières années à livrer des solutions digitales pour des acteurs majeurs en Belgique, où les pannes et les fuites de données ne sont pas une option. Cette discipline accompagne chaque projet : surveillé et mis à jour pour vous si vous choisissez la formule d'entretien, protégé contre les attaques courantes, une base de données sécurisée et sauvegardée, et une remise des clés documentée et testée.",
+  q7:"Que se passe-t-il après la livraison ?", a7:"Cinq heures d'entretien sont incluses, à utiliser dans les trois mois, et tout défaut est corrigé gratuitement pendant six mois. Ensuite, vous gérez le site vous-même ou vous prenez la formule d'entretien. Les nouvelles fonctionnalités font toujours l'objet d'un petit devis.",
+  q12:"Que couvre l'entretien ?", a12:"Faire fonctionner ce qui existe : les problèmes techniques, les problèmes d'affichage, les mises à jour, et ce qui casse tout seul. Réponse sous un jour ouvrable. Il ne couvre pas les demandes de modification ni les nouvelles fonctionnalités, chiffrées à part, ni la réparation de dégâts causés par une modification du code ou des réglages techniques de votre part, facturée à part au tarif horaire (<span data-price=\"hourly\">—</span>/h).",
   q8:"À qui appartient le site ?", a8:"À vous : le code, les données et tous les accès. Vous pouvez l'emporter où vous voulez, le confier à quelqu'un d'autre ou le modifier vous-même, avec ou sans moi.",
   q9:"Comment se passe le paiement ?", a9:"Un acompte au démarrage et le solde à la livraison, sur facture. Les prix s'entendent hors TVA.",
   q10:"Dans quelles langues ?", a10:"Français, anglais et néerlandais pour nos échanges. Le site lui-même peut être en une langue ou en plusieurs.",
@@ -1210,6 +1224,7 @@ function setLang(l, silent){
     const k = el.getAttribute('data-i18n-ph');
     el.setAttribute('placeholder', (LANG==='fr' && FR[k]!==undefined) ? FR[k] : EN_PH[k]);
   });
+  if(window.LGEstimator) window.LGEstimator.fill();   // the prices in the re-rendered text (FAQ), from config.js
   if(typeof heroRot==='function') heroRot();
   document.getElementById('lang-en').classList.toggle('active', LANG==='en');
   document.getElementById('lang-fr').classList.toggle('active', LANG==='fr');
@@ -1376,13 +1391,11 @@ function calendarLinks(slot){
   return { google:g, ics:'data:text/calendar;charset=utf-8,'+encodeURIComponent(ics) };
 }
 const FORMSUBMIT_AJAX = 'https://formsubmit.co/ajax/info@lagoffinerie.be';
-/* Both switches live in config.js (shared with pricing.html): PRICES shows the « from » prices there,
+/* config.js (shared with pricing.html and estimator.js): the prices are written by estimator.js,
    BOOKING_URL shows the « choose a slot now » buttons here. */
 const LG_CFG = window.LG_CONFIG || {};
-const PRICES = LG_CFG.PRICES || null;
 const BOOKING_URL = LG_CFG.BOOKING_URL || '';
 function applyConfig(){
-  if(PRICES){ document.querySelectorAll('[data-price]').forEach(el=>{ const v=PRICES[el.getAttribute('data-price')]; if(v) el.textContent=v; }); document.querySelectorAll('[data-needs-prices]').forEach(el=>{ el.hidden=false; }); }
   if(BOOKING_URL){ document.querySelectorAll('[data-book]').forEach(a=>{ a.href=BOOKING_URL; }); document.querySelectorAll('[data-needs-booking]').forEach(el=>{ el.hidden=false; }); }
 }
 applyConfig();
@@ -1449,6 +1462,7 @@ document.querySelectorAll('[data-open]').forEach(el=>{
 /* --- after a minute of real presence: "need more information?" — once per tab, never over a form being filled --- */
 function maybeAutoPopup(){
   if(POPPED || SUBMITTED || MODAL_OPENED) return;
+  if(window.LGEstimator && window.LGEstimator.used()) return;     // the visitor is already busy with the estimator: never pop over it
   try{ if(sessionStorage.getItem('lg_pop')==='1') return; }catch(e){}
   const a=document.activeElement;
   if(a && a.closest && a.closest('form')){ setTimeout(maybeAutoPopup, 20000); return; }
@@ -1524,6 +1538,25 @@ function bindForm(f){
 }
 bindForm(document.getElementById('leadform'));
 setupSlot(document.getElementById('leadform'));
+
+/* The estimator hands over to the booking window, pre-filled with the visitor's name, e-mail, phone and a
+   one-line summary of the estimate in « What can I help with? » (only the fields still empty). */
+window.lgOpenBooking = function(pre){
+  openLead('book', 'estimator');
+  const f=document.getElementById('leadform-modal'); if(!f || !pre) return;
+  ['name','email','phone','subject'].forEach(k=>{ const el=f.elements[k]; if(el && pre[k] && !el.value) el.value=pre[k]; });
+};
+/* ?book=1 opens the booking window on arrival: from the pricing page (with the estimator's hand-over, if any)
+   or from the link in the estimate e-mail. */
+try{
+  const q=new URLSearchParams(location.search);
+  if(q.get('book')==='1'){
+    q.delete('book'); history.replaceState(null,'',location.pathname+(q.toString()?'?'+q.toString():'')+location.hash);
+    const ct=document.getElementById('contact'); if(ct && location.hash==='#contact') ct.scrollIntoView({block:'start', behavior:'instant'});   // closing the window lands there
+    const pre=window.LGEstimator ? window.LGEstimator.takeHandoff() : null;
+    if(pre) window.lgOpenBooking(pre); else openLead('book', 'link');
+  }
+}catch(e){}
 /* Back from FormSubmit's plain POST (no-JS or AJAX fallback): show the thanks in place. */
 try{
   if(new URLSearchParams(location.search).get('sent')==='1'){

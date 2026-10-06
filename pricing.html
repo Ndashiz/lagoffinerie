@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light only">
 <meta name="theme-color" content="#faf8f2">
 <title>Pricing &amp; method — La Goffinerie</title>
-<meta name="description" content="One fixed price known before we start, three starting points, and the six-step method from the first call to the handover. No subscription. You own it.">
+<meta name="description" content="One fixed price known before we start, three starting points, and the six-step method from the first call to the handover. No mandatory subscription. You own it.">
 <link rel="canonical" href="https://lagoffinerie.be/pricing.html">
 <link rel="alternate" hreflang="en" href="https://lagoffinerie.be/pricing.html?lang=en">
 <link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/pricing.html?lang=fr">
@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="La Goffinerie">
 <meta property="og:url" content="https://lagoffinerie.be/pricing.html">
 <meta property="og:title" content="Pricing &amp; method — La Goffinerie">
-<meta property="og:description" content="One fixed price known before we start, three starting points, and the six-step method from the first call to the handover. No subscription. You own it.">
+<meta property="og:description" content="One fixed price known before we start, three starting points, and the six-step method from the first call to the handover. No mandatory subscription. You own it.">
 <meta property="og:image" content="https://lagoffinerie.be/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 112" style="isolation:isolate"><path d="M62 6 L102 80 L22 80 Z" fill="%23EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="%232823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="%23E2452C" style="mix-blend-mode:multiply"/></svg>'>
@@ -104,16 +104,48 @@
   @media(max-width:900px){.plans{grid-template-columns:1fr;}}
   .plan{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:24px 22px;position:relative;transition:transform .18s ease, box-shadow .18s ease;}
   .plan:hover{transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--ink);}
-  .plan.is-star{box-shadow:7px 7px 0 var(--yellow);}
-  .plan.is-star:hover{box-shadow:10px 10px 0 var(--yellow);}
-  .plan .star{position:absolute;top:-13px;right:16px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--yellow);border-radius:6px;padding:4px 9px;}
-  .plan .pn{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);}
-  .plan .pp{font-family:var(--disp);font-weight:800;font-size:26px;margin:10px 0 10px;}
-  .plan .pp span{font-family:var(--sans);font-weight:500;font-size:14px;color:var(--ink-2);}
+  .plan .pn,.run .pn{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);}
+  .plan .pp,.run .pp{font-family:var(--disp);font-weight:800;font-size:26px;margin:10px 0 10px;}
+  .plan .pp span,.run .pp span{font-family:var(--sans);font-weight:500;font-size:14px;color:var(--ink-2);}
   .plan .pq{font-family:var(--disp);font-weight:800;font-size:18px;line-height:1.25;margin:10px 0 10px;color:var(--blue);}
   .plan p{font-size:15px;color:var(--ink-2);}
+  button.btn{line-height:inherit;}
+  .pr-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:30px;}
+  .pr-ctas p{flex-basis:100%;margin-top:-2px;font-size:14px;color:var(--ink-2);}
   .pr-note{margin-top:22px;font-size:14.5px;color:var(--ink-2);max-width:66ch;}
   .pr-note b{color:var(--ink);}
+
+  /* ---------- after delivery: you run it, or I do ---------- */
+  #after{padding-top:0;}
+  .runs{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:40px;}
+  @media(max-width:800px){.runs{grid-template-columns:1fr;}}
+  .run{background:#fff;border:2px solid var(--ink);border-radius:18px;padding:24px 24px 22px;box-shadow:7px 7px 0 #15151522;}
+  .run.is-blue{box-shadow:7px 7px 0 var(--blue);}
+  .run h3{font-size:20px;font-weight:800;margin:8px 0 6px;}
+  .run .rp{display:grid;gap:8px;margin:12px 0 4px;}
+  .run .rp div{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px 12px;padding:10px 12px;border-radius:10px;background:var(--paper);font-size:14.5px;color:var(--ink-2);}
+  .run .rp b{font-family:var(--disp);font-weight:800;font-size:17px;color:var(--ink);white-space:nowrap;}
+  .run ul{list-style:none;margin-top:14px;display:grid;gap:8px;}
+  .run li{position:relative;padding-left:19px;font-size:15px;color:var(--ink-2);}
+  .run li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;border-radius:50%;background:var(--blue);}
+  .run:first-child li::before{background:var(--yellow);}
+  .run li b{color:var(--ink);}
+  .scope{margin-top:26px;border:2px dashed #15151566;border-radius:18px;padding:22px 24px;}
+  .scope h3{font-size:18px;font-weight:800;margin-bottom:12px;}
+  .scope ul{list-style:none;display:grid;gap:10px;}
+  .scope li{display:flex;gap:11px;align-items:flex-start;font-size:15px;color:var(--ink-2);}
+  .scope li b{color:var(--ink);}
+  .scope svg{width:22px;height:22px;flex:none;margin-top:1px;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;}
+  .scope .yes svg{stroke:var(--blue);} .scope .no svg{stroke:var(--red);}
+  .addons{margin-top:40px;}
+  .addons h3{font-size:19px;font-weight:800;}
+  .adgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px;}
+  @media(max-width:800px){.adgrid{grid-template-columns:1fr;}}
+  .ad{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px 18px 16px;}
+  .ad .tag{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;display:inline-block;border-radius:6px;padding:3px 8px;margin-bottom:10px;}
+  .ad p{font-size:15px;color:var(--ink-2);}
+  .ad p b{font-family:var(--disp);font-weight:700;color:var(--ink);white-space:nowrap;}
+  .ad-note{margin-top:14px;font-size:13.5px;color:var(--ink-2);}
   .incl{margin-top:34px;background:#fff;border:2px solid var(--ink);border-radius:20px;padding:26px 28px;box-shadow:8px 8px 0 var(--blue);}
   .incl h3{font-size:19px;font-weight:800;margin-bottom:14px;}
   .incl ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;}
@@ -276,6 +308,7 @@
   .rv.kick::before{transform:scaleX(0);transition:transform .6s .25s ease;}
   .rv.kick.on::before{transform:scaleX(1);}
   .plans .plan.rv:nth-child(2){transition-delay:.1s} .plans .plan.rv:nth-child(3){transition-delay:.2s}
+  .runs .run.rv:nth-child(2){transition-delay:.1s}
   .pillars .pillar.rv:nth-child(2){transition-delay:.1s} .pillars .pillar.rv:nth-child(3){transition-delay:.2s}
   .grid .card.rv:nth-child(2){transition-delay:.08s} .grid .card.rv:nth-child(3){transition-delay:.16s} .grid .card.rv:nth-child(4){transition-delay:.24s}
     @media (prefers-reduced-motion: reduce){
@@ -290,6 +323,8 @@
     .kick{font-size:10.5px;letter-spacing:.14em;}
     h2{font-size:clamp(25px,7.2vw,30px);} .sub{font-size:16px;}
     .plan{padding:20px 18px;} .incl{padding:22px 18px;box-shadow:6px 6px 0 var(--blue);}
+    .pr-ctas .btn{width:100%;justify-content:center;}
+    .run{padding:20px 18px;} .scope{padding:20px 18px;}
     .support div{width:100%;text-align:center;}
     .cta{padding:24px 20px;} .cta .btn{width:100%;justify-content:center;}
     footer .wrap{flex-direction:column;align-items:flex-start;gap:12px;}
@@ -341,6 +376,7 @@
     <p class="sub" data-i18n="sub">Three starting points, one method, and what you can count on after delivery. The exact price is fixed in writing after the free call, and it does not move afterwards. Prices exclude VAT.</p>
     <nav class="subnav" aria-label="On this page">
       <a href="#pricing" data-i18n="sn1">Plans</a>
+      <a href="#after" data-i18n="sn4">After delivery</a>
       <a href="#process" data-i18n="sn2">Method</a>
       <a href="#trust" data-i18n="sn3">Guarantees</a>
     </nav>
@@ -357,24 +393,26 @@
       <div class="plans">
         <div class="plan rv">
           <div class="pn" data-i18n="pl1_n">Showcase site</div>
-          <div class="pp" data-needs-prices hidden><span data-i18n="from">from</span> <b data-price="vitrine">—</b> €</div>
-          <div class="pq" data-no-prices data-i18n="pl_quote">Fixed price after the free call</div>
-          <p data-i18n="pl1_p">A clean, fast site that brings enquiries: one to five pages, contact form, mobile-first, legal pages done, online on day one.</p>
+          <div class="pp"><span data-i18n="from">from</span> <b data-price="vitrine">—</b> <span data-i18n="vat">excl. VAT</span></div>
+          <p data-i18n="pl1_p">A clean, fast site that brings enquiries: up to five pages, contact form, mobile-first, legal pages, technical SEO basics, and every access handed over with a short guide.</p>
         </div>
-        <div class="plan rv is-star">
-          <span class="star" data-i18n="pl_star">Most chosen</span>
-          <div class="pn" data-i18n="pl2_n">Living site</div>
-          <div class="pp" data-needs-prices hidden><span data-i18n="from2">from</span> <b data-price="vivant">—</b> €</div>
-          <div class="pq" data-no-prices data-i18n="pl_quote2">Fixed price after the free call</div>
-          <p data-i18n="pl2_p">The showcase site plus one or two integrations that work for you: calendar booking, automatic invoices, your CRM, a private analytics dashboard. Training included.</p>
+        <div class="plan rv">
+          <div class="pn" data-i18n="pl2_n">Connected site</div>
+          <div class="pp"><span data-i18n="from">from</span> <b data-price="connecte">—</b> <span data-i18n="vat">excl. VAT</span></div>
+          <p data-i18n="pl2_p">Everything in the showcase site, plus integrations and automations that work for you: calendar booking, automatic invoicing, your CRM, a morning digest, a private dashboard. Training included.</p>
         </div>
         <div class="plan rv">
           <div class="pn" data-i18n="pl3_n">Tailor-made</div>
           <div class="pq" data-i18n="pl3_price">On quote</div>
-          <p data-i18n="pl3_p">Internal tools, AI automations, several sites or a system of your own. We frame it together, then I quote it as one fixed price.</p>
+          <p data-i18n="pl3_p">Applications, internal tools, AI automations, several sites. Always one fixed price, in writing, before anything starts.</p>
         </div>
       </div>
-      <p class="pr-note rv" data-i18n="pr_note">After delivery: no licence, no per-user fee, no subscription. The price you agreed is the price you pay.</p>
+      <div class="pr-ctas rv">
+        <button class="btn primary" type="button" data-estimator="pricing" data-i18n="est_btn">Estimate my project</button>
+        <a class="btn ghost" href="./?book=1#contact" data-i18n="book_btn">Book my free call</a>
+        <p data-i18n="est_note">Two minutes, five questions, and an indicative range right on screen.</p>
+      </div>
+      <p class="pr-note rv" data-i18n="pr_note">No licence, no per-user fee. Hosting and maintenance are optional: you can run everything yourself.</p>
       <div class="incl rv">
         <h3 data-i18n="inc_h">Every project includes</h3>
         <ul>
@@ -383,8 +421,61 @@
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="inc3">Legal pages done: notice, privacy, cookies</span></li>
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="inc4">Training to use it, and to change it yourself</span></li>
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="inc5">Documentation and every access handed over: it is yours</span></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="inc6">One month of support, defects fixed free for six months</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="inc6">5 hours of maintenance included, to use within 3 months of delivery · Defects fixed free for 6 months.</span></li>
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= AFTER DELIVERY ================= -->
+  <section id="after">
+    <div class="wrap">
+      <div class="kick rv" data-i18n="af_kick">After delivery</div>
+      <h2 class="rv" data-i18n="af_h2">After delivery: you choose.</h2>
+      <p class="sub rv" data-i18n="af_sub">Either way the site is yours: the code, the data and every access. The only question is who keeps it running.</p>
+      <div class="runs">
+        <div class="run rv">
+          <div class="pn" data-i18n="af1_n">You run it</div>
+          <h3 data-i18n="af1_h">You own it, you run it.</h3>
+          <div class="pp"><b data-price="self">—</b><span data-i18n="pm">/month</span></div>
+          <ul>
+            <li data-i18n="af1_l1">Your access codes and a short guide</li>
+            <li data-i18n="af1_l2">A walkthrough of where everything lives</li>
+            <li data-i18n="af1_l3"><b>5 hours</b> of maintenance included, to use in the first 3 months</li>
+          </ul>
+        </div>
+        <div class="run rv is-blue">
+          <div class="pn" data-i18n="af2_n">I run it</div>
+          <h3 data-i18n="af2_h">You own it, I run it.</h3>
+          <div class="rp">
+            <div><span data-i18n="af2_p1">Hosting and monitoring</span><b><span data-i18n="from">from</span> <span data-price="hosting">—</span><span data-i18n="pm">/month</span></b></div>
+            <div><span data-i18n="af2_p2">Full maintenance plan</span><b><span data-price="plan">—</span><span data-i18n="pm">/month</span></b></div>
+          </div>
+          <ul>
+            <li data-i18n="af2_l1">Hosting, monitoring and backups</li>
+            <li data-i18n="af2_l2">Updates, and proactive checks before things break</li>
+            <li data-i18n="af2_l3">Maintenance hours every month with the full plan (unused hours do not roll over)</li>
+            <li data-i18n="af2_l4">Response within one working day</li>
+            <li data-i18n="af2_l5">Cancellable</li>
+          </ul>
+        </div>
+      </div>
+      <div class="scope rv">
+        <h3 data-i18n="sc_h">What maintenance covers</h3>
+        <ul>
+          <li class="yes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="sc1"><b>Covered:</b> keeping what exists working: technical issues, interface issues, updates, things that break on their own.</span></li>
+          <li class="no"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span data-i18n="sc2"><b>Not covered:</b> change requests and new features, quoted separately.</span></li>
+          <li class="no"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span data-i18n="sc3"><b>Not covered:</b> repairing damage caused by changes you make to the code or technical settings, billed separately at the hourly rate (<span data-price="hourly">—</span>/h).</span></li>
+        </ul>
+      </div>
+      <div class="addons rv">
+        <h3 data-i18n="ad_h">Add-ons, when you need them</h3>
+        <div class="adgrid">
+          <div class="ad"><span class="tag t-blue" data-i18n="ad1_tag">Change request</span><p data-i18n="ad1_p"><b data-price="hourly">—</b>/h, or a <span data-price="pack_hours">—</span>-hour pack for <b data-price="pack">—</b></p></div>
+          <div class="ad"><span class="tag t-yel" data-i18n="ad2_tag">Visibility</span><p data-i18n="ad2_p">Basic SEO and a Google Business profile: <b data-price="seo">—</b></p></div>
+          <div class="ad"><span class="tag t-red" data-i18n="ad3_tag">Branding</span><p data-i18n="ad3_p">Logo and visual identity through a partner graphic designer, quoted separately</p></div>
+        </div>
+        <p class="ad-note" data-i18n="ad_note">All prices exclude VAT.</p>
       </div>
     </div>
   </section>
@@ -396,7 +487,7 @@
       <h2 class="rv" data-i18n="own_h2">Nothing more, nothing less — and it's yours.</h2>
       <div class="pillars">
         <div class="pillar rv"><span class="n" data-i18n="p1_n">01 — Exactly what you need</span><h3 data-i18n="p1_h">One solution, built around you</h3><p data-i18n="p1_p">I design around how <em>you</em> work — one place for everything, no switching between apps, no features you didn't ask for.</p></div>
-        <div class="pillar rv"><span class="n" data-i18n="p2_n">02 — No subscriptions</span><h3 data-i18n="p2_h">Pay once. That's it.</h3><p data-i18n="p2_p">One fixed price, agreed before I build. After delivery, no licence, no per-user fee, no subscription.</p></div>
+        <div class="pillar rv"><span class="n" data-i18n="p2_n">02 — No mandatory subscription</span><h3 data-i18n="p2_h">The site is yours. Maintenance, if you want it.</h3><p data-i18n="p2_p">One fixed price, agreed before I build. After delivery, you run the site yourself, or you hand it to me for a monthly fee you can cancel.</p></div>
         <div class="pillar rv"><span class="n" data-i18n="p3_n">03 — Do it together → do it yourself</span><h3 data-i18n="p3_h">I hand you the keys</h3><p data-i18n="p3_p">We frame and build the solution together. Step by step, you take over — until you're the one able to use, run, and even change it yourself with AI tools.</p></div>
       </div>
     </div>
@@ -499,7 +590,7 @@
         </div>
       </div>
       <div class="support rv">
-        <div data-i18n="sup1"><b>1 month</b> of general support included</div>
+        <div data-i18n="sup1"><b>5 hours</b> of maintenance included, within 3 months</div>
         <div data-i18n="sup2">Defects fixed <b>free for 6 months</b></div>
         <div data-i18n="sup3">Out of scope? A clear <b>change request</b> quote first</div>
       </div>
@@ -513,8 +604,8 @@
       <h2 class="rv" data-i18n="trust_h2">The discipline of six years in demanding environments.</h2>
       <p class="trust-intro rv" data-i18n="trust_intro">AI makes me fast — but fast is worthless if your site goes down on a Saturday or leaks your client list. Every build inherits the habits I learned shipping digital solutions for <strong>major actors across Belgium</strong>:</p>
       <div class="grid">
-        <div class="card rv"><span class="tag t-blue" data-i18n="t1_tag">Reliability</span><h3 data-i18n="t1_h">Built to stay up</h3><p data-i18n="t1_p">Monitored around the clock, updated without taking your site down, and a plan for when things go wrong — by design, not by goodwill.</p></div>
-        <div class="card rv"><span class="tag t-red" data-i18n="t2_tag">Security</span><h3 data-i18n="t2_h">Hardened against attacks</h3><p data-i18n="t2_p">HTTPS everywhere, protection against the common attacks and spam bots that target small-business sites daily.</p></div>
+        <div class="card rv"><span class="tag t-blue" data-i18n="t1_tag">Reliability</span><h3 data-i18n="t1_h">Built to stay up</h3><p data-i18n="t1_p">With the “I run it” plan, it is monitored and updated for you.</p></div>
+        <div class="card rv"><span class="tag t-red" data-i18n="t2_tag">Security</span><h3 data-i18n="t2_h">Protected against common attacks</h3><p data-i18n="t2_p">HTTPS everywhere, and protection against the spam bots and attacks that target small-business sites every day.</p></div>
         <div class="card rv"><span class="tag t-yel" data-i18n="t3_tag">Your data</span><h3 data-i18n="t3_h">Database locked &amp; backed up</h3><p data-i18n="t3_p">Client data stored in a secured database, with an automated backup solution as an option — so one incident never means starting from zero.</p></div>
         <div class="card rv"><span class="tag t-blue" data-i18n="t4_tag">Discipline</span><h3 data-i18n="t4_h">Bank-grade delivery habits</h3><p data-i18n="t4_p">Documented, tested, and handed over properly. The same standards I apply leading delivery teams in the financial sector.</p></div>
       </div>
@@ -553,6 +644,7 @@
 </footer>
 
 <script src="config.js"></script>
+<script src="estimator.js"></script>
 <script>
 const FR = {
   title:"Tarifs & méthode — La Goffinerie",
@@ -561,25 +653,44 @@ const FR = {
   kick:"Tarifs &amp; méthode",
   h1:"Un prix fixe, connu avant de commencer.",
   sub:"Trois points de départ, une méthode, et ce sur quoi vous pouvez compter après la livraison. Le prix exact est fixé par écrit après l'appel gratuit, et il ne bouge plus ensuite. Prix hors TVA.",
-  sn1:"Formules", sn2:"Méthode", sn3:"Garanties",
+  sn1:"Formules", sn4:"Après la livraison", sn2:"Méthode", sn3:"Garanties",
   pr_kick:"Combien ça coûte", pr_h2:"Trois points de départ.",
   pr_sub:"Chaque formule est un point de départ : nous la précisons ensemble à l'appel, puis je vous donne un prix fixe unique, par écrit.",
-  from:"à partir de", from2:"à partir de", pl_quote:"Prix fixe, fixé après l'appel gratuit", pl_quote2:"Prix fixe, fixé après l'appel gratuit", pl_star:"La plus choisie",
-  pl1_n:"Site vitrine", pl1_p:"Un site propre et rapide qui amène des demandes : une à cinq pages, formulaire de contact, pensé mobile d'abord, pages légales faites, en ligne dès le premier jour.",
-  pl2_n:"Site vivant", pl2_p:"Le site vitrine plus une ou deux intégrations qui travaillent pour vous : réservation d'agenda, factures automatiques, votre CRM, un tableau de bord privé. Formation incluse.",
-  pl3_n:"Sur mesure", pl3_price:"Sur devis", pl3_p:"Outils internes, automatisations IA, plusieurs sites ou un système à vous. Nous le cadrons ensemble, puis je le chiffre en un prix fixe.",
-  pr_note:"Après la livraison : pas de licence, pas de frais par utilisateur, pas d'abonnement. Le prix convenu est le prix payé.",
+  from:"à partir de", vat:"HTVA", pm:"/mois",
+  pl1_n:"Site vitrine", pl1_p:"Un site propre et rapide qui amène des demandes : jusqu'à cinq pages, formulaire de contact, pensé mobile d'abord, pages légales, les bases techniques du SEO, et tous les accès remis avec un petit guide.",
+  pl2_n:"Site connecté", pl2_p:"Tout le site vitrine, plus des intégrations et des automatisations qui travaillent pour vous : réservation d'agenda, facturation automatique, votre CRM, un digest du matin, un tableau de bord privé. Formation incluse.",
+  pl3_n:"Sur mesure", pl3_price:"Sur devis", pl3_p:"Applications, outils internes, automatisations IA, plusieurs sites. Toujours un prix fixe, par écrit, avant de commencer.",
+  est_btn:"Estimer mon projet", book_btn:"Réserver mon appel gratuit", est_note:"Deux minutes, cinq questions, et une fourchette indicative tout de suite à l'écran.",
+  pr_note:"Pas de licence, pas de frais par utilisateur. L'hébergement et l'entretien sont optionnels : vous pouvez tout gérer vous-même.",
   inc_h:"Chaque projet comprend",
   inc1:"Pensé pour le téléphone d'abord, rapide sur tous les écrans",
   inc2:"Un périmètre écrit et un prix fixe avant de commencer",
   inc3:"Les pages légales faites : mentions, vie privée, cookies",
   inc4:"Une formation pour l'utiliser, et le modifier vous-même",
   inc5:"La documentation et tous les accès remis : c'est à vous",
-  inc6:"Un mois de support, défauts corrigés gratuitement pendant six mois",
+  inc6:"5 heures d'entretien incluses, à utiliser dans les 3 mois après la livraison · Défauts corrigés gratuitement pendant 6 mois.",
+  af_kick:"Après la livraison", af_h2:"Après la livraison : vous choisissez.",
+  af_sub:"Dans les deux cas, le site est à vous : le code, les données et tous les accès. La seule question, c'est qui le fait tourner.",
+  af1_n:"Vous le gérez", af1_h:"Vous en êtes propriétaire, vous le faites tourner.",
+  af1_l1:"Vos accès et un petit guide", af1_l2:"Une visite guidée de l'endroit où se trouve chaque chose", af1_l3:"<b>5 heures</b> d'entretien incluses, à utiliser les 3 premiers mois",
+  af2_n:"Je le gère", af2_h:"Vous en êtes propriétaire, je le fais tourner.",
+  af2_p1:"Hébergement et surveillance", af2_p2:"Formule entretien complète",
+  af2_l1:"Hébergement, surveillance et sauvegardes", af2_l2:"Les mises à jour, et des vérifications régulières avant que ça casse",
+  af2_l3:"Des heures d'entretien chaque mois avec la formule complète (les heures non utilisées ne sont pas reportées)",
+  af2_l4:"Réponse sous un jour ouvrable", af2_l5:"Résiliable",
+  sc_h:"Ce que couvre l'entretien",
+  sc1:"<b>Compris :</b> faire fonctionner ce qui existe : les problèmes techniques, les problèmes d'affichage, les mises à jour, ce qui casse tout seul.",
+  sc2:"<b>Non compris :</b> les demandes de modification et les nouvelles fonctionnalités, chiffrées à part.",
+  sc3:"<b>Non compris :</b> la réparation de dégâts causés par une modification du code ou des réglages techniques de votre part, facturée à part au tarif horaire (<span data-price=\"hourly\">—</span>/h).",
+  ad_h:"Les options, quand vous en avez besoin",
+  ad1_tag:"Demande de modification", ad1_p:"<b data-price=\"hourly\">—</b>/h, ou un pack de <span data-price=\"pack_hours\">—</span> h à <b data-price=\"pack\">—</b>",
+  ad2_tag:"Visibilité", ad2_p:"SEO de base et fiche Google Business : <b data-price=\"seo\">—</b>",
+  ad3_tag:"Identité visuelle", ad3_p:"Logo et identité visuelle via un partenaire graphiste, chiffré séparément",
+  ad_note:"Tous les prix s'entendent hors TVA.",
   own_kick:"La méthode Goffinerie",
   own_h2:"Rien de plus, rien de moins — et c'est à vous.",
   p1_n:"01 — Exactement ce qu'il vous faut", p1_h:"Une solution, construite autour de vous", p1_p:"Je conçois autour de <em>votre</em> façon de travailler — un seul endroit pour tout, pas de zapping entre applis, pas de fonctions que vous n'avez pas demandées.",
-  p2_n:"02 — Pas d'abonnements", p2_h:"Payez une fois. C'est tout.", p2_p:"Un prix fixe, convenu avant de construire. Après la livraison, pas de licence, pas de frais par utilisateur, pas d'abonnement.",
+  p2_n:"02 — Pas d'abonnement obligatoire", p2_h:"Le site est à vous. L'entretien, si vous le voulez.", p2_p:"Un prix fixe, convenu avant de construire. Après la livraison, vous gérez le site vous-même, ou vous me le confiez pour un montant mensuel, résiliable.",
   p3_n:"03 — On le fait ensemble → vous le faites vous-même", p3_h:"Je vous remets les clés", p3_p:"Nous cadrons et construisons la solution ensemble. Étape par étape, vous prenez la main — jusqu'à être capable de l'utiliser, la faire tourner, et même la modifier vous-même avec les outils IA.",
   proc_kick:"Comment ça marche",
   proc_h2:"Transparent du premier rendez-vous à la remise des clés.",
@@ -591,14 +702,14 @@ const FR = {
   st4_h:"On construit, en toute transparence", st4_p:"Vous suivez l'avancement en continu. En chemin, je vous forme à utiliser — et modifier — ce qui se construit.",
   st5_h:"Vous testez", st5_p:"Vous utilisez la solution sur du vrai travail avant la livraison. Ce qui ne convient pas est corrigé.",
   st6_h:"Livraison &amp; remise des clés", st6_p:"C'est à vous — le code, les données, et les clés. Vous pouvez la faire tourner, et avec les outils IA, même la modifier vous-même.",
-  sup1:"<b>1 mois</b> de support général inclus",
+  sup1:"<b>5 heures</b> d'entretien incluses, dans les 3 mois",
   sup2:"Défauts corrigés <b>gratuitement pendant 6 mois</b>",
-  sup3:"Hors périmètre ? Un devis de <b>change request</b> clair d'abord",
+  sup3:"Hors périmètre ? D'abord un devis clair de <b>demande de modification</b>",
   trust_kick:"Ce sur quoi vous pouvez compter",
   trust_h2:"La discipline de six ans en environnement exigeant.",
   trust_intro:"L'IA me rend rapide — mais la vitesse ne vaut rien si votre site tombe un samedi ou laisse fuiter votre fichier clients. Chaque projet hérite des habitudes prises en livrant des solutions digitales pour des <strong>acteurs majeurs en Belgique</strong> :",
-  t1_tag:"Fiabilité", t1_h:"Conçu pour rester en ligne", t1_p:"Supervisé en continu, mis à jour sans interruption, et un plan pour quand ça tourne mal — par conception, pas par bonne volonté.",
-  t2_tag:"Sécurité", t2_h:"Blindé contre les attaques", t2_p:"HTTPS partout, protection contre les attaques courantes et les bots de spam qui visent chaque jour les sites de petites entreprises.",
+  t1_tag:"Fiabilité", t1_h:"Conçu pour rester en ligne", t1_p:"Avec la formule « Je le gère », il est surveillé et mis à jour pour vous.",
+  t2_tag:"Sécurité", t2_h:"Protégé contre les attaques courantes", t2_p:"HTTPS partout, et une protection contre les bots de spam et les attaques qui visent chaque jour les sites de petites entreprises.",
   t3_tag:"Vos données", t3_h:"Base de données verrouillée &amp; sauvegardée", t3_p:"Vos données clients sont stockées dans une base sécurisée, avec une solution de sauvegarde automatisée en option — un incident ne signifie jamais repartir de zéro.",
   t4_tag:"Discipline", t4_h:"Des habitudes de livraison bancaires", t4_p:"Documenté, testé, et transmis proprement. Les mêmes standards que j'applique en menant des équipes de delivery dans le secteur financier.",
   cta_h:"Dites-moi ce qui mange votre temps.", cta_p:"Un appel gratuit de 30 minutes, sans engagement. Le prix exact arrive juste après, par écrit.", cta_btn:"Réserver mon appel gratuit", cta_reach:"Ou joignez-moi directement :",
@@ -606,15 +717,9 @@ const FR = {
   foot_legal:"Mentions légales", foot_cgu:"CGU", foot_privacy:"Protection des données", foot_cookies:"Cookies",
   foot:"© 2026 La Goffinerie · Basée en Belgique."
 };
-/* Prices come from config.js (one place for the home page and this one). Until they are set,
-   each plan shows « fixed price after the free call » instead of a number. */
-const PRICES=(window.LG_CONFIG&&window.LG_CONFIG.PRICES)||null;
-function applyPrices(){
-  if(!PRICES) return;
-  document.querySelectorAll('[data-price]').forEach(el=>{ const v=PRICES[el.getAttribute('data-price')]; if(v) el.textContent=v; });
-  document.querySelectorAll('[data-needs-prices]').forEach(el=>{ el.hidden=false; });
-  document.querySelectorAll('[data-no-prices]').forEach(el=>{ el.hidden=true; });
-}
+/* Prices come from config.js, written by estimator.js (one place for the home page, this one and the
+   estimator): every element carrying data-price gets its amount, in the format of the language. */
+function applyPrices(){ if(window.LGEstimator) window.LGEstimator.fill(); }
 const EN_TITLE=document.title, EN={};
 document.querySelectorAll('[data-i18n]').forEach(el=>{ EN[el.getAttribute('data-i18n')]=el.innerHTML; });
 let LANG='en';
