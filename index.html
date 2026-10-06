@@ -145,7 +145,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.21 — hero: the thing I build rotates (websites · apps · small programs), "work for you" (canvas comment)
+     LA GOFFINERIE v2.22 — the yellow marquee under the hero is gone (canvas comment)
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
@@ -295,18 +295,6 @@
   .geo.g2{left:-70px;bottom:-90px;width:230px;height:215px;transform:rotate(-14deg);opacity:.35;}
   @media(max-width:900px){.geo.g1{width:170px;height:160px;right:-50px;top:30px;}}
 
-  /* ---------- marquee ---------- */
-  .marq{
-    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
-    background:var(--yellow);overflow:hidden;white-space:nowrap;padding:11px 0;
-  }
-  .marq .track{display:inline-block;animation:marq 26s linear infinite;}
-  .marq span{
-    font-family:var(--mono);font-weight:600;font-size:13px;letter-spacing:.14em;
-    text-transform:uppercase;margin:0 22px;
-  }
-  .marq b{color:var(--blue);font-weight:600;}
-  @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
   /* ---------- cards grid ---------- */
   .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px;}
@@ -557,7 +545,6 @@
   .topnav{transition:box-shadow .25s;}
   html.scrolled .topnav{box-shadow:0 10px 24px -18px rgba(0,0,0,.45);}
   .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink);}
-  .marq:hover .track{animation-play-state:paused;}
   .kick::before{transform-origin:left;}
   .rv.kick::before{transform:scaleX(0);transition:transform .6s .25s ease;}
   .rv.kick.on::before{transform:scaleX(1);}
@@ -675,7 +662,6 @@
   .rv.on{opacity:1;transform:none;}
   @media (prefers-reduced-motion: reduce){
     .rv{opacity:1;transform:none;transition:none;}
-    .marq .track{animation:none;}
   }
 
   /* ---------- intro : apparition 3D du logo ----------
@@ -913,8 +899,6 @@
   </div>
 </header>
 
-<!-- ================= MARQUEE ================= -->
-<div class="marq" aria-hidden="true"><div class="track" id="marqtrack"></div></div>
 
 <!-- ================= LIVING WEBSITE FEATURES ================= -->
 <section id="alive">
@@ -1194,10 +1178,6 @@ const FR = {
   foot_cookies:"Cookies", foot_legal:"Mentions légales", foot_cgu:"CGU", foot_privacy:"Protection des données",
   foot:"© 2026 La Goffinerie · Basée en Belgique."
 };
-const MARQ = {
-  en:["Odoo sync","Calendar booking","AI daily digest","Visitor analytics","Auto-invoicing","Lead tracking","SEO"],
-  fr:["Synchro Odoo","Réservation agenda","Digest IA quotidien","Analytics visiteurs","Facturation auto","Suivi des leads","SEO"]
-};
 const EN_TITLE = document.title;
 const EN = {}; const EN_PH = {};
 document.querySelectorAll('[data-i18n]').forEach(el=>{ EN[el.getAttribute('data-i18n')] = el.innerHTML; });
@@ -1217,9 +1197,6 @@ function setLang(l, silent){
     el.setAttribute('placeholder', (LANG==='fr' && FR[k]!==undefined) ? FR[k] : EN_PH[k]);
   });
   if(typeof heroRot==='function') heroRot();
-  const mq = document.getElementById('marqtrack');
-  const items = MARQ[LANG].map(t=>'<span>'+t+'</span><b>●</b>').join('');
-  mq.innerHTML = items + items;
   document.getElementById('lang-en').classList.toggle('active', LANG==='en');
   document.getElementById('lang-fr').classList.toggle('active', LANG==='fr');
   document.getElementById('lang-en').setAttribute('aria-pressed', String(LANG==='en'));
