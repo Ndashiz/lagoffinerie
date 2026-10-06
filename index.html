@@ -145,7 +145,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.22 — the yellow marquee under the hero is gone (canvas comment)
+     LA GOFFINERIE v2.23 — the top bar lets the page show through (canvas comment)
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
@@ -209,8 +209,8 @@
   /* ---------- top nav (desktop) / bottom bar (mobile) ---------- */
   .topnav{
     position:fixed;top:0;left:0;right:0;z-index:80;
-    background:rgba(250,248,242,.92);
-    backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);
+    background:rgba(250,248,242,.66);
+    backdrop-filter:blur(10px) saturate(1.15);-webkit-backdrop-filter:blur(10px) saturate(1.15);
     border-bottom:2px solid var(--ink);
   }
   .topnav .nwrap{
