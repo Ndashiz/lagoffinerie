@@ -145,7 +145,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.20 — the Jarvis case becomes Henry, a client portfolio module (canvas comment)
+     LA GOFFINERIE v2.21 — hero: the thing I build rotates (websites · apps · small programs), "work for you" (canvas comment)
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
@@ -271,8 +271,15 @@
   .hero{position:relative;padding:92px 0 64px;overflow:hidden;}
   .hero .wrap{max-width:900px;position:relative;z-index:2;}
   .hero h1{
-    font-size:clamp(38px,6vw,68px);font-weight:800;max-width:17ch;
+    font-size:clamp(38px,5.6vw,64px);font-weight:800;max-width:none;
   }
+  /* The thing I build rotates: all the words sit in one grid cell, so the line is as wide as the
+     longest one and never reflows. The hidden words fade in from below and out towards the top. */
+  .hero h1 .rot{display:inline-grid;vertical-align:baseline;text-align:left;color:var(--blue);}
+  .hero h1 .rot b{grid-area:1/1;font-weight:inherit;white-space:nowrap;opacity:0;transform:translateY(.35em);transition:opacity .45s ease,transform .5s cubic-bezier(.2,.8,.2,1);}
+  .hero h1 .rot b.on{opacity:1;transform:none;}
+  .hero h1 .rot b.out{opacity:0;transform:translateY(-.35em);}
+  .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
   .hero h1 .u{
     position:relative;white-space:nowrap;
   }
@@ -560,6 +567,7 @@
   @media (prefers-reduced-motion: reduce){
     .hero .wrap > *{opacity:1;animation:none;}
     .hero h1 .u svg path{stroke-dashoffset:0;animation:none;}
+    .hero h1 .rot b{transition:none;}
     .geo.g1,.geo.g2,.pflow.on::before,.fq p{animation:none;}
     .rv.kick::before{transform:none;transition:none;}
     .pflow li .pn,.pflow li h3{transition:none;}
@@ -624,7 +632,8 @@
     section{padding:64px 0;}
     .kick{font-size:10.5px;letter-spacing:.14em;}
     .hero{padding:52px 0 44px;}
-    .hero h1{font-size:clamp(31px,9.2vw,40px);max-width:none;}
+    /* Sized so the longest rotating word (« De petits programmes », 11.3 em) holds one line on every phone. */
+    .hero h1{font-size:clamp(24px,calc(8.8vw - 4px),40px);max-width:none;}
     /* The underlined phrase may wrap: as an inline-block it moves to its own line(s) and keeps its underline. */
     .hero h1 .u{white-space:normal;display:inline-block;}
     .hero .sub{font-size:17px;margin-top:18px;}
@@ -656,7 +665,7 @@
     .modal h3{font-size:22px;}
   }
   @media(max-width:360px){
-    .hero h1{font-size:29px;}
+    .hero h1{font-size:calc(8.8vw - 4px);}
     .topnav .btn{padding:9px 11px;font-size:12px;}
     .langsw button{padding:6px 8px;}
   }
@@ -891,8 +900,8 @@
     <circle cx="90" cy="78" r="27" fill="#E2452C"/>
   </svg>
   <div class="wrap">
-    <div class="kick" data-i18n="hero_kick">Websites &amp; dedicated solutions · Belgium</div>
-    <h1 data-i18n="hero_h1">I build websites that <span class="u">get to work.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span></h1>
+    <div class="kick" data-i18n="hero_kick">Websites, apps &amp; small programs · Belgium</div>
+    <h1 data-i18n="hero_h1">I build <span class="rot"><span class="vh">websites, apps and small programs</span><b class="on" aria-hidden="true">websites</b><b aria-hidden="true">apps</b><b aria-hidden="true">small programs</b></span> <span class="u">that get to work for you.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span></h1>
     <p class="sub" data-i18n="hero_sub">A website that fills your calendar, sends your invoices and tells you what your visitors do. Fixed price, no subscription. <strong>You own it.</strong></p>
     <p class="who"><span data-i18n="hero_who">For tradespeople, shops and independents in Belgium</span><span class="chip" data-i18n="who1">Electrician</span><span class="chip" data-i18n="who2">Hair salon</span><span class="chip" data-i18n="who3">Practice</span><span class="chip" data-i18n="who4">Restaurant</span></p>
     <div class="ctas">
@@ -1124,8 +1133,8 @@
 const FR = {
   title:"La Goffinerie — Des sites web qui travaillent pour vous",
   nav_alive:"Ce que je fais", nav_work:"Réalisations", nav_about:"À propos", nav_faq:"FAQ", nav_pricing:"Tarifs", nav_book:"Appel gratuit", nav_call:"Appeler", skip:"Aller au contenu", nav_contact:"Contact", hero_call:"Ou joignez-moi directement :", ct_call:"Appeler",
-  hero_kick:"Sites web &amp; solutions dédiées · Belgique",
-  hero_h1:'Je crée des sites web qui <span class="u">se mettent au travail.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span>',
+  hero_kick:"Sites web, applications &amp; petits programmes · Belgique",
+  hero_h1:'<span class="rot"><span class="vh">Des sites web, des applications, de petits programmes</span><b class="on" aria-hidden="true">Des sites web</b><b aria-hidden="true">Des applications</b><b aria-hidden="true">De petits programmes</b></span> <span class="u">qui travaillent pour vous.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span>',
   hero_sub:"Un site qui remplit votre agenda, envoie vos factures et vous dit ce que font vos visiteurs. Prix fixe, pas d'abonnement. <strong>Il vous appartient.</strong>",
   hero_who:"Pour les artisans, commerces et indépendants en Belgique", who1:"Électricien", who2:"Salon de coiffure", who3:"Cabinet", who4:"Restaurant",
   hero_cta1:"Réserver mon appel gratuit", hero_cta2:"Voir nos réalisations →",
@@ -1207,6 +1216,7 @@ function setLang(l, silent){
     const k = el.getAttribute('data-i18n-ph');
     el.setAttribute('placeholder', (LANG==='fr' && FR[k]!==undefined) ? FR[k] : EN_PH[k]);
   });
+  if(typeof heroRot==='function') heroRot();
   const mq = document.getElementById('marqtrack');
   const items = MARQ[LANG].map(t=>'<span>'+t+'</span><b>●</b>').join('');
   mq.innerHTML = items + items;
@@ -1581,6 +1591,24 @@ const rvObs = new IntersectionObserver(es=>{
   es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('on'); rvObs.unobserve(en.target); } });
 },{threshold:.12});
 document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
+
+/* The hero's rotating word: websites → apps → small programs, every 2.6 s, paused while the tab is hidden.
+   setLang() calls this again after re-rendering the h1, so the cycle restarts on the right words. */
+function heroRot(){
+  clearInterval(heroRot.t);
+  const ws=[...document.querySelectorAll('.hero h1 .rot b')];
+  if(ws.length<2) return;
+  let i=Math.max(0, ws.findIndex(w=>w.classList.contains('on')));
+  ws[i].classList.add('on');
+  heroRot.t=setInterval(()=>{
+    if(document.hidden) return;
+    const cur=ws[i]; i=(i+1)%ws.length;
+    cur.classList.remove('on'); cur.classList.add('out');
+    setTimeout(()=>cur.classList.remove('out'), 550);
+    ws[i].classList.add('on');
+  }, 2600);
+}
+heroRot();
 </script>
 </body>
 </html>
