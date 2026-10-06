@@ -8,7 +8,8 @@
                                 « Site connecté » tiers is the low end of their range.
                  · modifiers  — added to the base when the visitor picks the option ([low, high], may be
                                 negative); { partner:true } is listed as « quoted separately », no amount.
-                 · monthly    — after the launch: hosting & monitoring, full maintenance plan [low, high].
+                 · monthly    — after the launch: hosting & monitoring (« with maintenance »), and the full
+                                maintenance plan ([low, high], or { quote:true } for « on quote »).
                  · floor      — no range ever starts below it.
                  The range shown = base + modifiers, rounded to the nearest 50 €, never below the floor.
    rates       : work outside the maintenance plan, and the yearly cost of a domain name.
@@ -34,7 +35,7 @@ window.LG_CONFIG = {
     monthly: {
       self_managed:       0,
       hosting_monitoring: 29,                           // [TBC]
-      full_maintenance:   [80, 100]                     // [TBC] unused hours do not roll over [TBC]
+      full_maintenance:   { quote: true }               // the full plan is quoted per site; unused hours do not roll over [TBC]
     },
     floor: 1500
   },

@@ -31,7 +31,7 @@ are required by the form). Body:
 | `answers.after` | `self` \| `hosting` \| `full` \| `unsure` \| null | |
 | `answers.domain` | `have` \| `reserve` \| null | only when `after` is not `self` |
 | `estimate` | `{ base, quote, min, max, from, currency:"EUR", vat:"excl" }` | `quote:true` → `from` is set, `min`/`max` null |
-| `monthly` | `{ option, min, max }` | `option` = `after` (`unsure` when not answered); `min`/`max` null for `unsure` |
+| `monthly` | `{ option, quote, min, max }` | `option` = `after` (`unsure` when not answered); `quote` true when the option is priced on quote (the full plan); `min`/`max` null for `unsure` and for a quote |
 | `items[]` | `{ key, label, amount, min, max, partner, quote, yearly }` | the line items shown on screen, already labelled in `l` |
 | `text` | `{ build, monthly, answers:[[label,value]…], summary, disclaimer, mail }` | ready-made copy in `l` (see §3) |
 | `bookUrl` | string | `https://lagoffinerie.be/?book=1&lang=xx#contact`: opens the booking window |

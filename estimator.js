@@ -1,5 +1,5 @@
 /* =========================================================
-   LA GOFFINERIE — estimator.js (site v2.25)
+   LA GOFFINERIE — estimator.js (site v2.26)
    The project estimator: a pop-up of five short questions that
    ends on an indicative price range, then offers to send the
    detail by e-mail and to book the free call. Loaded by the home
@@ -59,6 +59,7 @@
          r_h:'Voici une première idée du prix.', r_build:'Création (une fois)', r_month:'Mensuel (optionnel)', r_items:"Ce qui compose l'estimation",
          r_range:'entre {a} et {b} HTVA', r_about:'environ {a} HTVA', r_quote:'Sur devis, à partir de {a} HTVA',
          r_self:'{a} si vous le gérez vous-même', r_pm:'{a}/mois', r_hosting_u:"{a}/mois pour l'hébergement et la surveillance", r_full_u:'{a}/mois pour la formule entretien complète',
+         on_quote:'sur devis', r_quote_m:'Sur devis', r_full_q:'Formule entretien complète sur devis',
          disc:'Estimation indicative. Le prix final est fixé par écrit après notre appel gratuit, sur mesure pour votre projet.',
          cap_h:'Recevez le détail par e-mail et réservez votre appel gratuit.',
          f_name:'Votre nom', f_email:'Votre e-mail', f_phone:'Téléphone (optionnel)',
@@ -99,6 +100,7 @@
          r_h:"Here's a first idea of the price.", r_build:'Build (one-off)', r_month:'Monthly (optional)', r_items:'What makes up the estimate',
          r_range:'between {a} and {b} excl. VAT', r_about:'about {a} excl. VAT', r_quote:'On quote, from {a} excl. VAT',
          r_self:'{a} if you run it yourself', r_pm:'{a}/month', r_hosting_u:'{a}/month for hosting and monitoring', r_full_u:'{a}/month for the full maintenance plan',
+         on_quote:'on quote', r_quote_m:'On quote', r_full_q:'Full maintenance plan on quote',
          disc:'Indicative estimate. The final price is set in writing after our free call, tailored to your project.',
          cap_h:'Get the detail by e-mail and book your free call.',
          f_name:'Your name', f_email:'Your e-mail', f_phone:'Phone (optional)',
@@ -175,7 +177,9 @@
     return (n<0?'−':'')+s.replace(/\s/g,' ');
   }
   function money(n, L){ return L==='fr' ? num(n,L)+' €' : (n<0?'−':'')+'€'+num(Math.abs(n),L); }
+  function isQuote(v){ return !!(v && typeof v==='object' && !Array.isArray(v) && v.quote); }
   function span(v, L){
+    if(isQuote(v)) return TXT[L].on_quote;
     if(!Array.isArray(v)) return money(v, L);
     if(+v[0]===+v[1]) return money(v[0], L);
     return L==='fr' ? num(v[0],L)+' à '+money(v[1],L) : money(v[0],L)+' to '+money(v[1],L);
@@ -249,8 +253,9 @@
   function monthLines(c, L){
     var t=TXT[L], mo=E.monthly||{}, k=c.monthly.k;
     if(k==='self') return [fmt(t.r_self, {a:money(c.monthly.v,L)})];
-    if(k==='hosting' || k==='full') return [fmt(t.r_pm, {a:span(c.monthly.v,L)})];
-    return [fmt(t.r_self, {a:money(+mo.self_managed||0,L)}), fmt(t.r_hosting_u, {a:span(mo.hosting_monitoring,L)}), fmt(t.r_full_u, {a:span(mo.full_maintenance,L)})];
+    if(k==='hosting' || k==='full') return [isQuote(c.monthly.v) ? t.r_quote_m : fmt(t.r_pm, {a:span(c.monthly.v,L)})];
+    return [fmt(t.r_self, {a:money(+mo.self_managed||0,L)}), fmt(t.r_hosting_u, {a:span(mo.hosting_monitoring,L)}),
+            isQuote(mo.full_maintenance) ? t.r_full_q : fmt(t.r_full_u, {a:span(mo.full_maintenance,L)})];
   }
   function monthText(c, L){
     var lines=monthLines(c, L), k=c.monthly.k, t=TXT[L];
@@ -278,7 +283,7 @@
     var t=TXT[L], parts=[t['type_'+A.type]];
     if(A.type==='website' && A.needs) parts.push(t['needs_'+A.needs]);
     parts.push(buildText(c,L));
-    if(c.monthly.k!=='unsure') parts.push(t['after_'+c.monthly.k]+(c.monthly.k==='self' ? '' : ' '+monthLines(c,L)[0]));
+    if(c.monthly.k!=='unsure') parts.push(t['after_'+c.monthly.k]+(c.monthly.k==='self' ? '' : ' '+(isQuote(c.monthly.v) ? t.on_quote : monthLines(c,L)[0])));
     return t.sum+parts.join(', ');
   }
   function bookUrl(L){ return SITE+'?book=1&lang='+L+'#contact'; }
@@ -585,7 +590,7 @@
                 needs: site ? A.needs||null : null, pro_email:A.email||null, seo:A.seo||null, after:A.after||null,
                 domain: (A.after && A.after!=='self') ? A.domain||null : null },
       estimate:{ base:c.base, quote:c.quote, min: c.quote ? null : c.lo, max: c.quote ? null : c.hi, from: c.quote ? c.from : null, currency:'EUR', vat:'excl' },
-      monthly:{ option:mo.k, min: v==null ? null : (Array.isArray(v) ? +v[0] : +v), max: v==null ? null : (Array.isArray(v) ? +v[1] : +v) },
+      monthly:{ option:mo.k, quote:isQuote(v), min: (v==null || isQuote(v)) ? null : (Array.isArray(v) ? +v[0] : +v), max: (v==null || isQuote(v)) ? null : (Array.isArray(v) ? +v[1] : +v) },
       items: c.items.map(function(it){ return { key:it.k, label:TXT[L]['i_'+it.k], amount:amount(it,L),
         min: it.r ? it.r[0] : (it.from!==undefined ? it.from : null), max: it.r ? it.r[1] : null, partner: !!it.partner, quote: it.from!==undefined, yearly: it.yearly!==undefined ? it.yearly : null }; }),
       text:{ build:buildText(c,L), monthly:monthText(c,L), answers:answerRows(L), summary:shortSummary(c,L), disclaimer:TXT[L].disc, mail:mailText(c,L) },

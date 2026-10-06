@@ -6,8 +6,9 @@ Static pages, vanilla HTML/CSS/JS, bilingual EN/FR (auto-detected, manual toggle
 - **Prod**: <https://lagoffinerie.be/> — GitHub Pages from `main`, custom domain in `CNAME`.
   A push to `main` deploys in 1–2 minutes.
 - **Files**: `index.html` (home: offer, work carousel, four-step method, FAQ, contact),
-  `work.html` (all the work, one case per project), `pricing.html` (the three build tiers, « after
-  delivery: you choose » with the maintenance scope and the add-ons, the six-step method, the guarantees),
+  `work.html` (all the work, one case per project), `pricing.html` (the three build tiers, the three
+  after-delivery offers: one-off, with maintenance, full plan on quote, the hourly rate outside the plan,
+  the maintenance scope and the add-ons, the six-step method, the guarantees),
   `about.html`, the legal pages (`mentions-legales.html`, `cgu.html`,
   `donnees-personnelles.html`, `cookies.html` — keep it true), `404.html`, `robots.txt`, `sitemap.xml`.
 - **Site state**: `site-state.js`, loaded by every page — reads the public `GET /api/gf/config` of Jarvis
@@ -18,8 +19,12 @@ Static pages, vanilla HTML/CSS/JS, bilingual EN/FR (auto-detected, manual toggle
 - **Config**: `config.js` holds **every price** of the site (euros excl. VAT, `[TBC]` marks the defaults
   still to confirm): `estimator` (the build ranges, the options, the monthly plans, the floor — the « from »
   price of each tier is the low end of its range), `rates` (hourly rate, 5-hour pack, domain name) and
-  `BOOKING_URL` (shows the « choose a slot now » buttons). No number is written in the HTML: an element
-  carrying `data-price="…"` gets its amount from `estimator.js`, in the language's format.
+  `BOOKING_URL` (shows the « choose a slot now » buttons). The amounts are **pre-rendered** in the HTML, so
+  they are in the page source (search engines, link previews, « view source »): every element carrying
+  `data-price="…"`, the French dictionaries, the `<meta data-price-tpl="… {key} …">` descriptions and the
+  JSON-LD. **After any price change in `config.js`, run `node tools/prerender-prices.mjs`**
+  (`--check` changes nothing and exits 1 if a page is out of date). `estimator.js` writes the same amounts
+  at run time, in the language's format.
   `assets/work/*.jpg` are the project illustrations of the carousel and cases.
 - **Estimator**: `estimator.js`, loaded by the home and pricing pages right after `config.js` — a pop-up of
   five questions (any `data-estimator` element opens it, never by itself, never over the booking window)
