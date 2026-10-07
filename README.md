@@ -45,5 +45,13 @@ Static pages, vanilla HTML/CSS/JS, bilingual EN/FR (auto-detected, manual toggle
   the Jarvis repo, `docs/17-goffinerie-tracking.md`.
 - **Own devices**: open `https://lagoffinerie.be/?crew=goffinerie` once per device to keep your
   visits out of the statistics (`?crew=off` to disarm). `localhost` is always excluded.
+- **Business card**: `print/carte-de-visite/carte.html` is the source (90 × 50 mm finished, 2 mm bleed → 94 × 54 mm
+  document, 4 mm safety zone, page 1 recto / page 2 verso; `?guides` shows the cut and safety lines, `?preview` the
+  two trimmed faces). The recto carries the mark and the tagline, the verso Simon's name and title, the contact
+  lines and a QR code to `https://lagoffinerie.be` with the mark in its centre (error correction H, frozen as SVG).
+  `node tools/render-business-card.mjs` (Playwright, the machine's Chromium, Google Fonts over the network)
+  writes `print/carte-de-visite/export/` — `recto.pdf`, `verso.pdf`, `carte.pdf` (both pages, vector, fonts
+  embedded), `recto.png`, `verso.png` (600 dpi) and `apercu.png` — and fails if the QR code no longer decodes.
+  The files in `export/` are the ones to send to the printer; `robots.txt` keeps `/print/` out of the index.
 
 Whatever changes in what the page measures must first be reflected in `cookies.html`.
