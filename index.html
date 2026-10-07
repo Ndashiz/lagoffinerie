@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light only">
 <title>La Goffinerie — Websites that work for you</title>
-<meta name="description" data-price-tpl="Websites, apps, AI automation and SEO for Belgian small businesses: showcase site from {vitrine}, connected site from {connecte} excl. VAT, tailor-made on quote. You own it." content="Websites, apps, AI automation and SEO for Belgian small businesses: showcase site from €1,950, connected site from €3,900 excl. VAT, tailor-made on quote. You own it.">
+<meta name="description" data-price-tpl="Websites, apps, AI automation and SEO for Belgian small businesses: three packages, Essentiel from {ess} and Pro from {pro} excl. VAT, Custom on quote. You own it." content="Websites, apps, AI automation and SEO for Belgian small businesses: three packages, Essentiel from €700 and Pro from €1,000 excl. VAT, Custom on quote. You own it.">
 <link rel="canonical" href="https://lagoffinerie.be/">
 <link rel="alternate" hreflang="en" href="https://lagoffinerie.be/?lang=en">
 <link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/?lang=fr">
@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="La Goffinerie">
 <meta property="og:url" content="https://lagoffinerie.be/">
 <meta property="og:title" content="La Goffinerie — Websites that work for you">
-<meta property="og:description" data-price-tpl="Websites that fill your calendar and send your invoices, for Belgian small businesses. From {vitrine} excl. VAT, one fixed price in writing. You own it." content="Websites that fill your calendar and send your invoices, for Belgian small businesses. From €1,950 excl. VAT, one fixed price in writing. You own it.">
+<meta property="og:description" data-price-tpl="Websites and tools that work for Belgian small businesses. From {ess} excl. VAT, one fixed price in writing. You own it." content="Websites and tools that work for Belgian small businesses. From €700 excl. VAT, one fixed price in writing. You own it.">
 <meta property="og:locale" content="en_BE">
 <meta property="og:locale:alternate" content="fr_BE">
 <meta property="og:image" content="https://lagoffinerie.be/assets/og.png">
@@ -33,7 +33,7 @@
   "name": "La Goffinerie",
   "url": "https://lagoffinerie.be/",
   "image": "https://lagoffinerie.be/assets/og.png",
-  "description": "Websites, apps, AI automation and SEO for Belgian small businesses: showcase site from €1,950, connected site from €3,900 excl. VAT, tailor-made on quote. You own it.",
+  "description": "Websites, apps, AI automation and SEO for Belgian small businesses: three packages, Essentiel from €700 and Pro from €1,000 excl. VAT, Custom on quote. You own it.",
   "telephone": "+32479487608",
   "email": "info@lagoffinerie.be",
   "founder": { "@type": "Person", "name": "Simon Goffin", "sameAs": "https://www.linkedin.com/in/ndashiz/" },
@@ -61,7 +61,7 @@
    "name": "How much does it cost?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "A showcase site starts at €1,950 excl. VAT, a site connected to your tools at €3,900 excl. VAT. After delivery, you run the site yourself, or I keep it running with maintenance from €29/month; the full plan is on quote. Payment: a deposit when we start and the balance at delivery, on invoice."
+    "text": "Three packages. Essentiel: €700 excl. VAT, then about €20/month for hosting and the domain. Pro: €1,000, then about €50/month with monitoring and maintenance. Custom: on quote. The exact price is fixed in writing after the free call. Payment: a deposit when we start and the balance at delivery, on invoice."
    }
   },
   {
@@ -105,8 +105,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.30 — the hero takes the colour of the service in view (washes, line, kicker, list edge);
-     « How it works » is the scroll-driven six-step method (sticky drawing), the online estimate as a band under it.
+     LA GOFFINERIE v2.32 — the contact form lives in #contact, always visible (no more booking window): every
+     « Book my free call » button scrolls to it, the packages pre-fill it, a sent request folds into a paper plane;
+     the FAQ in two columns (title and « Other questions? » on the left); the « Our services » catalogue is gone;
+     on phones nav.js draws the new top bar, the menu sheet and the floating dock.
+     (v2.31: the three packages in #pricing, the estimator recommends one of them; the pricing page is retired.)
+     (v2.30: the hero takes the colour of the service in view (washes, line, kicker, list edge);
+     « How it works » is the scroll-driven six-step method (sticky drawing), the online estimate as a band under it.)
      (v2.28: nav: Services · Work · Pricing · FAQ and a « Get a quote » button (the estimator);
      the hero on a grid (title | logo shapes, text | the list of the three services); « How it works » as a vertical
      line of steps beside the online estimate card; flat buttons with a soft shadow.)
@@ -318,9 +323,6 @@
     .hrow{grid-template-columns:18px minmax(0,1fr);column-gap:10px;}
     .hrow .hm{width:18px;height:18px;}
   }
-  /* the floating logo geometry, kept for the booking window */
-  .geo{position:absolute;z-index:1;pointer-events:none;opacity:.9;}
-  .geo *{mix-blend-mode:multiply;}
 
 
   /* ---------- cards grid ---------- */
@@ -402,36 +404,39 @@
   .xlink .btn{background:var(--yellow);border-color:var(--yellow);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.3),0 12px 26px -12px rgba(237,175,47,.6);}
   .xlink .btn:hover{background:#f3bd4c;border-color:#f3bd4c;}
 
-  /* ---------- contact ---------- */
-  #contact{padding-bottom:96px;}
-  .cgrid{display:grid;grid-template-columns:1.15fr .95fr;gap:44px;align-items:start;margin-top:4px;}
-  @media(max-width:900px){.cgrid{grid-template-columns:1fr;gap:28px;}}
-  .cmain .ctas{margin-top:28px;}
-  .cmain .form-note{margin-top:12px;max-width:52ch;}
-  .cfacts{list-style:none;margin-top:26px;display:grid;gap:9px;}
-  .cfacts li{display:flex;gap:10px;align-items:center;font-size:14.5px;color:var(--ink-2);font-weight:500;}
-  .cfacts svg{width:20px;height:20px;flex:none;fill:none;stroke:var(--blue);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;}
-  .ccard{background:#fff;border:2px solid var(--ink);border-radius:20px;padding:22px 22px 12px;box-shadow:8px 8px 0 var(--yellow);}
-  .ccard .label{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px;}
-  .crow{display:flex;align-items:center;gap:14px;padding:13px 2px;border-top:1.5px dashed #15151533;text-decoration:none;color:var(--ink);transition:transform .15s;}
-  .crow:first-of-type{border-top:0;}
-  .crow:hover{transform:translateX(3px);}
-  .crow:hover .arr{color:var(--blue);transform:translateX(3px);}
-  .crow .ci{flex:none;width:42px;height:42px;border-radius:12px;border:2px solid var(--ink);background:var(--paper);display:flex;align-items:center;justify-content:center;}
-  .crow .ci svg{width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-  .crow .ci.wa{background:#25D366;border-color:#25D366;}
-  .crow .ci.wa svg path{fill:#fff;stroke:#fff;} .crow .ci.wa .wa-in{fill:#25D366;stroke:none;}
-  .crow .ci.li{background:#0a66c2;border-color:#0a66c2;color:#fff;font-family:Arial,sans-serif;font-weight:700;font-size:16px;}
-  .crow .ct{display:flex;flex-direction:column;min-width:0;line-height:1.3;}
-  .crow .ct small{font-size:12px;color:var(--ink-2);font-weight:500;}
-  .crow .ct b{font-family:var(--disp);font-weight:700;font-size:15.5px;overflow-wrap:anywhere;}
-  .crow .arr{margin-left:auto;font-family:var(--disp);font-weight:800;color:var(--ink-2);transition:transform .15s,color .15s;}
-  form{
-    margin-top:30px;display:flex;flex-direction:column;gap:16px;
-    background:#fff;border:2px solid var(--ink);border-radius:20px;padding:30px;
-    box-shadow:8px 8px 0 var(--blue);
-  }
-  .frow{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:end;}
+  /* ---------- contact: the text, the direct links and the facts on the left; the request card, always in the page, on the right ---------- */
+  #contact{padding:88px 0 80px;}
+  @media(min-width:901px){#contact .wrap{max-width:1160px;padding:0 40px;}}
+  .cgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);column-gap:clamp(40px,5vw,72px);align-items:start;}
+  .cmain{padding-top:8px;}
+  #contact h2{font-size:clamp(30px,3.4vw,48px);line-height:1.08;letter-spacing:-.02em;}
+  .cmain .sub{margin-top:16px;line-height:1.6;max-width:44ch;}
+  .clinks{display:flex;gap:12px;margin-top:30px;}
+  .clinks a{position:relative;width:48px;height:48px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;background:#fff;border:1px solid #15151524;color:var(--ink);box-shadow:0 1px 2px rgba(21,21,21,.08);transition:transform .15s ease,box-shadow .2s ease,border-color .2s ease;}
+  .clinks a:hover{transform:translateY(-1px);border-color:rgba(21,21,21,.32);box-shadow:0 2px 4px rgba(21,21,21,.08),0 12px 24px -14px rgba(21,21,21,.4);}
+  .clinks svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .clinks a.li{background:#0a66c2;border-color:#0a66c2;color:#fff;font-family:Arial,sans-serif;font-weight:700;font-size:17px;}
+  .cfacts{list-style:none;margin-top:30px;display:grid;gap:9px;}
+  .cfacts li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.5;color:var(--ink-2);font-weight:500;}
+  .cfacts svg{width:17px;height:17px;margin-top:2px;flex:none;fill:none;stroke:var(--blue);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+  .cside{position:relative;}
+  .ccard{background:#fff;border:1px solid #1515151a;border-radius:22px;padding:30px 30px 26px;box-shadow:0 1px 2px rgba(21,21,21,.04),0 28px 56px -32px rgba(21,21,21,.35);}
+  .clabel{font-family:var(--mono);font-size:11px;font-weight:600;line-height:1.4;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);}
+  .ccard .book-slot{margin:14px 0 0;}
+  .lform{display:flex;flex-direction:column;gap:14px;margin-top:14px;}
+  .ccard input,.ccard select,.ccard textarea{border:1px solid #15151529;}
+  .ccard textarea{height:96px;min-height:96px;}
+  .ccard label .opt{font-weight:500;color:#6f6f6f;}
+  .ccard select:has(option[value=""]:checked){color:#8a8d96;}
+  .ccard select option{color:var(--ink);}
+  .ccard input[type=date].empty::-webkit-datetime-edit{color:#8a8d96;}
+  .lform .send{margin-top:4px;width:100%;height:54px;padding:0 22px;border-radius:12px;font-size:15.5px;}
+  .lform .send svg{width:17px;height:17px;flex:none;}
+  .ccard .form-note{line-height:1.6;}
+  .ccard .form-ok{margin-top:14px;}
+  .form-ok:focus{outline:none;}
+  @media(max-width:900px){.cgrid{grid-template-columns:1fr;row-gap:28px;} .cmain{padding-top:0;}}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:end;}
   .frow > div{min-width:0;}
   @media(max-width:640px){.frow{grid-template-columns:1fr;}}
   label{font-family:var(--disp);font-weight:600;font-size:13.5px;display:block;margin-bottom:6px;}
@@ -475,65 +480,66 @@
   .skip{position:absolute;left:-9999px;top:10px;z-index:300;background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;font-family:var(--disp);font-weight:700;text-decoration:none;}
   .skip:focus{left:16px;}
   :focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px;}
-  .btn:focus-visible,.crow:focus-visible,.modal-close:focus-visible{outline-offset:4px;}
-  .modal:focus{outline:none;}
+  .btn:focus-visible{outline-offset:4px;}
   input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--blue);outline-offset:1px;}
 
   /* ---------- audience line ---------- */
 
   /* ---------- FAQ ---------- */
-  /* ---------- FAQ: editorial accordion (label, title, subtitle, numbered questions), one answer open at a time ---------- */
-  .faq-ed{background:#F5F5F3;padding:120px 0 128px;}
+  /* ---------- FAQ: editorial accordion (label, title, subtitle, numbered questions), one answer open at a time ----------
+     Wide screens: the title on the left, the « Other questions? » box under it stays in view while the questions scroll
+     on the right. Up to 900px, one column: title, questions, then the box. */
+  .faq-ed{background:#F5F5F3;padding:104px 0;}
   .faq-ed .wrap{max-width:1160px;}
-  .fe-head{text-align:center;display:flex;flex-direction:column;align-items:center;}
+  .fe-grid{display:grid;grid-template-columns:clamp(300px,32vw,400px) minmax(0,1fr);grid-template-rows:auto 1fr;column-gap:clamp(40px,5vw,72px);align-items:start;}
+  .fe-head{grid-column:1;grid-row:1;display:flex;flex-direction:column;align-items:flex-start;padding-top:28px;}
   .fe-label{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:#555;}
-  .fe-head h2{margin:20px 0 0;font-size:clamp(34px,4.6vw,58px);line-height:1.08;letter-spacing:-.025em;color:#111;max-width:18ch;}
-  .fe-sub{margin:18px 0 0;font-size:clamp(17px,1.6vw,20px);line-height:1.5;color:#6F6F6F;}
-  .fe-list{margin-top:64px;}
+  .fe-head h2{margin:18px 0 0;font-size:clamp(32px,3.4vw,48px);line-height:1.08;letter-spacing:-.025em;color:#111;max-width:18ch;}
+  .fe-sub{margin:16px 0 0;font-size:18px;line-height:1.5;color:#6F6F6F;}
+  .fe-list{grid-column:2;grid-row:1 / 3;}
+  .fe-ask{grid-column:1;grid-row:2;position:sticky;top:104px;margin-top:34px;padding:22px 22px 20px;border-radius:18px;background:#fff;border:1px solid #E6E6E6;}
+  .fe-ask h3{font-size:17px;font-weight:700;line-height:1.3;letter-spacing:0;color:#111;}
+  .fe-ask p{margin-top:6px;font-size:15px;line-height:1.55;color:#6F6F6F;}
+  .fe-ask .fe-btn{margin-top:14px;display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 18px;border-radius:999px;background:#111;color:#fff;font-family:var(--disp);font-weight:600;font-size:14.5px;line-height:1.2;text-decoration:none;transition:background-color .2s ease;}
+  .fe-ask .fe-btn:hover{background:#333;}
+  .fe-ask .fe-btn:focus-visible{outline-offset:4px;}
+  .fe-btn .barr{width:15px;height:15px;flex:none;transition:transform .2s ease;}
+  .fe-btn:hover .barr{transform:translateX(3px);}
   .faq-ed .fq{background:none;border:0;border-top:1px solid #E6E6E6;border-radius:0;padding:0;}
   .faq-ed .fq:last-child{border-bottom:1px solid #E6E6E6;}
-  .faq-ed .fq summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:76px minmax(0,1fr) 52px;align-items:center;gap:0 20px;padding:32px 0;font-family:var(--disp);font-weight:700;font-size:22px;line-height:1.3;letter-spacing:-.01em;color:#111;}
+  .faq-ed .fq summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:56px minmax(0,1fr) 52px;align-items:center;gap:0 20px;padding:32px 0;font-family:var(--disp);font-weight:700;font-size:22px;line-height:1.3;letter-spacing:-.01em;color:#111;}
   .faq-ed .fq summary::-webkit-details-marker{display:none;}
   .fe-n{font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:.08em;color:#A3A3A0;}
   .fe-ic{justify-self:end;width:52px;height:52px;border-radius:50%;border:1.5px solid #D4D4D0;color:#111;display:flex;align-items:center;justify-content:center;transition:transform .3s ease,background-color .3s ease,border-color .3s ease,color .3s ease;}
   .fe-ic svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;}
   .faq-ed .fq summary:hover .fe-ic,.faq-ed .fq summary:focus-visible .fe-ic{border-color:#111;background:#EBEBE8;}
   .faq-ed .fq[open] .fe-ic{transform:rotate(45deg);background:#111;border-color:#111;color:#fff;}
-  .fe-a{padding:0 72px 36px 96px;margin-top:-8px;}
+  .fe-a{padding:0 56px 32px 76px;margin-top:-8px;}
   .faq-ed .fq p{padding:0;font-size:17px;line-height:1.7;color:#6F6F6F;max-width:68ch;}
   .fe-more{margin-top:40px;text-align:center;font-size:16px;line-height:1.8;color:#6F6F6F;}
   .fe-more a,.faq-ed .fq p a{font-family:var(--disp);font-weight:700;color:#111;text-decoration:none;border-bottom:1.5px solid #111;white-space:nowrap;}
+  .fe-dot{margin:0 6px;}
+  @media(max-width:900px){
+    .fe-grid{display:block;}
+    .fe-head{padding-top:0;align-items:center;text-align:center;}
+    .fe-head h2{margin-top:20px;font-size:clamp(34px,4.6vw,58px);}
+    .fe-sub{margin-top:18px;font-size:17px;}
+    .fe-list{margin-top:56px;}
+    .fe-ask{position:static;margin-top:40px;}
+  }
   @media(max-width:700px){
     .faq-ed{padding:72px 0 80px;} .fe-list{margin-top:40px;}
     .faq-ed .fq summary{grid-template-columns:30px minmax(0,1fr) 40px;gap:0 12px;padding:22px 0;font-size:17px;}
     .fe-n{font-size:12px;} .fe-ic{width:40px;height:40px;} .fe-a{padding:0 0 24px 42px;margin-top:-4px;} .faq-ed .fq p{font-size:15.5px;}
+    .fe-ask{margin-top:32px;padding:20px 18px 18px;}
   }
-  /* ---------- our services: one row per service, its four or six offers on the right ---------- */
-  .svc-list{margin-top:44px;border-bottom:2px solid var(--ink);}
-  .svc-row{display:grid;grid-template-columns:320px minmax(0,1fr);gap:44px;padding:34px 0;border-top:2px solid var(--ink);}
-  .svc-lead{display:flex;flex-direction:column;align-items:flex-start;}
-  .svc-n{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--ink-2);}
-  .svc-n svg{width:22px;height:22px;}
-  .svc-lead h3{margin:14px 0 0;font-size:26px;font-weight:800;line-height:1.15;}
-  .svc-lead h3 a{color:var(--ink);text-decoration:none;}
-  .svc-lead h3 a:hover{color:var(--blue);}
-  .svc-lead p{margin-top:8px;font-size:15px;line-height:1.55;color:var(--ink-2);}
-  .svc-link{margin-top:16px;font-family:var(--disp);font-weight:700;font-size:14.5px;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--blue);}
-  .svc-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 32px;align-content:start;}
-  .svc-items b{display:block;font-family:var(--disp);font-weight:700;font-size:16px;}
-  .svc-items p{margin-top:4px;font-size:14.5px;line-height:1.55;color:var(--ink-2);}
-  .svc-ctas{align-items:center;}
-  .svc-note{font-size:14.5px;color:var(--ink-2);}
-  @media(max-width:900px){.svc-row{grid-template-columns:1fr;gap:20px;}}
-  @media(max-width:600px){.svc-items{grid-template-columns:1fr;gap:14px;} .svc-lead h3{font-size:23px;}}
+  @media (prefers-reduced-motion: reduce){.fe-ic,.fe-ask .fe-btn,.fe-btn .barr{transition:none;} .fe-btn:hover .barr{transform:none;}}
   button.btn{line-height:inherit;}
 
   /* ---------- booking slot (shown when BOOKING_URL is set) ---------- */
   .book-slot{margin:22px 0 6px;display:flex;flex-direction:column;gap:8px;align-items:flex-start;}
   .book-slot .or{font-size:13.5px;color:var(--ink-2);}
-  .modal .book-slot{margin-top:18px;}
 
-  /* ---------- direct reach (phone, WhatsApp) ---------- */
   /* ---------- founder photo ---------- */
   img.avatar{width:120px;height:120px;object-fit:cover;display:block;padding:0;font-size:0;background:var(--paper-2);}
   .avatar-fb{width:120px;height:120px;}
@@ -573,6 +579,63 @@
 
   /* ---------- how it works, the short version ---------- */
   #process{background:var(--paper-2);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
+  /* ---------- pricing: the three packages (Essentiel, Pro on dark, Sur mesure); « Pricing » in the bar leads here ---------- */
+  #pricing{background:var(--paper);}
+  #pricing .wrap{max-width:1240px;}
+  .pk-head{display:flex;flex-direction:column;align-items:center;text-align:center;}
+  .pk-pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px 7px 10px;border:1px solid rgba(21,21,21,.15);border-radius:999px;background:#fff;font-family:var(--disp);font-weight:600;font-size:13px;}
+  .pk-pill svg{width:19px;height:18px;}
+  .pk-head h2{margin-top:18px;}
+  .pk-head .sub{margin-left:auto;margin-right:auto;max-width:60ch;}
+  /* the cards share their rows (subgrid), so prices, buttons and lists line up across the three */
+  .pk-grid{margin-top:48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 22px;align-items:stretch;}
+  .pk{grid-row:span 7;display:grid;grid-template-rows:subgrid;align-content:start;background:#fcfbf7;border:1px solid rgba(21,21,21,.1);border-radius:28px;padding:36px 34px 38px;box-shadow:0 1px 2px rgba(21,21,21,.04),0 24px 48px -30px rgba(21,21,21,.25);}
+  .pk.dark{background:var(--ink);color:var(--paper);border-color:var(--ink);box-shadow:0 30px 60px -28px rgba(21,21,21,.55);}
+  .pk-top{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .pk h3{font-size:40px;font-weight:800;line-height:1.05;letter-spacing:-.03em;}
+  .pk.dark h3{color:var(--paper);}
+  .pk-badge{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;background:var(--yellow);color:var(--ink);border-radius:999px;padding:7px 12px;white-space:nowrap;}
+  .pk-sub{margin-top:10px;font-size:16.5px;line-height:1.5;color:#6f6f6f;}
+  .pk-price{margin-top:34px;display:flex;align-items:baseline;gap:10px;}
+  .pk-price b{font-family:var(--disp);font-weight:800;font-size:clamp(46px,4.2vw,62px);line-height:1;letter-spacing:-.04em;white-space:nowrap;}
+  .pk-price b.pk-quote{font-size:clamp(40px,3.6vw,52px);}
+  .pk-price span{font-size:16px;color:#6f6f6f;}
+  .pk-once{margin-top:10px;font-size:15px;line-height:1.5;color:#6f6f6f;}
+  .pk-month{margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(21,21,21,.04);}
+  .pk-month:empty{background:none;padding:0;}
+  .pk-month b{display:block;font-family:var(--disp);font-weight:700;font-size:16px;}
+  .pk-month small{display:block;margin-top:3px;font-size:13.5px;line-height:1.5;color:#6f6f6f;}
+  .pk.dark .pk-sub,.pk.dark .pk-once,.pk.dark .pk-price span,.pk.dark .pk-month small{color:rgba(250,248,242,.66);}
+  .pk.dark .pk-month{background:rgba(250,248,242,.06);}
+  .pk-btn{margin-top:24px;display:flex;align-items:center;justify-content:center;gap:10px;height:58px;border-radius:999px;background:var(--ink);color:#fff;font-family:var(--disp);font-weight:600;font-size:16px;text-decoration:none;box-shadow:0 1px 2px rgba(21,21,21,.2);transition:transform .15s ease,box-shadow .2s ease,background-color .2s ease;}
+  .pk-btn svg{width:16px;height:16px;flex:none;}
+  .pk-btn:hover{transform:translateY(-1px);box-shadow:0 14px 26px -14px rgba(21,21,21,.6);}
+  .pk.dark .pk-btn{background:var(--yellow);color:var(--ink);}
+  .pk.dark .pk-btn:hover{background:#f3bd4c;}
+  .pk-btn:focus-visible{outline:3px solid var(--blue);outline-offset:3px;}
+  .pk-list{list-style:none;margin:30px 0 0;padding:0;display:grid;gap:13px;align-content:start;}
+  .pk-list li{position:relative;padding-left:30px;font-size:15.5px;line-height:1.5;}
+  .pk-list li::before{content:"";position:absolute;left:0;top:3px;width:18px;height:18px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.4l3.2 3.1L13 4.6' fill='none' stroke='%232823EE' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center/contain;}
+  .pk.dark .pk-list li::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.4l3.2 3.1L13 4.6' fill='none' stroke='%23EDAF2F' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");}
+  .pk-no{margin-top:22px;padding-top:18px;border-top:1px dashed rgba(21,21,21,.16);}
+  .pk-nol{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(21,21,21,.45);}
+  .pk-no ul{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px;}
+  .pk-no li{position:relative;padding-left:30px;font-size:15px;line-height:1.5;color:rgba(21,21,21,.5);}
+  .pk-no li::before{content:"";position:absolute;left:1px;top:4px;width:16px;height:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 4.5l7 7M11.5 4.5l-7 7' fill='none' stroke='rgba(21,21,21,.35)' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center/contain;}
+  .pk-common{margin-top:34px;display:flex;justify-content:center;flex-wrap:wrap;gap:14px 34px;font-size:15px;font-weight:600;}
+  .pk-common span{position:relative;padding-left:28px;}
+  .pk-common span::before{content:"";position:absolute;left:0;top:2px;width:18px;height:18px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.4l3.2 3.1L13 4.6' fill='none' stroke='%232823EE' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center/contain;}
+  .pk-foot{margin-top:26px;text-align:center;font-size:15.5px;}
+  .pk-link{all:unset;cursor:pointer;font-family:var(--disp);font-weight:700;border-bottom:2px solid var(--blue);}
+  .pk-link:focus-visible{outline:3px solid var(--blue);outline-offset:3px;}
+  .pk-note{margin-top:8px;text-align:center;font-size:13.5px;color:var(--ink-2);}
+  @media(max-width:1100px){.pk{padding:30px 24px 32px;} .pk h3{font-size:34px;}}
+  @media(max-width:900px){
+    .pk-grid{grid-template-columns:1fr;gap:18px;max-width:540px;margin-left:auto;margin-right:auto;}
+    .pk{grid-row:auto;display:flex;flex-direction:column;}
+    .pk-month:empty{display:none;}
+  }
+  @media(max-width:600px){.pk{border-radius:22px;padding:26px 22px 28px;} .pk h3{font-size:32px;} .pk-price{margin-top:24px;} .pk-price b{font-size:52px;} .pk-price b.pk-quote{font-size:42px;} .pk-btn{height:54px;}}
   /* ---------- method, driven by the scroll: the left column (title, text, the drawing of the step in view) stays put,
      the six steps scroll on the right; the one crossing the middle of the screen lights up, the line fills down to it ---------- */
   #process{padding:72px 0;}
@@ -719,44 +782,21 @@
     .cbtn,.cdots button{transition:none;}
   }
 
-  /* ---------- contact modal ---------- */
-  body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden;}
-  .modal-bg{position:fixed;inset:0;z-index:200;background:rgba(21,21,21,.55);
-    backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
-    display:flex;align-items:center;justify-content:center;padding:20px;animation:bgIn .25s ease both;}
-  .modal-bg[hidden]{display:none;}
-  .modal-bg.closing{animation:bgOut .2s ease both;}
-  .modal-wrap{position:relative;width:min(640px,100%);}
-  .modal{position:relative;max-height:calc(100vh - 40px);max-height:calc(100dvh - 40px);overflow:auto;
-    background:#fff;border:2px solid var(--ink);border-radius:22px;padding:34px 32px 28px;
-    box-shadow:10px 10px 0 var(--blue);animation:mdIn .55s cubic-bezier(.22,1.4,.36,1) both;}
-  .modal-bg.closing .modal{animation:mdOut .2s ease both;}
-  .modal .kick{margin-bottom:10px;}
-  .modal h3{font-size:clamp(22px,3vw,30px);font-weight:800;line-height:1.15;max-width:20ch;padding-right:40px;}
-  .modal .lede{margin-top:10px;font-size:15.5px;color:var(--ink-2);max-width:52ch;}
-  .modal form{margin-top:22px;padding:0;border:0;box-shadow:none;border-radius:0;background:transparent;}
-  .modal-close{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;
-    border:2px solid var(--ink);background:#fff;cursor:pointer;font-size:22px;line-height:1;color:var(--ink);
-    font-family:var(--disp);display:flex;align-items:center;justify-content:center;transition:transform .15s,box-shadow .15s;}
-  .modal-close:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink);}
-  .modal-wrap .geo{position:absolute;pointer-events:none;z-index:2;}
-  .modal-wrap .geo.mg1{--r:12deg;--o:1;right:-28px;top:-34px;width:110px;height:104px;animation:geoPop .6s .15s cubic-bezier(.22,1.4,.36,1) both;}
-  .modal-wrap .geo.mg2{--r:-16deg;--o:.5;left:-36px;bottom:-36px;width:90px;height:84px;animation:geoPop .6s .25s cubic-bezier(.22,1.4,.36,1) both;}
-  @keyframes bgIn{from{opacity:0}to{opacity:1}}
-  @keyframes bgOut{from{opacity:1}to{opacity:0}}
-  @keyframes mdIn{from{opacity:0;transform:translateY(46px) scale(.9)}to{opacity:1;transform:none}}
-  @keyframes mdOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(20px) scale(.96)}}
-  @keyframes geoPop{from{opacity:0;transform:scale(.2) rotate(60deg)}to{opacity:var(--o);transform:scale(1) rotate(var(--r))}}
-  @media(max-width:640px){.modal{padding:28px 20px 22px;border-radius:18px;} .modal-wrap .geo{display:none;} .modal-bg{padding:12px;}}
-  /* Sent: the window folds (0.38 s), a paper plane takes off towards the top right (0.7 s), the thanks unfold. */
-  .modal.folding{animation:lgFold .38s cubic-bezier(.6,0,.8,.4) forwards;}
-  .modal.unfold{animation:lgUnfold .45s cubic-bezier(.22,1.4,.36,1) both;}
+  /* ---------- the request, sent: the card folds (0.38 s), a paper plane takes off towards the top right (0.7 s),
+     then the thanks unfold in the card. Nothing moves with prefers-reduced-motion. ---------- */
+  .ccard.folding{animation:lgFold .38s cubic-bezier(.6,0,.8,.4) forwards;}
+  .ccard.unfold{animation:lgUnfold .45s cubic-bezier(.22,1.4,.36,1) both;}
   @keyframes lgFold{to{transform:perspective(900px) rotateY(-34deg) rotateZ(-8deg) scale(.82);opacity:.15}}
   @keyframes lgUnfold{from{transform:scale(.9) translateY(12px);opacity:0}to{transform:none;opacity:1}}
   .lg-plane{position:absolute;left:50%;top:50%;width:150px;height:100px;margin:-50px 0 0 -75px;z-index:3;pointer-events:none;animation:lgFly .7s cubic-bezier(.3,.5,.5,1) forwards;}
   .lg-plane svg{width:100%;height:100%;overflow:visible;}
-  @keyframes lgFly{0%{transform:translate(0,0) rotate(-22deg) scale(.85);opacity:0}12%{opacity:1}100%{transform:translate(min(70vw,900px),-70vh) rotate(-32deg) scale(.4);opacity:0}}
-  @media (prefers-reduced-motion: reduce){.modal,.modal-bg,.modal-wrap .geo,.modal.folding,.modal.unfold,.lg-plane{animation:none!important;}}
+  /* --fx/--fy (set by the script): from the card to just past the top right corner of the screen */
+  @keyframes lgFly{0%{transform:translate(0,0) rotate(-22deg) scale(.85);opacity:0}12%{opacity:1}100%{transform:translate(var(--fx,min(70vw,900px)),var(--fy,-70vh)) rotate(-32deg) scale(.4);opacity:0}}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .ccard.folding,.ccard.unfold,.lg-plane,.form-ok{animation:none!important;}
+    .clinks a{transition:none;}
+  }
 
   /* ---------- form states ---------- */
   .honey{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;}
@@ -767,7 +807,6 @@
   .form-ok p{color:var(--ink-2);font-size:15px;}
   .btn[disabled]{opacity:.6;cursor:progress;transform:none!important;}
   .form-note a{color:var(--ink);font-weight:600;}
-  .slot-note{margin-top:-6px;font-size:12.5px;color:var(--ink-2);}
   .cal-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
   .cal-btns a{display:inline-flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:600;font-size:14px;text-decoration:none;color:var(--ink);background:#fff;border:1px solid rgba(21,21,21,.18);border-radius:999px;padding:11px 17px;box-shadow:0 1px 2px rgba(21,21,21,.06);transition:transform .15s,box-shadow .2s,border-color .2s;}
   .cal-btns a:hover{transform:translateY(-1px);border-color:rgba(21,21,21,.32);box-shadow:0 2px 4px rgba(21,21,21,.08),0 12px 24px -14px rgba(21,21,21,.4);}
@@ -794,7 +833,10 @@
     .hrow.on{padding:12px 14px 13px;} .hrow b,.hrow.on b{font-size:14.5px;} .hrow .hd{font-size:13px;} .hrow .hbar{left:14px;right:14px;}
     .ctas{gap:12px;margin-top:26px;}
     .ctas .btn,form button.btn{width:100%;justify-content:center;}
-    .ccard{padding:16px 16px 8px;box-shadow:6px 6px 0 var(--yellow);} .crow .ct b{font-size:15px;} .cfacts{margin-top:22px;}
+    #contact{padding:56px 0 64px;}
+    .clinks{margin-top:20px;} .clinks a{width:44px;height:44px;} .cfacts{margin-top:22px;}
+    .cgrid{row-gap:24px;}
+    .ccard{padding:22px 18px;}
     .hero .note{font-size:13.5px;}
     h2{font-size:clamp(26px,7.4vw,30px);}
     .sub{font-size:16px;}
@@ -808,13 +850,10 @@
     .pprom{grid-template-columns:1fr;gap:12px;padding:0 2px;}
     .about{gap:18px;}
     img.avatar,.avatar-fb{width:104px;height:104px;}
-    form{padding:22px 18px;box-shadow:6px 6px 0 var(--blue);}
     /* 16px is the threshold below which iOS zooms the page on focus — and never zooms back. */
     input,select,textarea{font-size:16px;}
     .form-note{font-size:12px;}
     footer .wrap{flex-direction:column;align-items:flex-start;gap:12px;}
-    .modal .lede{font-size:15px;}
-    .modal h3{font-size:22px;}
   }
   @media(max-width:360px){
     .hero h1{font-size:7.4vw;}
@@ -1016,9 +1055,9 @@
       <span class="logo-txt">La Goffinerie</span>
     </a>
     <div class="nlinks">
-      <a class="nsvc" href="#alive" data-track="nav_alive"><span data-i18n="nav_alive">Services</span></a>
+      <a class="nsvc" href="#top" data-track="nav_alive"><span data-i18n="nav_alive">Services</span></a>
       <a href="work.html" data-track="nav_work" data-i18n="nav_work">Work</a>
-      <a href="pricing.html" data-track="nav_pricing" data-i18n="nav_pricing">Pricing</a>
+      <a href="#pricing" data-track="nav_pricing" data-i18n="nav_pricing">Pricing</a>
       <a href="#faq" data-track="nav_faq" data-i18n="nav_faq">FAQ</a>
     </div>
     <div class="nright">
@@ -1026,7 +1065,7 @@
         <button id="lang-en" onclick="setLang('en')">EN</button>
         <button id="lang-fr" onclick="setLang('fr')">FR</button>
       </div>
-      <a class="btn primary nquote" href="pricing.html" data-track="nav_quote" data-estimator="nav"><svg class="ndoc" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.75h5.2L12.5 5v9.25H4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 1.75V5.2h3.4M6.3 8.4h3.9M6.3 11h3.9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span data-i18n="nav_book">Get a quote</span></a>
+      <a class="btn primary nquote" href="#pricing" data-track="nav_quote" data-estimator="nav"><svg class="ndoc" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.75h5.2L12.5 5v9.25H4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 1.75V5.2h3.4M6.3 8.4h3.9M6.3 11h3.9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span data-i18n="nav_book">Get a quote</span></a>
     </div>
   </div>
 </nav>
@@ -1034,7 +1073,7 @@
 <nav class="bottombar" aria-label="Mobile navigation">
   <a href="tel:+32479487608" data-track="bb_call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-i18n="nav_call">Call</span></a>
   <a href="work.html" data-track="bb_work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg><span data-i18n="nav_work">Work</span></a>
-  <a href="pricing.html" data-track="bb_pricing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 12h20"/></svg><span data-i18n="nav_pricing">Pricing</span></a>
+  <a href="#pricing" data-track="bb_pricing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="8" cy="8" r="1.6"/></svg><span data-i18n="nav_pricing">Pricing</span></a>
   <a href="#contact" data-track="bb_contact" data-open="bottombar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5c-1.7 0-3.3-.5-4.6-1.3L3 20l1.3-4.9A8.5 8.5 0 1 1 21 11.5z"/></svg><span data-i18n="nav_contact">Contact</span></a>
 </nav>
 
@@ -1058,7 +1097,7 @@
         </svg>
       </div>
       <div class="hleft">
-        <p class="sub" data-i18n="hero_sub">A website that fills your calendar, sends your invoices and tells you what your visitors do. From <span data-price="vitrine">€1,950</span> excl. VAT, price fixed in writing. <strong>You own it.</strong></p>
+        <p class="sub" data-i18n="hero_sub">A website that brings you clients, then tools that save you time. From <span data-price="ess">€700</span> excl. VAT, price fixed in writing. <strong>You own it all.</strong></p>
         <div class="ctas">
           <a class="btn primary" href="#contact" data-track="cta_hero_book" data-open="hero"><span data-i18n="hero_cta1">Book my free call</span><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           <a class="btn ghost" href="work.html" data-track="cta_hero_work" data-i18n="hero_cta2">See our work</a>
@@ -1074,45 +1113,6 @@
   </div>
 </header>
 
-
-<!-- ================= LIVING WEBSITE FEATURES ================= -->
-<section id="alive">
-  <div class="wrap">
-    <div class="kick rv" data-i18n="alive_kick">Our services</div>
-    <h2 class="rv" data-i18n="alive_h2">Three ways to win back your time.</h2>
-    <p class="sub rv" data-i18n="alive_sub">From a showcase site to a tailor-made tool, here is everything I build. Every project is designed around the way you work, and it belongs to you.</p>
-    <div class="svc-list">
-      <div class="svc-row rv">
-        <div class="svc-lead">
-          <div class="svc-n"><span>01</span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" fill="#2823EE"/></svg></div>
-          <h3><a href="websites.html" data-track="svc_title" data-i18n="sv1_t">Websites &amp; apps</a></h3>
-          <p data-i18n="sv1_l">A website or an app built around the way you work, hosted and maintained if you want.</p>
-          <a class="svc-link" href="websites.html" data-track="svc_open" data-i18n="svc_more">See the service →</a>
-        </div>
-        <div class="svc-items"><div><b data-i18n="sv1_i1h">Showcase site</b><p data-i18n="sv1_i1p">Up to five pages, a contact form, designed for phones first.</p></div><div><b data-i18n="sv1_i2h">Connected site</b><p data-i18n="sv1_i2p">The showcase site, plugged into your tools to work for you.</p></div><div><b data-i18n="sv1_i3h">Apps and tools</b><p data-i18n="sv1_i3p">Book, order, track: a tool for your clients or your team.</p></div><div><b data-i18n="sv1_i4h">Redesign</b><p data-i18n="sv1_i4p">I start from your current site to improve it, or rebuild it entirely.</p></div><div><b data-i18n="sv1_i5h">Hosting and maintenance</b><p data-i18n="sv1_i5p">I keep the site running for you, if you want. Cancellable.</p></div><div><b data-i18n="sv1_i6h">Visual identity</b><p data-i18n="sv1_i6p">Logo and brand guidelines, with a partner graphic designer.</p></div></div>
-      </div>
-      <div class="svc-row rv">
-        <div class="svc-lead">
-          <div class="svc-n"><span>02</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L23 21 L1 21 Z" fill="#EDAF2F"/></svg></div>
-          <h3><a href="digital-strategy.html" data-track="svc_title" data-i18n="sv2_t">Digital strategy (SEO &amp; GEO)</a></h3>
-          <p data-i18n="sv2_l">Get found on Google, and cited by AI assistants when someone asks them for a business like yours.</p>
-          <a class="svc-link" href="digital-strategy.html" data-track="svc_open" data-i18n="svc_more">See the service →</a>
-        </div>
-        <div class="svc-items"><div><b data-i18n="sv2_i1h">Search ranking (SEO)</b><p data-i18n="sv2_i1p">Structure, speed and copy written for what your clients search.</p></div><div><b data-i18n="sv2_i2h">Google Business profile</b><p data-i18n="sv2_i2p">Created or brought up to date: hours, photos, service area, reviews.</p></div><div><b data-i18n="sv2_i3h">Cited by AI (GEO)</b><p data-i18n="sv2_i3p">Pages that ChatGPT, Gemini and the others understand and cite.</p></div><div><b data-i18n="sv2_i4h">Analytics you own</b><p data-i18n="sv2_i4p">Every visit in your own dashboard, nothing sent to a third party.</p></div></div>
-      </div>
-      <div class="svc-row rv">
-        <div class="svc-lead">
-          <div class="svc-n"><span>03</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#E2452C"/></svg></div>
-          <h3><a href="ai-automation.html" data-track="svc_title" data-i18n="sv3_t">AI automation</a></h3>
-          <p data-i18n="sv3_l">Your site talks to the tools you already use, and does the admin for you.</p>
-          <a class="svc-link" href="ai-automation.html" data-track="svc_open" data-i18n="svc_more">See the service →</a>
-        </div>
-        <div class="svc-items"><div><b data-i18n="sv3_i1h">Calendar booking</b><p data-i18n="sv3_i1p">Clients pick a slot on your site, it lands in your calendar.</p></div><div><b data-i18n="sv3_i2h">Invoicing and reminders</b><p data-i18n="sv3_i2p">Quotes prepared, invoices generated when a job closes, reminders sent.</p></div><div><b data-i18n="sv3_i3h">Your CRM</b><p data-i18n="sv3_i3p">Enquiries, contacts and invoices land in your CRM, no copy-paste.</p></div><div><b data-i18n="sv3_i4h">Morning digest</b><p data-i18n="sv3_i4p">A short AI summary of your messages and client exchanges, every morning.</p></div></div>
-      </div>
-    </div>
-    <div class="ctas svc-ctas rv"><button class="btn primary" type="button" data-estimator="services" data-track="cta_estimate" data-i18n="svc_est">Estimate my project</button><a class="btn ghost" href="#contact" data-track="cta_svc_book" data-open="services" data-i18n="svc_book">Book my free call</a><span class="svc-note" data-i18n="svc_note">Not sure what you need? Let's talk for 30 minutes, no obligation.</span></div>
-  </div>
-</section>
 
 <!-- ================= WORK — a carousel of projects, the full page is work.html ================= -->
 <section id="work">
@@ -1178,7 +1178,7 @@
   </div>
 </section>
 
-<!-- ================= HOW IT WORKS — the short version; the method lives on pricing.html ================= -->
+<!-- ================= HOW IT WORKS — the method, driven by the scroll ================= -->
 <section id="process">
   <div class="wrap">
       <div class="mgrid" id="flowx">
@@ -1272,7 +1272,7 @@
         </div>
         <div class="pest-act">
           <button class="btn primary pbtn" type="button" data-estimator="home" data-track="cta_estimate"><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.75 1.75h8.5v12.5h-8.5zM5.75 4h4.5v2.25h-4.5zM5.9 9h.01M8 9h.01M10.1 9h.01M5.9 11.6h.01M8 11.6h.01M10.1 11.6h.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="proc_est">Estimate my project</span></button>
-          <a class="plink" href="pricing.html" data-track="cta_pricing"><span data-i18n="proc_btn">The pricing, in detail</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a class="plink" href="#pricing" data-track="cta_pricing"><span data-i18n="proc_btn">See the three packages</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
       <ul class="pprom rv">
@@ -1284,9 +1284,53 @@
   </div>
 </section>
 
+<!-- ================= PRICING — the three packages; « Pricing » in the bar leads here ================= -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="pk-head rv">
+      <span class="pk-pill"><svg viewBox="0 0 120 112" style="isolation:isolate" aria-hidden="true"><path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="#E2452C" style="mix-blend-mode:multiply"/></svg><span data-i18n="pk_kick">What it costs</span></span>
+      <h2 data-i18n="pk_h2">Three packages, one clear price.</h2>
+      <p class="sub" data-i18n="pk_sub">You pay for the build once. The monthly fee covers exactly what's written on the offer, nothing more.</p>
+    </div>
+    <div class="pk-grid">
+      <article class="pk rv">
+        <div class="pk-top"><h3 data-i18n="pk1_name">Essentiel</h3></div>
+        <p class="pk-sub" data-i18n="pk1_sub">To get online, fast.</p>
+        <div class="pk-price"><b data-price="ess">€700</b><span data-i18n="pk_vat">excl. VAT</span></div>
+        <p class="pk-once" data-i18n="pk_once">One-off build</p>
+        <div class="pk-month"><b data-i18n="pk1_m">then about <span data-price="ess_m">€20</span>/month</b><small data-i18n="pk1_mn">The monthly fee covers hosting and the domain name only.</small></div>
+        <a class="pk-btn" href="#contact" data-pack-en="Essentiel" data-pack-fr="Essentiel" data-track="pack_essentiel"><span data-i18n="pk1_btn">Choose Essentiel</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div><ul class="pk-list"><li data-i18n="pk1_i1">A one-page site, made to measure</li><li data-i18n="pk1_i2">Mobile-friendly</li><li data-i18n="pk1_i3">Contact form</li><li data-i18n="pk1_i4">Domain name</li><li data-i18n="pk1_i5">Secure hosting (HTTPS)</li><li data-i18n="pk1_i6">Backups</li><li data-i18n="pk1_i7">Maintenance for 3 months</li></ul><div class="pk-no"><div class="pk-nol" data-i18n="pk_no">Not included</div><ul><li data-i18n="pk1_x1">24/7 monitoring</li><li data-i18n="pk1_x2">Changes after launch</li><li data-i18n="pk1_x3">Follow-up after the first 3 months</li></ul></div></div>
+      </article>
+      <article class="pk dark rv">
+        <div class="pk-top"><h3 data-i18n="pk2_name">Pro</h3><span class="pk-badge" data-i18n="pk_badge">Recommended</span></div>
+        <p class="pk-sub" data-i18n="pk2_sub">For a site that's looked after and grows with you.</p>
+        <div class="pk-price"><b data-price="pro">€1,000</b><span data-i18n="pk_vat">excl. VAT</span></div>
+        <p class="pk-once" data-i18n="pk_once">One-off build</p>
+        <div class="pk-month"><b data-i18n="pk2_m">then about <span data-price="pro_m">€50</span>/month</b><small data-i18n="pk2_mn">The monthly fee covers hosting, the domain, monitoring and maintenance.</small></div>
+        <a class="pk-btn" href="#contact" data-pack-en="Pro" data-pack-fr="Pro" data-track="pack_pro"><span data-i18n="pk2_btn">Choose Pro</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div><ul class="pk-list"><li data-i18n="pk2_i1">Everything in Essentiel</li><li data-i18n="pk2_i2">24/7 monitoring, with an alert if it goes down</li><li data-i18n="pk2_i3">I manage your online services for you</li><li data-i18n="pk2_i4">Unlimited technical maintenance</li><li data-i18n="pk2_i5">One new feature every quarter</li></ul></div>
+      </article>
+      <article class="pk rv">
+        <div class="pk-top"><h3 data-i18n="pk3_name">Custom</h3></div>
+        <p class="pk-sub" data-i18n="pk3_sub">For projects with specific needs.</p>
+        <div class="pk-price"><b class="pk-quote" data-i18n="pk3_price">On quote</b></div>
+        <p class="pk-once" data-i18n="pk3_once">The price depends on your project: it's fixed in writing after the free call.</p>
+        <div class="pk-month"></div>
+        <a class="pk-btn" href="#contact" data-pack-en="Custom" data-pack-fr="Sur mesure" data-track="pack_custom"><span data-i18n="pk3_btn">Talk about my project</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div><ul class="pk-list"><li data-i18n="pk3_i1">Online shop, booking, member area</li><li data-i18n="pk3_i2">AI tools built in to automate your work</li><li data-i18n="pk3_i3">Your leads tracked in a built-in CRM (Odoo)</li><li data-i18n="pk3_i4">Unlimited changes and new features</li><li data-i18n="pk3_i5">A chatbot on your site</li><li data-i18n="pk3_i6">New features added to your existing site</li></ul></div>
+      </article>
+    </div>
+    <div class="pk-common rv"><span data-i18n="pk_c1">A fixed price, written before we start</span><span data-i18n="pk_c2">The code, the data and every access are yours</span><span data-i18n="pk_c3">No licence, no per-user fees</span></div>
+    <p class="pk-foot rv"><span data-i18n="pk_unsure">Not sure which one?</span> <button class="pk-link" type="button" data-estimator="pricing" data-track="cta_estimate"><span data-i18n="pk_est">Estimate your project in two minutes</span> →</button></p>
+    <p class="pk-note" data-i18n="pk_note">All prices exclude VAT. Monthly amounts are indicative and confirmed in writing.</p>
+  </div>
+</section>
+
 <!-- ================= FAQ ================= -->
 <section id="faq" class="faq-ed">
   <div class="wrap">
+   <div class="fe-grid">
     <div class="fe-head rv">
       <span class="fe-label" data-i18n="faq_kick">Before you commit</span>
       <h2 data-i18n="faq_h2">Your questions. Clear answers.</h2>
@@ -1294,90 +1338,76 @@
     </div>
     <div class="fe-list rv">
       <details class="fq" name="faq" open data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">01</span><span class="fe-q" data-i18n="q1">Is the quote really free?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a1">Yes. The 30-minute call and the quote are free, and you commit to nothing. The quote sets out the scope, the price and the schedule, in writing. Once accepted, the price does not move.</p></div></details>
-      <details class="fq" name="faq" data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">02</span><span class="fe-q" data-i18n="q2">How much does it cost?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a2">A showcase site starts at <span data-price="vitrine">€1,950</span> excl. VAT, a site connected to your tools at <span data-price="connecte">€3,900</span> excl. VAT. After delivery, you run the site yourself, or I keep it running with maintenance from <span data-price="hosting">€29</span>/month; the full plan is on quote. Payment: a deposit when we start and the balance at delivery, on invoice. <a href="#estimate" data-estimator="faq" data-track="faq_estimate">Estimate your project in two minutes →</a></p></div></details>
+      <details class="fq" name="faq" data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">02</span><span class="fe-q" data-i18n="q2">How much does it cost?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a2">Three packages. Essentiel: <span data-price="ess">€700</span> excl. VAT, then about <span data-price="ess_m">€20</span>/month for hosting and the domain. Pro: <span data-price="pro">€1,000</span>, then about <span data-price="pro_m">€50</span>/month with monitoring and maintenance. Custom: on quote. The exact price is fixed in writing after the free call. Payment: a deposit when we start and the balance at delivery, on invoice.</p></div></details>
       <details class="fq" name="faq" data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">03</span><span class="fe-q" data-i18n="q3">How long does a project take?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a3">Most projects take between three and six weeks from the first call to the handover, depending on the integrations. You see the progress every week and validate each step.</p></div></details>
       <details class="fq" name="faq" data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">04</span><span class="fe-q" data-i18n="q4">What if I want to change something along the way?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a4">That is planned for. Since you validate every step, adjustments happen early. Anything outside the written scope gets a small quote before it is done: nothing is billed without your agreement.</p></div></details>
       <details class="fq" name="faq" data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">05</span><span class="fe-q" data-i18n="q5">Who owns the site?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a5">You do: the code, the data and every access. You can take it anywhere, hand it to someone else or change it yourself, with or without me.</p></div></details>
       <details class="fq" name="faq" data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">06</span><span class="fe-q" data-i18n="q6">What results can I expect?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a6">The ones we set together on the call: more enquiries, less admin, or both. You follow visits and enquiries in your own dashboard. And I never promise figures that nobody can honestly guarantee.</p></div></details>
     </div>
-    <p class="fe-more rv" data-i18n="faq_more">A question about a specific service? <a href="websites.html">Websites &amp; apps</a> · <a href="digital-strategy.html">Digital strategy</a> · <a href="ai-automation.html">AI automation</a></p>
+    <div class="fe-ask rv">
+      <h3 data-i18n="faq_ask_h">Other questions?</h3>
+      <p data-i18n="faq_ask_p">Write to me, I reply personally within one business day.</p>
+      <a class="fe-btn" href="#contact" data-track="faq_more_contact" data-open="faq"><span data-i18n="faq_ask_btn">Ask me a question</span><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+   </div>
+    <p class="fe-more rv" data-i18n="faq_more">A question about a specific service? <a href="websites.html">Websites &amp; apps</a> <span class="fe-dot" aria-hidden="true">·</span> <a href="digital-strategy.html">Digital strategy</a> <span class="fe-dot" aria-hidden="true">·</span> <a href="ai-automation.html">AI automation</a></p>
   </div>
 </section>
 
-<!-- ================= CONTACT ================= -->
+<!-- ================= CONTACT — the text and the direct links on the left, the request card always in the page on the right ================= -->
 <section id="contact">
   <div class="wrap">
-    <div class="kick rv" data-i18n="ct_kick">Let's talk</div>
     <div class="cgrid">
       <div class="cmain">
-        <h2 class="rv" data-i18n="ct_h2">Tell me what's eating your time.</h2>
-        <p class="sub rv" data-i18n="ct_sub">A free 30-minute call. Tell me how you work today: I'll tell you honestly what's worth automating, and what it would be worth.</p>
-        <div class="book-slot rv" data-needs-booking hidden><a class="btn primary" href="#" target="_blank" rel="noopener" data-track="cta_book_slot" data-book data-i18n="book_btn">Choose a slot now</a><p class="or" data-i18n="book_or">or leave your details below and I will call you back</p></div>
-        <div class="ctas rv"><a class="btn primary" href="#contact" data-track="cta_contact_book" data-open="contact" data-i18n="ct_btn">Book my free call</a></div>
-        <p class="form-note rv" data-i18n="ct_note">Pick a day and a time in the window that opens; I confirm within one business day. <a href="cookies.html">Privacy &amp; cookies.</a></p>
+        <div class="kick rv" data-i18n="ct_kick">Contact</div>
+        <h2 class="rv" data-i18n="ct_h2">Let's talk about your project.</h2>
+        <p class="sub rv" data-i18n="ct_sub">A free 30-minute call or a simple message: tell me what you want to build, and I'll tell you honestly what's worth doing.</p>
+        <div class="clinks rv">
+          <a href="tel:+32479487608" data-track="cta_phone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span class="vh" data-i18n="ct_call_l">Call +32 479 48 76 08</span></a>
+          <a href="mailto:info@lagoffinerie.be" data-track="cta_email"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span class="vh" data-i18n="ct_mail_l">Write to info@lagoffinerie.be</span></a>
+          <a class="li" href="https://www.linkedin.com/in/ndashiz/" target="_blank" rel="noopener" data-track="cta_linkedin"><span aria-hidden="true">in</span><span class="vh" data-i18n="ct_li_l">Simon Goffin on LinkedIn (opens a new tab)</span></a>
+        </div>
         <ul class="cfacts rv">
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="cf1">I reply within one business day</span></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="cf2">Calls on weekdays, 9:00 to 20:00</span></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="cf3">Belgium-based, working with SMEs across Europe</span></li>
+          <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cf1">Reply within one business day</span></li>
+          <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cf2">Calls on weekdays, 9:00 to 20:00</span></li>
+          <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cf3">Belgium-based, working with SMEs across Europe</span></li>
         </ul>
       </div>
-      <aside class="ccard rv" aria-labelledby="ct-direct">
-        <div class="label" id="ct-direct" data-i18n="ct_direct">Or reach me directly</div>
-        <a class="crow" href="tel:+32479487608" data-track="cta_phone"><span class="ci"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><span class="ct"><small data-i18n="ct_call">Call</small><b>+32 479 48 76 08</b></span><span class="arr" aria-hidden="true">→</span></a>
-        <a class="crow" href="https://wa.me/32479487608" target="_blank" rel="noopener" data-track="cta_whatsapp" data-wa><span class="ci wa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path class="wa-in" d="M9.2 8.2c.2-.4.5-.4.7-.4h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2.1.4 0 .5l-.5.7c-.1.1-.2.3 0 .5a6 6 0 0 0 2.8 2.7c.2.1.4.1.5-.1l.7-.8c.2-.2.4-.2.6-.1l1.6.8c.3.1.4.3.4.5 0 .4-.2 1.2-.7 1.5-.5.4-1.2.6-2 .4a9.6 9.6 0 0 1-5.4-4.4c-.7-1.2-.8-2.2-.6-2.9z"/></svg></span><span class="ct"><small>WhatsApp</small><b data-i18n="ct_wa">Send me a message</b></span><span class="arr" aria-hidden="true">→</span></a>
-        <a class="crow" href="mailto:info@lagoffinerie.be" data-track="cta_email"><span class="ci"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><span class="ct"><small data-i18n="ct_mail">E-mail</small><b>info@lagoffinerie.be</b></span><span class="arr" aria-hidden="true">→</span></a>
-        <a class="crow" href="https://www.linkedin.com/in/ndashiz/" target="_blank" rel="noopener" data-track="cta_linkedin"><span class="ci li">in</span><span class="ct"><small>LinkedIn</small><b>Simon Goffin</b></span><span class="arr" aria-hidden="true">→</span></a>
-      </aside>
-    </div>
-    <form class="rv" id="leadform" data-via="inline" action="https://formsubmit.co/info@lagoffinerie.be" method="POST" hidden>
-      <input type="hidden" name="_subject" value="New automation lead — lagoffinerie">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_autoresponse" value="Bien reçu / Well received. Merci pour votre demande à La Goffinerie. Je vous confirme le créneau proposé sous un jour ouvrable. / Thank you for your request. I will confirm the proposed slot within one business day. — Simon Goffin, +32 479 48 76 08">
-      <input type="hidden" name="_next" value="https://lagoffinerie.be/?sent=1#contact">
-      <input class="honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <input type="hidden" name="language" id="f-lang" value="en">
-      <div class="frow">
-        <div><label for="f-name" data-i18n="f_name">Your name</label><input id="f-name" name="name" type="text" placeholder="Jean Dupont" autocomplete="name" autocapitalize="words" enterkeyhint="next" required></div>
-        <div><label for="f-email" data-i18n="f_email">Your email</label><input id="f-email" name="email" type="email" placeholder="vous@entreprise.be" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="next" required></div>
-      </div>
-      <div><label for="f-subject" data-i18n="f_subject">What can I help with?</label><input id="f-subject" name="subject" type="text" data-i18n-ph="f_subject_ph" placeholder="e.g. A website with automatic invoicing" autocomplete="off" enterkeyhint="next" required></div>
-      <div class="frow">
-        <div><label for="f-date" data-i18n="f_date">Which day should I call?</label><input id="f-date" name="date" type="date" required></div>
-        <div><label for="f-time" data-i18n="f_time">At what time?</label>
-          <select id="f-time" name="time" required>
-            <option value="" disabled selected data-i18n="f_opt0">Choose a time</option>
-          </select>
+      <div class="cside">
+        <div class="ccard" id="ccard">
+          <h3 class="clabel" id="ct-card" data-i18n="ct_card">Your request</h3>
+          <div class="book-slot" data-needs-booking hidden><a class="btn primary" href="#" target="_blank" rel="noopener" data-track="cta_book_slot" data-book data-i18n="book_btn">Choose a slot now</a><p class="or" data-i18n="book_or">or leave your details below and I will call you back</p></div>
+          <form class="lform" id="leadform" data-via="inline" action="https://formsubmit.co/info@lagoffinerie.be" method="POST" aria-labelledby="ct-card">
+            <input type="hidden" name="_subject" value="New automation lead — lagoffinerie">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_autoresponse" value="Bien reçu / Well received. Merci pour votre demande à La Goffinerie. Je vous confirme le créneau proposé sous un jour ouvrable. / Thank you for your request. I will confirm the proposed slot within one business day. — Simon Goffin, +32 479 48 76 08">
+            <input type="hidden" name="_next" value="https://lagoffinerie.be/?sent=1#contact">
+            <input class="honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <input type="hidden" name="language" id="f-lang" value="en">
+            <div class="frow">
+              <div><label for="f-name" data-i18n="f_name">Your name or company name</label><input id="f-name" name="name" type="text" data-i18n-ph="f_name_ph" placeholder="Jean Dupont or Dupont SRL" autocomplete="name" autocapitalize="words" enterkeyhint="next" required></div>
+              <div><label for="f-email" data-i18n="f_email">Your e-mail</label><input id="f-email" name="email" type="email" data-i18n-ph="f_email_ph" placeholder="you@company.be" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="next" required></div>
+            </div>
+            <div><label for="f-subject" data-i18n="f_subject">What can I help with?</label><input id="f-subject" name="subject" type="text" data-i18n-ph="f_subject_ph" placeholder="e.g. a website with online booking" autocomplete="off" enterkeyhint="next" required></div>
+            <div class="frow">
+              <div><label for="f-date" data-i18n="f_date">Day of the call <span class="opt">(optional)</span></label><input id="f-date" name="date" type="date"></div>
+              <div><label for="f-time" data-i18n="f_time">Time <span class="opt">(optional)</span></label>
+                <select id="f-time" name="time">
+                  <option value="" selected data-i18n="f_opt0">Choose a time</option>
+                </select>
+              </div>
+            </div>
+            <div><label for="f-phone" data-i18n="f_phone">Phone <span class="opt">(optional)</span></label><input id="f-phone" name="phone" type="tel" placeholder="+32 ..." autocomplete="tel" inputmode="tel" enterkeyhint="next"></div>
+            <div><label for="f-message" data-i18n="f_msg">Your project in a few words <span class="opt">(optional)</span></label><textarea id="f-message" name="message" data-i18n-ph="f_msg_ph" placeholder="Tell me about your business and what takes up your time…" autocomplete="off" enterkeyhint="send"></textarea></div>
+            <button class="btn primary send" type="submit" data-track="cta_form_submit"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14.5 1.5L1.5 7l5 2 2 5 6-12.5zM6.5 9l8-7.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="f_send">Send my request</span></button>
+            <p class="form-note" data-i18n="f_note">I reply personally within one business day. Your details are only used to get back to you. <a href="cookies.html">Privacy.</a></p>
+          </form>
         </div>
       </div>
-      <p class="slot-note" data-i18n="f_slot_note">A proposed slot of 30 minutes. I confirm it within one business day, and you can add it to your calendar right away.</p>
-      <div><label for="f-phone" data-i18n="f_phone">Phone (optional)</label><input id="f-phone" name="phone" type="tel" placeholder="+32 ..." autocomplete="tel" inputmode="tel" enterkeyhint="next"></div>
-      <div><label for="f-message" data-i18n="f_msg">Anything else I should know? (optional)</label><textarea id="f-message" name="message" data-i18n-ph="f_msg_ph" placeholder="Tell me a bit about your business and what takes you the most time…" autocomplete="off" enterkeyhint="send"></textarea></div>
-      <button class="btn primary" type="submit" data-track="cta_form_submit" data-i18n="f_send">Book my free call</button>
-      <p class="form-note" data-i18n="f_note">I reply personally within one business day. Your details are only used to contact you back. <a href="cookies.html">Privacy &amp; cookies.</a></p>
-    </form>
-  </div>
-</section>
-
-<!-- ================= CONTACT MODAL ================= -->
-<div class="modal-bg" id="leadmodal" hidden>
-  <div class="modal-wrap">
-    <svg class="geo mg1" viewBox="0 0 120 112" xmlns="http://www.w3.org/2000/svg" style="isolation:isolate" aria-hidden="true">
-      <path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F"/><rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE"/><circle cx="90" cy="78" r="27" fill="#E2452C"/>
-    </svg>
-    <svg class="geo mg2" viewBox="0 0 120 112" xmlns="http://www.w3.org/2000/svg" style="isolation:isolate" aria-hidden="true">
-      <path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F"/><rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE"/><circle cx="90" cy="78" r="27" fill="#E2452C"/>
-    </svg>
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="lm-title" aria-describedby="lm-lede" tabindex="-1">
-      <button class="modal-close" type="button" id="lm-close" aria-label="Close">×</button>
-      <div class="kick" id="lm-kick">Let's talk</div>
-      <h3 id="lm-title">Book a free 30-minute call</h3>
-      <p class="lede" id="lm-lede">Tell me how you work today: I'll tell you honestly what's worth automating, and what it would be worth.</p>
-      <div class="book-slot" data-needs-booking hidden><a class="btn primary" href="#" target="_blank" rel="noopener" data-track="cta_book_slot" data-book data-i18n="book_btn">Choose a slot now</a><p class="or" data-i18n="book_or">or leave your details below and I will call you back</p></div>
-      <div id="lm-slot"></div>
     </div>
   </div>
-</div>
+</section>
 
 <footer>
   <div class="wrap">
@@ -1404,10 +1434,10 @@
    ========================================================= */
 const FR = {
   title:"La Goffinerie — Des sites web qui travaillent pour vous",
-  nav_alive:"Services", nav_work:"Réalisations", nav_about:"À propos", nav_faq:"FAQ", nav_pricing:"Tarifs", nav_book:"Demander un devis", nav_call:"Appeler", skip:"Aller au contenu", nav_contact:"Contact", ct_call:"Appeler",
+  nav_alive:"Services", nav_work:"Réalisations", nav_about:"À propos", nav_faq:"FAQ", nav_pricing:"Tarifs", nav_book:"Demander un devis", nav_call:"Appeler", skip:"Aller au contenu", nav_contact:"Contact",
   hero_kick:"Sites web, IA &amp; stratégie digitale · Belgique",
   hero_h1:'<span class="vh">Des sites web et applis, des outils IA automatisés et des stratégies digitales qui travaillent pour vous.</span><span aria-hidden="true"><span class="rot"><b class="on" data-svc="sites">Des sites web &amp; applis</b><b data-svc="auto">Des outils IA automatisés</b><b data-svc="strat">Des stratégies digitales</b></span><br><span class="u">qui travaillent pour vous.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span></span>',
-  hero_sub:"Un site qui remplit votre agenda, envoie vos factures et vous dit ce que font vos visiteurs. Dès <span data-price=\"vitrine\">1 950 €</span> HTVA, prix fixé par écrit. <strong>Il vous appartient.</strong>",
+  hero_sub:'Un site qui vous amène des clients, puis des outils qui vous font gagner du temps. Dès <span data-price="ess">700 €</span> HTVA, prix fixé par écrit. <strong>Tout vous appartient.</strong>',
   hero_cta1:"Réserver mon appel gratuit", hero_cta2:"Voir nos réalisations",
   hero_note:"30 minutes, sans engagement. Je vous dirai honnêtement ce qui vaut la peine d'être construit, et ce que ça peut rapporter à votre entreprise.",
   hc1_t:"Sites web &amp; applications", hc1_d:"Site vitrine, petite application, hébergement et maintenance, identité visuelle.",
@@ -1432,74 +1462,84 @@ const FR = {
   st5_h:"Vous testez", st5_p:"Vous utilisez la solution sur du vrai travail avant la livraison. Ce qui ne convient pas est corrigé.",
   st6_h:"Livraison &amp; remise des clés", st6_p:"C'est à vous : le code, les données, et les clés. Vous pouvez la faire tourner, et avec les outils IA, même la modifier vous-même.",
   ml1:"30 minutes, gratuit", ml2:"Vous validez", ml3:"Architecture et documentation", ml4:"Suivi en continu", ml5:"Avant la livraison", ml6:"Le jour J",
-  proc_est:"Estimer mon projet", proc_btn:"Les tarifs, en détail",
+  proc_est:"Estimer mon projet", proc_btn:"Voir les trois formules",
   pe_kick:"Estimation en ligne", pe_h:"Une fourchette de prix en deux minutes.",
   pe_p:"Quelques questions selon les services qui vous intéressent, une fourchette indicative tout de suite, sans e-mail obligatoire. Le prix exact est ensuite fixé par écrit après l'appel gratuit.",
   pe_c1:"6 questions max", pe_c2:"2 minutes", pe_c3:"Sans engagement",
   pp1:"Prix fixe, par écrit", pp2:"L'entretien, si vous le voulez", pp3:"Code et données à vous", pp4:"Une seule personne, du début à la fin",
-  ct_kick:"Parlons-en",
-  ct_h2:"Dites-moi ce qui mange votre temps.",
-  ct_sub:"Un appel gratuit de 30 minutes. Racontez-moi comment vous travaillez aujourd'hui : je vous dirai honnêtement ce qui vaut la peine d'être automatisé, et ce que ça peut rapporter.",
-  ct_direct:"Ou joignez-moi directement", ct_wa:"M'écrire un message", ct_mail:"E-mail",
-  cf1:"Je réponds sous un jour ouvrable", cf2:"Appels en semaine, de 9h à 20h", cf3:"Basé en Belgique, au service des PME en Europe",
-  ct_btn:"Réserver mon appel gratuit", ct_note:"Choisissez un jour et une heure dans la fenêtre qui s'ouvre ; je confirme sous un jour ouvrable. <a href=\"cookies.html\">Vie privée &amp; cookies.</a>", book_btn:"Choisir un créneau maintenant", book_or:"ou laissez vos coordonnées ci-dessous et je vous rappelle",
-  f_name:"Votre nom", f_email:"Votre email",
-  f_subject:"En quoi puis-je vous aider ?", f_subject_ph:"p. ex. Un site web avec facturation automatique",
-  f_phone:"Téléphone (optionnel)", f_date:"Quel jour puis-je vous appeler ?", f_time:"À quelle heure ?", f_opt0:"Choisissez une heure",
-  f_slot_note:"Un créneau proposé de 30 minutes. Je le confirme sous un jour ouvrable, et vous pouvez l'ajouter tout de suite à votre agenda.",
-  f_weekday:"Choisissez un jour de semaine.", ok_slot:"Créneau proposé :", ok_confirm:"Je vous le confirme par e-mail sous un jour ouvrable.", cal_google:"Ajouter à Google Agenda", cal_ics:"Ajouter à mon agenda (Apple, Outlook)", ev_title:"Appel avec La Goffinerie (à confirmer)", ev_desc:"Appel de 30 minutes avec Simon Goffin, La Goffinerie. Créneau proposé via lagoffinerie.be, confirmation sous un jour ouvrable.",
-  f_msg:"Autre chose à savoir ? (optionnel)", f_msg_ph:"Parlez-moi un peu de votre entreprise et de ce qui vous prend le plus de temps…",
-  f_send:"Réserver mon appel gratuit",
-  f_note:"Je réponds personnellement sous un jour ouvrable. Vos coordonnées ne servent qu'à vous recontacter. <a href=\"cookies.html\">Vie privée &amp; cookies.</a>",
+  pk_kick:"Combien ça coûte",
+  pk_h2:"Trois formules, un prix clair.",
+  pk_sub:"La création se paie une seule fois. Le mensuel couvre exactement ce qui est écrit sur l'offre, rien de plus.",
+  pk_vat:"HTVA",
+  pk_once:"Création, une seule fois",
+  pk1_name:"Essentiel",
+  pk1_sub:"Pour être visible en ligne rapidement.",
+  pk1_m:'puis environ <span data-price="ess_m">20 €</span>/mois',
+  pk1_mn:"Le mensuel couvre uniquement l'hébergement et le nom de domaine.",
+  pk1_btn:"Choisir Essentiel",
+  pk1_i1:"Un site d'une page, sur mesure",
+  pk1_i2:"Adapté au mobile",
+  pk1_i3:"Formulaire de contact",
+  pk1_i4:"Nom de domaine",
+  pk1_i5:"Hébergement sécurisé (HTTPS)",
+  pk1_i6:"Sauvegardes",
+  pk1_i7:"Maintenance pendant 3 mois",
+  pk_no:"Non inclus",
+  pk1_x1:"Surveillance 24h/24",
+  pk1_x2:"Modifications après la mise en ligne",
+  pk1_x3:"Suivi après les 3 premiers mois",
+  pk2_name:"Pro",
+  pk_badge:"Recommandé",
+  pk2_sub:"Pour un site suivi, qui évolue avec vous.",
+  pk2_m:'puis environ <span data-price="pro_m">50 €</span>/mois',
+  pk2_mn:"Le mensuel couvre l'hébergement, le domaine, la surveillance et la maintenance.",
+  pk2_btn:"Choisir Pro",
+  pk2_i1:"Tout l'Essentiel",
+  pk2_i2:"Surveillance 24h/24, avec alerte en cas de panne",
+  pk2_i3:"Je gère vos services en ligne pour vous",
+  pk2_i4:"Maintenance technique illimitée",
+  pk2_i5:"Une nouvelle fonctionnalité par trimestre",
+  pk3_name:"Sur mesure",
+  pk3_sub:"Pour les projets avec des besoins spécifiques.",
+  pk3_price:"Sur devis",
+  pk3_once:"Le prix dépend de votre projet : il est fixé par écrit après l'appel gratuit.",
+  pk3_btn:"Parler de mon projet",
+  pk3_i1:"Boutique en ligne, réservation, espace membre",
+  pk3_i2:"Des outils IA intégrés pour automatiser votre travail",
+  pk3_i3:"Vos demandes suivies dans un CRM intégré (Odoo)",
+  pk3_i4:"Modifications illimitées et nouvelles fonctionnalités",
+  pk3_i5:"Un chatbot sur votre site",
+  pk3_i6:"Des fonctionnalités ajoutées à votre site existant",
+  pk_c1:"Un prix fixe, écrit avant de commencer",
+  pk_c2:"Le code, les données et tous les accès sont à vous",
+  pk_c3:"Pas de licence, pas de frais par utilisateur",
+  pk_unsure:"Pas sûr de la formule ?",
+  pk_est:"Estimez votre projet en deux minutes",
+  pk_note:"Tous les prix s'entendent hors TVA. Les montants mensuels sont indicatifs et confirmés par écrit.",
+  ct_kick:"Contact",
+  ct_h2:"Parlons de votre projet.",
+  ct_sub:"Un appel gratuit de 30 minutes ou un simple message : racontez-moi ce que vous voulez construire, je vous dirai honnêtement ce qui vaut la peine d'être fait.",
+  ct_call_l:"Appeler le +32 479 48 76 08", ct_mail_l:"Écrire à info@lagoffinerie.be", ct_li_l:"Simon Goffin sur LinkedIn (nouvel onglet)",
+  cf1:"Réponse sous un jour ouvrable", cf2:"Appels en semaine, de 9h à 20h", cf3:"Basé en Belgique, au service des PME en Europe",
+  ct_card:"Votre demande", book_btn:"Choisir un créneau maintenant", book_or:"ou laissez vos coordonnées ci-dessous et je vous rappelle",
+  f_name:"Votre nom ou nom d'entreprise", f_name_ph:"Jean Dupont ou Dupont SRL", f_email:"Votre e-mail", f_email_ph:"vous@entreprise.be",
+  f_subject:"En quoi puis-je vous aider ?", f_subject_ph:"p. ex. un site avec prise de rendez-vous",
+  f_date:'Jour de l\'appel <span class="opt">(optionnel)</span>', f_time:'Heure <span class="opt">(optionnel)</span>', f_opt0:"Choisissez une heure",
+  f_phone:'Téléphone <span class="opt">(optionnel)</span>',
+  f_msg:'Votre projet en quelques mots <span class="opt">(optionnel)</span>', f_msg_ph:"Parlez-moi de votre activité et de ce qui vous prend du temps…",
+  f_send:"Envoyer ma demande",
+  f_note:"Je réponds personnellement sous un jour ouvrable. Vos coordonnées ne servent qu'à vous recontacter. <a href=\"cookies.html\">Vie privée.</a>",
   foot_cookies:"Cookies", foot_legal:"Mentions légales", foot_cgu:"CGU", foot_privacy:"Protection des données",
   foot:"© 2026 La Goffinerie · Basée en Belgique.",
-  sv1_t:"Sites web &amp; applications",
-  sv1_l:"Un site ou une application faits pour votre façon de travailler, hébergés et entretenus si vous le voulez.",
-  sv1_i1h:"Site vitrine",
-  sv1_i1p:"Jusqu'à cinq pages, un formulaire de contact, pensé pour le téléphone d'abord.",
-  sv1_i2h:"Site connecté",
-  sv1_i2p:"Le site vitrine, branché sur vos outils pour travailler à votre place.",
-  sv1_i3h:"Applications et outils",
-  sv1_i3p:"Réserver, commander, suivre : un outil pour vos clients ou votre équipe.",
-  sv1_i4h:"Refonte",
-  sv1_i4p:"Je pars de votre site actuel pour l'améliorer, ou je le refais entièrement.",
-  sv1_i5h:"Hébergement et maintenance",
-  sv1_i5p:"Je fais tourner le site pour vous, si vous le voulez. Résiliable.",
-  sv1_i6h:"Identité visuelle",
-  sv1_i6p:"Logo et charte graphique, avec un partenaire graphiste.",
-  sv2_t:"Stratégie digitale (SEO &amp; GEO)",
-  sv2_l:"Être trouvé sur Google, et cité par les assistants IA quand on leur demande un professionnel comme vous.",
-  sv2_i1h:"Référencement (SEO)",
-  sv2_i1p:"Structure, vitesse et textes pensés pour ce que vos clients cherchent.",
-  sv2_i2h:"Fiche Google Business",
-  sv2_i2p:"Créée ou remise à jour : horaires, photos, zone desservie, avis.",
-  sv2_i3h:"Cité par les IA (GEO)",
-  sv2_i3p:"Des pages que ChatGPT, Gemini et les autres comprennent et citent.",
-  sv2_i4h:"Analytics à vous",
-  sv2_i4p:"Chaque visite dans votre propre tableau de bord, rien n'est envoyé chez un tiers.",
-  sv3_t:"Automatisation IA",
-  sv3_l:"Votre site parle aux outils que vous utilisez déjà, et fait l'administratif à votre place.",
-  sv3_i1h:"Réservation d'agenda",
-  sv3_i1p:"Vos clients choisissent un créneau sur votre site, il atterrit dans votre agenda.",
-  sv3_i2h:"Facturation et relances",
-  sv3_i2p:"Devis préparés, factures générées à la fin d'un chantier, relances envoyées.",
-  sv3_i3h:"Votre CRM",
-  sv3_i3p:"Demandes, contacts et factures arrivent dans votre CRM, sans copier-coller.",
-  sv3_i4h:"Digest du matin",
-  sv3_i4p:"Un court résumé IA de vos messages et de vos échanges clients, chaque matin.",
-  alive_kick:"Nos services",
-  alive_h2:"Trois façons de vous faire gagner du temps.",
-  alive_sub:"Du site vitrine à l'outil sur mesure, voici tout ce que je construis. Chaque projet est pensé pour votre façon de travailler, et il vous appartient.",
-  svc_more:"Voir le service →",
-  svc_est:"Estimer mon projet",
-  svc_book:"Réserver mon appel gratuit",
-  svc_note:"Pas sûr de ce qu'il vous faut ? On en parle 30 minutes, sans engagement.",
   faq_kick:"Avant de vous engager",
   faq_h2:"Vos questions. Des réponses claires.",
   faq_sub:"Devis, délai, modifications, propriété et résultats.",
-  faq_more:"Une question sur un service en particulier ? <a href=\"websites.html\">Sites web &amp; applications</a> · <a href=\"digital-strategy.html\">Stratégie digitale</a> · <a href=\"ai-automation.html\">Automatisation IA</a>",
+  faq_more:"Une question sur un service en particulier ? <a href=\"websites.html\">Sites web &amp; applications</a> <span class=\"fe-dot\" aria-hidden=\"true\">·</span> <a href=\"digital-strategy.html\">Stratégie digitale</a> <span class=\"fe-dot\" aria-hidden=\"true\">·</span> <a href=\"ai-automation.html\">Automatisation IA</a>",
+  faq_ask_h:"D'autres questions ?",
+  faq_ask_p:"Écrivez-moi, je réponds personnellement sous un jour ouvrable.",
+  faq_ask_btn:"Me poser une question",
   q1:"Le devis est-il vraiment gratuit ?", a1:"Oui. L'appel de 30 minutes et le devis sont gratuits, et vous ne vous engagez à rien. Le devis précise le périmètre, le prix et le planning, par écrit. Une fois accepté, le prix ne bouge plus.",
-  q2:"Combien ça coûte ?", a2:"Un site vitrine démarre à <span data-price=\"vitrine\">1 950 €</span> HTVA, un site connecté à vos outils à <span data-price=\"connecte\">3 900 €</span> HTVA. Après la livraison, vous gérez le site vous-même, ou je le fais tourner avec la maintenance, dès <span data-price=\"hosting\">29 €</span>/mois ; la formule complète est sur devis. Côté paiement : un acompte au démarrage, le solde à la livraison, sur facture. <a href=\"#estimate\" data-estimator=\"faq\" data-track=\"faq_estimate\">Estimez votre projet en deux minutes →</a>",
+  q2:"Combien ça coûte ?", a2:'Trois formules. Essentiel : <span data-price="ess">700 €</span> HTVA, puis environ <span data-price="ess_m">20 €</span>/mois pour l\'hébergement et le nom de domaine. Pro : <span data-price="pro">1 000 €</span>, puis environ <span data-price="pro_m">50 €</span>/mois avec la surveillance et la maintenance. Sur mesure : sur devis. Le prix exact est fixé par écrit après l\'appel gratuit. Paiement : un acompte au démarrage et le solde à la livraison, sur facture.',
   q3:"Combien de temps prend un projet ?", a3:"La plupart des projets prennent entre trois et six semaines, du premier appel à la remise des clés, selon les intégrations. Vous voyez l'avancement chaque semaine et vous validez chaque étape.",
   q4:"Et si je veux changer quelque chose en cours de route ?", a4:"C'est prévu. Comme vous validez chaque étape, les ajustements se font tôt. Ce qui sort du périmètre écrit fait l'objet d'un petit devis avant d'être fait : rien n'est facturé sans votre accord.",
   q5:"À qui appartient le site ?", a5:"À vous : le code, les données et tous les accès. Vous pouvez l'emporter où vous voulez, le confier à quelqu'un d'autre ou le modifier vous-même, avec ou sans moi.",
@@ -1529,14 +1569,11 @@ function setLang(l, silent){
   document.getElementById('lang-fr').classList.toggle('active', LANG==='fr');
   document.getElementById('lang-en').setAttribute('aria-pressed', String(LANG==='en'));
   document.getElementById('lang-fr').setAttribute('aria-pressed', String(LANG==='fr'));
-  const lmc=document.getElementById('lm-close'); if(lmc) lmc.setAttribute('aria-label', LANG==='fr'?'Fermer':'Close');
   const hsv=document.querySelector('.hsvc'); if(hsv) hsv.setAttribute('aria-label', LANG==='fr'?'Nos trois services':'Our three services');
   const fl = document.getElementById('f-lang'); if(fl) fl.value = LANG;
-  const waText = LANG==='fr' ? "Bonjour Simon, je voudrais parler d'un site web pour mon entreprise." : "Hello Simon, I'd like to talk about a website for my business.";
-  document.querySelectorAll('[data-wa]').forEach(a=>{ a.href='https://wa.me/32479487608?text='+encodeURIComponent(waText); });
   try{ localStorage.setItem('lg_lang', LANG); }catch(e){}
-  // Not on the silent init call: the modal dictionary is declared further down the script.
-  if(!silent){ if(typeof track==='function') track('lang', LANG); if(typeof applyModalText==='function') applyModalText(); if(typeof applyConfig==='function') applyConfig(); if(typeof caroLabels==='function') caroLabels(); }
+  // Not on the silent init call: these are declared further down the script.
+  if(!silent){ if(typeof track==='function') track('lang', LANG); if(typeof applyConfig==='function') applyConfig(); if(typeof caroLabels==='function') caroLabels(); }
 }
 (function initLang(){
   let l = null;
@@ -1639,23 +1676,19 @@ setInterval(()=>{
   if(Date.now()-lastAlive > 180000) return;           // abandoned tab: stop counting after 3 min
   visSecs++;
   if(visSecs-lastSent >= 15){ lastSent=visSecs; track('hb', undefined, {d:visSecs}); }
-  if(visSecs===60) maybeAutoPopup();
 },1000);
 function flushTime(){ if(visSecs>lastSent){ lastSent=visSecs; track('hb', undefined, {d:visSecs}, true); } }
 addEventListener('pagehide', flushTime);
 document.addEventListener('visibilitychange', ()=>{ if(document.hidden) flushTime(); });
 
 /* =========================================================
-   CONTACT MODAL — the permanent CTA opens the form in a pop-up;
-   after a minute on the page it opens by itself, once per tab.
-   The modal's form is a clone of the page form (ids prefixed m-).
+   CONTACT FORM — always in the page, in the card of #contact.
+   Every « book a call » button ([data-open], the packages, the
+   estimator, ?book=1) scrolls there, smoothly unless reduced
+   motion, then puts the cursor in the field, without a second
+   jump (focus with preventScroll once the scroll is over). Not
+   on a touch screen: the keyboard would pop up over the page.
    ========================================================= */
-const LM = {
-  en:{ book:{kick:"Let's talk", h:"Book a free 30-minute call", lede:"Tell me how you work today: I'll tell you honestly what's worth automating, and what it would be worth."},
-       auto:{kick:"Still here?", h:"Need more information?", lede:"You can contact us: leave your details and I'll call you back within one business day, no obligation."} },
-  fr:{ book:{kick:"Parlons-en", h:"Réserver un appel gratuit de 30 minutes", lede:"Racontez-moi comment vous travaillez aujourd'hui : je vous dirai honnêtement ce qui vaut la peine d'être automatisé, et ce que ça peut rapporter."},
-       auto:{kick:"Toujours là ?", h:"Besoin de plus d'informations ?", lede:"Vous pouvez nous contacter : laissez vos coordonnées et je vous rappelle sous un jour ouvrable, sans engagement."} }
-};
 const FS = {
   en:{ ok_h:n=>'Thanks'+(n?', '+n:'')+'!', ok_p:"I've got your request and will call you back within one business day.", sending:"Sending…", ok_slot:"Proposed slot:", ok_confirm:"I confirm it by e-mail within one business day.", cal_google:"Add to Google Calendar", cal_ics:"Add to my calendar (Apple, Outlook)", ev_title:"Call with La Goffinerie (to be confirmed)", ev_desc:"30-minute call with Simon Goffin, La Goffinerie. Slot proposed via lagoffinerie.be, confirmed within one business day.", weekday:"Please choose a weekday." },
   fr:{ ok_h:n=>'Merci'+(n?', '+n:'')+' !', ok_p:"J'ai bien reçu votre demande et je vous rappelle sous un jour ouvrable.", sending:"Envoi…", ok_slot:"Créneau proposé :", ok_confirm:"Je vous le confirme par e-mail sous un jour ouvrable.", cal_google:"Ajouter à Google Agenda", cal_ics:"Ajouter à mon agenda (Apple, Outlook)", ev_title:"Appel avec La Goffinerie (à confirmer)", ev_desc:"Appel de 30 minutes avec Simon Goffin, La Goffinerie. Créneau proposé via lagoffinerie.be, confirmation sous un jour ouvrable.", weekday:"Choisissez un jour de semaine." }
@@ -1669,9 +1702,10 @@ function setupSlot(f){
   const date=f.querySelector('input[name=date]'), time=f.querySelector('select[name=time]');
   if(!date||!time) return;
   const min=nextBusinessDay(new Date()), max=new Date(); max.setDate(max.getDate()+60);
-  date.min=isoDate(min); date.max=isoDate(max); if(!date.value) date.value=isoDate(min);
+  date.min=isoDate(min); date.max=isoDate(max);   // optional: no day is proposed until the visitor picks one
   if(time.options.length<=1) SLOT_TIMES.forEach(t=>{ const o=document.createElement('option'); o.value=t; o.textContent=t; time.appendChild(o); });
-  date.addEventListener('input', ()=>{ const d=new Date(date.value+'T12:00:00'); const wk=!isNaN(d)&&(d.getDay()===0||d.getDay()===6); date.setCustomValidity(wk?(FS[LANG]||FS.en).weekday:''); if(wk) date.reportValidity(); });
+  const empty=()=>date.classList.toggle('empty', !date.value); empty();
+  date.addEventListener('input', ()=>{ empty(); const d=new Date(date.value+'T12:00:00'); const wk=!isNaN(d)&&(d.getDay()===0||d.getDay()===6); date.setCustomValidity(wk?(FS[LANG]||FS.en).weekday:''); if(wk) date.reportValidity(); });
 }
 /* A slot as the visitor typed it → ISO local start, UTC stamps for the calendar links, and a readable label. */
 function slotInfo(dateStr, timeStr){
@@ -1691,7 +1725,7 @@ function calendarLinks(slot){
   return { google:g, ics:'data:text/calendar;charset=utf-8,'+encodeURIComponent(ics) };
 }
 const FORMSUBMIT_AJAX = 'https://formsubmit.co/ajax/info@lagoffinerie.be';
-/* config.js (shared with pricing.html and estimator.js): the prices are written by estimator.js,
+/* config.js (shared with the service pages and estimator.js): the prices are written by estimator.js,
    BOOKING_URL shows the « choose a slot now » buttons here. */
 const LG_CFG = window.LG_CONFIG || {};
 const BOOKING_URL = LG_CFG.BOOKING_URL || '';
@@ -1699,100 +1733,86 @@ function applyConfig(){
   if(BOOKING_URL){ document.querySelectorAll('[data-book]').forEach(a=>{ a.href=BOOKING_URL; }); document.querySelectorAll('[data-needs-booking]').forEach(el=>{ el.hidden=false; }); }
 }
 applyConfig();
-const FORM_TEMPLATE = document.getElementById('leadform').cloneNode(true);
-const modalBg = document.getElementById('leadmodal');
-let VARIANT='book', lastFocus=null, MODAL_OPENED=false, SUBMITTED=false, POPPED=false, lockY=0;
-/* iOS Safari ignores overflow:hidden on body: pin the body where it is, and put it back on close. */
-function lockScroll(){ lockY=window.scrollY||0; document.body.style.top=(-lockY)+'px'; document.body.classList.add('modal-open'); }
-function unlockScroll(){ document.body.classList.remove('modal-open'); document.body.style.top=''; window.scrollTo({top:lockY, behavior:'instant'}); }
-
-function applyModalText(){
-  const t=(LM[LANG]||LM.en)[VARIANT];
-  document.getElementById('lm-kick').textContent=t.kick;
-  document.getElementById('lm-title').textContent=t.h;
-  document.getElementById('lm-lede').textContent=t.lede;
+const RM_Q = matchMedia('(prefers-reduced-motion: reduce)'), FINE = matchMedia('(hover: hover) and (pointer: fine)');
+/* Scroll to #contact (its scroll-margin keeps it under the bar), then focus `field`, by default the first one.
+   `source` names the button for the statistics (the event keeps its old name, « modal »). */
+function toForm(field, source, instant){
+  const sec=document.getElementById('contact'), f=document.getElementById('leadform');
+  if(!sec) return;
+  if(source) track('modal', source);
+  const el=field || (f && f.elements.name);
+  const focus=()=>{ if(el && FINE.matches && el.isConnected) try{ el.focus({preventScroll:true}); }catch(e){} };
+  const mt=parseFloat(getComputedStyle(sec).scrollMarginTop)||0, se=document.scrollingElement||document.documentElement;
+  const target=()=>Math.max(0, Math.min(se.scrollHeight-innerHeight, Math.round(scrollY+sec.getBoundingClientRect().top-mt)));
+  let dest=target();
+  if(Math.abs(dest-scrollY)<4){ focus(); return; }                              // already there
+  if(instant || RM_Q.matches){ scrollTo({top:dest, behavior:'instant'}); focus(); return; }
+  /* A smooth scroll. The sections it crosses may still change height on the way (the method), so the target is
+     followed until the end: a « scrollend » at the target (an earlier instant scroll may still announce its own
+     end), else the page standing still for a few frames once the glide has begun (or the visitor took over). */
+  const y0=scrollY;
+  let over=false, last=NaN, still=0, raf=0, t=0, hops=0;
+  const moved=()=>{ const d=target(); if(Math.abs(d-dest)<=2 || hops>=4) return false; hops++; dest=d; still=0; scrollTo({top:d, behavior:'smooth'}); return true; };
+  const end=force=>{ if(over || (force!==true && moved())) return; over=true; removeEventListener('scrollend', onEnd); cancelAnimationFrame(raf); clearTimeout(t); focus(); };
+  const onEnd=()=>{ if(Math.abs(scrollY-dest)<=2) end(); };
+  const watch=()=>{ if(!moved()){ const y=scrollY; still=(y===last && y!==y0) ? still+1 : 0; last=y; if(still>=8){ end(); return; } } raf=requestAnimationFrame(watch); };
+  addEventListener('scrollend', onEnd);
+  t=setTimeout(()=>end(true), 2500);
+  scrollTo({top:dest, behavior:'smooth'});
+  raf=requestAnimationFrame(watch);
 }
-function buildModalForm(){
-  const slot=document.getElementById('lm-slot');
-  if(slot.querySelector('form')) return;
-  slot.innerHTML='';
-  const f=FORM_TEMPLATE.cloneNode(true);
-  f.id='leadform-modal'; f.setAttribute('data-via','modal'); f.hidden=false;   // the page copy is hidden; the pop-up copy is the one people fill in
-  f.querySelectorAll('[id]').forEach(el=>{ el.id='m-'+el.id; });
-  f.querySelectorAll('label[for]').forEach(el=>{ el.setAttribute('for','m-'+el.getAttribute('for')); });
-  f.classList.remove('rv');
-  slot.appendChild(f);
-  setLang(LANG, true);   // the clone was taken before any translation
-  bindForm(f);
-  setupSlot(f);
+/* The first field still empty, for a visitor who arrives with part of the form already filled in. */
+function firstEmpty(f){
+  return f ? (['name','email','subject','date','time','phone','message'].map(k=>f.elements[k]).find(el=>el && !el.value) || f.elements.name) : null;
 }
-function openLead(variant, source){
-  const mb=modalBg.querySelector('.modal'); if(mb) mb.classList.remove('folding','unfold');
-  VARIANT = variant==='auto' ? 'auto' : 'book';
-  buildModalForm(); applyModalText();
-  lastFocus=document.activeElement;
-  modalBg.hidden=false; modalBg.classList.remove('closing'); lockScroll();
-  MODAL_OPENED=true;
-  const first=modalBg.querySelector('input:not([type=hidden]):not(.honey)');
-  setTimeout(()=>{ if(first && matchMedia('(hover: hover)').matches) first.focus(); else modalBg.querySelector('.modal').focus({preventScroll:true}); }, 400);
-  track('modal', source||'other');
-}
-function closeLead(){
-  if(modalBg.hidden) return;
-  modalBg.classList.add('closing');
-  const done=()=>{ modalBg.hidden=true; modalBg.classList.remove('closing'); unlockScroll(); if(lastFocus && lastFocus.focus) lastFocus.focus(); };
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches) done(); else setTimeout(done, 200);
-}
-document.getElementById('lm-close').addEventListener('click', closeLead);
-modalBg.addEventListener('click', e=>{ if(e.target===modalBg) closeLead(); });
-addEventListener('keydown', e=>{ if(e.key==='Escape') closeLead(); });
-/* Keep the keyboard inside the dialog while it is open. */
-modalBg.addEventListener('keydown', e=>{
-  if(e.key!=='Tab') return;
-  const f=[...modalBg.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(el=>!el.disabled && !el.hidden && el.offsetParent!==null && !el.classList.contains('honey'));
-  if(!f.length) return;
-  const first=f[0], last=f[f.length-1];
-  if(e.shiftKey && (document.activeElement===first || document.activeElement===modalBg.querySelector('.modal'))){ e.preventDefault(); last.focus(); }
-  else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+/* « Book my free call » (the hero, the bottom bar…): to the form. */
+document.addEventListener('click', e=>{
+  const el=e.target.closest && e.target.closest('[data-open]'); if(!el) return;
+  e.preventDefault(); toForm(null, el.getAttribute('data-open'));
 });
-document.querySelectorAll('[data-open]').forEach(el=>{
-  el.addEventListener('click', e=>{ e.preventDefault(); openLead('book', el.getAttribute('data-open')); });
+/* The packages: « Choose … » leads to the form with « What can I help with? » pre-filled with the package
+   (replacing only an empty field or a package put there before), and the cursor in that field. */
+let PACK_TEXT='';
+document.addEventListener('click', e=>{
+  const b=e.target.closest && e.target.closest('.pk-btn[data-pack-en]'); if(!b) return;
+  e.preventDefault();
+  const fr=LANG==='fr', name=b.getAttribute(fr?'data-pack-fr':'data-pack-en');
+  const f=document.getElementById('leadform'), su=f && f.elements.subject;
+  if(su && (!su.value || su.value===PACK_TEXT)) su.value=PACK_TEXT=(fr?'Formule ':'Package: ')+name;
+  toForm(su, 'pack_'+b.getAttribute('data-pack-en').toLowerCase());
 });
-
-/* --- after a minute of real presence: "need more information?" — once per tab, never over a form being filled --- */
-function maybeAutoPopup(){
-  if(POPPED || SUBMITTED || MODAL_OPENED) return;
-  if(window.LGEstimator && window.LGEstimator.used()) return;     // the visitor is already busy with the estimator: never pop over it
-  try{ if(sessionStorage.getItem('lg_pop')==='1') return; }catch(e){}
-  const a=document.activeElement;
-  if(a && a.closest && a.closest('form')){ setTimeout(maybeAutoPopup, 20000); return; }
-  POPPED=true; try{ sessionStorage.setItem('lg_pop','1'); }catch(e){}
-  openLead('auto','auto');
-  track('popup');
-}
 
 /* =========================================================
    LEAD CAPTURE — Jarvis copy (keepalive) + FormSubmit e-mail over
    AJAX; if that fails, a plain form POST (FormSubmit's own page).
    ========================================================= */
-/* The sent form folds into a paper plane that flies off; resolves when the thanks may be shown. Nothing to
-   fold outside the modal, and nothing at all with prefers-reduced-motion. */
+/* The sent card folds into a paper plane that flies off; resolves when the thanks may be shown. The fold and the
+   take-off are centred on the part of the card in view (a phone sees only part of it). Nothing at all with
+   prefers-reduced-motion. */
 function flyAway(f){
-  const modal=f.closest('.modal'), wrap=f.closest('.modal-wrap');
-  if(!modal || !wrap || matchMedia('(prefers-reduced-motion: reduce)').matches) return Promise.resolve();
+  const card=f.closest('.ccard'), side=card && card.parentNode;
+  if(!card || !side || RM_Q.matches) return Promise.resolve();
+  const cr=card.getBoundingClientRect(), sr=side.getBoundingClientRect();
+  const top=Math.max(cr.top, 0), bot=Math.min(cr.bottom, innerHeight);
+  const cy=Math.round((top<bot ? (top+bot)/2 : cr.top+cr.height/2) - cr.top);
+  card.style.transformOrigin='50% '+cy+'px';
   return new Promise(res=>{
-    modal.classList.remove('unfold'); modal.classList.add('folding');
+    card.classList.remove('unfold'); card.classList.add('folding');
     setTimeout(()=>{
       const p=document.createElement('div'); p.className='lg-plane';
       p.innerHTML='<svg viewBox="0 0 120 80" fill="none" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 42 L114 8 L72 74 L58 50 Z" fill="#fff" stroke="#151515" stroke-width="3"/><path d="M58 50 L114 8 L64 62 Z" fill="#f3f0e6" stroke="#151515" stroke-width="2.5"/><path d="M6 42 L58 50 L114 8" stroke="#151515" stroke-width="2.5"/><path d="M96 13.5 L114 8 L107 26 Z" fill="#2823EE"/></svg>';
-      wrap.appendChild(p);
-      setTimeout(()=>{ p.remove(); modal.classList.remove('folding'); modal.classList.add('unfold'); res(); }, 680);
+      p.style.top=(cr.top-sr.top+cy)+'px';
+      p.style.setProperty('--fx', Math.round(innerWidth-(sr.left+sr.width/2)+120)+'px');
+      p.style.setProperty('--fy', -Math.round(cr.top+cy+120)+'px');
+      side.appendChild(p);
+      setTimeout(()=>{ p.remove(); card.classList.remove('folding'); card.classList.add('unfold'); res(); }, 680);
     }, 380);
   });
 }
-function showOk(f, name, slot){
+/* The thanks take the form's place in the card (live: right after sending, focused and kept in view). */
+function showOk(f, name, slot, live){
   const t=FS[LANG]||FS.en;
-  const box=document.createElement('div'); box.className='form-ok';
+  const box=document.createElement('div'); box.className='form-ok'; box.tabIndex=-1;
   box.setAttribute('role','status'); box.setAttribute('aria-live','polite');
   box.innerHTML='<div class="tick">✓</div><div><h4></h4><p></p><p class="slot"></p><div class="cal-btns"></div></div>';
   box.querySelector('h4').textContent=t.ok_h((name||'').split(' ')[0]);
@@ -1802,8 +1822,13 @@ function showOk(f, name, slot){
     const l=calendarLinks(slot), c=box.querySelector('.cal-btns');
     c.innerHTML='<a href="'+l.google+'" target="_blank" rel="noopener" data-track="cal_google">📅 '+t.cal_google+'</a><a href="'+l.ics+'" download="la-goffinerie-appel.ics" data-track="cal_ics">🗓 '+t.cal_ics+'</a>';
   } else { box.querySelector('.slot').remove(); box.querySelector('.cal-btns').remove(); }
+  const card=f.closest('.ccard');
+  if(card) card.querySelectorAll('[data-needs-booking]').forEach(el=>el.remove());   // « or leave your details below » is over
   f.replaceWith(box);
-  if(box.closest('#leadmodal') && !slot) setTimeout(closeLead, 4500);
+  if(live){
+    try{ box.focus({preventScroll:true}); }catch(e){}
+    (card||box).scrollIntoView({block:'nearest', behavior: RM_Q.matches ? 'instant' : 'smooth'});
+  }
 }
 function bindForm(f){
   f.addEventListener('submit', async e=>{
@@ -1815,14 +1840,13 @@ function bindForm(f){
     const slot = slotInfo(v('date'), v('time'));
     const fields = { name:v('name'), email:v('email'), subject:v('subject'), phone:v('phone')||null, availability: slot ? slot.availability : (v('date')+' '+v('time')).trim(), message:v('message')||null };
     track('submit', via);
-    SUBMITTED=true;
     const btn=f.querySelector('button[type=submit]'); const label=btn.innerHTML;
     f.dataset.busy='1'; btn.disabled=true; btn.textContent=(FS[LANG]||FS.en).sending;
     // 1. Jarvis: stores the lead and sends both e-mails (owner + prospect, with the .ics) through Resend.
     const lead = Object.assign({ s:SESSION, l:LANG, via, slotStart: slot ? slot.start.toISOString() : null, slotEnd: slot ? slot.end.toISOString() : null }, fields);
     const r = await postLead(lead, 8000);
     let ok = !!(r && r.ok && r.mailed && r.mailed.owner);
-    if(ok){ await flyAway(f); showOk(f, fields.name, slot); return; }
+    if(ok){ await flyAway(f); showOk(f, fields.name, slot, true); return; }
     // 2. Jarvis could not e-mail (not configured, down, or Resend failed): FormSubmit carries the mail.
     if(!(r && r.ok)) send(JARVIS.leads, lead);   // keepalive retry of the copy, in case the wait above was the problem
     try{
@@ -1832,39 +1856,48 @@ function bindForm(f){
       const data=await res.json().catch(()=>({}));
       ok = res.ok && String(data.success)!=='false';
     }catch(err){ ok=false; }
-    if(ok){ await flyAway(f); showOk(f, fields.name, slot); }
+    if(ok){ await flyAway(f); showOk(f, fields.name, slot, true); }
     else { try{ localStorage.setItem('lg_slot', JSON.stringify({d:v('date'), t:v('time'), n:fields.name})); }catch(e){} delete f.dataset.busy; btn.disabled=false; btn.innerHTML=label; f.submit(); }
   });
 }
 bindForm(document.getElementById('leadform'));
 setupSlot(document.getElementById('leadform'));
 
-/* The estimator hands over to the booking window, pre-filled with the visitor's name, e-mail, phone and a
-   one-line summary of the estimate in « What can I help with? » (only the fields still empty). */
-window.lgOpenBooking = function(pre){
-  openLead('book', 'estimator');
-  const f=document.getElementById('leadform-modal'); if(!f || !pre) return;
-  ['name','email','phone','subject'].forEach(k=>{ const el=f.elements[k]; if(el && pre[k] && !el.value) el.value=pre[k]; });
-};
-/* ?book=1 opens the booking window on arrival: from the pricing page (with the estimator's hand-over, if any)
-   or from the link in the estimate e-mail. */
+/* The estimator hands over to the form (estimator.js closes itself first), pre-filled with the visitor's name,
+   e-mail, phone and a one-line summary of the estimate in « What can I help with? » (only the fields still empty). */
+function prefill(pre){
+  const f=document.getElementById('leadform');
+  if(f && pre) ['name','email','phone','subject'].forEach(k=>{ const el=f.elements[k]; if(el && pre[k] && !el.value) el.value=pre[k]; });
+  return f;
+}
+window.lgToContact = function(pre){ toForm(firstEmpty(prefill(pre)), 'estimator'); };
+/* Arriving on the page at #contact: the browser keeps its own jump to the anchor going until the load, and with
+   the page's smooth scrolling it would glide from the top and land wherever the page ended while loading. For that
+   arrival the scrolling is instant; `fn` runs once the page has loaded, when that jump (which also drops the focus)
+   is over. */
+function onArrival(fn){
+  const r=document.documentElement; r.style.scrollBehavior='auto';
+  const go=()=>setTimeout(()=>{ try{ fn(); }finally{ setTimeout(()=>{ r.style.scrollBehavior=''; }, 500); } }, 0);
+  if(document.readyState==='complete') go(); else addEventListener('load', go, {once:true});
+}
+/* ?book=1 leads straight to the form on arrival: from a service page or another page's estimator (with its
+   hand-over, if any), or from the link in the estimate e-mail. Filled in at once, scrolled to and focused on load. */
 try{
   const q=new URLSearchParams(location.search);
   if(q.get('book')==='1'){
     q.delete('book'); history.replaceState(null,'',location.pathname+(q.toString()?'?'+q.toString():'')+location.hash);
-    const ct=document.getElementById('contact'); if(ct && location.hash==='#contact') ct.scrollIntoView({block:'start', behavior:'instant'});   // closing the window lands there
-    const pre=window.LGEstimator ? window.LGEstimator.takeHandoff() : null;
-    if(pre) window.lgOpenBooking(pre); else openLead('book', 'link');
+    const pre=window.LGEstimator ? window.LGEstimator.takeHandoff() : null, f=prefill(pre);
+    onArrival(()=>toForm(pre ? firstEmpty(f) : null, pre ? 'estimator' : 'link', true));
   }
 }catch(e){}
-/* Back from FormSubmit's plain POST (no-JS or AJAX fallback): show the thanks in place. */
+/* Back from FormSubmit's plain POST (no-JS or AJAX fallback): the thanks in the card, in place of the form. */
 try{
   if(new URLSearchParams(location.search).get('sent')==='1'){
     let saved=null; try{ saved=JSON.parse(localStorage.getItem('lg_slot')||'null'); localStorage.removeItem('lg_slot'); }catch(e){}
-    const lf=document.getElementById('leadform'); lf.hidden=false;
-    showOk(lf, saved?saved.n:'', saved?slotInfo(saved.d, saved.t):null);
+    const lf=document.getElementById('leadform');
+    if(lf) showOk(lf, saved?saved.n:'', saved?slotInfo(saved.d, saved.t):null);
     history.replaceState(null,'',location.pathname+'#contact');
-    setTimeout(()=>document.getElementById('contact').scrollIntoView({block:'start'}), 50);
+    onArrival(()=>document.getElementById('contact').scrollIntoView({block:'start', behavior:'instant'}));
   }
 }catch(e){}
 

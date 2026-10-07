@@ -1,11 +1,12 @@
 /* =========================================================
-   LA GOFFINERIE — estimator.js (site v2.28)
+   LA GOFFINERIE — estimator.js (site v2.32)
    The project estimator: a pop-up of short questions that ends on
-   an indicative price range, then offers to send the detail by
-   e-mail and to book the free call. The first question ticks one
-   or more of the three services (sites & apps, SEO & GEO, AI
-   automation); the next ones depend on them (three to six steps
-   in all, each asked once). Loaded by the home, pricing and
+   the package that fits (Essentiel, Pro or Sur mesure) with its
+   price, the add-ons ticked and the monthly part, then offers to
+   send the detail by e-mail and to book the free call. The first
+   question ticks one or more of the three services (sites & apps,
+   SEO & GEO, AI automation); the next ones depend on them (three
+   to six steps in all, each asked once). Loaded by the home and
    service pages right after config.js; on the other pages, nav.js
    loads both on the first click of « Get a quote » in the top bar
    (by « / » paths on the 404, and then this file's links start
@@ -13,21 +14,25 @@
    data-estimator opens it (the value says from where, for the
    statistics), and data-estimator-service="sites|seo|auto" on it
    pre-ticks that service when the visitor starts fresh. It never
-   opens by itself, never moves on by itself, and never opens over
-   the booking window.
-     · Prices: every number comes from config.js (LG_CONFIG.estimator
-       and .rates). fill() also writes the prices into the page,
-       wherever an element carries data-price="…"; the pages call it
-       after each language switch.
+   opens by itself and never moves on by itself.
+     · Prices: every number comes from config.js (LG_CONFIG.packages,
+       .addons and .rates). fill() also writes the prices into the
+       page, wherever an element carries data-price="…" (the keys are
+       PRICE below: ess, ess_m, pro, pro_m, seo, hourly, pack,
+       pack_hours, domain); the pages call it after each language
+       switch. tools/prerender-prices.mjs reads the same PRICE map.
      · Answers: kept for the tab in sessionStorage (lg_estimate,
-       { v:2, step, a }; an older shape is dropped), answers only. The name, e-mail and phone stay in memory, except
+       { v:2, step, a }; an older shape is dropped, and an answer that
+       no longer exists, such as after:"self" from v2.30, is dropped by
+       clean()), answers only. The name, e-mail and phone stay in memory, except
        for the hop from any other page to the booking form of the
        home page (./?book=1, /?book=1 from the 404), where they are
        read and removed at once.
      · Sending: POST /api/gf/estimates on Jarvis (text/plain, like the
-       leads) stores the prospect and sends both e-mails. If Jarvis does
-       not confirm Simon's copy, FormSubmit carries it, with the
-       visitor's auto-reply. The range stays on screen either way.
+       leads, body contract v3) stores the prospect and sends both
+       e-mails. If Jarvis does not confirm Simon's copy, FormSubmit
+       carries it, with the visitor's auto-reply. The estimate stays on
+       screen either way.
      · Statistics: anonymous events, through the page's track() when it
        has one (home), else the same small sender: estimator_open,
        estimator_step (i = the step number on screen, 1…6),
@@ -40,7 +45,7 @@
   'use strict';
   if(!document.body || !window.fetch || !window.Promise) return;
   var root=document.documentElement;
-  var CFG=window.LG_CONFIG||{}, E=CFG.estimator||{}, R=CFG.rates||{};
+  var CFG=window.LG_CONFIG||{}, P=CFG.packages||{}, AD=CFG.addons||{}, R=CFG.rates||{};
   var KEY='lg_estimate', JARVIS='https://jarvis.ndashiz.be', EST_PATH='/api/gf/estimates', EV_PATH='/api/gf/events';
   var FORMSUBMIT='https://formsubmit.co/ajax/info@lagoffinerie.be', SITE='https://lagoffinerie.be/';
   /* The site's root for the links of the window: « / » when this file came by an absolute path (the 404, served at any address), else the page's folder. */
@@ -71,31 +76,41 @@
          needs_other:'Autre', other_l:'Précisez votre besoin', other_ph:'Dites-le en quelques mots',
          q6:'Quelques options', h6:'Tout est facultatif.',
          email_l:'Une adresse e-mail à votre nom', email_s:'ex. info@votreentreprise.be', email_yes:'Oui', email_no:'Non', email_have:"J'en ai déjà une",
-         seo_l:'Être trouvé sur Google', seo_s:'SEO de base + fiche Google Business', seo_yes:'Oui', seo_no:'Non',
-         after_l:'Après la mise en ligne', after_self:'Je le gère moi-même', after_hosting:'Hébergement et surveillance', after_full:'Formule entretien complète', after_unsure:'Je ne sais pas encore',
+         seo_l:'Être trouvé sur Google', seo_s:'Bases du référencement et fiche Google Business', seo_yes:'Oui', seo_no:'Non',
+         after_l:'Après la mise en ligne', after_hosting:"Juste l'hébergement et le nom de domaine", after_full:'Surveillance et maintenance', after_unsure:'Je ne sais pas encore',
          domain_l:'Nom de domaine', domain_have:"J'en ai déjà un", domain_reserve:'Réservez-le pour moi',
-         r_h:'Voici une première idée du prix.', r_build:'Création (une fois)', r_month:'Mensuel (optionnel)', r_items:"Ce qui compose l'estimation",
-         r_range:'entre {a} et {b} HTVA', r_about:'environ {a} HTVA', r_quote:'Sur devis, à partir de {a} HTVA',
-         r_self:'{a} si vous le gérez vous-même', r_pm:'{a}/mois', r_hosting_u:"{a}/mois pour l'hébergement et la surveillance", r_full_u:'{a}/mois pour la formule entretien complète',
-         on_quote:'sur devis', r_quote_m:'Sur devis', r_full_q:'Formule entretien complète sur devis',
-         disc:'Estimation indicative. Le prix final est fixé par écrit après notre appel gratuit, sur mesure pour votre projet.',
+         r_h_essentiel:'Voici la formule qui vous correspond.', r_h_pro:'Voici la formule qui vous correspond.',
+         r_h_custom:'Votre projet demande la formule Sur mesure.', r_h_seo:'Voici une première idée du prix.',
+         r_pack:'Formule recommandée', r_offer:'Prestation recommandée',
+         p_essentiel:'Essentiel', p_pro:'Pro', p_custom:'Sur mesure', p_seo:'Bases du référencement et fiche Google',
+         d_essentiel:"Un site d'une page sur mesure, adapté au mobile, avec formulaire de contact. Nom de domaine, hébergement HTTPS et sauvegardes compris, maintenance pendant 3 mois.",
+         d_pro:"Tout ce que comprend Essentiel, plus la surveillance 24/7 avec alerte en cas de panne, la gestion de vos services en ligne, la maintenance technique illimitée et une nouvelle fonctionnalité par trimestre.",
+         d_custom:'Boutique en ligne, réservation, espace membres, outils IA qui automatisent votre travail, demandes suivies dans un CRM intégré (Odoo), chatbot ou nouvelles fonctionnalités sur un site existant. Modifications et nouveautés illimitées.',
+         d_seo:'Sur votre site actuel : le référencement de base et votre fiche Google Business, pour être trouvé sur Google.',
+         r_pro_note:'Vous hésitez ? Pro ajoute la surveillance 24/7 et la maintenance technique illimitée : {b} à la création, puis environ {m}/mois.',
+         r_build:'Création (une fois)', r_month:'Mensuel', r_items:"Ce qui compose l'estimation",
+         r_range:'entre {a} et {b} HTVA', r_fixed:'{a} HTVA', r_pm:'environ {a}/mois', r_m_none:'Aucun abonnement',
+         m_essentiel:'Hébergement et nom de domaine uniquement', m_pro:'Hébergement, nom de domaine, surveillance et maintenance',
+         on_quote:'sur devis', r_quote_m:'Sur devis', r_quote_note:'Le prix est fixé par écrit après notre appel gratuit.',
+         disc:'Estimation indicative. Le prix final est fixé par écrit après notre appel gratuit, selon votre projet.',
          cap_h:'Recevez le détail par e-mail et réservez votre appel gratuit.',
          f_name:"Votre nom ou nom d'entreprise", name_ph:'Jean Dupont ou Dupont SRL', f_email:'Votre e-mail', f_phone:'Téléphone (optionnel)',
          consent:"J'accepte que La Goffinerie utilise mes réponses et mes coordonnées pour m'envoyer cette estimation et me recontacter à son sujet. <a href=\""+HOME+"donnees-personnelles.html\" target=\"_blank\" rel=\"noopener\">Protection des données</a>",
          send:'Recevoir mon estimation', book:'Réserver mon appel gratuit', sending:'Envoi…',
          sent_h:"C'est envoyé{n} !", sent_p:"Le détail arrive dans votre boîte mail ; pensez à jeter un œil aux indésirables. Il ne reste qu'à réserver votre appel gratuit.",
          err:"L'envoi n'a pas abouti. Réessayez dans un instant, ou réservez directement votre appel.", restart:'Recommencer',
-         i_website_presentation:'Site vitrine : présenter votre activité', i_website_connected:'Site connecté à vos outils',
-         i_website_automation:'Site qui automatise votre administratif', i_application:'Application', i_custom_tool:'Outil sur mesure',
+         i_pkg_essentiel:'Formule Essentiel', i_pkg_pro:'Formule Pro', i_pkg_custom:'Formule Sur mesure',
+         i_website_connected:'Site connecté à vos outils', i_website_automation:'Site qui automatise votre administratif',
+         i_application:'Application', i_custom_tool:'Outil sur mesure', i_ai_automation:'Automatisation IA',
+         i_existing_improve:'Nouvelles fonctionnalités sur votre site actuel',
          i_branding_refresh:'Rafraîchir votre logo et votre charte graphique', i_branding_scratch:'Logo et identité visuelle via un partenaire graphiste',
-         i_existing_rebuild:'Refaire entièrement votre site actuel', i_existing_improve:'Partir de votre site actuel',
-         i_pro_email:'Une adresse e-mail à votre nom', i_seo_google:'Être trouvé sur Google : SEO de base et fiche Google Business',
-         i_domain_reserve:'Nom de domaine réservé pour vous', i_ai_automation:'Automatisation IA', i_seo_follow:'Accompagnement suivi (contenus, GEO)',
+         i_pro_email:'Une adresse e-mail à votre nom', i_seo_google:'Bases du référencement et fiche Google',
+         i_domain_reserve:'Nom de domaine réservé pour vous', i_seo_follow:'Accompagnement suivi (contenus, GEO)',
          i_needs_other:'Autre : {x}', i_needs_other0:'Autre besoin',
-         m_included:'compris', m_partner:'chiffré séparément', m_quote:'sur devis, dès {a}', m_domain:'environ {a} par an', m_call:"à voir à l'appel",
+         m_partner:'chiffré séparément', m_in_quote:'dans le devis', m_in_monthly:'compris dans le mensuel', m_domain:'environ {a} par an', m_call:"à voir à l'appel",
          l_services:'Services', l_type:'Projet', l_brand:'Identité visuelle', l_existing:'Site actuel', l_url:'Lien du site', l_needs:'Le site doit', l_auto:'À automatiser',
          sum:'Estimation en ligne : ', sep:' : ', list:' ; ',
-         mail:"Bonjour{n},\n\nMerci pour votre demande d'estimation à La Goffinerie. En voici le détail.\n\nVos réponses\n{p}\n\nCréation (une fois) : {b}\nMensuel (optionnel) : {m}\n\nCe qui compose l'estimation\n{i}\n\nEstimation indicative. Le prix final est fixé par écrit après notre appel gratuit, sur mesure pour votre projet.\n\nRéservez votre appel gratuit ici : {u}\n\nÀ très vite,\nSimon Goffin, La Goffinerie\n+32 479 48 76 08" },
+         mail:"Bonjour{n},\n\nMerci pour votre demande d'estimation à La Goffinerie. En voici le détail.\n\nVos réponses\n{p}\n\n{f}\nCréation (une fois) : {b}\nMensuel : {m}\n\nCe qui compose l'estimation\n{i}\n\n{d}\n\nRéservez votre appel gratuit ici : {u}\n\nÀ très vite,\nSimon Goffin, La Goffinerie\n+32 479 48 76 08" },
     en:{ title:'Estimate my project', close:'Close', back:'← Previous', next:'Next →', skip:'Skip →', see:'See my estimate →',
          step:'Step {n} of {t}', step1:'Step {n}', result:'Your estimate', optional:'Optional', req:'Pick an answer to continue.',
          req_svc:'Pick at least one service to continue.', req_svc_more:"Not sure? Tick the closest match, we'll fine-tune it during the call.",
@@ -119,31 +134,41 @@
          needs_other:'Other', other_l:'Tell me what you need', other_ph:'In a few words',
          q6:'A few options', h6:'Everything is optional.',
          email_l:'An e-mail address in your name', email_s:'e.g. info@yourcompany.be', email_yes:'Yes', email_no:'No', email_have:'I already have one',
-         seo_l:'Getting found on Google', seo_s:'Basic SEO + Google Business profile', seo_yes:'Yes', seo_no:'No',
-         after_l:'After the launch', after_self:'I run it myself', after_hosting:'Hosting and monitoring', after_full:'Full maintenance plan', after_unsure:"I don't know yet",
+         seo_l:'Getting found on Google', seo_s:'Search basics and Google Business profile', seo_yes:'Yes', seo_no:'No',
+         after_l:'After the launch', after_hosting:'Just hosting and the domain name', after_full:'Monitoring and maintenance', after_unsure:"I don't know yet",
          domain_l:'Domain name', domain_have:'I already have one', domain_reserve:'Reserve it for me',
-         r_h:"Here's a first idea of the price.", r_build:'Build (one-off)', r_month:'Monthly (optional)', r_items:'What makes up the estimate',
-         r_range:'between {a} and {b} excl. VAT', r_about:'about {a} excl. VAT', r_quote:'On quote, from {a} excl. VAT',
-         r_self:'{a} if you run it yourself', r_pm:'{a}/month', r_hosting_u:'{a}/month for hosting and monitoring', r_full_u:'{a}/month for the full maintenance plan',
-         on_quote:'on quote', r_quote_m:'On quote', r_full_q:'Full maintenance plan on quote',
-         disc:'Indicative estimate. The final price is set in writing after our free call, tailored to your project.',
+         r_h_essentiel:'Here is the package that fits you.', r_h_pro:'Here is the package that fits you.',
+         r_h_custom:'Your project calls for the Custom package.', r_h_seo:"Here's a first idea of the price.",
+         r_pack:'Recommended package', r_offer:'Recommended service',
+         p_essentiel:'Essentiel', p_pro:'Pro', p_custom:'Custom', p_seo:'Search basics and Google Business profile',
+         d_essentiel:'A made-to-measure one-page site, mobile-friendly, with a contact form. Domain name, HTTPS hosting and backups included, maintenance for 3 months.',
+         d_pro:'Everything in Essentiel, plus 24/7 monitoring with an alert if it goes down, your online services managed for you, unlimited technical maintenance and one new feature per quarter.',
+         d_custom:'Online shop, booking, member area, AI tools that automate your work, leads tracked in a built-in CRM (Odoo), a chatbot or new features on an existing site. Unlimited changes and new features.',
+         d_seo:'On your current site: basic SEO and your Google Business profile, so people find you on Google.',
+         r_pro_note:'Not sure yet? Pro adds 24/7 monitoring and unlimited technical maintenance: {b} to build, then about {m}/month.',
+         r_build:'Build (one-off)', r_month:'Monthly', r_items:'What makes up the estimate',
+         r_range:'between {a} and {b} excl. VAT', r_fixed:'{a} excl. VAT', r_pm:'about {a}/month', r_m_none:'No subscription',
+         m_essentiel:'Hosting and domain name only', m_pro:'Hosting, domain name, monitoring and maintenance',
+         on_quote:'on quote', r_quote_m:'On quote', r_quote_note:'The price is set in writing after our free call.',
+         disc:'Indicative estimate. The final price is set in writing after our free call, based on your project.',
          cap_h:'Get the detail by e-mail and book your free call.',
          f_name:'Your name or company name', name_ph:'Jean Dupont or Dupont SRL', f_email:'Your e-mail', f_phone:'Phone (optional)',
          consent:'I agree that La Goffinerie uses my answers and contact details to send me this estimate and to get back to me about it. <a href="'+HOME+'donnees-personnelles.html" target="_blank" rel="noopener">Data protection</a>',
          send:'Send me my estimate', book:'Book my free call', sending:'Sending…',
          sent_h:"It's on its way{n}!", sent_p:'The detail is arriving in your inbox; have a look in the spam folder too. All that is left is to book your free call.',
          err:"The estimate could not be sent. Try again in a moment, or book your call directly.", restart:'Start again',
-         i_website_presentation:'Showcase site: presenting your business', i_website_connected:'Site connected to your tools',
-         i_website_automation:'Site that automates your admin', i_application:'Application', i_custom_tool:'Tailor-made tool',
+         i_pkg_essentiel:'Essentiel package', i_pkg_pro:'Pro package', i_pkg_custom:'Custom package',
+         i_website_connected:'Site connected to your tools', i_website_automation:'Site that automates your admin',
+         i_application:'Application', i_custom_tool:'Tailor-made tool', i_ai_automation:'AI automation',
+         i_existing_improve:'New features on your current site',
          i_branding_refresh:'Refreshing your logo and brand guidelines', i_branding_scratch:'Logo and visual identity through a partner graphic designer',
-         i_existing_rebuild:'Rebuilding your current site entirely', i_existing_improve:'Starting from your current site',
-         i_pro_email:'An e-mail address in your name', i_seo_google:'Getting found on Google: basic SEO and a Google Business profile',
-         i_domain_reserve:'Domain name reserved for you', i_ai_automation:'AI automation', i_seo_follow:'Ongoing support (content, GEO)',
+         i_pro_email:'An e-mail address in your name', i_seo_google:'Search basics and Google Business profile',
+         i_domain_reserve:'Domain name reserved for you', i_seo_follow:'Ongoing support (content, GEO)',
          i_needs_other:'Other: {x}', i_needs_other0:'Another need',
-         m_included:'included', m_partner:'quoted separately', m_quote:'on quote, from {a}', m_domain:'about {a} a year', m_call:'to discuss on the call',
+         m_partner:'quoted separately', m_in_quote:'in the quote', m_in_monthly:'included in the monthly fee', m_domain:'about {a} a year', m_call:'to discuss on the call',
          l_services:'Services', l_type:'Project', l_brand:'Visual identity', l_existing:'Current site', l_url:'Site link', l_needs:'The site should', l_auto:'To automate',
          sum:'Online estimate: ', sep:': ', list:'; ',
-         mail:"Hello{n},\n\nThank you for your estimate request to La Goffinerie. Here is the detail.\n\nYour answers\n{p}\n\nBuild (one-off): {b}\nMonthly (optional): {m}\n\nWhat makes up the estimate\n{i}\n\nIndicative estimate. The final price is set in writing after our free call, tailored to your project.\n\nBook your free call here: {u}\n\nSpeak soon,\nSimon Goffin, La Goffinerie\n+32 479 48 76 08" }
+         mail:"Hello{n},\n\nThank you for your estimate request to La Goffinerie. Here is the detail.\n\nYour answers\n{p}\n\n{f}\nBuild (one-off): {b}\nMonthly: {m}\n\nWhat makes up the estimate\n{i}\n\n{d}\n\nBook your free call here: {u}\n\nSpeak soon,\nSimon Goffin, La Goffinerie\n+32 479 48 76 08" }
   };
   /* One plain sentence per technical term, and an example where the sentence has none. */
   var TIP={
@@ -156,9 +181,9 @@
          automation:{t:'Automatisation', d:'Une tâche répétitive que le site fait à votre place, comme envoyer une relance.'},
          seo:{t:'SEO', d:'Ce qui aide Google à montrer votre site à ceux qui cherchent votre métier.', ex:'Par exemple : quelqu\'un tape « électricien Liège ».'},
          gbp:{t:'Fiche Google Business', d:'Votre fiche sur Google Maps, avec vos horaires, votre adresse et vos avis.'},
-         domain:{t:'Nom de domaine', d:'L\'adresse de votre site, comme votreentreprise.be. Environ {domain} par an.'},
+         domain:{t:'Nom de domaine', d:'L\'adresse de votre site, comme votreentreprise.be. Environ {domain} par an, compris dans le mensuel des formules.'},
          hosting:{t:'Hébergement', d:'L\'espace qui garde votre site en ligne, comme le loyer de votre boutique.'},
-         monitoring:{t:'Surveillance', d:'Je vérifie que votre site fonctionne et je suis alerté s\'il tombe.', ex:'Par exemple : un message m\'arrive dès que la page ne répond plus.'},
+         monitoring:{t:'Surveillance', d:'Jour et nuit, je vérifie que votre site fonctionne et je suis alerté s\'il tombe.', ex:'Par exemple : un message m\'arrive dès que la page ne répond plus.'},
          seo_geo:{t:'SEO et GEO', d:'Le SEO vous fait remonter dans Google. Le GEO vous fait citer par les assistants IA, comme ChatGPT ou Gemini.', ex:'Quelqu\'un cherche « électricien à Huy » : votre entreprise ressort.'},
          ai:{t:'Automatisation IA', d:'Votre site parle à vos outils et fait l\'administratif à votre place.', ex:'Chaque demande du formulaire crée un contact dans votre CRM.'} },
     en:{ site:{t:'Website', d:'The pages your clients visit to discover you and get in touch.', ex:'For example: home, services, work, contact.'},
@@ -170,9 +195,9 @@
          automation:{t:'Automation', d:'A repetitive task the site does for you, like sending a reminder.'},
          seo:{t:'SEO', d:'What helps Google show your site to people searching for your trade.', ex:'For example: someone types “electrician Liège”.'},
          gbp:{t:'Google Business profile', d:'Your listing on Google Maps, with your opening hours, your address and your reviews.'},
-         domain:{t:'Domain name', d:'Your site\'s address, like yourcompany.be. About {domain} a year.'},
+         domain:{t:'Domain name', d:'Your site\'s address, like yourcompany.be. About {domain} a year, included in the monthly fee of the packages.'},
          hosting:{t:'Hosting', d:'The space that keeps your site online, like the rent for your shop.'},
-         monitoring:{t:'Monitoring', d:'I check that your site works and I get an alert if it goes down.', ex:'For example: a message reaches me as soon as the page stops answering.'},
+         monitoring:{t:'Monitoring', d:'Day and night, I check that your site works and I get an alert if it goes down.', ex:'For example: a message reaches me as soon as the page stops answering.'},
          seo_geo:{t:'SEO and GEO', d:'SEO moves you up in Google. GEO gets you cited by AI assistants, like ChatGPT or Gemini.', ex:'Someone searches for “electrician in Huy”: your business comes up.'},
          ai:{t:'AI automation', d:'Your site talks to your tools and does the admin for you.', ex:'Every request sent through the form creates a contact in your CRM.'} }
   };
@@ -195,11 +220,12 @@
   var EXTRAS=[
     {q:'email', v:['yes','no','have']},
     {q:'seo', v:['yes','no'], tips:['seo','gbp']},
-    {q:'after', v:['self','hosting','full','unsure'], tips:['hosting','monitoring']},
+    {q:'after', v:['hosting','full','unsure'], tips:['hosting','monitoring']},   // hosting → Essentiel, full → Pro, unsure → Essentiel + a word on Pro
     {q:'domain', v:['have','reserve'], tips:['domain']}
   ];
+  /* after: « self » (v2.30) is gone and dropped by clean(); « hosting » and « full » keep their keys. */
   var VALID={type:['website','app','tool'], brand:['have','refresh','scratch'], existing:['none','rebuild','improve'],
-             email:['yes','no','have'], seo:['yes','no'], after:['self','hosting','full','unsure'], domain:['have','reserve']};
+             email:['yes','no','have'], seo:['yes','no'], after:['hosting','full','unsure'], domain:['have','reserve']};
   /* The answers that take several values, kept as arrays in this order. */
   var LISTS={services:['sites','seo','auto'], needs:['presentation','connected','automation','other']};
 
@@ -209,7 +235,7 @@
   function each(list, fn){ Array.prototype.forEach.call(list, fn); }
   function $(id){ return document.getElementById(id); }
 
-  /* ---------- prices: « 1 950 € » in French, « €1,950 » in English ---------- */
+  /* ---------- prices: « 1 000 € » in French, « €1,000 » in English ---------- */
   function num(n, L){
     var v=Math.abs(+n||0), s;
     try{ s=v.toLocaleString(L==='fr'?'fr-BE':'en-GB',{maximumFractionDigits:0}); }catch(e){ s=String(v); }
@@ -224,9 +250,11 @@
     return L==='fr' ? num(v[0],L)+' à '+money(v[1],L) : money(v[0],L)+' to '+money(v[1],L);
   }
   function at(path){ return path.split('.').reduce(function(o,k){ return o==null ? undefined : o[k]; }, CFG); }
-  var PRICE={ vitrine:'estimator.base.website_presentation.0', connecte:'estimator.base.website_connected.0',
-              self:'estimator.monthly.self_managed', hosting:'estimator.monthly.hosting_monitoring', plan:'estimator.monthly.full_maintenance',
-              seo:'estimator.modifiers.seo_google', hourly:'rates.hourly', pack:'rates.pack_price', pack_hours:'rates.pack_hours',
+  /* The keys of data-price="…" and of data-price-tpl="… {key} …", and where config.js keeps each value.
+     tools/prerender-prices.mjs reads this very object: keep it a plain literal of 'key':'path' pairs. */
+  var PRICE={ ess:'packages.essentiel.build', ess_m:'packages.essentiel.monthly',
+              pro:'packages.pro.build', pro_m:'packages.pro.monthly',
+              seo:'addons.seo_google', hourly:'rates.hourly', pack:'rates.pack_price', pack_hours:'rates.pack_hours',
               domain:'rates.domain_per_year' };
   function price(key, L){
     var v=PRICE[key] && at(PRICE[key]); if(v==null) return null;
@@ -281,70 +309,82 @@
   function otherText(){ return (asks('5') && has(A.needs,'other') && A.needs_other) ? A.needs_other : ''; }
   function urlOk(v){ return !v || /^(https?:\/\/)?([a-z0-9¡-￿-]+\.)+[a-z¡-￿]{2,}(:\d+)?(\/\S*)?$/i.test(v); }
 
-  /* ---------- the estimate: base + modifiers, to the nearest 50 €, never below the floor ----------
-     · sites + a website: the base follows the most complete need ticked (automation > connected > presentation).
-       « Autre » never sets the base: it gets its own line, « à voir à l'appel », and with « Autre » alone (or no need
-       at all) the base is the showcase site, the least any website costs. With « auto » ticked too, the base is at
-       least the connected site (or the automation one, when that need is ticked).
-     · sites + an app or a tool: on quote, from the config base, as before.
-     · auto without a website: an « Automatisation IA » line, on quote, from the low end of the connected site.
-     · seo: the « seo_google » range (an add-on to a build, or the build estimate itself when nothing is built,
-       then without the floor) and a « suivi » line on quote; the SEO option of the last step is then hidden.
-     · the monthly part does not change: it comes from the last step. */
-  function needLevel(){ var n=A.needs||[]; return has(n,'automation') ? 'automation' : has(n,'connected') ? 'connected' : has(n,'presentation') ? 'presentation' : ''; }
+  /* ---------- the estimate: one package, then the add-ons ticked ----------
+     · « Sur mesure » (custom: on quote, no amount anywhere) as soon as one of these is true, each reason on its own
+       line, « dans le devis » (« Autre » keeps « à voir à l'appel »):
+         the services include « auto »; the project is an app or a tailor-made tool; for a website, the needs include
+         « connected », « automation » or « other », or the current site is to be improved (« Oui, à améliorer »: new
+         features on an existing site). With « auto », the needs only say what to automate.
+     · Otherwise a website to present the business: Essentiel, or Pro when « Surveillance et maintenance » is picked
+       after the launch. « Juste l'hébergement… » → Essentiel; « Je ne sais pas encore » or no answer → Essentiel,
+       with a word on what Pro adds. « seo » alone gets the same when there is no site yet, or one to rebuild.
+     · « seo » alone on a current site (or no answer at step 4): the SEO offer on its own, no package and no monthly
+       part; the « after the launch » question, and the domain name with it, is then not asked.
+     · Add-ons, for a website: refreshing the brand, the partner graphic designer (quoted separately); for all: SEO
+       (the option, or the « seo » service, which also adds the ongoing support on quote), the pro e-mail address.
+     · build = the package build + the add-ons ([low, high]: a range as soon as one add-on is a range);
+       monthly = the package's « about » monthly price (custom: on quote; the SEO offer alone: none).
+     · The domain name stays informational: included in a package's monthly part, about so much a year otherwise. */
+  function customWhy(){
+    var w=[], n=asks('5') ? A.needs||[] : [];
+    if(svc('auto')) w.push('ai_automation');
+    if(svc('sites') && A.type==='app') w.push('application');
+    if(svc('sites') && A.type==='tool') w.push('custom_tool');
+    if(isSite()){
+      if(has(n,'connected')) w.push('website_connected');
+      if(has(n,'automation')) w.push('website_automation');
+      if(A.existing==='improve') w.push('existing_improve');
+    }
+    if(has(n,'other')) w.push('needs_other');
+    return w;
+  }
+  function seoOnly(){ return svc('seo') && !svc('sites') && !svc('auto') && A.existing!=='none' && A.existing!=='rebuild'; }
+  function asksAfter(){ return !seoOnly(); }                                  // no launch to follow for the SEO offer alone
   function compute(){
-    var base=E.base||{}, mod=E.modifiers||{}, mo=E.monthly||{}, items=[], lo=0, hi=0, quote=false, from=0, bk=null, build=false;
-    function take(key, v, isMod){
+    var why=customWhy(), base = why.length ? 'custom' : seoOnly() ? 'seo' : A.after==='full' ? 'pro' : 'essentiel';
+    var pk=P[base]||{}, items=[], lo=0, hi=0;
+    function add(key, v, isMod){
       if(Array.isArray(v)){ var a=+v[0]||0, b=+v[1]||0; lo+=a; hi+=b; items.push({k:key, r:[a,b], mod:isMod}); }
-      else if(v && v.quote){ quote=true; from=Math.max(from, +v.from||0); items.push({k:key, from:+v.from||0}); }
-      else if(v && v.partner){ items.push({k:key, partner:true}); }
+      else if(v && v.partner) items.push({k:key, partner:true});
     }
-    var site=isSite(), seo=svc('seo'), auto=svc('auto');
-    if(svc('sites') && A.type){
-      if(A.type==='app') bk='application';
-      else if(A.type==='tool') bk='custom_tool';
-      else { var lv=needLevel()||'presentation'; if(auto && lv==='presentation') lv='connected'; bk='website_'+lv; }
-      take(bk, base[bk]); build=true;
+    if(base==='custom'){
+      items.push({k:'pkg_custom', onquote:true});
+      why.forEach(function(k){ items.push(k==='needs_other' ? {k:k, call:true, x:otherText()} : {k:k, inquote:true}); });
     }
-    if(site){
-      if(A.brand==='refresh') take('branding_refresh', mod.branding_refresh, true);
-      if(A.brand==='scratch') take('branding_scratch', mod.branding_scratch, true);
-      if(A.existing==='rebuild') take('existing_rebuild', mod.existing_rebuild, true);
-      if(A.existing==='improve') take('existing_improve', mod.existing_improve, true);
+    else if(base!=='seo') add('pkg_'+base, [+pk.build||0, +pk.build||0], false);
+    if(isSite()){
+      if(A.brand==='refresh') add('branding_refresh', AD.branding_refresh, true);
+      if(A.brand==='scratch') add('branding_scratch', AD.branding_scratch, true);
     }
-    if(auto && !site){
-      var wc=base.website_connected, low=Array.isArray(wc) ? +wc[0]||0 : (wc && +wc.from)||0;
-      take('ai_automation', {quote:true, from:low}); if(!bk) bk='ai_automation'; build=true;
-    }
-    if(A.email==='yes') take('pro_email', mod.pro_email, true);
-    if(seo){ take('seo_google', mod.seo_google, build); items.push({k:'seo_follow', onquote:true}); if(!bk) bk='seo_google'; }
-    else if(A.seo==='yes') take('seo_google', mod.seo_google, true);
-    if(asks('5') && has(A.needs,'other')) items.push({k:'needs_other', call:true, x:otherText()});
-    if(A.after && A.after!=='self' && A.domain==='reserve' && R.domain_per_year!=null) items.push({k:'domain_reserve', yearly:+R.domain_per_year});
-    var floor=build ? +E.floor||0 : 0, r50=function(x){ return Math.round(x/50)*50; };   // SEO alone: its own range, no floor
-    lo=Math.max(floor, r50(lo)); hi=Math.max(lo, r50(hi)); from=Math.max(floor, r50(from));
-    var m = A.after==='self' ? {k:'self', v:+mo.self_managed||0}
-          : A.after==='hosting' ? {k:'hosting', v:mo.hosting_monitoring}
-          : A.after==='full' ? {k:'full', v:mo.full_maintenance} : {k:'unsure'};
-    return {base:bk, quote:quote, lo:lo, hi:hi, from:from, items:items, monthly:m};
+    if(svc('seo') || A.seo==='yes') add('seo_google', AD.seo_google, base!=='seo');
+    if(svc('seo')) items.push({k:'seo_follow', onquote:true});
+    if(A.email==='yes') add('pro_email', AD.pro_email, true);
+    var after = asksAfter() ? A.after||'unsure' : 'none';
+    if(after!=='none' && A.after && A.domain==='reserve') items.push({k:'domain_reserve', yearly:+R.domain_per_year||0, monthly: base!=='custom'});
+    return { base:base, quote:base==='custom', lo:lo, hi:hi, items:items, after:after,
+             monthly: (base==='custom' || base==='seo') ? null : +pk.monthly||0 };
   }
   function buildText(c, L){
     var t=TXT[L];
-    if(c.quote) return fmt(t.r_quote, {a:money(c.from,L)});
-    if(c.lo===c.hi) return fmt(t.r_about, {a:money(c.lo,L)});
+    if(c.quote) return t.r_quote_m;
+    if(c.lo===c.hi) return fmt(t.r_fixed, {a:money(c.lo,L)});
     return fmt(t.r_range, {a: L==='fr' ? num(c.lo,L) : money(c.lo,L), b:money(c.hi,L)});
   }
-  function monthLines(c, L){
-    var t=TXT[L], mo=E.monthly||{}, k=c.monthly.k;
-    if(k==='self') return [fmt(t.r_self, {a:money(c.monthly.v,L)})];
-    if(k==='hosting' || k==='full') return [isQuote(c.monthly.v) ? t.r_quote_m : fmt(t.r_pm, {a:span(c.monthly.v,L)})];
-    return [fmt(t.r_self, {a:money(+mo.self_managed||0,L)}), fmt(t.r_hosting_u, {a:span(mo.hosting_monitoring,L)}),
-            isQuote(mo.full_maintenance) ? t.r_full_q : fmt(t.r_full_u, {a:span(mo.full_maintenance,L)})];
+  /* The monthly part: its amount, then what it covers (custom: the option picked after the launch, if any). */
+  function monthMain(c, L){ var t=TXT[L]; return c.quote ? t.r_quote_m : c.monthly==null ? t.r_m_none : fmt(t.r_pm, {a:money(c.monthly,L)}); }
+  function monthNote(c, L){
+    var t=TXT[L];
+    if(c.quote) return (c.after==='hosting' || c.after==='full') ? t['after_'+c.after] : '';
+    return c.monthly==null ? '' : t['m_'+c.base];
   }
-  function monthText(c, L){
-    var lines=monthLines(c, L), k=c.monthly.k, t=TXT[L];
-    return (k==='hosting' || k==='full') ? lines[0]+' ('+t['after_'+k]+')' : lines.join(t.list);
+  function monthText(c, L){ var n=monthNote(c, L); return monthMain(c, L)+(n ? ' ('+n.charAt(0).toLowerCase()+n.slice(1)+')' : ''); }
+  /* « Je ne sais pas encore » (or no answer): Essentiel, and a word on what Pro adds. */
+  function proNote(c, L){
+    if(c.base!=='essentiel' || c.after!=='unsure' || !P.pro) return '';
+    return fmt(TXT[L].r_pro_note, {b:money(+P.pro.build||0,L), m:money(+P.pro.monthly||0,L)});
   }
+  function packName(c, L){ return TXT[L]['p_'+c.base]; }
+  function packLabel(c, L){ var t=TXT[L]; return c.base==='seo' ? t.r_offer : t.r_pack; }
   function itemLabel(it, L){
     var t=TXT[L];
     if(it.k==='needs_other') return it.x ? fmt(t.i_needs_other, {x:it.x}) : t.i_needs_other0;
@@ -354,11 +394,10 @@
     var t=TXT[L];
     if(it.call) return t.m_call;
     if(it.onquote) return t.on_quote;
+    if(it.inquote) return t.m_in_quote;
     if(it.partner) return t.m_partner;
-    if(it.from!==undefined) return fmt(t.m_quote, {a:money(it.from,L)});
-    if(it.yearly!==undefined) return fmt(t.m_domain, {a:money(it.yearly,L)});
-    if(it.r[0]===0 && it.r[1]===0) return t.m_included;
-    var s=span(it.r, L); return (it.mod && it.r[0]>=0) ? '+ '+s : s;
+    if(it.yearly!==undefined) return it.monthly ? t.m_in_monthly : fmt(t.m_domain, {a:money(it.yearly,L)});
+    var s=span(it.r, L); return (it.mod && it.r[0]>=0) ? '+ '+s : s;
   }
   function servicesText(L){ return (A.services||[]).map(function(s){ return TXT[L]['services_'+s]; }).join(', '); }
   function needsText(L){
@@ -373,24 +412,25 @@
     if(asks('3')) add('brand', t.l_brand);
     if(asks('4')){ add('existing', t.l_existing); if(siteUrl()) rows.push([t.l_url, siteUrl()]); }
     if(asks('5') && A.needs && A.needs.length) rows.push([isSite() ? t.l_needs : t.l_auto, needsText(L)]);
-    add('email', t.email_l); if(!svc('seo')) add('seo', t.seo_l); add('after', t.after_l);
-    if(A.after && A.after!=='self') add('domain', t.domain_l);
+    add('email', t.email_l); if(!svc('seo')) add('seo', t.seo_l);
+    if(asksAfter()){ add('after', t.after_l); if(A.after) add('domain', t.domain_l); }
     return rows;
   }
   function itemsText(c, L){ return c.items.map(function(it){ return itemLabel(it,L)+' ('+amount(it,L)+')'; }).join(TXT[L].list); }
   function shortSummary(c, L){
-    var t=TXT[L], lv=needLevel();
+    var t=TXT[L];
     var parts=[(A.services||[]).map(function(s){ return s==='sites' && A.type ? t['type_'+A.type] : t['services_'+s]; }).join(' + ')];
-    if(isSite() && lv) parts.push(t['needs_'+lv]);
+    parts.push(c.base==='seo' ? packName(c,L) : t['i_pkg_'+c.base]);
     parts.push(buildText(c,L));
-    if(c.monthly.k!=='unsure') parts.push(t['after_'+c.monthly.k]+(c.monthly.k==='self' ? '' : ' '+(isQuote(c.monthly.v) ? t.on_quote : monthLines(c,L)[0])));
+    if(c.monthly!=null) parts.push(monthMain(c,L));
     return t.sum+parts.join(', ');
   }
   function bookUrl(L){ return SITE+'?book=1&lang='+L+'#contact'; }
   function mailText(c, L){
-    var t=TXT[L], first=String(CAP.name||'').trim().split(/\s+/)[0];
+    var t=TXT[L], first=String(CAP.name||'').trim().split(/\s+/)[0], note=proNote(c,L);
     return fmt(t.mail, { n:first?' '+first:'', p:answerRows(L).map(function(r){ return '• '+r[0]+t.sep+r[1]; }).join('\n'),
-      b:buildText(c,L), m:monthText(c,L), i:c.items.map(function(it){ return '• '+itemLabel(it,L)+t.sep+amount(it,L); }).join('\n'), u:bookUrl(L) });
+      f:packLabel(c,L)+t.sep+packName(c,L)+(note ? '\n'+note : ''), b:buildText(c,L)+(c.quote ? '. '+t.r_quote_note : ''), m:monthText(c,L),
+      i:c.items.map(function(it){ return '• '+itemLabel(it,L)+t.sep+amount(it,L); }).join('\n'), d:t.disc, u:bookUrl(L) });
   }
 
   /* ---------- statistics: anonymous, through the page's own track() when it has one ---------- */
@@ -515,14 +555,18 @@
     +'.lg-est-btn:active,.lg-est-btn.pri:active{transform:none;box-shadow:0 1px 2px rgba(21,21,21,.14);}'
     +'.lg-est-btn[disabled]{opacity:.6;cursor:progress;transform:none!important;}'
     +'.lg-est-btn.lg-est-back[disabled]{opacity:.4;cursor:not-allowed;box-shadow:none;}'
-    +'.lg-est-figs{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;margin-top:20px;}'
+    /* The result: the package recommended (its name, what it includes, a word on Pro), then its two figures. */
+    +'.lg-est-pack{margin-top:18px;padding:2px 0 2px 16px;border-left:4px solid #2823EE;}'
+    +'.lg-est-pack .lg-est-fl{color:#3d4046;}'
+    +'.lg-est-pn{display:block;margin-top:4px;font-family:"Sora",system-ui,sans-serif;font-weight:800;font-size:24px;line-height:1.2;letter-spacing:-.01em;color:#2823EE;}'
+    +'.lg-est .lg-est-pack p{margin:6px 0 0;font-size:14.5px;line-height:1.5;color:#3d4046;}'
+    +'.lg-est .lg-est-pack p.lg-est-pnote{margin-top:10px;padding:9px 12px;border-radius:10px;background:#2823EE0f;color:#151515;font-size:14px;}'
+    +'.lg-est-figs{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;margin-top:18px;}'
     +'.lg-est-fig{padding:15px 16px;border:2px solid #151515;border-radius:14px;background:#faf8f2;}'
     +'.lg-est-fig.main{background:#2823EE;border-color:#2823EE;color:#fff;box-shadow:5px 5px 0 #151515;}'
     +'.lg-est-fl{display:block;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;opacity:.82;}'
     +'.lg-est-fv{display:block;margin-top:6px;font-family:"Sora",system-ui,sans-serif;font-weight:800;font-size:20px;line-height:1.25;}'
     +'.lg-est-fig small{display:block;margin-top:4px;font-size:13.5px;opacity:.85;}'
-    +'.lg-est-ml{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:5px;font-size:14px;line-height:1.4;}'
-    +'.lg-est-ml li b{font-family:"Sora",system-ui,sans-serif;}'
     +'.lg-est-disc{margin:14px 0 0;padding:12px 14px;border-left:4px solid #EDAF2F;border-radius:0 10px 10px 0;background:#EDAF2F24;font-size:14px;line-height:1.5;}'
     +'.lg-est-items{margin-top:20px;}.lg-est-items .lg-est-fl{color:#3d4046;}'
     +'.lg-est-items ul{list-style:none;margin:8px 0 0;padding:0;}'
@@ -596,7 +640,7 @@
   }
   function extraHTML(x, L){
     var t=TXT[L], gid='lg-est-x-'+x.q, sub=x.q==='domain';
-    var h='<div class="'+(sub?'lg-est-sub':'lg-est-x5')+'" id="'+gid+'-box"'+(sub && !(A.after && A.after!=='self') ? ' hidden' : '')+'>'
+    var h='<div class="'+(sub?'lg-est-sub':'lg-est-x5')+'" id="'+gid+'-box"'+(sub && !A.after ? ' hidden' : '')+'>'
       +'<div class="lg-est-xh" id="'+gid+'">'+esc(t[x.q+'_l'])+(t[x.q+'_s']?'<small>'+esc(t[x.q+'_s'])+'</small>':'')+'</div>';
     if(x.tips) h+=tipsHTML(x.tips, gid+'-tip', '', L);
     h+='<div class="lg-est-pills" role="radiogroup" aria-labelledby="'+gid+'">';
@@ -605,7 +649,7 @@
       h+='<label class="lg-est-pill'+(on?' on':'')+'" for="'+id+'"><input type="radio" id="'+id+'" name="lg-est-'+x.q+'" value="'+v+'"'+(on?' checked':'')+'><span>'+esc(t[x.q+'_'+v])+'</span></label>';
     });
     h+='</div>';
-    if(x.q==='after') h+=extraHTML(EXTRAS[3], L);       // the domain name: only asked when someone else than you runs the site
+    if(x.q==='after') h+=extraHTML(EXTRAS[3], L);       // the domain name: asked once the « after the launch » option is picked
     return h+'</div>';
   }
   function stepHTML(s, L){
@@ -613,8 +657,9 @@
     if(OPTIONAL[s]) h+='<span class="lg-est-tag">'+esc(t.optional)+'</span>';
     h+='<h3 class="lg-est-q" id="lg-est-q" tabindex="-1">'+esc(s==='5' && !isSite() ? t.q5_auto : t['q'+s])+'</h3>';
     if(t['h'+s]) h+='<p class="lg-est-hint" id="lg-est-hint">'+esc(t['h'+s])+'</p>';
-    if(s==='6'){                                                              // the SEO option goes when the SEO service is ticked
-      h+=extraHTML(EXTRAS[0],L)+(svc('seo') ? '' : extraHTML(EXTRAS[1],L))+extraHTML(EXTRAS[2],L); return h+'</div>';
+    if(s==='6'){                                                              // the SEO option goes when the SEO service is ticked,
+      h+=extraHTML(EXTRAS[0],L)+(svc('seo') ? '' : extraHTML(EXTRAS[1],L))   // « after the launch » with the SEO offer alone
+        +(asksAfter() ? extraHTML(EXTRAS[2],L) : ''); return h+'</div>';
     }
     h+='<div class="lg-est-opts" id="lg-est-grp" role="'+(multi?'group':'radiogroup')+'" aria-labelledby="lg-est-q" aria-describedby="lg-est-hint">'
       +OPTS[s].map(function(o){ return optionHTML(q, o, L); }).join('')+'</div>';
@@ -646,17 +691,21 @@
       +'<div class="lg-est-acts"><button type="submit" class="lg-est-btn pri">'+esc(t.send)+'</button><button type="button" class="lg-est-btn" data-est-book>'+esc(t.book)+'</button></div>'
       +'</form>';
   }
+  /* The package (name, what it includes, a word on Pro), its two figures, the lines that make it up (only when there
+     is more than the package itself), then the disclaimer. */
   function resultHTML(L){
-    var t=TXT[L], c=compute(), k=c.monthly.k, lines=monthLines(c,L);
-    var month = k==='unsure' ? '<ul class="lg-est-ml">'+lines.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join('')+'</ul>'
-              : '<b class="lg-est-fv">'+esc(lines[0])+'</b>'+(k==='self' ? '' : '<small>'+esc(t['after_'+k])+'</small>');
+    var t=TXT[L], c=compute(), note=proNote(c,L), mn=monthNote(c,L);
     return '<div class="lg-est-step lg-est-res" data-step="r">'
-      +'<h3 class="lg-est-q" id="lg-est-q" tabindex="-1">'+esc(t.r_h)+'</h3>'
-      +'<div class="lg-est-figs"><div class="lg-est-fig main"><span class="lg-est-fl">'+esc(t.r_build)+'</span><b class="lg-est-fv">'+esc(buildText(c,L))+'</b></div>'
-      +'<div class="lg-est-fig"><span class="lg-est-fl">'+esc(t.r_month)+'</span>'+month+'</div></div>'
+      +'<h3 class="lg-est-q" id="lg-est-q" tabindex="-1">'+esc(t['r_h_'+c.base])+'</h3>'
+      +'<div class="lg-est-pack"><span class="lg-est-fl">'+esc(packLabel(c,L))+'</span><b class="lg-est-pn">'+esc(packName(c,L))+'</b>'
+      +'<p>'+esc(t['d_'+c.base])+'</p>'+(note ? '<p class="lg-est-pnote">'+esc(note)+'</p>' : '')+'</div>'
+      +'<div class="lg-est-figs"><div class="lg-est-fig main"><span class="lg-est-fl">'+esc(t.r_build)+'</span><b class="lg-est-fv">'+esc(buildText(c,L))+'</b>'
+      +(c.quote ? '<small>'+esc(t.r_quote_note)+'</small>' : '')+'</div>'
+      +'<div class="lg-est-fig"><span class="lg-est-fl">'+esc(t.r_month)+'</span><b class="lg-est-fv">'+esc(monthMain(c,L))+'</b>'
+      +(mn ? '<small>'+esc(mn)+'</small>' : '')+'</div></div>'
+      +(c.items.length>1 ? '<div class="lg-est-items"><span class="lg-est-fl">'+esc(t.r_items)+'</span><ul>'
+      +c.items.map(function(it){ return '<li><span>'+esc(itemLabel(it,L))+'</span><b>'+esc(amount(it,L))+'</b></li>'; }).join('')+'</ul></div>' : '')
       +'<p class="lg-est-disc">'+esc(t.disc)+'</p>'
-      +'<div class="lg-est-items"><span class="lg-est-fl">'+esc(t.r_items)+'</span><ul>'
-      +c.items.map(function(it){ return '<li><span>'+esc(itemLabel(it,L))+'</span><b>'+esc(amount(it,L))+'</b></li>'; }).join('')+'</ul></div>'
       +'<div class="lg-est-cap" id="lg-est-cap">'+capHTML(L)+'</div>'
       +'<p class="lg-est-again"><button type="button" class="lg-est-link" data-est-restart>'+esc(t.restart)+'</button></p>'
       +'</div>';
@@ -752,23 +801,25 @@
     CAP.name=(f.elements.name.value||'').trim(); CAP.email=(f.elements.email.value||'').trim();
     CAP.phone=(f.elements.phone.value||'').trim(); CAP.consent=!!f.elements.consent.checked;
   }
-  /* Contract v2 (docs/estimator-jarvis.md): answers.services, answers.needs as a list, answers.needs_other. */
+  /* Contract v3 (docs/estimator-jarvis.md): estimate.base is the package (essentiel | pro | custom, or seo for the
+     SEO offer alone), the monthly part is the package's, answers.after no longer has « self ». */
   function payload(c){
-    var L=lang(), mo=c.monthly, v=mo.v;
+    var L=lang(), ask=asksAfter();
     return {
-      v:2, s:sid(), l:L, ts:new Date().toISOString(), k: crew() ? 1 : undefined,
+      v:3, s:sid(), l:L, ts:new Date().toISOString(), k: crew() ? 1 : undefined,
       name:CAP.name, email:CAP.email, phone:CAP.phone||null,
       answers:{ services:(A.services||[]).slice(), type: svc('sites') ? A.type||null : null,
                 branding: asks('3') ? A.brand||null : null, existing: asks('4') ? A.existing||null : null, url: siteUrl()||null,
                 needs: asks('5') ? (A.needs||[]).slice() : [], needs_other: otherText()||null,
-                pro_email:A.email||null, seo: svc('seo') ? 'yes' : A.seo||null, after:A.after||null,
-                domain: (A.after && A.after!=='self') ? A.domain||null : null },
-      estimate:{ base:c.base, quote:c.quote, min: c.quote ? null : c.lo, max: c.quote ? null : c.hi, from: c.quote ? c.from : null, currency:'EUR', vat:'excl' },
-      monthly:{ option:mo.k, quote:isQuote(v), min: (v==null || isQuote(v)) ? null : (Array.isArray(v) ? +v[0] : +v), max: (v==null || isQuote(v)) ? null : (Array.isArray(v) ? +v[1] : +v) },
+                pro_email:A.email||null, seo: svc('seo') ? 'yes' : A.seo||null, after: ask ? A.after||null : null,
+                domain: (ask && A.after) ? A.domain||null : null },
+      estimate:{ base:c.base, quote:c.quote, min: c.quote ? null : c.lo, max: c.quote ? null : c.hi, from:null, currency:'EUR', vat:'excl' },
+      monthly:{ option:c.after, quote:c.quote, min:c.monthly, max:c.monthly },
       items: c.items.map(function(it){ return { key:it.k, label:itemLabel(it,L), amount:amount(it,L),
-        min: it.r ? it.r[0] : (it.from!==undefined ? it.from : null), max: it.r ? it.r[1] : null, partner: !!it.partner,
-        quote: it.from!==undefined || !!it.onquote, call: !!it.call, yearly: it.yearly!==undefined ? it.yearly : null }; }),
-      text:{ build:buildText(c,L), monthly:monthText(c,L), answers:answerRows(L), summary:shortSummary(c,L), disclaimer:TXT[L].disc, mail:mailText(c,L) },
+        min: it.r ? it.r[0] : null, max: it.r ? it.r[1] : null, partner: !!it.partner,
+        quote: !!(it.onquote || it.inquote), call: !!it.call, yearly: it.yearly!==undefined ? it.yearly : null }; }),
+      text:{ package:packName(c,L), build:buildText(c,L), monthly:monthText(c,L), note:proNote(c,L)||null, answers:answerRows(L),
+             summary:shortSummary(c,L), disclaimer:TXT[L].disc, mail:mailText(c,L) },
       bookUrl: bookUrl(L)
     };
   }
@@ -782,7 +833,7 @@
   function formSubmit(c, withReply){
     var L=lang(), fr=TXT.fr;
     var o={ name:CAP.name, email:CAP.email, phone:CAP.phone||'', language:L, _subject:'Nouvelle estimation en ligne, lagoffinerie', _template:'table', _captcha:'false' };
-    o[fr.r_build]=buildText(c,'fr'); o[fr.r_month]=monthText(c,'fr');
+    o[packLabel(c,'fr')]=packName(c,'fr'); o[fr.r_build]=buildText(c,'fr'); o[fr.r_month]=monthText(c,'fr');
     answerRows('fr').forEach(function(r){ o[r[0]]=r[1]; });
     o[fr.r_items]=itemsText(c,'fr');
     if(withReply) o._autoresponse=mailText(c, L);
@@ -812,12 +863,13 @@
       if(err){ err.textContent=t.err; err.hidden=false; }
     });
   }
-  /* To the booking window, pre-filled: right here on the home page, through the home page from anywhere else. */
+  /* To the contact form of the home page, pre-filled: scrolled to right here on the home page (lgToContact),
+     through ./?book=1 from anywhere else. */
   function toBooking(){
     var f=$('lg-est-form'); if(f) readCap(f);
     var pre={ name:CAP.name, email:CAP.email, phone:CAP.phone, subject:shortSummary(compute(), lang()) };
     ev('estimator_to_booking');
-    if(typeof window.lgOpenBooking==='function'){ close('booking'); window.lgOpenBooking(pre); return; }
+    if(typeof window.lgToContact==='function'){ close('booking'); window.lgToContact(pre); return; }
     var s=readStore(); s.v=2; s.a=A; s.step=STEP; s.book=pre; writeStore(s);
     close('booking');
     location.href=HOME+'?book=1#contact';
@@ -863,7 +915,7 @@
         if(on && el.value==='other' && el.checked && oi) try{ oi.focus({preventScroll:true}); oi.scrollIntoView({block:'nearest'}); }catch(x){}
       }
       if(q==='existing'){ var ub=$('lg-est-urlbox'); if(ub) ub.hidden=!hasSite(); }
-      if(q==='after'){ var db=$('lg-est-x-domain-box'); if(db) db.hidden=!(A.after && A.after!=='self'); }
+      if(q==='after'){ var db=$('lg-est-x-domain-box'); if(db) db.hidden=!A.after; }
       paintNext();
     });
     body.addEventListener('input', function(e){
@@ -898,7 +950,6 @@
   /* service: « sites », « seo » or « auto » (data-estimator-service on a service page's button), ticked only on a fresh start. */
   function open(source, service){
     if(OPEN) return;
-    if(document.querySelector('.modal-bg:not([hidden])')) return;          // one window at a time: never over the booking form
     build();
     if(LISTS.services.indexOf(service)>=0 && !answered('1')){ A.services=[service]; STEP='1'; save(); }
     OPEN=true; USED=true; lastFocus=document.activeElement;

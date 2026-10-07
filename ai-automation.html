@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light only">
 <meta name="theme-color" content="#faf8f2">
 <title>AI automation — La Goffinerie</title>
-<meta name="description" data-price-tpl="AI automation for Belgian small businesses: your website plugged into your calendar, invoicing and CRM, with an AI morning digest. Included in the connected site from {connecte} excl. VAT." content="AI automation for Belgian small businesses: your website plugged into your calendar, invoicing and CRM, with an AI morning digest. Included in the connected site from €3,900 excl. VAT.">
+<meta name="description" content="AI automation for Belgian small businesses: your website plugged into your calendar, invoicing and CRM, with an AI morning digest. Part of the Custom package, on quote, with a price fixed in writing.">
 <link rel="canonical" href="https://lagoffinerie.be/ai-automation.html">
 <link rel="alternate" hreflang="en" href="https://lagoffinerie.be/ai-automation.html?lang=en">
 <link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/ai-automation.html?lang=fr">
@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="La Goffinerie">
 <meta property="og:url" content="https://lagoffinerie.be/ai-automation.html">
 <meta property="og:title" content="AI automation — La Goffinerie">
-<meta property="og:description" data-price-tpl="AI automation for Belgian small businesses: your website plugged into your calendar, invoicing and CRM, with an AI morning digest. Included in the connected site from {connecte} excl. VAT." content="AI automation for Belgian small businesses: your website plugged into your calendar, invoicing and CRM, with an AI morning digest. Included in the connected site from €3,900 excl. VAT.">
+<meta property="og:description" content="AI automation for Belgian small businesses: your website plugged into your calendar, invoicing and CRM, with an AI morning digest. Part of the Custom package, on quote, with a price fixed in writing.">
 <meta property="og:image" content="https://lagoffinerie.be/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">
@@ -60,7 +60,7 @@
    "name": "What happens if a tool changes or goes down?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "With maintenance, proactive monitoring alerts me and I fix it, with a response within one working day. Without maintenance, I can step in outside the plan, at €85 an hour."
+    "text": "If your package includes monitoring, as Pro does, it alerts me around the clock and I fix it, with a response within one working day. Otherwise, I step in outside the package, at €85 an hour."
    }
   },
   {
@@ -68,7 +68,7 @@
    "name": "How much does it cost?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Automations are included in the connected site, from €3,900 excl. VAT. To automate an existing site or a single tool, it is on quote, with a price fixed in writing that does not move."
+    "text": "Automations are part of the Custom package, along with the chatbot, AI tools and leads in a built-in CRM such as Odoo. It is on quote, whether for a new site, an existing site or a single tool, with a price fixed in writing that does not move."
    }
   }
  ]
@@ -90,6 +90,8 @@
   [hidden]{display:none!important;}
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
   html,body{overflow-x:hidden;}
+  /* clip, not hidden, where supported: hidden would turn the body into a scroll box and break the sticky « Other questions? » box */
+  @supports (overflow:clip){html,body{overflow-x:clip;}}
   body{font-family:var(--sans);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;line-height:1.6;padding-top:66px;}
   section[id],header[id]{scroll-margin-top:80px;}
   ::selection{background:var(--yellow);color:var(--ink);}
@@ -238,32 +240,53 @@
   .oth b{font-family:var(--disp);font-weight:700;font-size:16px;line-height:1.25;}
   .oth i{font-style:normal;font-family:var(--disp);font-weight:700;font-size:18px;color:var(--blue);}
 
-  /* ---------- FAQ: editorial accordion (label, title, subtitle, numbered questions), one answer open at a time ---------- */
-  .faq-ed{background:#F5F5F3;padding:120px 0 128px;}
+  /* ---------- FAQ: editorial accordion (label, title, subtitle, numbered questions), one answer open at a time ----------
+     Wide screens: the title on the left, the « Other questions? » box under it stays in view while the questions scroll
+     on the right. Up to 900px, one column: title, questions, then the box. */
+  .faq-ed{background:#F5F5F3;padding:104px 0;}
   .faq-ed .wrap{max-width:1160px;}
-  .fe-head{text-align:center;display:flex;flex-direction:column;align-items:center;}
+  .fe-grid{display:grid;grid-template-columns:clamp(300px,32vw,400px) minmax(0,1fr);grid-template-rows:auto 1fr;column-gap:clamp(40px,5vw,72px);align-items:start;}
+  .fe-head{grid-column:1;grid-row:1;display:flex;flex-direction:column;align-items:flex-start;padding-top:28px;}
   .fe-label{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:#555;}
-  .fe-head h2{margin:20px 0 0;font-size:clamp(34px,4.6vw,58px);line-height:1.08;letter-spacing:-.025em;color:#111;max-width:18ch;}
-  .fe-sub{margin:18px 0 0;font-size:clamp(17px,1.6vw,20px);line-height:1.5;color:#6F6F6F;}
-  .fe-list{margin-top:64px;}
+  .fe-head h2{margin:18px 0 0;font-size:clamp(32px,3.4vw,48px);line-height:1.08;letter-spacing:-.025em;color:#111;max-width:18ch;}
+  .fe-sub{margin:16px 0 0;font-size:18px;line-height:1.5;color:#6F6F6F;}
+  .fe-list{grid-column:2;grid-row:1 / 3;}
+  .fe-ask{grid-column:1;grid-row:2;position:sticky;top:104px;margin-top:34px;padding:22px 22px 20px;border-radius:18px;background:#fff;border:1px solid #E6E6E6;}
+  .fe-ask h3{font-size:17px;font-weight:700;line-height:1.3;letter-spacing:0;color:#111;}
+  .fe-ask p{margin-top:6px;font-size:15px;line-height:1.55;color:#6F6F6F;}
+  .fe-ask .fe-btn{margin-top:14px;display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 18px;border-radius:999px;background:#111;color:#fff;font-family:var(--disp);font-weight:600;font-size:14.5px;line-height:1.2;text-decoration:none;transition:background-color .2s ease;}
+  .fe-ask .fe-btn:hover{background:#333;}
+  .fe-ask .fe-btn:focus-visible{outline-offset:4px;}
+  .fe-btn .barr{width:15px;height:15px;flex:none;transition:transform .2s ease;}
+  .fe-btn:hover .barr{transform:translateX(3px);}
   .faq-ed .fq{background:none;border:0;border-top:1px solid #E6E6E6;border-radius:0;padding:0;}
   .faq-ed .fq:last-child{border-bottom:1px solid #E6E6E6;}
-  .faq-ed .fq summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:76px minmax(0,1fr) 52px;align-items:center;gap:0 20px;padding:32px 0;font-family:var(--disp);font-weight:700;font-size:22px;line-height:1.3;letter-spacing:-.01em;color:#111;}
+  .faq-ed .fq summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:56px minmax(0,1fr) 52px;align-items:center;gap:0 20px;padding:32px 0;font-family:var(--disp);font-weight:700;font-size:22px;line-height:1.3;letter-spacing:-.01em;color:#111;}
   .faq-ed .fq summary::-webkit-details-marker{display:none;}
   .fe-n{font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:.08em;color:#A3A3A0;}
   .fe-ic{justify-self:end;width:52px;height:52px;border-radius:50%;border:1.5px solid #D4D4D0;color:#111;display:flex;align-items:center;justify-content:center;transition:transform .3s ease,background-color .3s ease,border-color .3s ease,color .3s ease;}
   .fe-ic svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;}
   .faq-ed .fq summary:hover .fe-ic,.faq-ed .fq summary:focus-visible .fe-ic{border-color:#111;background:#EBEBE8;}
   .faq-ed .fq[open] .fe-ic{transform:rotate(45deg);background:#111;border-color:#111;color:#fff;}
-  .fe-a{padding:0 72px 36px 96px;margin-top:-8px;}
+  .fe-a{padding:0 56px 32px 76px;margin-top:-8px;}
   .faq-ed .fq p{padding:0;font-size:17px;line-height:1.7;color:#6F6F6F;max-width:68ch;}
   .fe-more{margin-top:40px;text-align:center;font-size:16px;line-height:1.8;color:#6F6F6F;}
   .fe-more a,.faq-ed .fq p a{font-family:var(--disp);font-weight:700;color:#111;text-decoration:none;border-bottom:1.5px solid #111;white-space:nowrap;}
+  @media(max-width:900px){
+    .fe-grid{display:block;}
+    .fe-head{padding-top:0;align-items:center;text-align:center;}
+    .fe-head h2{margin-top:20px;font-size:clamp(34px,4.6vw,58px);}
+    .fe-sub{margin-top:18px;font-size:17px;}
+    .fe-list{margin-top:56px;}
+    .fe-ask{position:static;margin-top:40px;}
+  }
   @media(max-width:700px){
     .faq-ed{padding:72px 0 80px;} .fe-list{margin-top:40px;}
     .faq-ed .fq summary{grid-template-columns:30px minmax(0,1fr) 40px;gap:0 12px;padding:22px 0;font-size:17px;}
     .fe-n{font-size:12px;} .fe-ic{width:40px;height:40px;} .fe-a{padding:0 0 24px 42px;margin-top:-4px;} .faq-ed .fq p{font-size:15.5px;}
+    .fe-ask{margin-top:32px;padding:20px 18px 18px;}
   }
+  @media (prefers-reduced-motion: reduce){.fe-ic,.fe-ask .fe-btn,.fe-btn .barr{transition:none;} .fe-btn:hover .barr{transform:none;}}
   .cta{background:var(--blue);color:#fff;border:2px solid var(--ink);border-radius:20px;padding:30px 28px;box-shadow:8px 8px 0 var(--yellow);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
   .cta h2{color:#fff;margin:0;max-width:22ch;font-size:clamp(22px,3vw,30px);}
   .cta p{color:#d8d7ff;font-size:14.5px;margin-top:6px;}
@@ -326,9 +349,9 @@
       <span class="logo-txt">La Goffinerie</span>
     </a>
     <div class="nlinks">
-      <a class="nsvc" href="./#alive"><span data-i18n="nav_alive">Services</span></a>
+      <a class="nsvc" href="./#top"><span data-i18n="nav_alive">Services</span></a>
       <a href="work.html" data-i18n="nav_work">Work</a>
-      <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
+      <a href="./#pricing" data-i18n="nav_pricing">Pricing</a>
       <a href="./#faq" data-i18n="nav_faq">FAQ</a>
     </div>
     <div class="nright">
@@ -336,24 +359,24 @@
         <button id="lang-en" onclick="setLang('en')" aria-pressed="false">EN</button>
         <button id="lang-fr" onclick="setLang('fr')" aria-pressed="false">FR</button>
       </div>
-      <a class="btn primary nquote" href="pricing.html" data-estimator="nav"><svg class="ndoc" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.75h5.2L12.5 5v9.25H4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 1.75V5.2h3.4M6.3 8.4h3.9M6.3 11h3.9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span data-i18n="nav_book">Get a quote</span></a>
+      <a class="btn primary nquote" href="./#pricing" data-estimator="nav"><svg class="ndoc" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.75h5.2L12.5 5v9.25H4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 1.75V5.2h3.4M6.3 8.4h3.9M6.3 11h3.9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span data-i18n="nav_book">Get a quote</span></a>
     </div>
   </div>
 </nav>
 <nav class="bottombar" aria-label="Mobile navigation">
   <a href="tel:+32479487608"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-i18n="nav_call">Call</span></a>
   <a href="work.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg><span data-i18n="nav_work">Work</span></a>
-  <a href="pricing.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 12h20"/></svg><span data-i18n="nav_pricing">Pricing</span></a>
+  <a href="./#pricing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="8" cy="8" r="1.6"/></svg><span data-i18n="nav_pricing">Pricing</span></a>
   <a href="./#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5c-1.7 0-3.3-.5-4.6-1.3L3 20l1.3-4.9A8.5 8.5 0 1 1 21 11.5z"/></svg><span data-i18n="nav_contact">Contact</span></a>
 </nav>
 
 <header class="hero shero" id="main" tabindex="-1">
   <svg class="bigshape" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="50" fill="#E2452C"/></svg>
   <div class="wrap">
-    <div class="crumb"><a href="./#alive" data-i18n="crumb">Our services</a><span aria-hidden="true">/</span><span class="cn">03 <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#E2452C"/></svg></span></div>
+    <div class="crumb"><a href="./#top" data-i18n="crumb">Our services</a><span aria-hidden="true">/</span><span class="cn">03 <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#E2452C"/></svg></span></div>
     <h1 data-i18n="h1">Your website does the admin for you.</h1>
     <p class="sub" data-i18n="intro">It talks to the tools you already use: your calendar, invoicing, CRM, mailbox. AI sums up what matters, and repetitive tasks run on their own.</p>
-    <div class="chip"><span class="tag t-yel" data-i18n="chip_tag">Price</span><span data-i18n="chip">Included in the connected site, from <span data-price="connecte">€3,900</span> excl. VAT. On its own or on an existing site: on quote</span></div>
+    <div class="chip"><span class="tag t-yel" data-i18n="chip_tag">Price</span><span data-i18n="chip">Automations are part of the Custom package, on quote, as are the chatbot, AI tools and the built-in CRM (Odoo)</span></div>
     <div class="ctas">
       <a class="btn primary" href="./?book=1#contact" data-track="svc_book" data-i18n="book">Book my free call</a>
       <button class="btn ghost" type="button" data-estimator="ai-automation" data-estimator-service="auto" data-track="svc_estimate" data-i18n="est">Estimate my project</button>
@@ -394,6 +417,7 @@
 
   <section id="faq" class="faq-ed">
     <div class="wrap">
+     <div class="fe-grid">
       <div class="fe-head rv">
         <span class="fe-label" data-i18n="faq_kick">Before you commit</span>
         <h2 data-i18n="faq_h2">Your questions. Clear answers.</h2>
@@ -404,9 +428,15 @@
       <details class="fq" name="faq-ai-automation" data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">02</span><span class="fe-q" data-i18n="q2">Which tools can you connect the site to?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a2">Your calendar, your invoicing tool, your CRM, your mailbox or a simple spreadsheet. If a tool can share its data, we can plug it in. I confirm it during the free call, before any quote.</p></div></details>
       <details class="fq" name="faq-ai-automation" data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">03</span><span class="fe-q" data-i18n="q3">Can you automate a site I already have?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a3">Yes. I can plug your current site into your tools, or build the automation separately, without touching the site. The price is fixed in writing after the call.</p></div></details>
       <details class="fq" name="faq-ai-automation" data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">04</span><span class="fe-q" data-i18n="q4">What exactly is the morning digest?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a4">A short summary, received every morning, written by AI from your messages and client exchanges: what came in, what is waiting for an answer, what is urgent. In two minutes, you know where to put your energy.</p></div></details>
-      <details class="fq" name="faq-ai-automation" data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">05</span><span class="fe-q" data-i18n="q5">What happens if a tool changes or goes down?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a5">With maintenance, proactive monitoring alerts me and I fix it, with a response within one working day. Without maintenance, I can step in outside the plan, at <span data-price="hourly">€85</span> an hour.</p></div></details>
-      <details class="fq" name="faq-ai-automation" data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">06</span><span class="fe-q" data-i18n="q6">How much does it cost?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a6">Automations are included in the connected site, from <span data-price="connecte">€3,900</span> excl. VAT. To automate an existing site or a single tool, it is on quote, with a price fixed in writing that does not move.</p></div></details>
+      <details class="fq" name="faq-ai-automation" data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">05</span><span class="fe-q" data-i18n="q5">What happens if a tool changes or goes down?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a5">If your package includes monitoring, as Pro does, it alerts me around the clock and I fix it, with a response within one working day. Otherwise, I step in outside the package, at <span data-price="hourly">€85</span> an hour.</p></div></details>
+      <details class="fq" name="faq-ai-automation" data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">06</span><span class="fe-q" data-i18n="q6">How much does it cost?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a6">Automations are part of the Custom package, along with the chatbot, AI tools and leads in a built-in CRM such as Odoo. It is on quote, whether for a new site, an existing site or a single tool, with a price fixed in writing that does not move.</p></div></details>
       </div>
+      <div class="fe-ask rv">
+        <h3 data-i18n="faq_ask_h">Other questions?</h3>
+        <p data-i18n="faq_ask_p">Write to me, I reply personally within one business day.</p>
+        <a class="fe-btn" href="./#contact" data-track="faq_more_contact"><span data-i18n="faq_ask_btn">Ask me a question</span><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+     </div>
     </div>
   </section>
 
@@ -453,7 +483,7 @@ const FR = {
   skip:"Aller au contenu",
   h1:"Votre site fait l'administratif à votre place.",
   intro:"Il parle aux outils que vous utilisez déjà : l'agenda, la facturation, le CRM, la boîte mail. L'IA résume ce qui compte, et les tâches répétitives se font toutes seules.",
-  chip:"Compris dans le site connecté, dès <span data-price=\"connecte\">3 900 €</span> HTVA. Seul ou sur un site existant : sur devis",
+  chip:"Les automatisations font partie de la formule Sur mesure, sur devis, comme le chatbot, les outils IA et le CRM intégré (Odoo)",
   crumb:"Nos services",
   chip_tag:"Prix",
   book:"Réserver mon appel gratuit",
@@ -486,6 +516,9 @@ const FR = {
   faq_kick:"Avant de vous engager",
   faq_h2:"Vos questions. Des réponses claires.",
   faq_sub:"Outils, site existant, digest du matin, pannes et prix.",
+  faq_ask_h:"D'autres questions ?",
+  faq_ask_p:"Écrivez-moi, je réponds personnellement sous un jour ouvrable.",
+  faq_ask_btn:"Me poser une question",
   q1:"Faut-il utiliser Odoo ?",
   a1:"Non. Odoo est un exemple de ce à quoi le site peut se connecter. Ça marche aussi bien avec votre agenda, votre outil de facturation ou un simple tableur, et ça marche sans aucun d'eux.",
   q2:"Avec quels outils pouvez-vous connecter le site ?",
@@ -495,9 +528,9 @@ const FR = {
   q4:"Le digest du matin, c'est quoi exactement ?",
   a4:"Un court résumé, reçu chaque matin, écrit par l'IA à partir de vos messages et de vos échanges clients : ce qui est arrivé, ce qui attend une réponse, ce qui presse. Vous savez en deux minutes où mettre votre énergie.",
   q5:"Que se passe-t-il si un outil change ou tombe en panne ?",
-  a5:"Avec la maintenance, la surveillance proactive m'alerte et je corrige, avec une réponse sous un jour ouvrable. Sans maintenance, je peux intervenir hors forfait, à <span data-price=\"hourly\">85 €</span> de l'heure.",
+  a5:"Si votre formule comprend la surveillance, comme Pro, elle m'alerte 24/7 et je corrige, avec une réponse sous un jour ouvrable. Sinon, j'interviens hors formule, à <span data-price=\"hourly\">85 €</span> de l'heure.",
   q6:"Combien ça coûte ?",
-  a6:"Les automatisations sont comprises dans le site connecté, dès <span data-price=\"connecte\">3 900 €</span> HTVA. Pour automatiser un site existant ou un outil seul, c'est sur devis, avec un prix fixé par écrit qui ne bouge plus.",
+  a6:"Les automatisations font partie de la formule Sur mesure, avec le chatbot, les outils IA et les leads dans un CRM intégré comme Odoo. C'est sur devis, pour un nouveau site, un site existant ou un outil seul, avec un prix fixé par écrit qui ne bouge plus.",
   oth_websites:"Sites web &amp; applications",
   oth_digital_strategy:"Stratégie digitale (SEO &amp; GEO)",
   cta_h:"Dites-moi ce qui mange votre temps.",
