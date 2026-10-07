@@ -77,7 +77,7 @@ try {
   await openHi('');
   // le fond de l'écran passe au papier : la boîte d'une face tombe sur des pixels fractionnaires et le recadrage
   // est arrondi, le pixel de trop est alors couleur papier plutôt que gris ; recadrage à 94 × 54 mm exactement
-  await hi.addStyleTag({ content: 'html,body{background:#faf8f2}' });
+  await hi.addStyleTag({ content: 'html,body{background:#fff}' });
   const W = Math.round(94 * MM), H = Math.round(54 * MM); // 2220 × 1276
   const { PNG } = load('pngjs');
   for (const [i, file] of [['recto.png'], ['verso.png']].map(([f], i) => [i, f])) {
@@ -86,7 +86,7 @@ try {
     // une ligne de fond perdu ; on la recale sur 2220 × 1276 exactement, le pixel manquant est couleur papier
     const shot = PNG.sync.read(await hi.screenshot({ clip: { x: b.x, y: b.y, width: W / (DPI / 96), height: H / (DPI / 96) } }));
     const img = new PNG({ width: W, height: H });
-    for (let p = 0; p < img.data.length; p += 4) img.data.set([0xfa, 0xf8, 0xf2, 0xff], p);
+    for (let p = 0; p < img.data.length; p += 4) img.data.set([0xff, 0xff, 0xff, 0xff], p);
     for (let y = 0; y < Math.min(H, shot.height); y++) {
       const n = Math.min(W, shot.width) * 4;
       img.data.set(shot.data.subarray(y * shot.width * 4, y * shot.width * 4 + n), y * W * 4);
