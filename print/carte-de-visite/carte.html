@@ -9,7 +9,8 @@
   LA GOFFINERIE — carte de visite, source des fichiers d'impression.
   Format fini 90 × 50 mm, fond perdu 2 mm de chaque côté → document 94 × 54 mm.
   Tout le texte et le logo restent à 4 mm au moins de la ligne de coupe (zone de sécurité).
-  Page 1 = recto (marque, accroche, les trois services en bandeau), page 2 = verso (bandeau tricolore à gauche, Simon, contact, QR code).
+  Page 1 = recto (fond encre : marque, accroche, les trois services, le logo en grand coupé par la découpe),
+  page 2 = verso (papier : bandeau tricolore à gauche, Simon, titre en pastille, contacts, QR code en tuile).
   Rendu : node tools/render-business-card.mjs → export/recto.pdf, verso.pdf, carte.pdf (2 pages),
   recto.png, verso.png (600 dpi), apercu.png — le script vérifie aussi que le QR code se lit encore.
   ?guides  affiche la ligne de coupe (pointillés) et la zone de sécurité (rose) ; ?preview  montre les deux faces découpées.
@@ -40,18 +41,20 @@
   @media screen{body{display:flex;flex-direction:column;align-items:flex-start;gap:8mm;padding:8mm;}}
   @media print{html,body{background:var(--paper);}.page{break-after:page;}.page:last-child{break-after:auto;}}
 
-  /* ---- recto ---- */
-  .recto .mark{position:absolute;right:-.6mm;top:46%;width:31mm;height:28.93mm;transform:translateY(-50%);}
-  .recto .word{position:absolute;left:0;top:1.2mm;font-family:var(--disp);font-weight:800;font-size:19.5pt;line-height:1.02;letter-spacing:-.02em;}
-  .recto .tag{position:absolute;left:0;top:20.4mm;font-size:8pt;line-height:1.38;color:var(--ink-2);}
-  .recto .tag b{font-weight:700;color:var(--ink);}
+  /* ---- recto : fond encre, le logo en grand sort de la carte par le bas et par la droite ---- */
+  .recto{background:var(--ink);color:var(--paper);}
+  /* 60 × 56 mm posé à 48 / 7 mm : pointe du triangle à 10 mm du bord, carré et rond coupés par la découpe (8 mm de trop), la page les rogne */
+  .recto .mark{position:absolute;left:48mm;top:7mm;width:60mm;height:56mm;}
+  .recto .word{position:absolute;left:0;top:-.8mm;font-family:var(--disp);font-weight:800;font-size:23pt;line-height:1;letter-spacing:-.025em;}
+  .recto .tag{position:absolute;left:0;top:20mm;font-size:8pt;line-height:1.3;color:#cfccc3;white-space:nowrap;}
+  .recto .tag b{font-weight:700;color:var(--paper);}
   .u{position:relative;display:inline-block;white-space:nowrap;}
   .u svg{position:absolute;left:0;right:0;bottom:-.16em;width:100%;height:.3em;overflow:visible;}
   .u path{fill:none;stroke:var(--red);stroke-width:1.15;stroke-linecap:round;vector-effect:non-scaling-stroke;}
-  /* les trois services, en bandeau sur toute la largeur sous le logo, chacun avec sa forme aux couleurs du site */
-  .recto .svc{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:center;gap:2.5mm;list-style:none;font-family:var(--mono);font-weight:600;font-size:5.1pt;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);white-space:nowrap;}
-  .recto .svc li{display:flex;align-items:center;gap:1.4mm;}
-  .recto .svc svg{width:2mm;height:2mm;flex:none;}
+  /* les trois services, empilés en bas à gauche, chacun avec sa forme aux couleurs du site */
+  .recto .svc{position:absolute;left:0;bottom:0;display:grid;gap:1.5mm;list-style:none;font-family:var(--mono);font-weight:600;font-size:5.6pt;letter-spacing:.06em;text-transform:uppercase;line-height:1.2;white-space:nowrap;}
+  .recto .svc li{display:flex;align-items:center;gap:1.6mm;}
+  .recto .svc svg{width:2.1mm;height:2.1mm;flex:none;}
 
   /* ---- verso ---- */
   /* bandeau tricolore bord à bord sur la gauche : 6 mm dans le document, 4 mm une fois coupé (il va dans le fond perdu) */
@@ -62,14 +65,16 @@
   .verso .band i:nth-child(3){background:var(--red);}
   .verso .face{inset:6mm 6mm 6mm 12mm;} /* 6 mm après le bandeau */
   .verso .who{position:absolute;left:0;top:0;}
-  .verso .name{font-family:var(--disp);font-weight:800;font-size:12.5pt;line-height:1.1;letter-spacing:-.015em;}
-  .verso .role{margin-top:1.7mm;display:flex;align-items:center;gap:1.8mm;font-family:var(--mono);font-weight:600;font-size:5.6pt;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);}
-  .verso .role i{width:4mm;height:.5mm;background:var(--red);}
-  .verso ul{position:absolute;left:0;bottom:-.3mm;list-style:none;display:grid;gap:1.55mm;}
-  .verso li{display:flex;align-items:center;gap:2.2mm;font-size:7.6pt;font-weight:500;line-height:1;white-space:nowrap;}
+  .verso .name{font-family:var(--disp);font-weight:800;font-size:15pt;line-height:1;letter-spacing:-.02em;}
+  /* le titre en pastille, ombre décalée jaune : le motif des boutons du site */
+  .verso .role{display:inline-flex;margin-top:2.6mm;padding:1.2mm 2.6mm 1.1mm;border-radius:999px;background:var(--ink);color:var(--paper);font-family:var(--mono);font-weight:600;font-size:5.6pt;letter-spacing:.14em;text-transform:uppercase;line-height:1;box-shadow:.7mm .7mm 0 var(--yellow);}
+  .verso ul{position:absolute;left:0;bottom:-.3mm;list-style:none;display:grid;gap:1.7mm;}
+  .verso li{display:flex;align-items:center;gap:2.2mm;font-size:7.8pt;font-weight:500;line-height:1;white-space:nowrap;}
   .verso li svg{width:2.3mm;height:2.3mm;flex:none;}
-  /* 29 modules sur 17.5 mm → 0.6 mm par module ; zone de silence de 4 modules (2.4 mm) assurée par le fond autour */
-  .verso .qr{position:absolute;right:0;bottom:0;width:17.5mm;height:17.5mm;}
+  /* le QR dans une tuile bordée, même ombre jaune ; 29 modules sur 17.5 mm → 0.6 mm par module ;
+     la zone de silence (4 modules = 2.4 mm) est le rembourrage de la tuile, en papier */
+  .verso .qr-tile{position:absolute;right:0;bottom:0;padding:2.4mm;background:var(--paper);border:.3mm solid var(--ink);border-radius:1.6mm;box-shadow:.9mm .9mm 0 var(--yellow);}
+  .verso .qr{display:block;width:17.5mm;height:17.5mm;}
 
   /* ---- ?guides : ligne de coupe + zone de sécurité ---- */
   .guides .page::before,.guides .page::after{content:"";position:absolute;pointer-events:none;}
@@ -78,7 +83,7 @@
 
   /* ---- ?preview : les deux faces telles qu'elles sortiront de la découpe ---- */
   html.preview,html.preview body{background:#e7e5df;}
-  .preview body{padding:10mm;gap:10mm;}
+  .preview body{flex-direction:row;align-items:flex-start;padding:10mm;gap:10mm;}
   .preview .page{clip-path:inset(2mm round .6mm);filter:drop-shadow(0 .8mm 1.4mm rgba(0,0,0,.18));}
 </style>
 </head>
@@ -106,10 +111,10 @@
 
 <!-- RECTO -->
 <section class="page recto" aria-label="Recto">
+  <svg class="mark" viewBox="0 0 120 112" aria-hidden="true"><use href="#mark"/></svg>
   <div class="face">
     <div class="word">La<br>Goffinerie</div>
-    <p class="tag">Digital solutions<br>that <span class="u"><b>work for you.</b><svg viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M1 7 Q 25 2, 50 5.5 T 99 4"/></svg></span></p>
-    <svg class="mark" viewBox="0 0 120 112" aria-hidden="true"><use href="#mark"/></svg>
+    <p class="tag">Digital solutions that <span class="u"><b>work for you.</b><svg viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M1 7 Q 25 2, 50 5.5 T 99 4"/></svg></span></p>
     <ul class="svc" aria-label="Services">
       <li><svg viewBox="0 0 10 10" aria-hidden="true"><rect x=".8" y=".8" width="8.4" height="8.4" rx="2.2" fill="#2823EE"/></svg>Web &amp; App development</li>
       <li><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M5 .6 9.6 9.2H.4Z" fill="#EDAF2F"/></svg>Digital Strategy</li>
@@ -124,7 +129,7 @@
   <div class="face">
     <div class="who">
       <p class="name">Simon Goffin</p>
-      <p class="role"><i></i>Administrateur Général</p>
+      <p class="role">Administrateur Général</p>
     </div>
     <ul>
       <li><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M5 .6 9.6 9.2H.4Z" fill="#EDAF2F"/></svg>+32 479 48 76 08</li>
@@ -132,11 +137,11 @@
       <li><svg viewBox="0 0 10 10" aria-hidden="true"><circle cx="5" cy="5" r="4.4" fill="#E2452C"/></svg>lagoffinerie.be</li>
     </ul>
     <!-- QR code → https://lagoffinerie.be (version 3, 29 × 29, correction H), fenêtre centrale 9 × 9 pour le logo -->
-    <svg class="qr" viewBox="0 0 29 29" aria-label="QR code vers lagoffinerie.be">
+    <div class="qr-tile"><svg class="qr" viewBox="0 0 29 29" aria-label="QR code vers lagoffinerie.be">
       <path fill="#151515" shape-rendering="crispEdges" d="M0 0h7v1h-7zM9 0h1v1h-1zM14 0h2v1h-2zM17 0h4v1h-4zM22 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM9 1h1v1h-1zM11 1h1v1h-1zM13 1h1v1h-1zM15 1h1v1h-1zM18 1h3v1h-3zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM9 2h2v1h-2zM14 2h2v1h-2zM22 2h1v1h-1zM24 2h3v1h-3zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h2v1h-2zM11 3h3v1h-3zM15 3h2v1h-2zM18 3h1v1h-1zM22 3h1v1h-1zM24 3h3v1h-3zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM8 4h2v1h-2zM11 4h3v1h-3zM20 4h1v1h-1zM22 4h1v1h-1zM24 4h3v1h-3zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM9 5h1v1h-1zM12 5h1v1h-1zM16 5h1v1h-1zM18 5h1v1h-1zM20 5h1v1h-1zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h7v1h-7zM8 7h2v1h-2zM15 7h4v1h-4zM20 7h1v1h-1zM2 8h2v1h-2zM6 8h1v1h-1zM9 8h2v1h-2zM12 8h3v1h-3zM18 8h1v1h-1zM20 8h3v1h-3zM24 8h2v1h-2zM0 9h2v1h-2zM3 9h1v1h-1zM7 9h5v1h-5zM13 9h2v1h-2zM16 9h3v1h-3zM20 9h2v1h-2zM24 9h2v1h-2zM0 10h5v1h-5zM6 10h3v1h-3zM19 10h2v1h-2zM22 10h2v1h-2zM26 10h2v1h-2zM1 11h2v1h-2zM5 11h1v1h-1zM7 11h3v1h-3zM19 11h1v1h-1zM22 11h1v1h-1zM25 11h2v1h-2zM28 11h1v1h-1zM1 12h2v1h-2zM6 12h2v1h-2zM9 12h1v1h-1zM19 12h1v1h-1zM23 12h1v1h-1zM26 12h1v1h-1zM28 12h1v1h-1zM0 13h1v1h-1zM2 13h2v1h-2zM7 13h1v1h-1zM20 13h1v1h-1zM22 13h3v1h-3zM27 13h1v1h-1zM0 14h1v1h-1zM2 14h1v1h-1zM4 14h1v1h-1zM6 14h2v1h-2zM19 14h1v1h-1zM22 14h4v1h-4zM28 14h1v1h-1zM0 15h1v1h-1zM2 15h1v1h-1zM4 15h2v1h-2zM8 15h2v1h-2zM24 15h1v1h-1zM26 15h2v1h-2zM2 16h2v1h-2zM6 16h1v1h-1zM8 16h2v1h-2zM23 16h1v1h-1zM26 16h3v1h-3zM0 17h2v1h-2zM3 17h1v1h-1zM7 17h1v1h-1zM19 17h1v1h-1zM21 17h3v1h-3zM25 17h1v1h-1zM0 18h1v1h-1zM4 18h1v1h-1zM6 18h2v1h-2zM9 18h1v1h-1zM19 18h1v1h-1zM21 18h1v1h-1zM24 18h3v1h-3zM28 18h1v1h-1zM0 19h3v1h-3zM4 19h1v1h-1zM7 19h3v1h-3zM11 19h2v1h-2zM14 19h1v1h-1zM16 19h3v1h-3zM22 19h3v1h-3zM0 20h1v1h-1zM2 20h2v1h-2zM5 20h3v1h-3zM10 20h1v1h-1zM12 20h1v1h-1zM16 20h3v1h-3zM20 20h5v1h-5zM26 20h1v1h-1zM28 20h1v1h-1zM10 21h1v1h-1zM12 21h1v1h-1zM14 21h2v1h-2zM19 21h2v1h-2zM24 21h1v1h-1zM26 21h2v1h-2zM0 22h7v1h-7zM10 22h1v1h-1zM12 22h2v1h-2zM15 22h1v1h-1zM19 22h2v1h-2zM22 22h1v1h-1zM24 22h1v1h-1zM27 22h1v1h-1zM0 23h1v1h-1zM6 23h1v1h-1zM9 23h3v1h-3zM14 23h1v1h-1zM19 23h2v1h-2zM24 23h3v1h-3zM28 23h1v1h-1zM0 24h1v1h-1zM2 24h3v1h-3zM6 24h1v1h-1zM9 24h1v1h-1zM11 24h1v1h-1zM13 24h1v1h-1zM15 24h1v1h-1zM17 24h8v1h-8zM26 24h3v1h-3zM0 25h1v1h-1zM2 25h3v1h-3zM6 25h1v1h-1zM8 25h2v1h-2zM11 25h2v1h-2zM14 25h3v1h-3zM20 25h2v1h-2zM23 25h1v1h-1zM26 25h2v1h-2zM0 26h1v1h-1zM2 26h3v1h-3zM6 26h1v1h-1zM8 26h2v1h-2zM13 26h1v1h-1zM15 26h1v1h-1zM17 26h6v1h-6zM26 26h2v1h-2zM0 27h1v1h-1zM6 27h1v1h-1zM9 27h1v1h-1zM12 27h1v1h-1zM19 27h1v1h-1zM23 27h1v1h-1zM25 27h2v1h-2zM0 28h7v1h-7zM11 28h1v1h-1zM13 28h2v1h-2zM18 28h3v1h-3zM26 28h2v1h-2z"/>
       <!-- le logo, 7 modules de large, centré dans la fenêtre (le module central est le 14) -->
       <svg x="11" y="11.233" width="7" height="6.533" viewBox="0 0 120 112"><use href="#mark"/></svg>
-    </svg>
+    </svg></div>
   </div>
 </section>
 

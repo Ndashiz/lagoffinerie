@@ -49,7 +49,7 @@ try {
       const f = face.getBoundingClientRect();
       face.querySelectorAll('*').forEach((el) => {
         const r = el.getBoundingClientRect();
-        if (!r.width && !r.height) return;
+        if (!r.width || !r.height) return; // <br>, <defs>… : pas de boîte réelle
         const d = Math.max(f.left - r.left, r.right - f.right, f.top - r.top, r.bottom - f.bottom) / px;
         if (d > 1) out.push(`${['recto', 'verso'][i]} : <${el.tagName.toLowerCase()}${el.classList[0] ? '.' + el.classList[0] : ''}> sort de la zone de sécurité de ${d.toFixed(1)} mm`);
       });
@@ -94,7 +94,10 @@ try {
     writeFileSync(join(out, file), PNG.sync.write(img));
   }
   await openHi('?preview');
-  await hi.screenshot({ path: join(out, 'apercu.png'), fullPage: true });
+  // aperçu recadré sur les deux faces (côte à côte), 10 mm de marge autour pour l'ombre portée
+  const boxes = await Promise.all((await hi.$$('.page')).map((el) => el.boundingBox()));
+  const pad = 10 * 96 / 25.4, x = Math.min(...boxes.map((b) => b.x)) - pad, y = Math.min(...boxes.map((b) => b.y)) - pad;
+  await hi.screenshot({ path: join(out, 'apercu.png'), clip: { x, y, width: Math.max(...boxes.map((b) => b.x + b.width)) + pad - x, height: Math.max(...boxes.map((b) => b.y + b.height)) + pad - y } });
   await ctx.close();
 
   // Lecture du QR code : image 600 dpi, puis réduite (≈ 90 px de côté pour le QR, ce qu'un téléphone voit de loin)
