@@ -112,14 +112,14 @@
   .shot .sbar i{width:10px;height:10px;border-radius:50%;background:var(--red);display:inline-block;}
   .shot .sbar i:nth-child(2){background:var(--yellow);} .shot .sbar i:nth-child(3){background:var(--blue);}
   .shot .sbar span{margin-left:8px;font-family:var(--mono);font-size:11px;color:var(--ink-2);}
-  .shot .frame{aspect-ratio:16/9;overflow:hidden;background:#111;}
-  .shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .7s cubic-bezier(.2,.8,.2,1);}
+  /* every screenshot in the same window shape (the Bravo Reno capture's own 1200×617), full width, anchored on the top of the page */
+  .shot .frame{aspect-ratio:1200/617;overflow:hidden;background:var(--paper-2);}
+  .shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;transform-origin:top center;transition:transform .7s cubic-bezier(.2,.8,.2,1);}
   .case:hover .shot img{transform:scale(1.025);}
   .badge{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--yellow);border-radius:7px;padding:5px 10px;margin-bottom:16px;}
   .c-blue .badge{color:#c9c7ff;} .c-red .badge{color:#ffd2ca;}
   .case h2{font-size:clamp(21px,2.6vw,27px);font-weight:800;line-height:1.2;margin:0;max-width:none;}
   .case .who{margin-top:14px;font-weight:600;}
-  .case .who a{color:var(--ink);text-decoration:none;border-bottom:2px solid var(--blue);}
   .case .who span{display:block;font-size:13.5px;color:var(--ink-2);font-weight:400;}
   .case .right p{font-size:15.5px;color:var(--ink-2);margin-bottom:12px;max-width:none;}
   .case .right p strong{color:var(--ink);}
@@ -179,7 +179,7 @@
       <span class="logo-txt">La Goffinerie</span>
     </a>
     <div class="nlinks">
-      <a href="./#alive" data-i18n="nav_alive">What I build</a>
+      <a class="nsvc" href="./#alive"><span data-i18n="nav_alive">Our services</span></a>
       <a href="work.html" aria-current="page" data-i18n="nav_work">Work</a>
       <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
       <a href="about.html" data-i18n="nav_about">About</a>
@@ -226,11 +226,11 @@
     <!-- ================= BRAVO RENO ================= -->
     <section id="bravoreno">
       <article class="case rv">
-        <div class="shot"><div class="sbar"><i></i><i></i><i></i><span>bravoreno.be</span></div><div class="frame"><img src="assets/work/bravoreno.jpg" alt="The Bravo Reno website, home page" loading="lazy" width="1200" height="617"></div></div>
+        <div class="shot"><div class="sbar"><i></i><i></i><i></i></div><div class="frame"><img src="assets/work/bravoreno.jpg" alt="The Bravo Reno website, home page" data-i18n-alt="b_alt" loading="lazy" width="1200" height="617"></div></div>
         <div class="left">
-          <span class="badge" data-i18n="b_badge">Case study — Electrician</span>
+          <span class="badge" data-i18n="b_badge">Case study · Electrician</span>
           <h2 data-i18n="b_h">A modern site the client runs himself.</h2>
-          <div class="who"><a href="https://bravoreno.be" target="_blank" rel="noopener">Bravo Reno &#8599;&#xFE0E;</a><span data-i18n="b_who">Electrician &amp; locksmith · Wallonia &amp; Brussels</span></div>
+          <div class="who">Bravo Reno<span data-i18n="b_who">Electrician &amp; locksmith · Wallonia &amp; Brussels</span></div>
           <div class="tools">
             <span class="chip">Contentful</span><span class="chip" data-i18n="b_t2">Hosting</span><span class="chip" data-i18n="b_t3">Local SEO</span><span class="chip" data-i18n="b_t4">Automatic leads</span><span class="chip">Google Analytics</span>
           </div>
@@ -252,11 +252,11 @@
     <!-- ================= LAZYSYNDIC ================= -->
     <section id="lazysyndic">
       <article class="case c-blue rv">
-        <div class="shot"><div class="sbar"><i></i><i></i><i></i><span>lazysyndic · demo data</span></div><div class="frame"><img src="assets/work/lazysyndic.jpg?v=15" alt="The LazySyndic dashboard: reserve fund, balances, who pays what" loading="lazy" width="1200" height="750"></div></div>
+        <div class="shot"><div class="sbar"><i></i><i></i><i></i><span data-i18n="l_bar">lazysyndic · demo data</span></div><div class="frame"><img src="assets/work/lazysyndic.jpg?v=15" alt="The LazySyndic dashboard: reserve fund, balances, who pays what" data-i18n-alt="l_alt" loading="lazy" width="1200" height="750"></div></div>
         <div class="left">
-          <span class="badge" data-i18n="l_badge">Case study — Volunteer syndic</span>
+          <span class="badge" data-i18n="l_badge">Case study · Volunteer syndic</span>
           <h2 data-i18n="l_h">The co-ownership on autopilot.</h2>
-          <div class="who"><a href="https://ndashiz.be/lazysyndic/" target="_blank" rel="noopener">LazySyndic &#8599;&#xFE0E;</a><span data-i18n="l_who">Co-ownership management platform · in production</span></div>
+          <div class="who">LazySyndic<span data-i18n="l_who">Co-ownership management platform · in production</span></div>
           <div class="tools">
             <span class="chip" data-i18n="l_t1">Transactions &amp; categories</span><span class="chip" data-i18n="l_t2">Financial reports</span><span class="chip" data-i18n="l_t3">Meeting invitations</span><span class="chip" data-i18n="l_t4">E-signature</span>
           </div>
@@ -279,11 +279,11 @@
     <section id="henry">
       <span id="jarvis" aria-hidden="true"></span>
       <article class="case rv">
-        <div class="shot"><div class="sbar"><i></i><i></i><i></i><span>henry · demo data</span></div><div class="frame"><img src="assets/work/henry.jpg" alt="The Henry module: portfolio value, performance curve against the market and breakdown by asset class" loading="lazy" width="1200" height="750"></div></div>
+        <div class="shot"><div class="sbar"><i></i><i></i><i></i><span data-i18n="hy_bar">henry · demo data</span></div><div class="frame"><img src="assets/work/henry.jpg" alt="The Henry module: portfolio value, performance curve against the market and breakdown by asset class" data-i18n-alt="hy_alt" loading="lazy" width="1200" height="750"></div></div>
         <div class="left">
-          <span class="badge" data-i18n="hy_badge">Case study — Investor</span>
+          <span class="badge" data-i18n="hy_badge">Case study · Investor</span>
           <h2 data-i18n="hy_h">All his investments, in a single view.</h2>
-          <div class="who"><span class="nolink">Henry</span><span data-i18n="hy_who">Portfolio tracking module · several platforms, one interface</span></div>
+          <div class="who">Henry<span data-i18n="hy_who">Portfolio tracking module · several platforms, one interface</span></div>
           <div class="tools">
             <span class="chip" data-i18n="hy_t1">Consolidated view</span><span class="chip" data-i18n="hy_t2">Daily report</span><span class="chip" data-i18n="hy_t3">Automatic history</span><span class="chip" data-i18n="hy_t4">Financial news</span>
           </div>
@@ -305,11 +305,11 @@
     <!-- ================= SCRUM POKER ================= -->
     <section id="scrumpoker">
       <article class="case c-red rv">
-        <div class="shot"><div class="sbar"><i></i><i></i><i></i><span>ndashiz.be/scrumpoker</span></div><div class="frame"><img src="assets/work/scrumpoker.jpg" alt="Scrum Poker: create a session or join with a session ID" loading="lazy" width="1200" height="750"></div></div>
+        <div class="shot"><div class="sbar"><i></i><i></i><i></i></div><div class="frame"><img src="assets/work/scrumpoker.jpg" alt="Scrum Poker: create a session or join with a session ID" data-i18n-alt="s_alt" loading="lazy" width="1200" height="750"></div></div>
         <div class="left">
-          <span class="badge" data-i18n="s_badge">Case study — IT company</span>
+          <span class="badge" data-i18n="s_badge">Case study · IT company</span>
           <h2 data-i18n="s_h">Team estimation, turned into a game.</h2>
-          <div class="who"><a href="https://ndashiz.be/scrumpoker/" target="_blank" rel="noopener">Scrum Poker &#8599;&#xFE0E;</a><span data-i18n="s_who">Estimation tool for the team of an IT company</span></div>
+          <div class="who">Scrum Poker<span data-i18n="s_who">Estimation tool for the team of an IT company</span></div>
           <div class="tools">
             <span class="chip" data-i18n="s_t1">Scrum Poker</span><span class="chip" data-i18n="s_t2">Fibonacci sequence</span><span class="chip" data-i18n="s_t3">Shared estimates</span><span class="chip" data-i18n="s_t4">Score history</span>
           </div>
@@ -332,11 +332,11 @@
     <!-- ================= VIRTUAL COFFEE ================= -->
     <section id="virtualcoffee">
       <article class="case c-blue rv">
-        <div class="shot"><div class="sbar"><i></i><i></i><i></i><span>ndashiz.be/virtualcoffee</span></div><div class="frame"><img src="assets/work/virtualcoffee.jpg" alt="Virtual Coffee: a 3D café where Simon sits at a table with his résumé" loading="lazy" width="1200" height="630"></div></div>
+        <div class="shot"><div class="sbar"><i></i><i></i><i></i></div><div class="frame"><img src="assets/work/virtualcoffee.jpg" alt="Virtual Coffee: a 3D café where Simon sits at a table with his résumé" data-i18n-alt="v_alt" loading="lazy" width="1200" height="630"></div></div>
         <div class="left">
-          <span class="badge" data-i18n="v_badge">Side project — 3D experience</span>
+          <span class="badge" data-i18n="v_badge">Side project · 3D experience</span>
           <h2 data-i18n="v_h">An interactive 3D résumé, with a voice.</h2>
-          <div class="who"><a href="https://ndashiz.be/virtualcoffee/" target="_blank" rel="noopener">Virtual Coffee &#8599;&#xFE0E;</a><span data-i18n="v_who">My résumé as a café you walk into</span></div>
+          <div class="who">Virtual Coffee<span data-i18n="v_who">My résumé as a café you walk into</span></div>
           <div class="tools">
             <span class="chip">Three.js</span><span class="chip" data-i18n="v_t2">3D in the browser</span><span class="chip" data-i18n="v_t3">Voice</span><span class="chip" data-i18n="v_t4">One-finger controls</span>
           </div>
@@ -385,11 +385,12 @@
 const FR = {
   title:"Réalisations — La Goffinerie",
   skip:"Aller au contenu",
-  nav_alive:"Ce que je fais", nav_work:"Réalisations", nav_pricing:"Tarifs", nav_about:"À propos", nav_faq:"FAQ", nav_book:"Appel gratuit", nav_call:"Appeler", nav_contact:"Contact",
+  nav_alive:"Nos services", nav_work:"Réalisations", nav_pricing:"Tarifs", nav_about:"À propos", nav_faq:"FAQ", nav_book:"Appel gratuit", nav_call:"Appeler", nav_contact:"Contact",
   kick:"Ils nous font confiance",
   h1:"Du vrai travail, pour de vraies entreprises.",
   sub:"Pas des maquettes : des sites et des outils qui tournent chaque jour. Les voici, un par un, en commençant par un client.",
-  b_badge:"Étude de cas — Électricien",
+  b_badge:"Étude de cas · Électricien",
+  b_alt:"Le site Bravo Reno, page d'accueil",
   b_h:"Un site moderne, que le client gère lui-même.",
   b_who:"Électricien &amp; serrurier · Wallonie &amp; Bruxelles",
   b_t2:"Hébergement", b_t3:"SEO local", b_t4:"Leads automatiques",
@@ -400,7 +401,9 @@ const FR = {
   b_f3h:"Une campagne SEO locale", b_f3p:"Une campagne de référencement naturel pour améliorer la visibilité du site dans la région de Huy et ses alentours.",
   b_f4h:"La gestion des demandes de contact", b_f4p:"Lorsqu'un visiteur utilise le formulaire de contact, le client reçoit automatiquement un e-mail et un lead est créé automatiquement, ce qui facilite le suivi des prospects.",
   b_f5h:"Google Analytics", b_f5p:"Le site est équipé d'outils d'analyse permettant de suivre les interactions des visiteurs, leur comportement et les performances des différentes pages.",
-  l_badge:"Étude de cas — Syndic bénévole",
+  l_badge:"Étude de cas · Syndic bénévole",
+  l_bar:"lazysyndic · données de démonstration",
+  l_alt:"Le tableau de bord LazySyndic : fonds de réserve, soldes, qui paie quoi",
   l_h:"La copropriété en pilote automatique.",
   l_who:"Plateforme de gestion de copropriété · en production",
   l_t1:"Transactions &amp; catégories", l_t2:"Rapports financiers", l_t3:"Convocations d'AG", l_t4:"Signature électronique",
@@ -410,7 +413,9 @@ const FR = {
   l_f2h:"Générer automatiquement des rapports financiers", l_f2p:"Création de rapports récapitulant l'ensemble des transactions, avec notamment le détail des soldes des différents comptes de la copropriété, afin de permettre aux copropriétaires d'avoir une vision claire de la situation financière.",
   l_f3h:"Automatiser les invitations aux assemblées générales", l_f3p:"Envoi automatique des convocations aux assemblées générales (AG), afin de simplifier leur organisation et d'éviter les oublis.",
   l_f4h:"Centraliser les décisions et conclusions des AG", l_f4p:"Enregistrement des conclusions et décisions prises lors des assemblées générales, avec intégration d'un outil de signature électronique permettant de faire signer les documents directement en ligne.",
-  hy_badge:"Étude de cas — Investisseur",
+  hy_badge:"Étude de cas · Investisseur",
+  hy_bar:"henry · données de démonstration",
+  hy_alt:"Le module Henry : valeur du portefeuille, courbe de performance face au marché et répartition par classe d'actifs",
   hy_h:"Tous ses placements, dans une seule vue.",
   hy_who:"Module de suivi de portefeuille · plusieurs plateformes, une seule interface",
   hy_t1:"Vue consolidée", hy_t2:"Rapport quotidien", hy_t3:"Historique automatique", hy_t4:"Actualité financière",
@@ -421,7 +426,8 @@ const FR = {
   hy_f1h:"Recevoir un rapport quotidien personnalisé", hy_f1p:"Chaque matin, le client reçoit automatiquement un rapport lui présentant les principales variations de son portefeuille.",
   hy_f2h:"Automatiser le suivi de l'historique", hy_f2p:"Les opérations d'achat et de vente sont automatiquement récupérées afin de maintenir un historique complet et à jour du portefeuille.",
   hy_f3h:"Intégrer l'actualité financière", hy_f3p:"Une intégration avec Yahoo permet de récupérer les actualités pertinentes liées aux actifs détenus dans le portefeuille et de les inclure dans le rapport quotidien.",
-  s_badge:"Étude de cas — PME informatique",
+  s_badge:"Étude de cas · PME informatique",
+  s_alt:"Scrum Poker : créer une session ou rejoindre avec un identifiant",
   s_h:"L'estimation d'équipe, transformée en jeu.",
   s_who:"Outil d'estimation pour l'équipe d'une PME informatique",
   s_t1:"Poker Scrum", s_t2:"Suite de Fibonacci", s_t3:"Estimations partagées", s_t4:"Historique des scores",
@@ -433,7 +439,8 @@ const FR = {
   s_s2v:"Ensemble", s_s2k:"Les estimations comparées pour s'accorder",
   s_s3v:"Historique", s_s3k:"Les scores des estimations précédentes",
   s_s4v:"Équipe", s_s4k:"Chacun consulte les estimations des autres",
-  v_badge:"Projet perso — Expérience 3D",
+  v_badge:"Projet perso · Expérience 3D",
+  v_alt:"Virtual Coffee : un café en 3D où Simon est assis à une table avec son CV",
   v_h:"Un CV interactif en 3D, avec une voix.",
   v_who:"Mon CV sous forme de café dans lequel on entre",
   v_t2:"3D dans le navigateur", v_t3:"Voix", v_t4:"Contrôle à un doigt",
@@ -450,12 +457,14 @@ const FR = {
 };
 const EN_TITLE=document.title, EN={};
 document.querySelectorAll('[data-i18n]').forEach(el=>{ EN[el.getAttribute('data-i18n')]=el.innerHTML; });
+document.querySelectorAll('[data-i18n-alt]').forEach(el=>{ EN[el.getAttribute('data-i18n-alt')]=el.getAttribute('alt'); });
 let LANG='en';
 function setLang(l){
   LANG=(l==='fr')?'fr':'en';
   document.documentElement.lang=LANG;
   document.title=(LANG==='fr')?FR.title:EN_TITLE;
   document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.getAttribute('data-i18n'); el.innerHTML=(LANG==='fr'&&FR[k]!==undefined)?FR[k]:EN[k]; });
+  document.querySelectorAll('[data-i18n-alt]').forEach(el=>{ const k=el.getAttribute('data-i18n-alt'); el.setAttribute('alt',(LANG==='fr'&&FR[k]!==undefined)?FR[k]:EN[k]); });
   document.getElementById('lang-en').classList.toggle('active',LANG==='en');
   document.getElementById('lang-fr').classList.toggle('active',LANG==='fr');
   document.getElementById('lang-en').setAttribute('aria-pressed', String(LANG==='en'));
@@ -474,6 +483,7 @@ const rvObs=new IntersectionObserver(es=>{ es.forEach(en=>{ if(en.isIntersecting
 document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
 addEventListener('scroll',()=>{ document.documentElement.classList.toggle('scrolled', scrollY>8); },{passive:true});
 </script>
+<script src="nav.js" defer></script>
 <script src="site-state.js" defer></script>
 </body>
 </html>

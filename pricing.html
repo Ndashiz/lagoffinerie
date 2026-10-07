@@ -147,6 +147,35 @@
   .ad p{font-size:15px;color:var(--ink-2);}
   .ad p b{font-family:var(--disp);font-weight:700;color:var(--ink);white-space:nowrap;}
   .ad-note{margin-top:14px;font-size:13.5px;color:var(--ink-2);}
+  /* ---------- plans: a white card (name, price, button) on a grey tray listing what the plan adds ---------- */
+  .pr-head{display:flex;flex-direction:column;align-items:center;text-align:center;}
+  .pr-pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px 7px 10px;border:1.5px solid #15151533;border-radius:999px;background:#fff;box-shadow:3px 3px 0 #15151514;font-family:var(--disp);font-weight:600;font-size:13px;}
+  .pr-pill svg{width:19px;height:18px;}
+  .pr-head h2{margin-top:16px;}
+  .pr-head .sub{margin-top:14px;max-width:58ch;}
+  .tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:44px;align-items:stretch;}
+  @media(max-width:900px){.tiers{grid-template-columns:1fr;}}
+  .tier{background:var(--paper-2);border:1.5px solid #15151526;border-radius:24px;padding:8px;display:flex;flex-direction:column;}
+  .tier-top{background:#fff;border:2px solid var(--ink);border-radius:18px;padding:24px 22px 22px;box-shadow:5px 5px 0 #15151522;display:flex;flex-direction:column;}
+  .tier.is-blue .tier-top{box-shadow:6px 6px 0 var(--blue);}
+  .tier-top h3{font-size:24px;font-weight:800;line-height:1.2;}
+  .tier-top p{margin-top:8px;min-height:47px;font-size:15px;line-height:1.55;color:var(--ink-2);}
+  .tp{margin-top:18px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;font-size:14px;color:var(--ink-2);}
+  .tp b{font-family:var(--disp);font-weight:800;font-size:clamp(28px,2.6vw,36px);white-space:nowrap;line-height:1.05;letter-spacing:-.02em;color:var(--ink);}
+  .tbtn{margin-top:20px;justify-content:center;width:100%;min-height:50px;padding:0 14px;text-align:center;}
+  .tbtn:not(.primary){background:#fff;color:var(--ink);box-shadow:4px 4px 0 #15151522;}
+  .tbtn:not(.primary):hover{box-shadow:7px 7px 0 #15151544;}
+  .tier-body{padding:22px 16px 18px;}
+  .tlab{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);}
+  .tier-body ul{list-style:none;margin-top:16px;display:grid;gap:13px;}
+  .tier-body li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;line-height:1.45;}
+  .tk{flex:none;width:24px;height:24px;border-radius:50%;background:var(--ink);display:inline-flex;align-items:center;justify-content:center;}
+  .tk svg{width:14px;height:14px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;}
+  .tiers .tier.rv:nth-child(2){transition-delay:.1s} .tiers .tier.rv:nth-child(3){transition-delay:.2s}
+  .pr-foot{margin-top:30px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;}
+  .pr-unsure{font-size:15.5px;color:var(--ink);}
+  .pr-unsure a{font-family:var(--disp);font-weight:700;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--blue);}
+  .pr-foot .pr-note{margin:0;font-size:14px;color:var(--ink-2);max-width:66ch;}
   .incl{margin-top:34px;background:#fff;border:2px solid var(--ink);border-radius:20px;padding:26px 28px;box-shadow:8px 8px 0 var(--blue);}
   .incl h3{font-size:19px;font-weight:800;margin-bottom:14px;}
   .incl ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;}
@@ -285,8 +314,12 @@
   .cta h2{color:#fff;margin:0;max-width:22ch;font-size:clamp(22px,3vw,30px);}
   .cta p{color:#d8d7ff;font-size:14.5px;margin-top:6px;}
   .cta .btn{background:var(--yellow);border-color:var(--ink);color:var(--ink);box-shadow:5px 5px 0 rgba(0,0,0,.35);}
-  .cta .reach{flex-basis:100%;font-size:14px;color:#d8d7ff;}
-  .cta .reach a{color:#fff;font-family:var(--disp);font-weight:700;text-decoration:none;border-bottom:2px solid var(--yellow);white-space:nowrap;}
+  .cta .reach{flex-basis:100%;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px;color:#d8d7ff;}
+  .cta .reach > span{margin-right:4px;}
+  .ricon{width:44px;height:44px;border-radius:50%;background:#fff;border:2px solid var(--ink);display:inline-flex;align-items:center;justify-content:center;box-shadow:3px 3px 0 rgba(0,0,0,.3);text-decoration:none;transition:transform .15s ease;}
+  .ricon:hover{transform:translate(-1px,-1px);}
+  .ricon svg{width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .ricon .li{font-family:Arial,sans-serif;font-weight:700;font-size:18px;line-height:1;color:#0a66c2;}
   .faqlink{margin-top:26px;font-size:15px;color:var(--ink-2);}
   .faqlink a{font-family:var(--disp);font-weight:700;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--blue);}
 
@@ -345,7 +378,7 @@
       <span class="logo-txt">La Goffinerie</span>
     </a>
     <div class="nlinks">
-      <a href="./#alive" data-i18n="nav_alive">What I build</a>
+      <a class="nsvc" href="./#alive"><span data-i18n="nav_alive">Our services</span></a>
       <a href="work.html" data-i18n="nav_work">Work</a>
       <a href="pricing.html" aria-current="page" data-i18n="nav_pricing">Pricing</a>
       <a href="about.html" data-i18n="nav_about">About</a>
@@ -388,42 +421,61 @@
   <!-- ================= PLANS ================= -->
   <section id="pricing">
     <div class="wrap">
-      <div class="kick rv" data-i18n="pr_kick">What it costs</div>
-      <h2 class="rv" data-i18n="pr_h2">Three starting points.</h2>
-      <p class="sub rv" data-i18n="pr_sub">Each plan is a starting point: we refine it together on the call, then I give you one fixed price, in writing.</p>
-      <div class="plans">
-        <div class="plan rv">
-          <div class="pn" data-i18n="pl1_n">Showcase site</div>
-          <div class="pp"><span data-i18n="from">from</span> <b data-price="vitrine">€1,950</b> <span data-i18n="vat">excl. VAT</span></div>
-          <p data-i18n="pl1_p">A clean, fast site that brings enquiries: up to five pages, contact form, mobile-first, legal pages, technical SEO basics, and every access handed over with a short guide.</p>
+      <div class="pr-head rv">
+        <span class="pr-pill"><svg viewBox="0 0 120 112" aria-hidden="true" style="isolation:isolate"><path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="#E2452C" style="mix-blend-mode:multiply"/></svg><span data-i18n="pr_kick">What it costs</span></span>
+        <h2 data-i18n="pr_h2">Three starting points.</h2>
+        <p class="sub" data-i18n="pr_sub">Each plan is a starting point: we refine it together on the call, then I give you one fixed price, in writing.</p>
+      </div>
+      <div class="tiers">
+        <div class="tier rv">
+          <div class="tier-top">
+            <h3 data-i18n="t1_n">Showcase site</h3>
+            <p data-i18n="t1_l">A clean, fast site that brings enquiries.</p>
+            <div class="tp"><span data-i18n="from">from</span> <b data-price="vitrine">€1,950</b> <span data-i18n="vat">excl. VAT</span></div>
+            <button class="btn tbtn" type="button" data-estimator="pricing" data-i18n="est_btn">Estimate my project</button>
+          </div>
+          <div class="tier-body">
+            <div class="tlab" data-i18n="t1_lab">What's included</div>
+            <ul><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t1_i1">Up to five pages</span></li><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t1_i2">A contact form</span></li><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t1_i3">Designed for phones first</span></li><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t1_i4">Legal pages done</span></li><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t1_i5">Technical SEO basics</span></li><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t1_i6">Every access, with a short guide</span></li></ul>
+          </div>
         </div>
-        <div class="plan rv">
-          <div class="pn" data-i18n="pl2_n">Connected site</div>
-          <div class="pp"><span data-i18n="from">from</span> <b data-price="connecte">€3,900</b> <span data-i18n="vat">excl. VAT</span></div>
-          <p data-i18n="pl2_p">Everything in the showcase site, plus integrations and automations that work for you: calendar booking, automatic invoicing, your CRM, a morning digest, a private dashboard. Training included.</p>
+        <div class="tier is-blue rv">
+          <div class="tier-top">
+            <h3 data-i18n="t2_n">Connected site</h3>
+            <p data-i18n="t2_l">The showcase site, plugged into your tools to work for you.</p>
+            <div class="tp"><span data-i18n="from">from</span> <b data-price="connecte">€3,900</b> <span data-i18n="vat">excl. VAT</span></div>
+            <button class="btn primary tbtn" type="button" data-estimator="pricing" data-i18n="est_btn">Estimate my project</button>
+          </div>
+          <div class="tier-body">
+            <div class="tlab" data-i18n="t2_lab">Everything in the showcase site, plus</div>
+            <ul><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t2_i1">Online calendar booking</span></li><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t2_i2">Automatic invoicing</span></li><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t2_i3">Plugged into your CRM</span></li><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t2_i4">A morning digest</span></li><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t2_i5">A private dashboard</span></li><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t2_i6">Training to use and change it</span></li></ul>
+          </div>
         </div>
-        <div class="plan rv">
-          <div class="pn" data-i18n="pl3_n">Tailor-made</div>
-          <div class="pq" data-i18n="pl3_price">On quote</div>
-          <p data-i18n="pl3_p">Applications, internal tools, AI automations, several sites. Always one fixed price, in writing, before anything starts.</p>
+        <div class="tier rv">
+          <div class="tier-top">
+            <h3 data-i18n="t3_n">Tailor-made</h3>
+            <p data-i18n="t3_l">A tool built around the way you work.</p>
+            <div class="tp"><b data-i18n="pl3_price">On quote</b> <span data-i18n="t3_fixed">fixed price, in writing</span></div>
+            <a class="btn tbtn" href="./?book=1#contact" data-i18n="book_btn">Book my free call</a>
+          </div>
+          <div class="tier-body">
+            <div class="tlab" data-i18n="t3_lab">Everything in the connected site, plus</div>
+            <ul><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t3_i1">Apps</span></li><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t3_i2">Internal tools</span></li><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t3_i3">AI automations</span></li><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t3_i4">Several sites</span></li><li><span class="tk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span><span data-i18n="t3_i5">Scoping together, then a fixed price</span></li></ul>
+          </div>
         </div>
       </div>
-      <div class="pr-ctas rv">
-        <button class="btn primary" type="button" data-estimator="pricing" data-i18n="est_btn">Estimate my project</button>
-        <a class="btn ghost" href="./?book=1#contact" data-i18n="book_btn">Book my free call</a>
-        <p data-i18n="est_note">Two minutes, five questions, and an indicative range right on screen.</p>
-      </div>
-      <p class="pr-note rv" data-i18n="pr_note">No licence, no per-user fee. Hosting and maintenance are optional: you can run everything yourself.</p>
       <div class="incl rv">
-        <h3 data-i18n="inc_h">Every project includes</h3>
+        <h3 data-i18n="all_h">In all three plans</h3>
         <ul>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="inc1">Designed for phones first, fast on every screen</span></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="inc2">A written scope and a fixed price before anything starts</span></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="inc3">Legal pages done: notice, privacy, cookies</span></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="inc4">Training to use it, and to change it yourself</span></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="inc5">Documentation and every access handed over: it is yours</span></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="inc6">5 hours of maintenance included, to use within 3 months of delivery · Defects fixed free for 6 months.</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="all1">A written scope and a fixed price before anything starts</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="all2">Documentation and every access handed over: it is yours</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="all3">5 hours of maintenance included, to use within 3 months</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span data-i18n="all4">Defects fixed free for 6 months</span></li>
         </ul>
+      </div>
+      <div class="pr-foot rv">
+        <p class="pr-unsure" data-i18n="unsure">Not sure which plan? <a href="#estimate" data-estimator="pricing">Estimate your project in two minutes →</a></p>
+        <p class="pr-note" data-i18n="pr_note">No licence, no per-user fee. Hosting and maintenance are optional: you can run everything yourself.</p>
       </div>
     </div>
   </section>
@@ -491,11 +543,11 @@
   <section id="ownit">
     <div class="wrap">
       <div class="kick rv" data-i18n="own_kick">The Goffinerie way</div>
-      <h2 class="rv" data-i18n="own_h2">Nothing more, nothing less — and it's yours.</h2>
+      <h2 class="rv" data-i18n="own_h2">Nothing more, nothing less. And it's yours.</h2>
       <div class="pillars">
-        <div class="pillar rv"><span class="n" data-i18n="p1_n">01 — Exactly what you need</span><h3 data-i18n="p1_h">One solution, built around you</h3><p data-i18n="p1_p">I design around how <em>you</em> work — one place for everything, no switching between apps, no features you didn't ask for.</p></div>
-        <div class="pillar rv"><span class="n" data-i18n="p2_n">02 — Yours, with or without maintenance</span><h3 data-i18n="p2_h">The site is yours. Maintenance, if you want it.</h3><p data-i18n="p2_p">One fixed price, agreed before I build. After delivery, you run the site yourself, or you hand it to me for a monthly fee you can cancel.</p></div>
-        <div class="pillar rv"><span class="n" data-i18n="p3_n">03 — Do it together → do it yourself</span><h3 data-i18n="p3_h">I hand you the keys</h3><p data-i18n="p3_p">We frame and build the solution together. Step by step, you take over — until you're the one able to use, run, and even change it yourself with AI tools.</p></div>
+        <div class="pillar rv"><span class="n" data-i18n="p1_n">01 · Exactly what you need</span><h3 data-i18n="p1_h">One solution, built around you</h3><p data-i18n="p1_p">I design around how <em>you</em> work: one place for everything, no switching between apps, no features you didn't ask for.</p></div>
+        <div class="pillar rv"><span class="n" data-i18n="p2_n">02 · Yours, with or without maintenance</span><h3 data-i18n="p2_h">The site is yours. Maintenance, if you want it.</h3><p data-i18n="p2_p">One fixed price, agreed before I build. After delivery, you run the site yourself, or you hand it to me for a monthly fee you can cancel.</p></div>
+        <div class="pillar rv"><span class="n" data-i18n="p3_n">03 · Do it together → do it yourself</span><h3 data-i18n="p3_h">I hand you the keys</h3><p data-i18n="p3_p">We frame and build the solution together. Step by step, you take over, until you're the one able to use, run, and even change it yourself with AI tools.</p></div>
       </div>
     </div>
   </section>
@@ -505,7 +557,7 @@
     <div class="wrap">
       <div class="kick rv" data-i18n="proc_kick">How it works</div>
       <h2 class="rv" data-i18n="proc_h2">Transparent from the first meeting to the handover.</h2>
-      <p class="sub rv" data-i18n="proc_sub">You validate every step. You see everything. And you test the solution yourself — so by delivery day, you already know how to run it.</p>
+      <p class="sub rv" data-i18n="proc_sub">You validate every step. You see everything. And you test the solution yourself: by delivery day, you already know how to run it.</p>
       <svg width="0" height="0" style="position:absolute" aria-hidden="true">
         <symbol id="gi-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3.5"/><circle cx="16.5" cy="9" r="3"/><path d="M2 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><path d="M15 15c3 0 5.5 2.2 5.5 5"/></symbol>
         <symbol id="gi-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 14l2 2 4-4"/></symbol>
@@ -532,10 +584,10 @@
             <div class="fx-steps" aria-live="polite">
             <div class="step on" data-step="1"><h3 data-i18n="st1_h">We meet</h3><p data-i18n="st1_p">A free introduction call to understand your needs and how you work today.</p></div>
             <div class="step" data-step="2"><h3 data-i18n="st2_h">We agree on the plan <span class="flag">You validate</span></h3><p data-i18n="st2_p">I propose an approach, define exactly what will be delivered, and give you one fixed price. Nothing starts without your green light.</p></div>
-            <div class="step" data-step="3"><h3 data-i18n="st3_h">We design</h3><p data-i18n="st3_p">Full architecture and documentation — the blueprint we both work from.</p></div>
-            <div class="step" data-step="4"><h3 data-i18n="st4_h">We build, in the open</h3><p data-i18n="st4_p">You see progress throughout. Along the way, I train you to use — and change — what's being built.</p></div>
+            <div class="step" data-step="3"><h3 data-i18n="st3_h">We design</h3><p data-i18n="st3_p">Full architecture and documentation: the blueprint we both work from.</p></div>
+            <div class="step" data-step="4"><h3 data-i18n="st4_h">We build, in the open</h3><p data-i18n="st4_p">You see progress throughout. Along the way, I train you to use and change what's being built.</p></div>
             <div class="step" data-step="5"><h3 data-i18n="st5_h">You test it</h3><p data-i18n="st5_p">You use the solution on real work before delivery. What doesn't fit gets fixed.</p></div>
-            <div class="step" data-step="6"><h3 data-i18n="st6_h">Delivery &amp; handover</h3><p data-i18n="st6_p">It's yours — code, data, and the keys. You can run it, and with AI tools, even change it yourself.</p></div>
+            <div class="step" data-step="6"><h3 data-i18n="st6_h">Delivery &amp; handover</h3><p data-i18n="st6_p">It's yours: the code, the data and the keys. You can run it, and with AI tools, even change it yourself.</p></div>
             </div>
             <div class="fx-timer"><span><i></i></span></div>
           </div>
@@ -609,11 +661,11 @@
     <div class="wrap">
       <div class="kick rv" data-i18n="trust_kick">What you can count on</div>
       <h2 class="rv" data-i18n="trust_h2">The discipline of six years in demanding environments.</h2>
-      <p class="trust-intro rv" data-i18n="trust_intro">AI makes me fast — but fast is worthless if your site goes down on a Saturday or leaks your client list. Every build inherits the habits I learned shipping digital solutions for <strong>major actors across Belgium</strong>:</p>
+      <p class="trust-intro rv" data-i18n="trust_intro">AI makes me fast, but fast is worthless if your site goes down on a Saturday or leaks your client list. Every build inherits the habits I learned shipping digital solutions for <strong>major actors across Belgium</strong>:</p>
       <div class="grid">
         <div class="card rv"><span class="tag t-blue" data-i18n="t1_tag">Reliability</span><h3 data-i18n="t1_h">Built to stay up</h3><p data-i18n="t1_p">With maintenance, it is monitored and updated for you.</p></div>
         <div class="card rv"><span class="tag t-red" data-i18n="t2_tag">Security</span><h3 data-i18n="t2_h">Protected against common attacks</h3><p data-i18n="t2_p">HTTPS everywhere, and protection against the spam bots and attacks that target small-business sites every day.</p></div>
-        <div class="card rv"><span class="tag t-yel" data-i18n="t3_tag">Your data</span><h3 data-i18n="t3_h">Database locked &amp; backed up</h3><p data-i18n="t3_p">Client data stored in a secured database, with an automated backup solution as an option — so one incident never means starting from zero.</p></div>
+        <div class="card rv"><span class="tag t-yel" data-i18n="t3_tag">Your data</span><h3 data-i18n="t3_h">Database locked &amp; backed up</h3><p data-i18n="t3_p">Client data stored in a secured database, with an automated backup solution as an option, so one incident never means starting from zero.</p></div>
         <div class="card rv"><span class="tag t-blue" data-i18n="t4_tag">Discipline</span><h3 data-i18n="t4_h">Bank-grade delivery habits</h3><p data-i18n="t4_p">Documented, tested, and handed over properly. The same standards I apply leading delivery teams in the financial sector.</p></div>
       </div>
     </div>
@@ -628,7 +680,11 @@
           <p data-i18n="cta_p">A free 30-minute call, no obligation. The exact price follows right after, in writing.</p>
         </div>
         <a class="btn" href="./#contact" data-i18n="cta_btn">Book my free call</a>
-        <p class="reach"><span data-i18n="cta_reach">Or reach me directly:</span> <a href="tel:+32479487608">+32 479 48 76 08</a> · <a href="https://wa.me/32479487608" target="_blank" rel="noopener">WhatsApp</a> · <a href="https://www.linkedin.com/in/ndashiz/" target="_blank" rel="noopener">LinkedIn</a></p>
+        <div class="reach"><span data-i18n="cta_reach">Or reach me directly</span>
+          <a class="ricon" href="tel:+32479487608" aria-label="Call +32 479 48 76 08" data-i18n-aria="r_call"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></a>
+          <a class="ricon" href="mailto:info@lagoffinerie.be" aria-label="E-mail info@lagoffinerie.be" data-i18n-aria="r_mail"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
+          <a class="ricon" href="https://www.linkedin.com/in/ndashiz/" target="_blank" rel="noopener" aria-label="Simon Goffin on LinkedIn" data-i18n-aria="r_li"><span class="li" aria-hidden="true">in</span></a>
+        </div>
       </div>
       <p class="faqlink rv"><span data-i18n="faq_more">More questions?</span> <a href="./#faq" data-i18n="faq_link">Read the FAQ →</a></p>
     </div>
@@ -656,7 +712,7 @@
 const FR = {
   title:"Tarifs & méthode — La Goffinerie",
   skip:"Aller au contenu",
-  nav_alive:"Ce que je fais", nav_work:"Réalisations", nav_pricing:"Tarifs", nav_about:"À propos", nav_faq:"FAQ", nav_book:"Appel gratuit", nav_call:"Appeler", nav_contact:"Contact",
+  nav_alive:"Nos services", nav_work:"Réalisations", nav_pricing:"Tarifs", nav_about:"À propos", nav_faq:"FAQ", nav_book:"Appel gratuit", nav_call:"Appeler", nav_contact:"Contact",
   kick:"Tarifs &amp; méthode",
   h1:"Un prix fixe, connu avant de commencer.",
   sub:"Trois points de départ, une méthode, et ce sur quoi vous pouvez compter après la livraison. Le prix exact est fixé par écrit après l'appel gratuit, et il ne bouge plus ensuite. Prix hors TVA.",
@@ -664,18 +720,8 @@ const FR = {
   pr_kick:"Combien ça coûte", pr_h2:"Trois points de départ.",
   pr_sub:"Chaque formule est un point de départ : nous la précisons ensemble à l'appel, puis je vous donne un prix fixe unique, par écrit.",
   from:"à partir de", vat:"HTVA", pm:"/mois",
-  pl1_n:"Site vitrine", pl1_p:"Un site propre et rapide qui amène des demandes : jusqu'à cinq pages, formulaire de contact, pensé mobile d'abord, pages légales, les bases techniques du SEO, et tous les accès remis avec un petit guide.",
-  pl2_n:"Site connecté", pl2_p:"Tout le site vitrine, plus des intégrations et des automatisations qui travaillent pour vous : réservation d'agenda, facturation automatique, votre CRM, un digest du matin, un tableau de bord privé. Formation incluse.",
-  pl3_n:"Sur mesure", pl3_price:"Sur devis", pl3_p:"Applications, outils internes, automatisations IA, plusieurs sites. Toujours un prix fixe, par écrit, avant de commencer.",
-  est_btn:"Estimer mon projet", book_btn:"Réserver mon appel gratuit", est_note:"Deux minutes, cinq questions, et une fourchette indicative tout de suite à l'écran.",
+  pl3_p:"Applications, outils internes, automatisations IA, plusieurs sites. Toujours un prix fixe, par écrit, avant de commencer.",
   pr_note:"Pas de licence, pas de frais par utilisateur. L'hébergement et l'entretien sont optionnels : vous pouvez tout gérer vous-même.",
-  inc_h:"Chaque projet comprend",
-  inc1:"Pensé pour le téléphone d'abord, rapide sur tous les écrans",
-  inc2:"Un périmètre écrit et un prix fixe avant de commencer",
-  inc3:"Les pages légales faites : mentions, vie privée, cookies",
-  inc4:"Une formation pour l'utiliser, et le modifier vous-même",
-  inc5:"La documentation et tous les accès remis : c'est à vous",
-  inc6:"5 heures d'entretien incluses, à utiliser dans les 3 mois après la livraison · Défauts corrigés gratuitement pendant 6 mois.",
   af_kick:"Après la livraison", af_h2:"Après la livraison : vous choisissez.",
   af_sub:"Quel que soit votre choix, le site est à vous : le code, les données et tous les accès. La seule question, c'est qui le fait tourner.",
   af1_n:"Une fois", af1_h:"Vous le faites tourner.",
@@ -696,34 +742,68 @@ const FR = {
   ad3_tag:"Identité visuelle", ad3_p:"Logo et identité visuelle via un partenaire graphiste, chiffré séparément",
   ad_note:"Tous les prix s'entendent hors TVA.",
   own_kick:"La méthode Goffinerie",
-  own_h2:"Rien de plus, rien de moins — et c'est à vous.",
-  p1_n:"01 — Exactement ce qu'il vous faut", p1_h:"Une solution, construite autour de vous", p1_p:"Je conçois autour de <em>votre</em> façon de travailler — un seul endroit pour tout, pas de zapping entre applis, pas de fonctions que vous n'avez pas demandées.",
-  p2_n:"02 — À vous, avec ou sans maintenance", p2_h:"Le site est à vous. L'entretien, si vous le voulez.", p2_p:"Un prix fixe, convenu avant de construire. Après la livraison, vous gérez le site vous-même, ou vous me le confiez pour un montant mensuel, résiliable.",
-  p3_n:"03 — On le fait ensemble → vous le faites vous-même", p3_h:"Je vous remets les clés", p3_p:"Nous cadrons et construisons la solution ensemble. Étape par étape, vous prenez la main — jusqu'à être capable de l'utiliser, la faire tourner, et même la modifier vous-même avec les outils IA.",
+  own_h2:"Rien de plus, rien de moins. Et c'est à vous.",
+  p1_n:"01 · Exactement ce qu'il vous faut", p1_h:"Une solution, construite autour de vous", p1_p:"Je conçois autour de <em>votre</em> façon de travailler : un seul endroit pour tout, pas de zapping entre applis, pas de fonctions que vous n'avez pas demandées.",
+  p2_n:"02 · À vous, avec ou sans maintenance", p2_h:"Le site est à vous. L'entretien, si vous le voulez.", p2_p:"Un prix fixe, convenu avant de construire. Après la livraison, vous gérez le site vous-même, ou vous me le confiez pour un montant mensuel, résiliable.",
+  p3_n:"03 · On le fait ensemble → vous le faites vous-même", p3_h:"Je vous remets les clés", p3_p:"Nous cadrons et construisons la solution ensemble. Étape par étape, vous prenez la main, jusqu'à être capable de l'utiliser, la faire tourner, et même la modifier vous-même avec les outils IA.",
   proc_kick:"Comment ça marche",
   proc_h2:"Transparent du premier rendez-vous à la remise des clés.",
-  proc_sub:"Vous validez chaque étape. Vous voyez tout. Et vous testez la solution vous-même — le jour de la livraison, vous savez déjà la faire tourner.",
+  proc_sub:"Vous validez chaque étape. Vous voyez tout. Et vous testez la solution vous-même : le jour de la livraison, vous savez déjà la faire tourner.",
   j1:"On se rencontre", j2:"Plan &amp; prix", j3:"Conception", j4:"Construction ouverte", j5:"Vous testez", j6:"Remise des clés",
   st1_h:"On se rencontre", st1_p:"Un appel d'introduction gratuit pour comprendre vos besoins et votre façon de travailler.",
   st2_h:'On valide le plan <span class="flag">Vous validez</span>', st2_p:"Je propose une approche, je définis exactement ce qui sera livré, et je vous donne un prix fixe unique. Rien ne démarre sans votre feu vert.",
-  st3_h:"On conçoit", st3_p:"Architecture complète et documentation — le plan sur lequel nous travaillons tous les deux.",
-  st4_h:"On construit, en toute transparence", st4_p:"Vous suivez l'avancement en continu. En chemin, je vous forme à utiliser — et modifier — ce qui se construit.",
+  st3_h:"On conçoit", st3_p:"Architecture complète et documentation : le plan sur lequel nous travaillons tous les deux.",
+  st4_h:"On construit, en toute transparence", st4_p:"Vous suivez l'avancement en continu. En chemin, je vous forme à utiliser et à modifier ce qui se construit.",
   st5_h:"Vous testez", st5_p:"Vous utilisez la solution sur du vrai travail avant la livraison. Ce qui ne convient pas est corrigé.",
-  st6_h:"Livraison &amp; remise des clés", st6_p:"C'est à vous — le code, les données, et les clés. Vous pouvez la faire tourner, et avec les outils IA, même la modifier vous-même.",
+  st6_h:"Livraison &amp; remise des clés", st6_p:"C'est à vous : le code, les données, et les clés. Vous pouvez la faire tourner, et avec les outils IA, même la modifier vous-même.",
   sup1:"<b>5 heures</b> d'entretien incluses, dans les 3 mois",
   sup2:"Défauts corrigés <b>gratuitement pendant 6 mois</b>",
   sup3:"Hors périmètre ? D'abord un devis clair de <b>demande de modification</b>",
   trust_kick:"Ce sur quoi vous pouvez compter",
   trust_h2:"La discipline de six ans en environnement exigeant.",
-  trust_intro:"L'IA me rend rapide — mais la vitesse ne vaut rien si votre site tombe un samedi ou laisse fuiter votre fichier clients. Chaque projet hérite des habitudes prises en livrant des solutions digitales pour des <strong>acteurs majeurs en Belgique</strong> :",
+  trust_intro:"L'IA me rend rapide, mais la vitesse ne vaut rien si votre site tombe un samedi ou laisse fuiter votre fichier clients. Chaque projet hérite des habitudes prises en livrant des solutions digitales pour des <strong>acteurs majeurs en Belgique</strong> :",
   t1_tag:"Fiabilité", t1_h:"Conçu pour rester en ligne", t1_p:"Avec la maintenance, il est surveillé et mis à jour pour vous.",
   t2_tag:"Sécurité", t2_h:"Protégé contre les attaques courantes", t2_p:"HTTPS partout, et une protection contre les bots de spam et les attaques qui visent chaque jour les sites de petites entreprises.",
-  t3_tag:"Vos données", t3_h:"Base de données verrouillée &amp; sauvegardée", t3_p:"Vos données clients sont stockées dans une base sécurisée, avec une solution de sauvegarde automatisée en option — un incident ne signifie jamais repartir de zéro.",
+  t3_tag:"Vos données", t3_h:"Base de données verrouillée &amp; sauvegardée", t3_p:"Vos données clients sont stockées dans une base sécurisée, avec une solution de sauvegarde automatisée en option : un incident ne signifie jamais repartir de zéro.",
   t4_tag:"Discipline", t4_h:"Des habitudes de livraison bancaires", t4_p:"Documenté, testé, et transmis proprement. Les mêmes standards que j'applique en menant des équipes de delivery dans le secteur financier.",
-  cta_h:"Dites-moi ce qui mange votre temps.", cta_p:"Un appel gratuit de 30 minutes, sans engagement. Le prix exact arrive juste après, par écrit.", cta_btn:"Réserver mon appel gratuit", cta_reach:"Ou joignez-moi directement :",
+  cta_h:"Dites-moi ce qui mange votre temps.", cta_p:"Un appel gratuit de 30 minutes, sans engagement. Le prix exact arrive juste après, par écrit.", cta_btn:"Réserver mon appel gratuit", cta_reach:"Ou joignez-moi directement",
   faq_more:"D'autres questions ?", faq_link:"Lire la FAQ →",
   foot_legal:"Mentions légales", foot_cgu:"CGU", foot_privacy:"Protection des données", foot_cookies:"Cookies",
-  foot:"© 2026 La Goffinerie · Basée en Belgique."
+  foot:"© 2026 La Goffinerie · Basée en Belgique.",
+  pl3_price:"Sur devis", est_btn:"Estimer mon projet", book_btn:"Réserver mon appel gratuit",
+  t3_fixed:"prix fixe, par écrit",
+  all_h:"Dans les trois formules",
+  all1:"Un périmètre écrit et un prix fixe avant de commencer",
+  all2:"La documentation et tous les accès remis : c'est à vous",
+  all3:"5 heures d'entretien incluses, à utiliser dans les 3 mois",
+  all4:"Défauts corrigés gratuitement pendant 6 mois",
+  unsure:"Pas sûr de la formule ? <a href=\"#estimate\" data-estimator=\"pricing\">Estimez votre projet en deux minutes →</a>",
+  t1_n:"Site vitrine",
+  t1_l:"Un site propre et rapide qui amène des demandes.",
+  t1_lab:"Ce qui est compris",
+  t1_i1:"Jusqu'à cinq pages",
+  t1_i2:"Un formulaire de contact",
+  t1_i3:"Pensé pour le téléphone d'abord",
+  t1_i4:"Les pages légales faites",
+  t1_i5:"Les bases techniques du SEO",
+  t1_i6:"Tous les accès, avec un petit guide",
+  t2_n:"Site connecté",
+  t2_l:"Le site vitrine, branché sur vos outils pour travailler à votre place.",
+  t2_lab:"Tout le site vitrine, plus",
+  t2_i1:"La réservation d'agenda en ligne",
+  t2_i2:"La facturation automatique",
+  t2_i3:"Branché sur votre CRM",
+  t2_i4:"Un digest du matin",
+  t2_i5:"Un tableau de bord privé",
+  t2_i6:"Une formation pour l'utiliser et le modifier",
+  t3_n:"Sur mesure",
+  t3_l:"Un outil construit autour de votre façon de travailler.",
+  t3_lab:"Tout le site connecté, plus",
+  t3_i1:"Des applications",
+  t3_i2:"Des outils internes",
+  t3_i3:"Des automatisations IA",
+  t3_i4:"Plusieurs sites",
+  t3_i5:"Un cadrage ensemble, puis un prix fixe",
 };
 /* Prices come from config.js, written by estimator.js (one place for the home page, this one and the
    estimator): every element carrying data-price gets its amount, in the format of the language. */
@@ -736,6 +816,9 @@ function setLang(l){
   document.documentElement.lang=LANG;
   document.title=(LANG==='fr')?FR.title:EN_TITLE;
   document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.getAttribute('data-i18n'); el.innerHTML=(LANG==='fr'&&FR[k]!==undefined)?FR[k]:EN[k]; });
+  const AR={en:{r_call:'Call +32 479 48 76 08', r_mail:'E-mail info@lagoffinerie.be', r_li:'Simon Goffin on LinkedIn'},
+            fr:{r_call:'Appeler le +32 479 48 76 08', r_mail:'Écrire à info@lagoffinerie.be', r_li:'Simon Goffin sur LinkedIn'}};
+  document.querySelectorAll('[data-i18n-aria]').forEach(el=>{ const t=AR[LANG][el.getAttribute('data-i18n-aria')]; if(t) el.setAttribute('aria-label', t); });
   document.getElementById('lang-en').classList.toggle('active',LANG==='en');
   document.getElementById('lang-fr').classList.toggle('active',LANG==='fr');
   document.getElementById('lang-en').setAttribute('aria-pressed', String(LANG==='en'));
@@ -818,6 +901,7 @@ const rvObs=new IntersectionObserver(es=>{ es.forEach(en=>{ if(en.isIntersecting
 document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
 addEventListener('scroll',()=>{ document.documentElement.classList.toggle('scrolled', scrollY>8); },{passive:true});
 </script>
+<script src="nav.js" defer></script>
 <script src="site-state.js" defer></script>
 </body>
 </html>

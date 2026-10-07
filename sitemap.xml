@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://lagoffinerie.be/</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/?lang=en"/>
@@ -18,7 +18,7 @@
   </url>
   <url>
     <loc>https://lagoffinerie.be/pricing.html</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/pricing.html?lang=en"/>
@@ -55,5 +55,29 @@
     <lastmod>2026-10-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://lagoffinerie.be/websites.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/websites.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/websites.html?lang=fr"/>
+  </url>
+  <url>
+    <loc>https://lagoffinerie.be/digital-strategy.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/digital-strategy.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/digital-strategy.html?lang=fr"/>
+  </url>
+  <url>
+    <loc>https://lagoffinerie.be/ai-automation.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/ai-automation.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/ai-automation.html?lang=fr"/>
   </url>
 </urlset>

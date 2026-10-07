@@ -120,7 +120,7 @@
           <tr><td>lg_intro</td><td data-i18n="r5_w">A flag saying the logo animation has already played in this tab, so it does not play on every page you come back to.</td><td data-i18n="r5_l">Until you close the tab.</td></tr>
           <tr><td>lg_intro_cfg</td><td data-i18n="r6_w">Whether the logo animation is switched on, and how fast it plays — the last setting read from my server, so the next visit does not have to wait for it.</td><td data-i18n="r6_l">Until you clear your browser storage.</td></tr>
           <tr><td>lg_site_cfg</td><td data-i18n="r8_w">The last answer from my server about the site's state — whether a maintenance screen or an announcement banner is on, and their text — so the next page does not have to wait for it. Maintenance is never shown from this copy, only from a fresh answer.</td><td data-i18n="r8_l">Until you clear your browser storage.</td></tr>
-          <tr><td>lg_estimate</td><td data-i18n="r10_w">Your answers to the project estimator (type of project, options, the address of your current site if you gave it), so they are still there if you close the window and open it again. Only when you go from the estimator on the pricing page to the booking form: your name, e-mail and phone, for a moment, so the form opens filled in; erased as soon as the home page has read them. Nothing is sent unless you ask to receive the estimate.</td><td data-i18n="r10_l">Until you close the tab.</td></tr>
+          <tr><td>lg_estimate</td><td data-i18n="r10_w">Your answers to the project estimator (services, type of project, needs, options, the address of your current site if you gave it), so they are still there if you close the window and open it again. Only when you go from the estimator on the pricing page to the booking form: your name, e-mail and phone, for a moment, so the form opens filled in; erased as soon as the home page has read them. Nothing is sent unless you ask to receive the estimate.</td><td data-i18n="r10_l">Until you close the tab.</td></tr>
           <tr><td>lg_banner</td><td data-i18n="r9_w">The announcement banner you closed with its ×, so it stays closed while you browse the site.</td><td data-i18n="r9_l">Until you close the tab.</td></tr>
         </tbody>
       </table>
@@ -201,7 +201,7 @@ const FR = {
   r3_w:"Uniquement sur mes propres appareils : un drapeau qui exclut mes visites de test des statistiques. Il n'est jamais posé chez un visiteur.", r3_l:"Jusqu'à effacement.",
   r5_w:"Un drapeau indiquant que l'animation du logo a déjà été jouée dans cet onglet, pour ne pas la rejouer à chaque retour sur la page.", r5_l:"Jusqu'à la fermeture de l'onglet.",
   r8_w:"La dernière réponse de mon serveur sur l'état du site — si un écran de maintenance ou une bannière d'annonce est active, et leur texte — pour que la page suivante n'ait pas à l'attendre. La maintenance n'est jamais affichée depuis cette copie, seulement depuis une réponse fraîche.", r8_l:"Jusqu'à ce que vous vidiez le stockage de votre navigateur.",
-  r10_w:"Vos réponses à l'outil d'estimation (type de projet, options, adresse de votre site actuel si vous l'avez donnée), pour les retrouver si vous refermez la fenêtre puis la rouvrez. Uniquement quand vous passez de l'outil d'estimation de la page Tarifs au formulaire de réservation : vos nom, e-mail et téléphone, un instant, pour que le formulaire s'ouvre déjà rempli ; effacés dès que la page d'accueil les a lus. Rien n'est envoyé tant que vous ne demandez pas à recevoir l'estimation.", r10_l:"Jusqu'à la fermeture de l'onglet.",
+  r10_w:"Vos réponses à l'outil d'estimation (services, type de projet, besoins, options, adresse de votre site actuel si vous l'avez donnée), pour les retrouver si vous refermez la fenêtre puis la rouvrez. Uniquement quand vous passez de l'outil d'estimation de la page Tarifs au formulaire de réservation : vos nom, e-mail et téléphone, un instant, pour que le formulaire s'ouvre déjà rempli ; effacés dès que la page d'accueil les a lus. Rien n'est envoyé tant que vous ne demandez pas à recevoir l'estimation.", r10_l:"Jusqu'à la fermeture de l'onglet.",
   r9_w:"La bannière d'annonce que vous avez fermée avec son ×, pour qu'elle reste fermée pendant votre visite.", r9_l:"Jusqu'à la fermeture de l'onglet.",
   r6_w:"Si l'animation du logo est activée, et à quelle vitesse elle joue — le dernier réglage lu sur mon serveur, pour que la visite suivante n'ait pas à l'attendre.", r6_l:"Jusqu'à ce que vous vidiez le stockage du navigateur.",
   s1_p2:"Le site est hébergé sur <strong>GitHub Pages</strong>, qui ne dépose aucun cookie. Si un CDN comme <strong>Cloudflare</strong> était un jour placé devant, il pourrait déposer un cookie de sécurité de courte durée (<code>__cf_bm</code>, environ 30 minutes) pour distinguer les navigateurs des robots — strictement nécessaire pour servir la page, et sans donnée personnelle.",
@@ -252,6 +252,7 @@ function setLang(l){
   setLang(l);
 })();
 </script>
+<script src="nav.js" defer></script>
 <script src="site-state.js" defer></script>
 </body>
 </html>

@@ -26,12 +26,17 @@ Static pages, vanilla HTML/CSS/JS, bilingual EN/FR (auto-detected, manual toggle
   (`--check` changes nothing and exits 1 if a page is out of date). `estimator.js` writes the same amounts
   at run time, in the language's format.
   `assets/work/*.jpg` are the project illustrations of the carousel and cases.
-- **Estimator**: `estimator.js`, loaded by the home and pricing pages right after `config.js` — a pop-up of
-  five questions (any `data-estimator` element opens it, never by itself, never over the booking window)
+- **Estimator**: `estimator.js`, loaded by the home, pricing and service pages right after `config.js` — a pop-up
+  that starts from the three services (several can be ticked) and asks only the questions they need, up to six
+  (any `data-estimator` element opens it, never by itself, never over the booking window; `data-estimator-service`
+  pre-ticks a service)
   that shows an indicative range on screen, then sends the detail by e-mail (`POST /api/gf/estimates` on
   Jarvis, FormSubmit as fallback) or hands over to the booking window pre-filled (`/?book=1` on the home
   page, which also opens the booking window from the estimate e-mail). Answers are kept for the tab in
   `lg_estimate`. The Jarvis side is specified in `docs/estimator-jarvis.md`.
+- **Services**: one page per service, `websites.html`, `digital-strategy.html` and `ai-automation.html`, each with
+  its own editorial FAQ (six questions at most) and FAQPage JSON-LD. `nav.js`, loaded on every page, turns
+  « Our services » in the top bar into a menu of the three pages and floats the bar once the page has moved.
 - **Contact form**: FormSubmit (AJAX with a plain-POST fallback returning to `/?sent=1#contact`)
   plus a copy posted to Jarvis.
 - **Audience & leads**: posted from the visitor's browser to Jarvis (`jarvis.ndashiz.be/api/gf/*`)

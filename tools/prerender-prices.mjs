@@ -6,7 +6,7 @@
    visitors without JavaScript). estimator.js still fills them at run
    time from the same config.js, so the page never shows anything else.
 
-     node tools/prerender-prices.mjs          rewrite index.html and pricing.html
+     node tools/prerender-prices.mjs          rewrite every page that shows prices
      node tools/prerender-prices.mjs --check  change nothing; exit 1 if a file is out of date
 
    Run it after every price change in config.js.
@@ -29,7 +29,7 @@ import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const FILES = ['index.html', 'pricing.html'];
+const FILES = ['index.html', 'pricing.html', 'websites.html', 'digital-strategy.html', 'ai-automation.html'];
 const CHECK = process.argv.includes('--check');
 
 /* ---------- config.js, read the way the browser reads it ---------- */
@@ -114,8 +114,10 @@ function render(file, src) {
 
   // 4. JSON-LD.
   const answers = {};
-  for (const m of out.matchAll(/<summary><span data-i18n="q\d+">([^<]*)<\/span><\/summary><p data-i18n="a\d+">([\s\S]*?)<\/p><\/details>/g)) {
-    if (m[2].includes('data-price=')) answers[decode(m[1]).trim()] = plainText(m[2]);
+  // A question is the span data-i18n="qN" (the editorial FAQ also has a number and an icon around it);
+  // its answer is the next <p data-i18n="aN">.
+  for (const m of out.matchAll(/data-i18n="q(\d+)">([^<]*)<\/span>(?:(?!data-i18n="q\d)[\s\S])*?<p data-i18n="a\1">([\s\S]*?)<\/p>/g)) {
+    if (m[3].includes('data-price=')) answers[decode(m[2]).trim()] = plainText(m[3]);
   }
   out = out.replace(/(<script type="application\/ld\+json">\n)([\s\S]*?)(\n<\/script>)/g, (whole, open, json, close) => {
     let data;

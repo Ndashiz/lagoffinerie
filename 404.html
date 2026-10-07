@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light only">
 <meta name="theme-color" content="#faf8f2">
 <meta name="robots" content="noindex">
-<title>Page introuvable — La Goffinerie</title>
+<title>Page not found — La Goffinerie</title>
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 112" style="isolation:isolate"><path d="M62 6 L102 80 L22 80 Z" fill="%23EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="%232823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="%23E2452C" style="mix-blend-mode:multiply"/></svg>'>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,7 +58,7 @@
 <nav class="topnav">
   <a class="logo" href="/"><svg viewBox="0 0 120 112" style="isolation:isolate" aria-hidden="true"><path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="#E2452C" style="mix-blend-mode:multiply"/></svg>La Goffinerie</a>
   <div class="links">
-    <a href="/#alive"><span data-lang="fr">Ce que je fais</span><span data-lang="en">What I build</span></a>
+    <a class="nsvc" href="/#alive"><span data-lang="fr">Nos services</span><span data-lang="en">Our services</span></a>
     <a href="/work.html"><span data-lang="fr">Réalisations</span><span data-lang="en">Work</span></a>
     <a href="/pricing.html"><span data-lang="fr">Tarifs</span><span data-lang="en">Pricing</span></a>
     <a href="/about.html"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a>
@@ -72,7 +72,7 @@
   <div class="wrap grid">
     <div>
       <div class="kick"><span data-lang="fr">Erreur 404</span><span data-lang="en">Error 404</span></div>
-      <h1><span data-lang="fr">Cette page n'existe pas — ou plus.</span><span data-lang="en">This page doesn't exist — or not anymore.</span></h1>
+      <h1><span data-lang="fr">Cette page n'existe pas, ou plus.</span><span data-lang="en">This page doesn't exist, or no longer does.</span></h1>
       <p class="sub"><span data-lang="fr">L'adresse a peut-être changé, ou le lien était cassé. Rien de grave : voici les sorties.</span><span data-lang="en">The address may have changed, or the link was broken. No harm done: here are the ways out.</span></p>
       <div class="ctas">
         <a class="btn primary" href="/"><span data-lang="fr">Retour à l'accueil</span><span data-lang="en">Back to the home page</span></a>
@@ -81,7 +81,7 @@
       <p class="more"><span data-lang="fr">Ou directement : </span><span data-lang="en">Or straight to: </span><a href="/pricing.html"><span data-lang="fr">Tarifs</span><span data-lang="en">Pricing</span></a> · <a href="/about.html"><span data-lang="fr">À propos</span><span data-lang="en">About</span></a> · <a href="/#faq">FAQ</a> · <a href="/#contact"><span data-lang="fr">Me contacter</span><span data-lang="en">Contact me</span></a></p>
     </div>
     <div class="art">
-      <svg viewBox="0 0 560 380" fill="none" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Un écran affiche une erreur 404 ; son câble d'alimentation est coupé en deux">
+      <svg id="art404" viewBox="0 0 560 380" fill="none" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="A screen showing a 404 error, its power cable cut in two">
         <rect x="70" y="30" width="320" height="226" rx="18" fill="#fff" stroke="#151515" stroke-width="3"/>
         <rect x="86" y="46" width="288" height="186" rx="10" fill="#151515"/>
         <text x="230" y="120" text-anchor="middle" fill="#fff" style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:58px;font-weight:600;letter-spacing:.04em">404</text>
@@ -109,14 +109,19 @@
   </div>
 </footer>
 <script>
-/* The visitor's language: the choice saved by the site, else the browser's. */
+/* English by default; French only when the visitor picked it on the site (?lang=fr, or the lg_lang choice the other pages save). */
 (function(){
-  var l=null; try{ l=localStorage.getItem('lg_lang'); }catch(e){}
-  if(l!=='en' && l!=='fr'){ var nav=(navigator.languages && navigator.languages[0]) || navigator.language || 'en'; l=String(nav).toLowerCase().indexOf('fr')===0 ? 'fr' : 'en'; }
+  var l=null; try{ l=new URLSearchParams(location.search).get('lang'); }catch(e){}
+  if(l!=='en' && l!=='fr'){ try{ l=localStorage.getItem('lg_lang'); }catch(e){ l=null; } }
+  if(l!=='fr') l='en';
   document.documentElement.lang=l;
-  document.title = l==='fr' ? 'Page introuvable — La Goffinerie' : 'Page not found — La Goffinerie';
+  if(l==='fr'){
+    document.title='Page introuvable — La Goffinerie';
+    var art=document.getElementById('art404'); if(art) art.setAttribute('aria-label', "Un écran affiche une erreur 404, son câble d'alimentation est coupé en deux");
+  }
 })();
 </script>
+<script src="/nav.js" defer></script>
 <script src="/site-state.js" defer></script>
 </body>
 </html>

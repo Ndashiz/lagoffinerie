@@ -1,18 +1,23 @@
 /* =========================================================
-   LA GOFFINERIE — estimator.js (site v2.26)
-   The project estimator: a pop-up of five short questions that
-   ends on an indicative price range, then offers to send the
-   detail by e-mail and to book the free call. Loaded by the home
-   page and the pricing page right after config.js; any element
-   carrying data-estimator opens it (the value says from where,
-   for the statistics). It never opens by itself, and never over
+   LA GOFFINERIE — estimator.js (site v2.27)
+   The project estimator: a pop-up of short questions that ends on
+   an indicative price range, then offers to send the detail by
+   e-mail and to book the free call. The first question ticks one
+   or more of the three services (sites & apps, SEO & GEO, AI
+   automation); the next ones depend on them (three to six steps
+   in all, each asked once). Loaded by the home page and the
+   pricing page right after config.js; any element carrying
+   data-estimator opens it (the value says from where, for the
+   statistics), and data-estimator-service="sites|seo|auto" on it
+   pre-ticks that service when the visitor starts fresh. It never
+   opens by itself, never moves on by itself, and never opens over
    the booking window.
      · Prices: every number comes from config.js (LG_CONFIG.estimator
        and .rates). fill() also writes the prices into the page,
        wherever an element carries data-price="…"; the pages call it
        after each language switch.
-     · Answers: kept for the tab in sessionStorage (lg_estimate),
-       answers only. The name, e-mail and phone stay in memory, except
+     · Answers: kept for the tab in sessionStorage (lg_estimate,
+       { v:2, step, a }; an older shape is dropped), answers only. The name, e-mail and phone stay in memory, except
        for the hop from the pricing page to the booking form of the
        home page, where they are read and removed at once.
      · Sending: POST /api/gf/estimates on Jarvis (text/plain, like the
@@ -21,9 +26,10 @@
        visitor's auto-reply. The range stays on screen either way.
      · Statistics: anonymous events, through the page's track() when it
        has one (home), else the same small sender: estimator_open,
-       estimator_step (i = 1…5), estimator_result_shown,
-       estimator_email_sent, estimator_to_booking, estimator_abandon
-       (i = the step, or "result"). Nothing under Do Not Track / GPC.
+       estimator_step (i = the step number on screen, 1…6),
+       estimator_result_shown, estimator_email_sent,
+       estimator_to_booking, estimator_abandon (i = the step number on
+       screen, or "result"). Nothing under Do Not Track / GPC.
    The Jarvis side of the contract: docs/estimator-jarvis.md.
    ========================================================= */
 (function(){
@@ -36,22 +42,28 @@
   var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var TXT={
-    fr:{ title:'Estimer mon projet', close:'Fermer', back:'← Retour', next:'Suivant →', skip:'Passer →', see:'Voir mon estimation →',
-         step:'Étape {n} sur {t}', result:'Votre estimation', optional:'Facultatif', req:'Choisissez une réponse pour continuer.',
-         what:"C'est quoi ?", tip:'Explication : ',
-         q1:'Que voulez-vous construire ?', h1:"Choisissez ce qui s'en rapproche le plus.",
+    fr:{ title:'Estimer mon projet', close:'Fermer', back:'← Précédent', next:'Suivant →', skip:'Passer →', see:'Voir mon estimation →',
+         step:'Étape {n} sur {t}', step1:'Étape {n}', result:'Votre estimation', optional:'Facultatif', req:'Choisissez une réponse pour continuer.',
+         req_svc:'Choisissez au moins un service pour continuer.', req_svc_more:"Pas sûr ? Cochez ce qui s'en rapproche le plus, on affinera pendant l'appel.",
+         what:"C'est quoi ?", tip:'Explication : ', ex:'Exemple',
+         q1:'De quoi avez-vous besoin ?', h1:'Plusieurs choix possibles.',
+         services_sites:'Sites web & applications', services_sites_s:'Un site, une application ou un outil sur mesure',
+         services_seo:'Stratégie digitale (SEO & GEO)', services_seo_s:'Être trouvé sur Google et cité par les IA',
+         services_auto:'Automatisation IA', services_auto_s:'Agenda, factures et CRM qui tournent tout seuls',
+         q2:'Quel projet ?', h2:"Choisissez ce qui s'en rapproche le plus.",
          type_website:'Un site web', type_app:'Une application', type_tool:'Un outil sur mesure',
-         q2:'Votre identité visuelle', h2:'Logo, couleurs, polices : où en êtes-vous ?',
-         brand_have:"J'ai déjà un logo et une charte", brand_refresh:"J'ai un logo, à rafraîchir", brand_scratch:'Je pars de zéro', brand_scratch_s:'Via un partenaire graphiste',
-         q3:'Avez-vous déjà un site ?', h3:'Je peux partir de ce qui existe déjà.',
+         q3:'Votre identité visuelle', h3:'Logo, couleurs, polices : où en êtes-vous ?',
+         brand_have:"J'ai déjà un logo et une charte", brand_refresh:"J'ai un logo, à rafraîchir", brand_scratch:'Je pars de zéro', brand_scratch_s:'Avec un partenaire graphiste',
+         q4:'Avez-vous déjà un site ?', h4:'Je peux partir de ce qui existe déjà.',
          existing_none:'Non, pas encore', existing_rebuild:'Oui, à refaire entièrement', existing_improve:'Oui, à améliorer',
          url_l:'Lien de votre site', url_ph:'www.votresite.be', url_help:"Pas sûr de l'adresse ? Laissez vide.",
          url_err:'Cette adresse semble incomplète, par exemple www.votresite.be. Pas sûr ? Laissez vide.',
-         q4:'Que doit faire votre site pour vous ?', h4:'Choisissez ce qui compte le plus pour vous.',
+         q5:'Que doit faire votre site pour vous ?', q5_auto:'Que voulez-vous automatiser ?', h5:'Plusieurs choix possibles.',
          needs_presentation:'Présenter mon activité', needs_presentation_s:'Pages, photos, coordonnées, formulaire',
          needs_connected:'Travailler avec mes outils', needs_connected_s:'Agenda, facturation, CRM comme Odoo, demandes qui arrivent toutes seules',
          needs_automation:'Automatiser mon administratif', needs_automation_s:'Rapports, relances, digest de ma boîte mail, sur mesure',
-         q5:'Quelques options', h5:'Tout est facultatif.',
+         needs_other:'Autre', other_l:'Précisez votre besoin', other_ph:'Dites-le en quelques mots',
+         q6:'Quelques options', h6:'Tout est facultatif.',
          email_l:'Une adresse e-mail à votre nom', email_s:'ex. info@votreentreprise.be', email_yes:'Oui', email_no:'Non', email_have:"J'en ai déjà une",
          seo_l:'Être trouvé sur Google', seo_s:'SEO de base + fiche Google Business', seo_yes:'Oui', seo_no:'Non',
          after_l:'Après la mise en ligne', after_self:'Je le gère moi-même', after_hosting:'Hébergement et surveillance', after_full:'Formule entretien complète', after_unsure:'Je ne sais pas encore',
@@ -62,7 +74,7 @@
          on_quote:'sur devis', r_quote_m:'Sur devis', r_full_q:'Formule entretien complète sur devis',
          disc:'Estimation indicative. Le prix final est fixé par écrit après notre appel gratuit, sur mesure pour votre projet.',
          cap_h:'Recevez le détail par e-mail et réservez votre appel gratuit.',
-         f_name:'Votre nom', f_email:'Votre e-mail', f_phone:'Téléphone (optionnel)',
+         f_name:"Votre nom ou nom d'entreprise", name_ph:'Jean Dupont ou Dupont SRL', f_email:'Votre e-mail', f_phone:'Téléphone (optionnel)',
          consent:"J'accepte que La Goffinerie utilise mes réponses et mes coordonnées pour m'envoyer cette estimation et me recontacter à son sujet. <a href=\"donnees-personnelles.html\" target=\"_blank\" rel=\"noopener\">Protection des données</a>",
          send:'Recevoir mon estimation', book:'Réserver mon appel gratuit', sending:'Envoi…',
          sent_h:"C'est envoyé{n} !", sent_p:"Le détail arrive dans votre boîte mail ; pensez à jeter un œil aux indésirables. Il ne reste qu'à réserver votre appel gratuit.",
@@ -72,27 +84,34 @@
          i_branding_refresh:'Rafraîchir votre logo et votre charte graphique', i_branding_scratch:'Logo et identité visuelle via un partenaire graphiste',
          i_existing_rebuild:'Refaire entièrement votre site actuel', i_existing_improve:'Partir de votre site actuel',
          i_pro_email:'Une adresse e-mail à votre nom', i_seo_google:'Être trouvé sur Google : SEO de base et fiche Google Business',
-         i_domain_reserve:'Nom de domaine réservé pour vous',
-         m_included:'compris', m_partner:'chiffré séparément', m_quote:'sur devis, dès {a}', m_domain:'environ {a} par an',
-         l_type:'Projet', l_brand:'Identité visuelle', l_existing:'Site actuel', l_url:'Lien du site', l_needs:'Le site doit',
+         i_domain_reserve:'Nom de domaine réservé pour vous', i_ai_automation:'Automatisation IA', i_seo_follow:'Accompagnement suivi (contenus, GEO)',
+         i_needs_other:'Autre : {x}', i_needs_other0:'Autre besoin',
+         m_included:'compris', m_partner:'chiffré séparément', m_quote:'sur devis, dès {a}', m_domain:'environ {a} par an', m_call:"à voir à l'appel",
+         l_services:'Services', l_type:'Projet', l_brand:'Identité visuelle', l_existing:'Site actuel', l_url:'Lien du site', l_needs:'Le site doit', l_auto:'À automatiser',
          sum:'Estimation en ligne : ', sep:' : ', list:' ; ',
          mail:"Bonjour{n},\n\nMerci pour votre demande d'estimation à La Goffinerie. En voici le détail.\n\nVos réponses\n{p}\n\nCréation (une fois) : {b}\nMensuel (optionnel) : {m}\n\nCe qui compose l'estimation\n{i}\n\nEstimation indicative. Le prix final est fixé par écrit après notre appel gratuit, sur mesure pour votre projet.\n\nRéservez votre appel gratuit ici : {u}\n\nÀ très vite,\nSimon Goffin, La Goffinerie\n+32 479 48 76 08" },
-    en:{ title:'Estimate my project', close:'Close', back:'← Back', next:'Next →', skip:'Skip →', see:'See my estimate →',
-         step:'Step {n} of {t}', result:'Your estimate', optional:'Optional', req:'Pick an answer to continue.',
-         what:'What is it?', tip:'Explanation: ',
-         q1:'What do you want to build?', h1:'Pick the closest match.',
+    en:{ title:'Estimate my project', close:'Close', back:'← Previous', next:'Next →', skip:'Skip →', see:'See my estimate →',
+         step:'Step {n} of {t}', step1:'Step {n}', result:'Your estimate', optional:'Optional', req:'Pick an answer to continue.',
+         req_svc:'Pick at least one service to continue.', req_svc_more:"Not sure? Tick the closest match, we'll fine-tune it during the call.",
+         what:'What is it?', tip:'Explanation: ', ex:'Example',
+         q1:'What do you need?', h1:'You can pick more than one.',
+         services_sites:'Websites & apps', services_sites_s:'A website, an app or a tailor-made tool',
+         services_seo:'Digital strategy (SEO & GEO)', services_seo_s:'Get found on Google and cited by AI assistants',
+         services_auto:'AI automation', services_auto_s:'Calendar, invoices and CRM that run on their own',
+         q2:'Which project?', h2:'Pick the closest match.',
          type_website:'A website', type_app:'An application', type_tool:'A tailor-made tool',
-         q2:'Your visual identity', h2:'Logo, colours, fonts: where do you stand?',
-         brand_have:'I already have a logo and brand guidelines', brand_refresh:'I have a logo, to refresh', brand_scratch:'I am starting from scratch', brand_scratch_s:'Through a partner graphic designer',
-         q3:'Do you already have a website?', h3:'I can start from what already exists.',
+         q3:'Your visual identity', h3:'Logo, colours, fonts: where do you stand?',
+         brand_have:'I already have a logo and brand guidelines', brand_refresh:'I have a logo, to refresh', brand_scratch:'I am starting from scratch', brand_scratch_s:'With a partner graphic designer',
+         q4:'Do you already have a website?', h4:'I can start from what already exists.',
          existing_none:'No, not yet', existing_rebuild:'Yes, to rebuild entirely', existing_improve:'Yes, to improve',
          url_l:'Link to your site', url_ph:'www.yoursite.be', url_help:'Not sure of the address? Leave it empty.',
          url_err:'This address looks incomplete, for example www.yoursite.be. Not sure? Leave it empty.',
-         q4:'What should your site do for you?', h4:'Pick what matters most to you.',
+         q5:'What should your site do for you?', q5_auto:'What do you want to automate?', h5:'You can pick more than one.',
          needs_presentation:'Present my business', needs_presentation_s:'Pages, photos, contact details, form',
          needs_connected:'Work with my tools', needs_connected_s:'Calendar, invoicing, a CRM such as Odoo, requests that arrive on their own',
          needs_automation:'Automate my admin', needs_automation_s:'Reports, reminders, a digest of my inbox, tailor-made',
-         q5:'A few options', h5:'Everything is optional.',
+         needs_other:'Other', other_l:'Tell me what you need', other_ph:'In a few words',
+         q6:'A few options', h6:'Everything is optional.',
          email_l:'An e-mail address in your name', email_s:'e.g. info@yourcompany.be', email_yes:'Yes', email_no:'No', email_have:'I already have one',
          seo_l:'Getting found on Google', seo_s:'Basic SEO + Google Business profile', seo_yes:'Yes', seo_no:'No',
          after_l:'After the launch', after_self:'I run it myself', after_hosting:'Hosting and monitoring', after_full:'Full maintenance plan', after_unsure:"I don't know yet",
@@ -103,7 +122,7 @@
          on_quote:'on quote', r_quote_m:'On quote', r_full_q:'Full maintenance plan on quote',
          disc:'Indicative estimate. The final price is set in writing after our free call, tailored to your project.',
          cap_h:'Get the detail by e-mail and book your free call.',
-         f_name:'Your name', f_email:'Your e-mail', f_phone:'Phone (optional)',
+         f_name:'Your name or company name', name_ph:'Jean Dupont or Dupont SRL', f_email:'Your e-mail', f_phone:'Phone (optional)',
          consent:'I agree that La Goffinerie uses my answers and contact details to send me this estimate and to get back to me about it. <a href="donnees-personnelles.html" target="_blank" rel="noopener">Data protection</a>',
          send:'Send me my estimate', book:'Book my free call', sending:'Sending…',
          sent_h:"It's on its way{n}!", sent_p:'The detail is arriving in your inbox; have a look in the spam folder too. All that is left is to book your free call.',
@@ -113,9 +132,10 @@
          i_branding_refresh:'Refreshing your logo and brand guidelines', i_branding_scratch:'Logo and visual identity through a partner graphic designer',
          i_existing_rebuild:'Rebuilding your current site entirely', i_existing_improve:'Starting from your current site',
          i_pro_email:'An e-mail address in your name', i_seo_google:'Getting found on Google: basic SEO and a Google Business profile',
-         i_domain_reserve:'Domain name reserved for you',
-         m_included:'included', m_partner:'quoted separately', m_quote:'on quote, from {a}', m_domain:'about {a} a year',
-         l_type:'Project', l_brand:'Visual identity', l_existing:'Current site', l_url:'Site link', l_needs:'The site should',
+         i_domain_reserve:'Domain name reserved for you', i_ai_automation:'AI automation', i_seo_follow:'Ongoing support (content, GEO)',
+         i_needs_other:'Other: {x}', i_needs_other0:'Another need',
+         m_included:'included', m_partner:'quoted separately', m_quote:'on quote, from {a}', m_domain:'about {a} a year', m_call:'to discuss on the call',
+         l_services:'Services', l_type:'Project', l_brand:'Visual identity', l_existing:'Current site', l_url:'Site link', l_needs:'The site should', l_auto:'To automate',
          sum:'Online estimate: ', sep:': ', list:'; ',
          mail:"Hello{n},\n\nThank you for your estimate request to La Goffinerie. Here is the detail.\n\nYour answers\n{p}\n\nBuild (one-off): {b}\nMonthly (optional): {m}\n\nWhat makes up the estimate\n{i}\n\nIndicative estimate. The final price is set in writing after our free call, tailored to your project.\n\nBook your free call here: {u}\n\nSpeak soon,\nSimon Goffin, La Goffinerie\n+32 479 48 76 08" }
   };
@@ -132,7 +152,9 @@
          gbp:{t:'Fiche Google Business', d:'Votre fiche sur Google Maps, avec vos horaires, votre adresse et vos avis.'},
          domain:{t:'Nom de domaine', d:'L\'adresse de votre site, comme votreentreprise.be. Environ {domain} par an.'},
          hosting:{t:'Hébergement', d:'L\'espace qui garde votre site en ligne, comme le loyer de votre boutique.'},
-         monitoring:{t:'Surveillance', d:'Je vérifie que votre site fonctionne et je suis alerté s\'il tombe.', ex:'Par exemple : un message m\'arrive dès que la page ne répond plus.'} },
+         monitoring:{t:'Surveillance', d:'Je vérifie que votre site fonctionne et je suis alerté s\'il tombe.', ex:'Par exemple : un message m\'arrive dès que la page ne répond plus.'},
+         seo_geo:{t:'SEO et GEO', d:'Le SEO vous fait remonter dans Google. Le GEO vous fait citer par les assistants IA, comme ChatGPT ou Gemini.', ex:'Quelqu\'un cherche « électricien à Huy » : votre entreprise ressort.'},
+         ai:{t:'Automatisation IA', d:'Votre site parle à vos outils et fait l\'administratif à votre place.', ex:'Chaque demande du formulaire crée un contact dans votre CRM.'} },
     en:{ site:{t:'Website', d:'The pages your clients visit to discover you and get in touch.', ex:'For example: home, services, work, contact.'},
          app:{t:'Application', d:'A tool your clients or your team use to get something done: book, order, track.'},
          tool:{t:'Tailor-made tool', d:'A small program made for the way you work, for example a job-site tracker.'},
@@ -144,16 +166,26 @@
          gbp:{t:'Google Business profile', d:'Your listing on Google Maps, with your opening hours, your address and your reviews.'},
          domain:{t:'Domain name', d:'Your site\'s address, like yourcompany.be. About {domain} a year.'},
          hosting:{t:'Hosting', d:'The space that keeps your site online, like the rent for your shop.'},
-         monitoring:{t:'Monitoring', d:'I check that your site works and I get an alert if it goes down.', ex:'For example: a message reaches me as soon as the page stops answering.'} }
+         monitoring:{t:'Monitoring', d:'I check that your site works and I get an alert if it goes down.', ex:'For example: a message reaches me as soon as the page stops answering.'},
+         seo_geo:{t:'SEO and GEO', d:'SEO moves you up in Google. GEO gets you cited by AI assistants, like ChatGPT or Gemini.', ex:'Someone searches for “electrician in Huy”: your business comes up.'},
+         ai:{t:'AI automation', d:'Your site talks to your tools and does the admin for you.', ex:'Every request sent through the form creates a contact in your CRM.'} }
   };
-  /* The questions: which answer each step holds, its options, and the terms that get an explanation. */
-  var Q={'1':'type','2':'brand','3':'existing','4':'needs'};
+  /* The questions, by step id (always the same id, whatever its number on screen):
+     1 the services (several), 2 the project (only with « sites »), 3 the visual identity, 4 the current site,
+     5 the needs (several, with « Autre »), 6 the options. Which answer each step holds, its options, the terms
+     that get an explanation, and the logo shape of each service. */
+  var Q={'1':'services','2':'type','3':'brand','4':'existing','5':'needs'};
   var OPTS={
-    '1':[{v:'website',tips:['site']},{v:'app',tips:['app']},{v:'tool',tips:['tool']}],
-    '2':[{v:'have',tips:['charte']},{v:'refresh'},{v:'scratch'}],
-    '3':[{v:'none'},{v:'rebuild'},{v:'improve'}],
-    '4':[{v:'presentation'},{v:'connected',tips:['integration','crm']},{v:'automation',tips:['automation']}]
+    '1':[{v:'sites',tips:['site'],shape:'sq'},{v:'seo',tips:['seo_geo'],shape:'tri'},{v:'auto',tips:['ai'],shape:'ci'}],
+    '2':[{v:'website',tips:['site']},{v:'app',tips:['app']},{v:'tool',tips:['tool']}],
+    '3':[{v:'have',tips:['charte']},{v:'refresh'},{v:'scratch'}],
+    '4':[{v:'none'},{v:'rebuild'},{v:'improve'}],
+    '5':[{v:'presentation'},{v:'connected',tips:['integration','crm']},{v:'automation',tips:['automation']},{v:'other'}]
   };
+  var REQUIRED={'1':1,'2':1}, OPTIONAL={'3':1,'4':1,'5':1}, ORDER=['1','2','3','4','5','6'];
+  var SHAPE={ sq:'<rect x="2" y="2" width="20" height="20" rx="5" fill="#2823EE"/>', tri:'<path d="M12 2 L23 21 L1 21 Z" fill="#EDAF2F"/>',
+              ci:'<circle cx="12" cy="12" r="10" fill="#E2452C"/>' };
+  var CHECK='<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var EXTRAS=[
     {q:'email', v:['yes','no','have']},
     {q:'seo', v:['yes','no'], tips:['seo','gbp']},
@@ -161,8 +193,9 @@
     {q:'domain', v:['have','reserve'], tips:['domain']}
   ];
   var VALID={type:['website','app','tool'], brand:['have','refresh','scratch'], existing:['none','rebuild','improve'],
-             needs:['presentation','connected','automation'], email:['yes','no','have'], seo:['yes','no'],
-             after:['self','hosting','full','unsure'], domain:['have','reserve']};
+             email:['yes','no','have'], seo:['yes','no'], after:['self','hosting','full','unsure'], domain:['have','reserve']};
+  /* The answers that take several values, kept as arrays in this order. */
+  var LISTS={services:['sites','seo','auto'], needs:['presentation','connected','automation','other']};
 
   function lang(){ return String(root.lang||'en').toLowerCase().indexOf('fr')===0 ? 'fr' : 'en'; }
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
@@ -202,42 +235,87 @@
   var A={}, STEP='1', SENT=false, CAP={name:'',email:'',phone:'',consent:false};
   function clean(a){
     var out={};
-    if(a && typeof a==='object') for(var k in VALID){ if(VALID[k].indexOf(a[k])>=0) out[k]=a[k]; }
-    if(a && typeof a.url==='string') out.url=a.url.slice(0,200);
+    if(!a || typeof a!=='object') return out;
+    for(var k in VALID){ if(VALID[k].indexOf(a[k])>=0) out[k]=a[k]; }
+    for(var l in LISTS){ if(Array.isArray(a[l])) out[l]=LISTS[l].filter(function(v){ return a[l].indexOf(v)>=0; }); }
+    if(typeof a.url==='string') out.url=a.url.slice(0,200);
+    if(typeof a.needs_other==='string') out.needs_other=a.needs_other.slice(0,200);
     return out;
   }
-  function readStore(){ try{ return JSON.parse(sessionStorage.getItem(KEY)||'null')||{}; }catch(e){ return {}; } }
+  function readStore(){ try{ var s=JSON.parse(sessionStorage.getItem(KEY)||'null'); return s && typeof s==='object' ? s : {}; }catch(e){ return {}; } }
   function writeStore(s){ try{ sessionStorage.setItem(KEY, JSON.stringify(s)); }catch(e){} }
-  function save(){ writeStore({v:1, step:STEP, a:A}); }
-  (function(){ var s=readStore(); if(s.v===1){ A=clean(s.a); if(/^([1-5]|r)$/.test(s.step||'')) STEP=s.step; } })();
+  function save(){ writeStore({v:2, step:STEP, a:A}); }
+  (function(){
+    var s=readStore();
+    if(s.v===2){ A=clean(s.a); if(/^([1-6]|r)$/.test(s.step||'')) STEP=s.step; return; }
+    /* An older shape (v1: one project type, five steps) is dropped; only a pending hop to the booking form survives. */
+    if(s.v!==undefined || s.a){ if(s.book) writeStore({book:s.book}); else try{ sessionStorage.removeItem(KEY); }catch(e){} }
+  })();
 
-  function path(){ return A.type && A.type!=='website' ? ['1','5'] : ['1','2','3','4','5']; }
+  function svc(k){ return !!A.services && A.services.indexOf(k)>=0; }
+  function isSite(){ return svc('sites') && A.type==='website'; }               // a website build: identity, current site and needs count
+  function has(list, v){ return !!list && list.indexOf(v)>=0; }
+  /* The steps for the services ticked: the union of each service's own path, every step once, in ORDER.
+       sites + a website   1 → 2 → 3 → 4 → 5 → 6
+       sites + app or tool 1 → 2 → 6
+       seo                 1 → 4 → 6
+       auto                1 → 4 → 5 → 6                                                                          */
+  function path(){
+    var on={'1':1,'6':1};
+    if(svc('sites')){ on['2']=1; if(A.type==='website'){ on['3']=on['4']=on['5']=1; } }
+    if(svc('seo')) on['4']=1;
+    if(svc('auto')){ on['4']=on['5']=1; }
+    return ORDER.filter(function(s){ return on[s]; });
+  }
+  function asks(s){ return path().indexOf(s)>=0; }
+  function stepNo(){ return path().indexOf(STEP)+1; }                          // the number on screen, also the one in the statistics
+  function answered(s){ var q=Q[s], v=q && A[q]; return LISTS[q] ? !!(v && v.length) : !!v; }
   function hasSite(){ return A.existing==='rebuild' || A.existing==='improve'; }
-  function siteUrl(){ return (A.type==='website' && hasSite() && A.url) ? A.url : ''; }
+  function siteUrl(){ return (asks('4') && hasSite() && A.url) ? A.url : ''; }
+  function otherText(){ return (asks('5') && has(A.needs,'other') && A.needs_other) ? A.needs_other : ''; }
   function urlOk(v){ return !v || /^(https?:\/\/)?([a-z0-9¡-￿-]+\.)+[a-z¡-￿]{2,}(:\d+)?(\/\S*)?$/i.test(v); }
 
-  /* ---------- the estimate: base + modifiers, to the nearest 50 €, never below the floor ---------- */
+  /* ---------- the estimate: base + modifiers, to the nearest 50 €, never below the floor ----------
+     · sites + a website: the base follows the most complete need ticked (automation > connected > presentation).
+       « Autre » never sets the base: it gets its own line, « à voir à l'appel », and with « Autre » alone (or no need
+       at all) the base is the showcase site, the least any website costs. With « auto » ticked too, the base is at
+       least the connected site (or the automation one, when that need is ticked).
+     · sites + an app or a tool: on quote, from the config base, as before.
+     · auto without a website: an « Automatisation IA » line, on quote, from the low end of the connected site.
+     · seo: the « seo_google » range (an add-on to a build, or the build estimate itself when nothing is built,
+       then without the floor) and a « suivi » line on quote; the SEO option of the last step is then hidden.
+     · the monthly part does not change: it comes from the last step. */
+  function needLevel(){ var n=A.needs||[]; return has(n,'automation') ? 'automation' : has(n,'connected') ? 'connected' : has(n,'presentation') ? 'presentation' : ''; }
   function compute(){
-    var base=E.base||{}, mod=E.modifiers||{}, mo=E.monthly||{}, items=[], lo=0, hi=0, quote=false, from=0;
+    var base=E.base||{}, mod=E.modifiers||{}, mo=E.monthly||{}, items=[], lo=0, hi=0, quote=false, from=0, bk=null, build=false;
     function take(key, v, isMod){
       if(Array.isArray(v)){ var a=+v[0]||0, b=+v[1]||0; lo+=a; hi+=b; items.push({k:key, r:[a,b], mod:isMod}); }
       else if(v && v.quote){ quote=true; from=Math.max(from, +v.from||0); items.push({k:key, from:+v.from||0}); }
       else if(v && v.partner){ items.push({k:key, partner:true}); }
     }
-    var site=A.type==='website';
-    var bk = A.type==='app' ? 'application' : A.type==='tool' ? 'custom_tool'
-           : A.needs==='automation' ? 'website_automation' : A.needs==='connected' ? 'website_connected' : 'website_presentation';
-    take(bk, base[bk]);
+    var site=isSite(), seo=svc('seo'), auto=svc('auto');
+    if(svc('sites') && A.type){
+      if(A.type==='app') bk='application';
+      else if(A.type==='tool') bk='custom_tool';
+      else { var lv=needLevel()||'presentation'; if(auto && lv==='presentation') lv='connected'; bk='website_'+lv; }
+      take(bk, base[bk]); build=true;
+    }
     if(site){
       if(A.brand==='refresh') take('branding_refresh', mod.branding_refresh, true);
       if(A.brand==='scratch') take('branding_scratch', mod.branding_scratch, true);
       if(A.existing==='rebuild') take('existing_rebuild', mod.existing_rebuild, true);
       if(A.existing==='improve') take('existing_improve', mod.existing_improve, true);
     }
+    if(auto && !site){
+      var wc=base.website_connected, low=Array.isArray(wc) ? +wc[0]||0 : (wc && +wc.from)||0;
+      take('ai_automation', {quote:true, from:low}); if(!bk) bk='ai_automation'; build=true;
+    }
     if(A.email==='yes') take('pro_email', mod.pro_email, true);
-    if(A.seo==='yes') take('seo_google', mod.seo_google, true);
+    if(seo){ take('seo_google', mod.seo_google, build); items.push({k:'seo_follow', onquote:true}); if(!bk) bk='seo_google'; }
+    else if(A.seo==='yes') take('seo_google', mod.seo_google, true);
+    if(asks('5') && has(A.needs,'other')) items.push({k:'needs_other', call:true, x:otherText()});
     if(A.after && A.after!=='self' && A.domain==='reserve' && R.domain_per_year!=null) items.push({k:'domain_reserve', yearly:+R.domain_per_year});
-    var floor=+E.floor||0, r50=function(x){ return Math.round(x/50)*50; };
+    var floor=build ? +E.floor||0 : 0, r50=function(x){ return Math.round(x/50)*50; };   // SEO alone: its own range, no floor
     lo=Math.max(floor, r50(lo)); hi=Math.max(lo, r50(hi)); from=Math.max(floor, r50(from));
     var m = A.after==='self' ? {k:'self', v:+mo.self_managed||0}
           : A.after==='hosting' ? {k:'hosting', v:mo.hosting_monitoring}
@@ -261,27 +339,43 @@
     var lines=monthLines(c, L), k=c.monthly.k, t=TXT[L];
     return (k==='hosting' || k==='full') ? lines[0]+' ('+t['after_'+k]+')' : lines.join(t.list);
   }
+  function itemLabel(it, L){
+    var t=TXT[L];
+    if(it.k==='needs_other') return it.x ? fmt(t.i_needs_other, {x:it.x}) : t.i_needs_other0;
+    return t['i_'+it.k];
+  }
   function amount(it, L){
     var t=TXT[L];
+    if(it.call) return t.m_call;
+    if(it.onquote) return t.on_quote;
     if(it.partner) return t.m_partner;
     if(it.from!==undefined) return fmt(t.m_quote, {a:money(it.from,L)});
     if(it.yearly!==undefined) return fmt(t.m_domain, {a:money(it.yearly,L)});
     if(it.r[0]===0 && it.r[1]===0) return t.m_included;
     var s=span(it.r, L); return (it.mod && it.r[0]>=0) ? '+ '+s : s;
   }
+  function servicesText(L){ return (A.services||[]).map(function(s){ return TXT[L]['services_'+s]; }).join(', '); }
+  function needsText(L){
+    var t=TXT[L], x=otherText();
+    return (A.needs||[]).map(function(n){ return n==='other' ? (x ? fmt(t.i_needs_other, {x:x}) : t.needs_other) : t['needs_'+n]; }).join(', ');
+  }
   function answerRows(L){
-    var t=TXT[L], rows=[], site=A.type==='website';
+    var t=TXT[L], rows=[];
     function add(q, label){ if(A[q]) rows.push([label, t[q+'_'+A[q]]]); }
-    add('type', t.l_type);
-    if(site){ add('brand', t.l_brand); add('existing', t.l_existing); if(siteUrl()) rows.push([t.l_url, siteUrl()]); add('needs', t.l_needs); }
-    add('email', t.email_l); add('seo', t.seo_l); add('after', t.after_l);
+    if(A.services && A.services.length) rows.push([t.l_services, servicesText(L)]);
+    if(svc('sites')) add('type', t.l_type);
+    if(asks('3')) add('brand', t.l_brand);
+    if(asks('4')){ add('existing', t.l_existing); if(siteUrl()) rows.push([t.l_url, siteUrl()]); }
+    if(asks('5') && A.needs && A.needs.length) rows.push([isSite() ? t.l_needs : t.l_auto, needsText(L)]);
+    add('email', t.email_l); if(!svc('seo')) add('seo', t.seo_l); add('after', t.after_l);
     if(A.after && A.after!=='self') add('domain', t.domain_l);
     return rows;
   }
-  function itemsText(c, L){ return c.items.map(function(it){ return TXT[L]['i_'+it.k]+' ('+amount(it,L)+')'; }).join(TXT[L].list); }
+  function itemsText(c, L){ return c.items.map(function(it){ return itemLabel(it,L)+' ('+amount(it,L)+')'; }).join(TXT[L].list); }
   function shortSummary(c, L){
-    var t=TXT[L], parts=[t['type_'+A.type]];
-    if(A.type==='website' && A.needs) parts.push(t['needs_'+A.needs]);
+    var t=TXT[L], lv=needLevel();
+    var parts=[(A.services||[]).map(function(s){ return s==='sites' && A.type ? t['type_'+A.type] : t['services_'+s]; }).join(' + ')];
+    if(isSite() && lv) parts.push(t['needs_'+lv]);
     parts.push(buildText(c,L));
     if(c.monthly.k!=='unsure') parts.push(t['after_'+c.monthly.k]+(c.monthly.k==='self' ? '' : ' '+(isQuote(c.monthly.v) ? t.on_quote : monthLines(c,L)[0])));
     return t.sum+parts.join(', ');
@@ -290,7 +384,7 @@
   function mailText(c, L){
     var t=TXT[L], first=String(CAP.name||'').trim().split(/\s+/)[0];
     return fmt(t.mail, { n:first?' '+first:'', p:answerRows(L).map(function(r){ return '• '+r[0]+t.sep+r[1]; }).join('\n'),
-      b:buildText(c,L), m:monthText(c,L), i:c.items.map(function(it){ return '• '+t['i_'+it.k]+t.sep+amount(it,L); }).join('\n'), u:bookUrl(L) });
+      b:buildText(c,L), m:monthText(c,L), i:c.items.map(function(it){ return '• '+itemLabel(it,L)+t.sep+amount(it,L); }).join('\n'), u:bookUrl(L) });
   }
 
   /* ---------- statistics: anonymous, through the page's own track() when it has one ---------- */
@@ -315,7 +409,7 @@
   function evOnce(e, i){ var k=e+':'+i; if(seen[k]) return; seen[k]=1; ev(e, i); }
 
   /* ---------- the window ---------- */
-  var ov=null, card, body, prog, bar, btnBack, btnNext, btnX, OPEN=false, USED=false, lastFocus=null, lockY=0, advT=0;
+  var ov=null, card, body, prog, bar, btnBack, btnNext, btnX, OPEN=false, USED=false, lastFocus=null, lockY=0;
   var CSS=''
     +'.lg-est{position:fixed;inset:0;z-index:200;background:rgba(21,21,21,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;font-family:"Instrument Sans",system-ui,sans-serif;color:#151515;line-height:1.5;animation:lgEstBg .25s ease both;}'
     +'.lg-est[hidden],.lg-est [hidden]{display:none!important;}'
@@ -346,6 +440,36 @@
     +'.lg-est-dot{flex:none;width:22px;height:22px;margin-top:1px;border-radius:50%;border:2px solid #151515;background:#fff;}'
     +'.lg-est-opt.on .lg-est-dot{border-color:#2823EE;background:radial-gradient(circle,#2823EE 0 5px,#fff 5.5px);}'
     +'.lg-est input[type=radio]:focus-visible ~ .lg-est-dot{outline:3px solid #2823EE;outline-offset:3px;}'
+    /* Several answers: a square box instead of the dot (the services, the needs). */
+    +'.lg-est .lg-est-opt input[type=checkbox]{position:absolute;opacity:0;width:1px;height:1px;margin:0;padding:0;border:0;pointer-events:none;}'
+    +'.lg-est-box{flex:none;width:22px;height:22px;margin-top:1px;border-radius:6px;border:2px solid #151515;background:#fff;display:inline-flex;align-items:center;justify-content:center;}'
+    +'.lg-est-box svg{width:14px;height:14px;opacity:0;}'
+    +'.lg-est-opt.on .lg-est-box{border-color:#2823EE;background:#2823EE;}.lg-est-opt.on .lg-est-box svg{opacity:1;}'
+    +'.lg-est .lg-est-opt input[type=checkbox]:focus-visible ~ .lg-est-box{outline:3px solid #2823EE;outline-offset:3px;}'
+    /* The services: the logo shape, and a « ? » that opens the explanation as a bubble. */
+    +'.lg-est-svc{display:flex;align-items:center;gap:10px;padding-right:14px;}'
+    +'.lg-est .lg-est-svc label.lg-est-optl{flex:1 1 auto;min-width:0;align-items:center;min-height:72px;padding:14px 0 14px 16px;}'
+    +'.lg-est-svc .lg-est-box{margin-top:0;}'
+    +'.lg-est-shape{flex:none;width:20px;height:20px;}'
+    +'.lg-est-svc .lg-est-ot small{margin-top:2px;font-size:13.5px;line-height:1.4;}'
+    +'.lg-est .lg-est-tip.lg-est-qm{flex:none;width:28px;height:28px;min-height:0;padding:0;justify-content:center;border:1.5px solid #151515;border-radius:50%;background:#fff;color:#151515;font-weight:700;font-size:13px;line-height:1;}'
+    +'.lg-est .lg-est-tip.lg-est-qm[aria-expanded="true"]{border-color:#2823EE;background:#2823EE;color:#fff;}'
+    +'.lg-est-qm:focus-visible{outline:3px solid #2823EE;outline-offset:2px;}'
+    +'.lg-est .lg-est-pop{position:absolute;right:2px;top:calc(50% + 24px);z-index:5;width:min(320px,calc(100% - 4px));margin:0;padding:14px 16px;background:#fff;color:#151515;border:2px solid #151515;border-radius:12px;box-shadow:4px 4px 0 #2823EE;font-size:14px;line-height:1.5;}'
+    +'.lg-est .lg-est-pop:empty{width:0;height:0;padding:0;border:0;box-shadow:none;overflow:hidden;}'
+    +'.lg-est .lg-est-pop b{display:block;font-family:"Sora",system-ui,sans-serif;font-weight:700;font-size:14.5px;color:#151515;}'
+    +'.lg-est .lg-est-pop p{margin:4px 0 0;color:#3d4046;}'
+    +'.lg-est .lg-est-pop .lg-est-ex{margin-top:10px;padding:8px 10px;border-radius:8px;background:#EDAF2F24;font-size:13.5px;line-height:1.45;color:#151515;}'
+    +'.lg-est .lg-est-pop .lg-est-ex b{margin-bottom:2px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a6206;}'
+    +'.lg-est-arrow{position:absolute;right:19px;top:-9px;width:14px;height:14px;background:#fff;border-left:2px solid #151515;border-top:2px solid #151515;transform:rotate(45deg);}'
+    /* « Autre »: the free text, under its box. */
+    +'.lg-est-other{padding:0 16px 14px 52px;}'
+    +'.lg-est .lg-est-other input[type=text]{height:44px;background:#fff;font-size:15px;}'
+    /* Next without the required answer: the options turn red, the message stays under them. */
+    +'.lg-est .lg-est-opts.invalid .lg-est-opt{border-color:#E2452C;}'
+    +'.lg-est-alert{display:flex;align-items:flex-start;gap:12px;margin-top:18px;padding:13px 16px;border-left:4px solid #E2452C;border-radius:0 12px 12px 0;background:#E2452C14;font-size:15px;line-height:1.5;color:#151515;}'
+    +'.lg-est-alert b{font-family:"Sora",system-ui,sans-serif;font-weight:700;}'
+    +'.lg-est-bang{flex:none;width:24px;height:24px;border-radius:50%;background:#E2452C;color:#fff;font-family:"Sora",system-ui,sans-serif;font-weight:800;font-size:14px;line-height:24px;text-align:center;}'
     +'.lg-est-ot b{display:block;font-family:"Sora",system-ui,sans-serif;font-weight:700;font-size:16.5px;line-height:1.3;}'
     +'.lg-est-ot small{display:block;margin-top:3px;font-size:14px;line-height:1.45;color:#3d4046;}'
     +'.lg-est-tips{display:flex;flex-wrap:wrap;gap:8px;margin-top:-6px;padding:0 16px 14px 52px;}'
@@ -382,7 +506,7 @@
     +'.lg-est-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #151515;}'
     +'.lg-est-btn.pri{background:#2823EE;border-color:#2823EE;color:#fff;box-shadow:4px 4px 0 #151515;}'
     +'.lg-est-btn[disabled]{opacity:.6;cursor:progress;transform:none!important;}'
-    +'.lg-est-back.off{visibility:hidden;}'
+    +'.lg-est-btn.lg-est-back[disabled]{opacity:.4;cursor:not-allowed;box-shadow:none;}'
     +'.lg-est-figs{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;margin-top:20px;}'
     +'.lg-est-fig{padding:15px 16px;border:2px solid #151515;border-radius:14px;background:#faf8f2;}'
     +'.lg-est-fig.main{background:#2823EE;border-color:#2823EE;color:#fff;box-shadow:5px 5px 0 #151515;}'
@@ -425,6 +549,7 @@
     +  '.lg-est-foot{padding:12px 18px calc(12px + env(safe-area-inset-bottom));}'
     +  '.lg-est-next{flex:1;}.lg-est-back{padding:0 16px;}'
     +  '.lg-est-tips,.lg-est-tipbox{padding-left:16px;margin-left:0;}.lg-est-tipbox{margin-left:16px;}'
+    +  '.lg-est-other{padding-left:16px;}'
     +  '.lg-est-figs,.lg-est-frow{grid-template-columns:1fr;}'
     +  '.lg-est-cap{padding:16px;box-shadow:5px 5px 0 #2823EE;}'
     +  '.lg-est-acts .lg-est-btn{width:100%;}'
@@ -441,12 +566,25 @@
     });
     return h+'</div><div class="lg-est-tipbox" id="'+boxId+'" aria-live="polite"></div>';
   }
+  /* A service's explanation: a round « ? » beside it, the same toggle as the chips, shown as a bubble. */
+  function qmHTML(k, boxId, title, L){
+    return '<button type="button" class="lg-est-tip lg-est-qm" data-tip="'+k+'" aria-expanded="false" aria-controls="'+boxId+'" aria-label="'+esc(TXT[L].tip+title)+'">?</button>'
+      +'<div class="lg-est-tipbox lg-est-pop" id="'+boxId+'" aria-live="polite"></div>';
+  }
   function optionHTML(q, o, L){
-    var t=TXT[L], on=A[q]===o.v, id='lg-est-'+q+'-'+o.v, title=t[q+'_'+o.v], sub=t[q+'_'+o.v+'_s'];
-    return '<div class="lg-est-opt'+(on?' on':'')+'">'
-      +'<label class="lg-est-optl" for="'+id+'"><input type="radio" id="'+id+'" name="lg-est-'+q+'" value="'+o.v+'"'+(on?' checked':'')+'>'
-      +'<span class="lg-est-dot" aria-hidden="true"></span><span class="lg-est-ot"><b>'+esc(title)+'</b>'+(sub?'<small>'+esc(sub)+'</small>':'')+'</span></label>'
-      +(o.tips ? tipsHTML(o.tips, id+'-tip', title, L) : '')+'</div>';
+    var t=TXT[L], multi=!!LISTS[q], on=multi ? has(A[q], o.v) : A[q]===o.v, id='lg-est-'+q+'-'+o.v,
+        title=t[q+'_'+o.v], sub=t[q+'_'+o.v+'_s'], svcRow=q==='services';
+    var h='<div class="lg-est-opt'+(svcRow?' lg-est-svc':'')+(on?' on':'')+'">'
+      +'<label class="lg-est-optl" for="'+id+'"><input type="'+(multi?'checkbox':'radio')+'" id="'+id+'" name="lg-est-'+q+'" value="'+o.v+'"'+(on?' checked':'')+'>'
+      +(multi ? '<span class="lg-est-box" aria-hidden="true">'+CHECK+'</span>' : '<span class="lg-est-dot" aria-hidden="true"></span>')
+      +(o.shape ? '<svg class="lg-est-shape" viewBox="0 0 24 24" aria-hidden="true" focusable="false">'+SHAPE[o.shape]+'</svg>' : '')
+      +'<span class="lg-est-ot"><b>'+esc(title)+'</b>'+(sub?'<small>'+esc(sub)+'</small>':'')+'</span></label>';
+    if(o.tips) h+= svcRow ? qmHTML(o.tips[0], id+'-tip', title, L) : tipsHTML(o.tips, id+'-tip', title, L);
+    if(q==='needs' && o.v==='other')
+      h+='<div class="lg-est-other" id="lg-est-otherbox"'+(on?'':' hidden')+'>'
+        +'<label class="lg-est-vh" for="lg-est-needs-text">'+esc(t.other_l)+'</label>'
+        +'<input id="lg-est-needs-text" type="text" maxlength="200" autocomplete="off" placeholder="'+esc(t.other_ph)+'" value="'+esc(A.needs_other||'')+'"></div>';
+    return h+'</div>';
   }
   function extraHTML(x, L){
     var t=TXT[L], gid='lg-est-x-'+x.q, sub=x.q==='domain';
@@ -463,14 +601,17 @@
     return h+'</div>';
   }
   function stepHTML(s, L){
-    var t=TXT[L], h='<div class="lg-est-step" data-step="'+s+'">';
-    if(s==='2' || s==='3' || s==='4') h+='<span class="lg-est-tag">'+esc(t.optional)+'</span>';
-    h+='<h3 class="lg-est-q" id="lg-est-q" tabindex="-1">'+esc(t['q'+s])+'</h3>';
-    if(t['h'+s]) h+='<p class="lg-est-hint">'+esc(t['h'+s])+'</p>';
-    if(s==='5'){ h+=extraHTML(EXTRAS[0],L)+extraHTML(EXTRAS[1],L)+extraHTML(EXTRAS[2],L); return h+'</div>'; }
-    h+='<div class="lg-est-opts" role="radiogroup" aria-labelledby="lg-est-q">'+OPTS[s].map(function(o){ return optionHTML(Q[s], o, L); }).join('')+'</div>';
-    if(s==='1') h+='<p class="lg-est-err" id="lg-est-req" role="alert" hidden>'+esc(t.req)+'</p>';
-    if(s==='3') h+='<div class="lg-est-url" id="lg-est-urlbox"'+(hasSite()?'':' hidden')+'>'
+    var t=TXT[L], h='<div class="lg-est-step" data-step="'+s+'">', q=Q[s], multi=!!LISTS[q];
+    if(OPTIONAL[s]) h+='<span class="lg-est-tag">'+esc(t.optional)+'</span>';
+    h+='<h3 class="lg-est-q" id="lg-est-q" tabindex="-1">'+esc(s==='5' && !isSite() ? t.q5_auto : t['q'+s])+'</h3>';
+    if(t['h'+s]) h+='<p class="lg-est-hint" id="lg-est-hint">'+esc(t['h'+s])+'</p>';
+    if(s==='6'){                                                              // the SEO option goes when the SEO service is ticked
+      h+=extraHTML(EXTRAS[0],L)+(svc('seo') ? '' : extraHTML(EXTRAS[1],L))+extraHTML(EXTRAS[2],L); return h+'</div>';
+    }
+    h+='<div class="lg-est-opts" id="lg-est-grp" role="'+(multi?'group':'radiogroup')+'" aria-labelledby="lg-est-q" aria-describedby="lg-est-hint">'
+      +OPTS[s].map(function(o){ return optionHTML(q, o, L); }).join('')+'</div>';
+    if(REQUIRED[s]) h+='<div class="lg-est-alert" id="lg-est-req" role="alert" hidden></div>';
+    if(s==='4') h+='<div class="lg-est-url" id="lg-est-urlbox"'+(hasSite()?'':' hidden')+'>'
       +'<label class="lg-est-l" for="lg-est-url">'+esc(t.url_l)+'</label>'
       +'<input id="lg-est-url" type="text" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" maxlength="200" placeholder="'+esc(t.url_ph)+'" value="'+esc(A.url||'')+'" aria-describedby="lg-est-url-help">'
       +'<p class="lg-est-help" id="lg-est-url-help">'+esc(t.url_help)+'</p>'
@@ -488,7 +629,7 @@
       +'<form id="lg-est-form">'
       +'<input class="lg-est-honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">'
       +'<div class="lg-est-frow">'
-      +'<div class="lg-est-f"><label for="lg-est-name">'+esc(t.f_name)+'</label><input id="lg-est-name" name="name" type="text" placeholder="Jean Dupont" autocomplete="name" autocapitalize="words" maxlength="120" required value="'+esc(CAP.name)+'"></div>'
+      +'<div class="lg-est-f"><label for="lg-est-name">'+esc(t.f_name)+'</label><input id="lg-est-name" name="name" type="text" placeholder="'+esc(t.name_ph)+'" autocomplete="name" autocapitalize="words" maxlength="120" required value="'+esc(CAP.name)+'"></div>'
       +'<div class="lg-est-f"><label for="lg-est-email">'+esc(t.f_email)+'</label><input id="lg-est-email" name="email" type="email" placeholder="vous@entreprise.be" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" maxlength="160" required value="'+esc(CAP.email)+'"></div>'
       +'</div>'
       +'<div class="lg-est-f"><label for="lg-est-phone">'+esc(t.f_phone)+'</label><input id="lg-est-phone" name="phone" type="tel" placeholder="+32 ..." autocomplete="tel" inputmode="tel" maxlength="40" value="'+esc(CAP.phone)+'"></div>'
@@ -507,16 +648,21 @@
       +'<div class="lg-est-fig"><span class="lg-est-fl">'+esc(t.r_month)+'</span>'+month+'</div></div>'
       +'<p class="lg-est-disc">'+esc(t.disc)+'</p>'
       +'<div class="lg-est-items"><span class="lg-est-fl">'+esc(t.r_items)+'</span><ul>'
-      +c.items.map(function(it){ return '<li><span>'+esc(t['i_'+it.k])+'</span><b>'+esc(amount(it,L))+'</b></li>'; }).join('')+'</ul></div>'
+      +c.items.map(function(it){ return '<li><span>'+esc(itemLabel(it,L))+'</span><b>'+esc(amount(it,L))+'</b></li>'; }).join('')+'</ul></div>'
       +'<div class="lg-est-cap" id="lg-est-cap">'+capHTML(L)+'</div>'
       +'<p class="lg-est-again"><button type="button" class="lg-est-link" data-est-restart>'+esc(t.restart)+'</button></p>'
       +'</div>';
   }
 
+  /* A step that the answers no longer lead to, or one past an unanswered required question, falls back. */
+  function fixStep(){
+    var p=path(), need = !answered('1') ? '1' : (svc('sites') && !A.type) ? '2' : null;
+    if(STEP!=='r' && p.indexOf(STEP)<0) STEP=p[0];
+    if(need && (STEP==='r' || p.indexOf(STEP)>p.indexOf(need))) STEP=need;
+  }
   function render(dir, noFocus){
-    var L=lang(), t=TXT[L], p=path(), i=p.indexOf(STEP);
-    if(STEP!=='r' && i<0){ STEP=p[0]; i=0; }
-    if(STEP==='r' && !A.type){ STEP='1'; i=0; }
+    var L=lang(), t=TXT[L];
+    fixStep();
     $('lg-est-title').textContent=t.title;
     btnX.setAttribute('aria-label', t.close);
     paintProg();
@@ -524,25 +670,37 @@
     body.innerHTML = STEP==='r' ? resultHTML(L) : stepHTML(STEP, L);
     body.scrollTop=0;
     var st=body.firstChild; if(dir==='back' && st) st.classList.add('back'); if(!dir && st) st.style.animation='none';
-    btnBack.textContent=t.back; btnBack.classList.toggle('off', STEP==='1');
+    btnBack.textContent=t.back; btnBack.disabled = STEP==='1';
     btnNext.hidden = STEP==='r'; paintNext();
     each(body.querySelectorAll('.lg-est-tip'), bindTip);
     if(!noFocus){ var q=$('lg-est-q'); if(q) try{ q.focus({preventScroll:true}); }catch(e){} }
-    if(STEP==='r') evOnce('estimator_result_shown', compute().quote ? 'quote' : 'range'); else evOnce('estimator_step', STEP);
+    if(STEP==='r') evOnce('estimator_result_shown', compute().quote ? 'quote' : 'range'); else evOnce('estimator_step', stepNo());
   }
+  /* « Étape 1 » alone: how many steps follow depends on the services ticked there. */
   function paintProg(){
     var t=TXT[lang()], p=path(), i=p.indexOf(STEP);
-    prog.textContent = STEP==='r' ? t.result : fmt(t.step, {n:i+1, t:p.length});
-    bar.style.width = (STEP==='r' ? 100 : (i+1)/p.length*100)+'%';
+    prog.textContent = STEP==='r' ? t.result : STEP==='1' ? fmt(t.step1, {n:1}) : fmt(t.step, {n:i+1, t:p.length});
+    bar.style.width = (STEP==='r' ? 100 : STEP==='1' ? 100/ORDER.length : (i+1)/p.length*100)+'%';
   }
   function paintNext(){
     var t=TXT[lang()];
-    btnNext.textContent = STEP==='5' ? t.see : (STEP==='1' || A[Q[STEP]]) ? t.next : t.skip;
+    btnNext.textContent = STEP==='6' ? t.see : (REQUIRED[STEP] || answered(STEP)) ? t.next : t.skip;
   }
-  function go(s, dir){ clearTimeout(advT); STEP=s; save(); render(dir); }
+  /* The required answer is missing: the message under the options (re-written, so that it is read out again). */
+  function setReq(show){
+    var e=$('lg-est-req'), g=$('lg-est-grp'), t=TXT[lang()]; if(!e) return;
+    if(show){
+      e.innerHTML='<span class="lg-est-bang" aria-hidden="true">!</span><span><b>'+esc(STEP==='1' ? t.req_svc : t.req)+'</b>'+(STEP==='1' ? ' '+esc(t.req_svc_more) : '')+'</span>';
+      e.hidden=false;
+      try{ e.scrollIntoView({block:'nearest'}); }catch(x){}
+    } else { e.hidden=true; e.innerHTML=''; }
+    if(g){ g.classList.toggle('invalid', show); if(show) g.setAttribute('aria-invalid','true'); else g.removeAttribute('aria-invalid');
+           g.setAttribute('aria-describedby', show ? 'lg-est-hint lg-est-req' : 'lg-est-hint'); }
+  }
+  function go(s, dir){ STEP=s; save(); render(dir); }
   function next(){
-    if(STEP==='1' && !A.type){ var e=$('lg-est-req'); if(e) e.hidden=false; return; }
-    if(STEP==='3'){ var u=$('lg-est-url'); if(u && hasSite() && !urlOk(u.value.trim())){ $('lg-est-urlerr').hidden=false; u.focus(); return; } }
+    if(REQUIRED[STEP] && !answered(STEP)){ setReq(true); return; }
+    if(STEP==='4'){ var u=$('lg-est-url'); if(u && hasSite() && !urlOk(u.value.trim())){ $('lg-est-urlerr').hidden=false; u.focus(); return; } }
     var p=path(), i=p.indexOf(STEP);
     go(i+1<p.length ? p[i+1] : 'r', 'fwd');
   }
@@ -566,7 +724,12 @@
     var L=lang(), tp=TIP[L][b.getAttribute('data-tip')], box=$(b.getAttribute('aria-controls'));
     if(!tp || !box) return;
     var d=fmt(tp.d, {domain: price('domain', L)||''});
-    box.innerHTML='<b>'+esc(tp.t)+'.</b> '+esc(d)+(tp.ex ? '<em>'+esc(tp.ex)+'</em>' : '');
+    if(box.classList.contains('lg-est-pop')){                               // the bubble: the example under its own « Exemple » label
+      var ex=String(tp.ex||'').replace(/^(Par exemple|For example)\s*:\s*/, ''); ex=ex.charAt(0).toUpperCase()+ex.slice(1);
+      box.innerHTML='<b>'+esc(tp.t)+'</b><p>'+esc(d)+'</p>'+(ex ? '<p class="lg-est-ex"><b>'+esc(TXT[L].ex)+'</b>'+esc(ex)+'</p>' : '')
+        +'<span class="lg-est-arrow" aria-hidden="true"></span>';
+    }
+    else box.innerHTML='<b>'+esc(tp.t)+'.</b> '+esc(d)+(tp.ex ? '<em>'+esc(tp.ex)+'</em>' : '');
     b.setAttribute('aria-expanded','true');
     if(pinned) b.setAttribute('data-pinned',''); else b.removeAttribute('data-pinned');
   }
@@ -581,18 +744,22 @@
     CAP.name=(f.elements.name.value||'').trim(); CAP.email=(f.elements.email.value||'').trim();
     CAP.phone=(f.elements.phone.value||'').trim(); CAP.consent=!!f.elements.consent.checked;
   }
+  /* Contract v2 (docs/estimator-jarvis.md): answers.services, answers.needs as a list, answers.needs_other. */
   function payload(c){
-    var L=lang(), site=A.type==='website', mo=c.monthly, v=mo.v;
+    var L=lang(), mo=c.monthly, v=mo.v;
     return {
-      v:1, s:sid(), l:L, ts:new Date().toISOString(), k: crew() ? 1 : undefined,
+      v:2, s:sid(), l:L, ts:new Date().toISOString(), k: crew() ? 1 : undefined,
       name:CAP.name, email:CAP.email, phone:CAP.phone||null,
-      answers:{ type:A.type, branding: site ? A.brand||null : null, existing: site ? A.existing||null : null, url: siteUrl()||null,
-                needs: site ? A.needs||null : null, pro_email:A.email||null, seo:A.seo||null, after:A.after||null,
+      answers:{ services:(A.services||[]).slice(), type: svc('sites') ? A.type||null : null,
+                branding: asks('3') ? A.brand||null : null, existing: asks('4') ? A.existing||null : null, url: siteUrl()||null,
+                needs: asks('5') ? (A.needs||[]).slice() : [], needs_other: otherText()||null,
+                pro_email:A.email||null, seo: svc('seo') ? 'yes' : A.seo||null, after:A.after||null,
                 domain: (A.after && A.after!=='self') ? A.domain||null : null },
       estimate:{ base:c.base, quote:c.quote, min: c.quote ? null : c.lo, max: c.quote ? null : c.hi, from: c.quote ? c.from : null, currency:'EUR', vat:'excl' },
       monthly:{ option:mo.k, quote:isQuote(v), min: (v==null || isQuote(v)) ? null : (Array.isArray(v) ? +v[0] : +v), max: (v==null || isQuote(v)) ? null : (Array.isArray(v) ? +v[1] : +v) },
-      items: c.items.map(function(it){ return { key:it.k, label:TXT[L]['i_'+it.k], amount:amount(it,L),
-        min: it.r ? it.r[0] : (it.from!==undefined ? it.from : null), max: it.r ? it.r[1] : null, partner: !!it.partner, quote: it.from!==undefined, yearly: it.yearly!==undefined ? it.yearly : null }; }),
+      items: c.items.map(function(it){ return { key:it.k, label:itemLabel(it,L), amount:amount(it,L),
+        min: it.r ? it.r[0] : (it.from!==undefined ? it.from : null), max: it.r ? it.r[1] : null, partner: !!it.partner,
+        quote: it.from!==undefined || !!it.onquote, call: !!it.call, yearly: it.yearly!==undefined ? it.yearly : null }; }),
       text:{ build:buildText(c,L), monthly:monthText(c,L), answers:answerRows(L), summary:shortSummary(c,L), disclaimer:TXT[L].disc, mail:mailText(c,L) },
       bookUrl: bookUrl(L)
     };
@@ -643,7 +810,7 @@
     var pre={ name:CAP.name, email:CAP.email, phone:CAP.phone, subject:shortSummary(compute(), lang()) };
     ev('estimator_to_booking');
     if(typeof window.lgOpenBooking==='function'){ close('booking'); window.lgOpenBooking(pre); return; }
-    var s=readStore(); s.v=1; s.a=A; s.step=STEP; s.book=pre; writeStore(s);
+    var s=readStore(); s.v=2; s.a=A; s.step=STEP; s.book=pre; writeStore(s);
     close('booking');
     location.href='./?book=1#contact';
   }
@@ -673,23 +840,27 @@
     btnNext.addEventListener('click', next);
     btnBack.addEventListener('click', back);
     ov.addEventListener('click', function(e){ if(e.target===ov) close('bg'); });
+    /* Choosing an answer never moves on by itself: Next (or Skip) does. */
     body.addEventListener('change', function(e){
-      var el=e.target; if(el.type!=='radio' || el.name.indexOf('lg-est-')!==0) return;
-      var q=el.name.slice(7); A[q]=el.value; save();
-      each(body.querySelectorAll('input[name="'+el.name+'"]'), function(r){ var box=r.closest('.lg-est-opt,.lg-est-pill'); if(box) box.classList.toggle('on', r.checked); });
-      if(q==='type'){ var e1=$('lg-est-req'); if(e1) e1.hidden=true; paintProg(); }   // an application or a tool skips to the options: « 1 of 2 »
+      var el=e.target; if((el.type!=='radio' && el.type!=='checkbox') || !el.name || el.name.indexOf('lg-est-')!==0) return;
+      var q=el.name.slice(7), group=body.querySelectorAll('input[name="'+el.name+'"]');
+      if(LISTS[q]){ var list=[]; each(group, function(c){ if(c.checked) list.push(c.value); }); A[q]=list; }
+      else A[q]=el.value;
+      save();
+      each(group, function(r){ var box=r.closest('.lg-est-opt,.lg-est-pill'); if(box) box.classList.toggle('on', r.checked); });
+      if(REQUIRED[STEP] && Q[STEP]===q){ if(answered(STEP)) setReq(false); paintProg(); }   // the services and the project set how many steps follow
+      if(q==='needs'){
+        var ob=$('lg-est-otherbox'), oi=$('lg-est-needs-text'), on=has(A.needs,'other');
+        if(ob) ob.hidden=!on;
+        if(on && el.value==='other' && el.checked && oi) try{ oi.focus({preventScroll:true}); oi.scrollIntoView({block:'nearest'}); }catch(x){}
+      }
       if(q==='existing'){ var ub=$('lg-est-urlbox'); if(ub) ub.hidden=!hasSite(); }
       if(q==='after'){ var db=$('lg-est-x-domain-box'); if(db) db.hidden=!(A.after && A.after!=='self'); }
       paintNext();
     });
-    /* A tap or a click on a one-question screen moves on by itself; the keyboard never does (arrows only change the answer). */
-    body.addEventListener('click', function(e){
-      var l=e.target.closest && e.target.closest('label.lg-est-optl'); if(!l || !e.detail) return;
-      var inp=l.querySelector('input'); if(STEP==='3' && inp.value!=='none') return;
-      clearTimeout(advT); advT=setTimeout(function(){ if(OPEN && inp.checked) next(); }, RM ? 0 : 260);
-    });
     body.addEventListener('input', function(e){
       if(e.target.id==='lg-est-url'){ A.url=e.target.value.trim().slice(0,200); save(); $('lg-est-urlerr').hidden=true; }
+      if(e.target.id==='lg-est-needs-text'){ A.needs_other=e.target.value.trim().slice(0,200); save(); }
       var f=e.target.form; if(f && f.id==='lg-est-form') readCap(f);
     });
     body.addEventListener('click', function(e){
@@ -714,12 +885,14 @@
       else if(!e.shiftKey && a===last){ e.preventDefault(); first.focus(); }
     });
     new MutationObserver(function(){ if(OPEN) render(null, true); }).observe(root, {attributes:true, attributeFilter:['lang']});
-    addEventListener('pagehide', function(){ if(OPEN && !SENT) ev('estimator_abandon', STEP==='r' ? 'result' : STEP, true); });
+    addEventListener('pagehide', function(){ if(OPEN && !SENT) ev('estimator_abandon', STEP==='r' ? 'result' : stepNo(), true); });
   }
-  function open(source){
+  /* service: « sites », « seo » or « auto » (data-estimator-service on a service page's button), ticked only on a fresh start. */
+  function open(source, service){
     if(OPEN) return;
     if(document.querySelector('.modal-bg:not([hidden])')) return;          // one window at a time: never over the booking form
     build();
+    if(LISTS.services.indexOf(service)>=0 && !answered('1')){ A.services=[service]; STEP='1'; save(); }
     OPEN=true; USED=true; lastFocus=document.activeElement;
     ov.classList.remove('out'); ov.hidden=false; lock();
     ev('estimator_open', source || 'other');
@@ -727,15 +900,15 @@
   }
   function close(how){
     if(!OPEN) return;
-    if(how!=='booking' && !SENT) ev('estimator_abandon', STEP==='r' ? 'result' : STEP);
-    OPEN=false; clearTimeout(advT); closeTips();
+    if(how!=='booking' && !SENT) ev('estimator_abandon', STEP==='r' ? 'result' : stepNo());
+    OPEN=false; closeTips();
     var done=function(){ ov.hidden=true; ov.classList.remove('out'); unlock(); if(how!=='booking' && lastFocus && lastFocus.focus) try{ lastFocus.focus({preventScroll:true}); }catch(e){} };
     if(RM || how==='booking') done(); else { ov.classList.add('out'); setTimeout(done, 160); }
   }
 
   document.addEventListener('click', function(e){
     var el=e.target.closest && e.target.closest('[data-estimator]'); if(!el) return;
-    e.preventDefault(); open(el.getAttribute('data-estimator'));
+    e.preventDefault(); open(el.getAttribute('data-estimator'), el.getAttribute('data-estimator-service'));
   });
   window.LGEstimator={ open:open, close:close, isOpen:function(){ return OPEN; }, used:function(){ return USED; },
                        fill:fill, price:price, takeHandoff:takeHandoff };

@@ -123,8 +123,13 @@
   .cta h2{color:#fff;margin:0;max-width:22ch;}
   .cta p{color:#d8d7ff;font-size:14.5px;margin-top:6px;}
   .cta .btn{background:var(--yellow);border-color:var(--ink);color:var(--ink);box-shadow:5px 5px 0 rgba(0,0,0,.35);}
-  .cta .reach{flex-basis:100%;font-size:14px;color:#d8d7ff;}
-  .cta .reach a{color:#fff;font-family:var(--disp);font-weight:700;text-decoration:none;border-bottom:2px solid var(--yellow);white-space:nowrap;}
+  .cta .reach{flex-basis:100%;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .cta .reach > span{font-size:14px;color:#d8d7ff;margin-right:4px;}
+  .cta .ric{width:44px;height:44px;border-radius:50%;background:#fff;border:2px solid var(--ink);display:inline-flex;align-items:center;justify-content:center;box-shadow:3px 3px 0 rgba(0,0,0,.3);text-decoration:none;transition:transform .15s ease, box-shadow .15s ease;}
+  .cta .ric:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 rgba(0,0,0,.3);}
+  .cta .ric:focus-visible{outline-color:var(--yellow);}
+  .cta .ric svg{width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .cta .ric .in{font-family:Arial,sans-serif;font-weight:700;font-size:18px;line-height:1;color:#0a66c2;}
 
   footer{border-top:2px solid var(--ink);padding:30px 0 40px;background:var(--paper);}
   footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;}
@@ -136,7 +141,7 @@
   footer .flinks a:hover{color:var(--ink);border-color:var(--blue);}
   @media(max-width:600px){
     .wrap{padding:0 20px;} header.hero{padding:52px 0 6px;} .geo{width:130px;height:120px;right:-62px;top:-34px;opacity:.38;}
-    .avatar,.avatar-fb{width:120px;height:120px;} .cta{padding:24px 20px;} .cta .btn{width:100%;justify-content:center;}
+    .avatar,.avatar-fb{width:120px;height:120px;} .cta{padding:24px 20px;} .cta .btn{width:100%;justify-content:center;} .cta .reach > span{flex-basis:100%;}
     footer .wrap{flex-direction:column;align-items:flex-start;gap:12px;}
   }
   /* ---------- motion ---------- */
@@ -151,7 +156,7 @@
   html.scrolled .topnav{box-shadow:0 10px 24px -18px rgba(0,0,0,.45);}
   .topnav{transition:box-shadow .25s;}
   .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink);}
-  @media (prefers-reduced-motion: reduce){.card,.btn{transition:none;} .rv{opacity:1;transform:none;transition:none;} header.hero .wrap > *,.geo{animation:none;}}
+  @media (prefers-reduced-motion: reduce){.card,.btn,.cta .ric{transition:none;} .rv{opacity:1;transform:none;transition:none;} header.hero .wrap > *,.geo{animation:none;}}
 </style>
 </head>
 <body>
@@ -167,7 +172,7 @@
       <span class="logo-txt">La Goffinerie</span>
     </a>
     <div class="nlinks">
-      <a href="./#alive" data-i18n="nav_alive">What I build</a>
+      <a class="nsvc" href="./#alive"><span data-i18n="nav_alive">Our services</span></a>
       <a href="work.html" data-i18n="nav_work">Work</a>
       <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
       <a href="about.html" aria-current="page" data-i18n="nav_about">About</a>
@@ -196,7 +201,7 @@
   </svg>
   <div class="wrap">
     <div class="kick" data-i18n="kick">Who's behind it</div>
-    <h1 data-i18n="h1">Simon Goffin — founder</h1>
+    <h1 data-i18n="h1">Simon Goffin, founder</h1>
     <p class="sub" data-i18n="sub">Passionate about digital transformation and about getting solutions delivered. The bridge between IT and business in large companies, now at the service of SMEs across Europe.</p>
   </div>
 </header>
@@ -235,7 +240,12 @@
           <p data-i18n="cta_p">A free 30-minute call, no obligation. Pick a day and a time on the site.</p>
         </div>
         <a class="btn" href="./#contact" data-i18n="cta_btn">Book my free call</a>
-        <p class="reach"><span data-i18n="cta_reach">Or reach me directly:</span> <a href="tel:+32479487608">+32 479 48 76 08</a> · <a href="https://wa.me/32479487608" target="_blank" rel="noopener">WhatsApp</a> · <a href="https://www.linkedin.com/in/ndashiz/" target="_blank" rel="noopener">LinkedIn</a></p>
+        <div class="reach">
+          <span data-i18n="cta_reach">Or reach me directly</span>
+          <a class="ric" href="tel:+32479487608" aria-label="Call +32 479 48 76 08" data-i18n-aria="cta_call"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></a>
+          <a class="ric" href="mailto:info@lagoffinerie.be" aria-label="Write to info@lagoffinerie.be" data-i18n-aria="cta_mail"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
+          <a class="ric" href="https://www.linkedin.com/in/ndashiz/" target="_blank" rel="noopener" aria-label="Simon Goffin on LinkedIn" data-i18n-aria="cta_li"><span class="in" aria-hidden="true">in</span></a>
+        </div>
       </div>
     </section>
   </div>
@@ -260,9 +270,9 @@
 const FR = {
   title:"À propos — La Goffinerie",
   skip:"Aller au contenu",
-  nav_alive:"Ce que je fais", nav_work:"Réalisations", nav_pricing:"Tarifs", nav_about:"À propos", nav_faq:"FAQ", nav_book:"Appel gratuit", nav_call:"Appeler", nav_contact:"Contact",
+  nav_alive:"Nos services", nav_work:"Réalisations", nav_pricing:"Tarifs", nav_about:"À propos", nav_faq:"FAQ", nav_book:"Appel gratuit", nav_call:"Appeler", nav_contact:"Contact",
   kick:"Qui est derrière",
-  h1:"Simon Goffin — fondateur",
+  h1:"Simon Goffin, fondateur",
   sub:"Passionné par la transformation digitale et par la livraison de solutions. Le pont entre l'IT et le métier en grande entreprise, aujourd'hui au service des PME en Europe.",
   p1:"Depuis des années, je fais le pont entre l'IT et le métier en grande entreprise, avec la charge de plusieurs applications de bout en bout : <strong>design utilisateur, architecture d'intégration, tests, budget</strong>.",
   p2:"Pour tenir dans un environnement très exigeant, j'ai construit mes propres outils pour automatiser ce qui pouvait l'être. <strong>« Automate the boring, dominate the important »</strong> est devenu ma devise.",
@@ -274,18 +284,21 @@ const FR = {
   f4_b:"Français, anglais et néerlandais", f4_s:"pour nos échanges ; votre site en une langue ou en plusieurs.",
   f5_b:"Basé en Belgique, actif partout en Europe", f5_s:"le premier appel se fait par téléphone ou en visio ; sur place quand ça aide.",
   f6_b:"Tout par écrit", f6_s:"périmètre, prix et planning avant de commencer ; documentation et accès à la fin.",
-  cta_h:"Dites-moi ce qui mange votre temps.", cta_p:"Un appel gratuit de 30 minutes, sans engagement. Choisissez un jour et une heure sur le site.", cta_btn:"Réserver mon appel gratuit", cta_reach:"Ou joignez-moi directement :",
+  cta_h:"Dites-moi ce qui mange votre temps.", cta_p:"Un appel gratuit de 30 minutes, sans engagement. Choisissez un jour et une heure sur le site.", cta_btn:"Réserver mon appel gratuit", cta_reach:"Ou joignez-moi directement",
+  cta_call:"Appeler le +32 479 48 76 08", cta_mail:"Écrire à info@lagoffinerie.be", cta_li:"Simon Goffin sur LinkedIn",
   foot_legal:"Mentions légales", foot_cgu:"CGU", foot_privacy:"Protection des données", foot_cookies:"Cookies",
   foot:"© 2026 La Goffinerie · Basée en Belgique."
 };
 const EN_TITLE=document.title, EN={};
 document.querySelectorAll('[data-i18n]').forEach(el=>{ EN[el.getAttribute('data-i18n')]=el.innerHTML; });
+document.querySelectorAll('[data-i18n-aria]').forEach(el=>{ EN[el.getAttribute('data-i18n-aria')]=el.getAttribute('aria-label'); });
 let LANG='en';
 function setLang(l){
   LANG=(l==='fr')?'fr':'en';
   document.documentElement.lang=LANG;
   document.title=(LANG==='fr')?FR.title:EN_TITLE;
   document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.getAttribute('data-i18n'); el.innerHTML=(LANG==='fr'&&FR[k]!==undefined)?FR[k]:EN[k]; });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el=>{ const k=el.getAttribute('data-i18n-aria'); el.setAttribute('aria-label',(LANG==='fr'&&FR[k]!==undefined)?FR[k]:EN[k]); });
   document.getElementById('lang-en').classList.toggle('active',LANG==='en');
   document.getElementById('lang-fr').classList.toggle('active',LANG==='fr');
   document.getElementById('lang-en').setAttribute('aria-pressed', String(LANG==='en'));
@@ -303,6 +316,7 @@ const rvObs=new IntersectionObserver(es=>{ es.forEach(en=>{ if(en.isIntersecting
 document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
 addEventListener('scroll',()=>{ document.documentElement.classList.toggle('scrolled', scrollY>8); },{passive:true});
 </script>
+<script src="nav.js" defer></script>
 <script src="site-state.js" defer></script>
 </body>
 </html>
