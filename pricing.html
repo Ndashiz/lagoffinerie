@@ -201,12 +201,14 @@
   /* ---------- method, driven by the scroll: the left column (title, text, the drawing of the step in view) stays put,
      the six steps scroll on the right; the one crossing the middle of the screen lights up, the line fills down to it ---------- */
   #process{background:var(--paper-2);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
-  .mgrid{display:grid;grid-template-columns:440px minmax(0,1fr);column-gap:72px;align-items:start;}
+  #process{padding:72px 0;}
+  .mgrid{display:grid;grid-template-columns:420px minmax(0,1fr);column-gap:64px;align-items:start;}
   .mside{align-self:stretch;}
+  @media(min-width:901px){.mstick h2{font-size:clamp(28px,2.6vw,36px);}}
   .mstick{position:sticky;top:104px;}
-  .mart{margin-top:34px;background:#fff;border:2px solid var(--ink);border-radius:20px;overflow:hidden;box-shadow:8px 8px 0 var(--mc,var(--yellow));transition:box-shadow .4s ease;}
-  .mart-vis{background:var(--paper);border-bottom:2px solid var(--ink);padding:20px 22px;display:flex;justify-content:center;}
-  .mart-foot{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;}
+  .mart{margin-top:26px;background:#fff;border:2px solid var(--ink);border-radius:20px;overflow:hidden;box-shadow:8px 8px 0 var(--mc,var(--yellow));transition:box-shadow .4s ease;}
+  .mart-vis{background:var(--paper);border-bottom:2px solid var(--ink);padding:16px 20px;display:flex;justify-content:center;}
+  .mart-foot{padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;}
   .fx-count{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--ink-2);}
   .fx-count b{color:var(--ink);font-weight:600;}
   .msegs{display:flex;gap:5px;}
@@ -217,21 +219,21 @@
   .mlist::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;border-radius:2px;background:rgba(21,21,21,.12);}
   .msteps{list-style:none;margin:0;padding:0;}
   .mfill{position:absolute;left:0;top:0;width:2px;height:0;border-radius:2px;background:var(--ink);}
-  .mstep{display:grid;grid-template-columns:92px minmax(0,1fr);column-gap:18px;align-items:start;padding:30px 0 30px 46px;}
+  .mstep{display:grid;grid-template-columns:80px minmax(0,1fr);column-gap:16px;align-items:start;padding:20px 0 20px 40px;}
   .mstep:nth-of-type(3n+1){--sc:var(--yellow);} .mstep:nth-of-type(3n+2){--sc:var(--blue);} .mstep:nth-of-type(3n){--sc:var(--red);}
-  .mn{font-family:var(--disp);font-weight:800;font-size:60px;line-height:1;letter-spacing:-.04em;color:var(--ink);text-shadow:4px 4px 0 var(--sc);transition:color .4s ease,text-shadow .4s ease;}
-  .mstep > div{padding-top:4px;}
+  .mn{font-family:var(--disp);font-weight:800;font-size:52px;line-height:1;letter-spacing:-.04em;color:var(--ink);text-shadow:4px 4px 0 var(--sc);transition:color .4s ease,text-shadow .4s ease;}
+  .mstep > div{padding-top:3px;}
   .ml{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);transition:color .4s ease;}
   .mstep[data-step="2"] .ml{color:var(--blue);}
-  .mstep h3{margin-top:6px;font-size:24px;font-weight:700;line-height:1.2;letter-spacing:-.01em;transition:color .4s ease;}
-  .mstep p{margin-top:8px;font-size:15.5px;line-height:1.6;color:var(--ink-2);max-width:46ch;transition:color .4s ease;}
+  .mstep h3{margin-top:5px;font-size:22px;font-weight:700;line-height:1.2;letter-spacing:-.01em;transition:color .4s ease;}
+  .mstep p{margin-top:6px;font-size:15px;line-height:1.55;color:var(--ink-2);max-width:50ch;transition:color .4s ease;}
   /* with the script, only the step in view keeps its colours; without it, all six read in full */
   html.js .mstep:not(.on) .mn{color:rgba(21,21,21,.13);text-shadow:none;}
   html.js .mstep:not(.on) .ml{color:rgba(21,21,21,.3);}
   html.js .mstep:not(.on) h3{color:rgba(21,21,21,.3);}
   html.js .mstep:not(.on) p{color:rgba(21,21,21,.28);}
   /* the drawings: one visual language — ink outline, paper blocks, blue for what matters */
-  .vg{display:none;width:100%;max-width:340px;height:auto;}
+  .vg{display:none;width:100%;max-width:320px;height:auto;}
   .vg.on{display:block;}
   .vg .k{fill:#fff;stroke:var(--ink);stroke-width:2;stroke-linejoin:round;stroke-linecap:round;}
   .vg .kl{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
@@ -265,7 +267,7 @@
   .vg.on .swapc{animation:toblue .3s 2.3s ease both;}
   @keyframes vout{to{opacity:0}} @keyframes vin{from{opacity:0}to{opacity:1}} @keyframes toblue{to{fill:var(--blue)}}
   .support{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap;}
-  #process .support{margin-top:52px;}
+  #process .support{margin-top:40px;}
   .support div{font-size:13.5px;font-weight:600;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:9px 16px;}
   .support b{color:var(--blue);}
   @media(max-width:900px){
@@ -278,9 +280,9 @@
     .mart{margin:0;box-shadow:6px 6px 0 var(--mc,var(--yellow));}
     .mart-vis{padding:12px 16px;} .vg{max-width:230px;}
     .mart-foot{padding:10px 14px;}
-    .mstep{grid-template-columns:62px minmax(0,1fr);column-gap:12px;padding:24px 0 24px 26px;}
-    .mn{font-size:42px;text-shadow:3px 3px 0 var(--sc);}
-    .mstep h3{font-size:19.5px;} .mstep p{font-size:15px;}
+    .mstep{grid-template-columns:56px minmax(0,1fr);column-gap:12px;padding:18px 0 18px 24px;}
+    .mn{font-size:38px;text-shadow:3px 3px 0 var(--sc);}
+    .mstep h3{font-size:19px;} .mstep p{font-size:15px;}
   }
   @media(max-width:600px){
     .mart-pin{top:60px;margin:14px -20px 0;padding:10px 20px 16px;} .vg{max-width:200px;}

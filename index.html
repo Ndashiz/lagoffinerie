@@ -105,9 +105,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.28 — nav: Services · Work · Pricing · FAQ and a « Get a quote » button (the estimator);
+     LA GOFFINERIE v2.30 — the hero takes the colour of the service in view (washes, line, kicker, list edge);
+     « How it works » is the scroll-driven six-step method (sticky drawing), the online estimate as a band under it.
+     (v2.28: nav: Services · Work · Pricing · FAQ and a « Get a quote » button (the estimator);
      the hero on a grid (title | logo shapes, text | the list of the three services); « How it works » as a vertical
-     line of steps beside the online estimate card; flat buttons with a soft shadow.
+     line of steps beside the online estimate card; flat buttons with a soft shadow.)
      (v2.27: three services with their own pages, the editorial FAQ, the estimator starting from the services, the floating bar.)
      Design language: "paper & shapes" — Bauhaus-leaning,
      hard edges, offset shadows on the cards, logo geometry as ornament.
@@ -136,6 +138,8 @@
   [hidden]{display:none!important;}
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
   html,body{overflow-x:hidden;}
+  /* clip, not hidden, where supported: hidden would turn the body into a scroll box and break the sticky column of the method */
+  @supports (overflow:clip){html,body{overflow-x:clip;}}
   body{
     font-family:var(--sans);color:var(--ink);background:var(--paper);
     -webkit-font-smoothing:antialiased;line-height:1.6;padding-top:66px;
@@ -234,8 +238,19 @@
   @media(max-width:560px){.topnav .logo-txt{display:none;}}
 
   /* ---------- hero: the service rotates in its colour block; its logo shape and its card answer ---------- */
-  .hero{position:relative;padding:84px 0 64px;overflow:hidden;
-    background:radial-gradient(520px 420px at 4% 70%,rgba(40,35,238,.08),transparent 70%),radial-gradient(640px 460px at 94% 100%,rgba(226,69,44,.08),transparent 70%),radial-gradient(560px 380px at 80% 0%,rgba(237,175,47,.15),transparent 70%);}
+  .hero{position:relative;padding:84px 0 64px;overflow:hidden;}
+  /* Each service tints the whole hero: three washes stacked behind it, the one of the service in view fades in (0.8 s).
+     The line under the title, the dash of the kicker and the edge of the open line in the list take the same colour. */
+  .hero[data-svc="sites"]{--hc:var(--blue);--hl:var(--blue);}
+  .hero[data-svc="auto"]{--hc:var(--red);--hl:var(--red);}
+  .hero[data-svc="strat"]{--hc:var(--yellow);--hl:#d99a1e;}
+  .hbg{position:absolute;inset:0;z-index:0;pointer-events:none;}
+  .hbg i{position:absolute;inset:0;opacity:0;transition:opacity .8s ease;}
+  .hbg i[data-svc="sites"]{background:radial-gradient(760px 560px at 84% 34%,rgba(40,35,238,.16),transparent 70%),radial-gradient(560px 440px at 2% 92%,rgba(40,35,238,.08),transparent 70%),#f4f3fb;}
+  .hbg i[data-svc="auto"]{background:radial-gradient(760px 560px at 84% 34%,rgba(226,69,44,.15),transparent 70%),radial-gradient(560px 440px at 2% 92%,rgba(226,69,44,.07),transparent 70%),#fbf2ef;}
+  .hbg i[data-svc="strat"]{background:radial-gradient(760px 560px at 84% 34%,rgba(237,175,47,.30),transparent 70%),radial-gradient(560px 440px at 2% 92%,rgba(237,175,47,.14),transparent 70%),#fbf5e6;}
+  .hero[data-svc="sites"] .hbg i[data-svc="sites"],.hero[data-svc="auto"] .hbg i[data-svc="auto"],.hero[data-svc="strat"] .hbg i[data-svc="strat"]{opacity:1;}
+  .hero .kick::before{background:var(--hc,var(--red));transition:background-color .6s ease;}
   .hero .wrap{max-width:1260px;position:relative;z-index:2;}
   .hero h1{font-size:clamp(34px,4.86vw,63px);font-weight:800;line-height:1.16;letter-spacing:-.02em;max-width:none;margin-top:20px;}
   /* The three services sit in one grid cell, so the line keeps one height and never reflows.
@@ -250,7 +265,7 @@
   .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
   .hero h1 .u{position:relative;display:inline-block;white-space:nowrap;}
   .hero h1 .u svg{position:absolute;left:0;right:0;bottom:-.12em;width:100%;height:.17em;}
-  .hero h1 .u svg path{fill:none;stroke:var(--red);stroke-width:4;stroke-linecap:round;}
+  .hero h1 .u svg path{fill:none;stroke:var(--hl,var(--red));stroke-width:4;stroke-linecap:round;transition:stroke .6s ease;}
   /* A 2 x 2 grid: the title and the drawing on one line, the text and the list of services under them, top-aligned.
      The title may run under the empty left part of the drawing's column. */
   .hgrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;column-gap:48px;row-gap:40px;}
@@ -278,7 +293,7 @@
   .hrow .hbar{position:absolute;left:16px;right:16px;bottom:0;height:2px;border-radius:2px;background:rgba(21,21,21,.06);overflow:hidden;opacity:0;transition:opacity .3s ease;}
   .hrow .hbar::after{content:"";display:block;width:0;height:100%;}
   .hrow[data-svc="sites"] .hbar::after{background:var(--blue);} .hrow[data-svc="auto"] .hbar::after{background:var(--red);} .hrow[data-svc="strat"] .hbar::after{background:var(--yellow);}
-  .hrow.on{padding:15px 16px 17px;align-items:start;background:#fff;border-color:rgba(21,21,21,.1);box-shadow:0 14px 30px rgba(21,21,21,.08);color:var(--ink);}
+  .hrow.on{padding:15px 16px 17px;align-items:start;background:#fff;border-color:rgba(21,21,21,.1);box-shadow:inset 3px 0 0 var(--hc,var(--blue)),0 14px 30px rgba(21,21,21,.08);color:var(--ink);}
   .hrow.on .hm,.hrow.on .harr{opacity:1;}
   .hrow.on b{font-weight:700;font-size:16px;}
   .hrow.on .hdw{grid-template-rows:1fr;}
@@ -558,44 +573,121 @@
 
   /* ---------- how it works, the short version ---------- */
   #process{background:var(--paper-2);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
-  /* The four steps on a vertical line, and beside them the online estimate (a dark card) with four promises under it. */
-  .pgrid{display:grid;grid-template-columns:minmax(0,1fr) 520px;gap:64px;align-items:start;margin-top:52px;}
-  .pflow{list-style:none;margin:0;padding:0;}
-  .pflow li{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr);column-gap:22px;padding-bottom:34px;}
-  .pflow li:last-child{padding-bottom:0;}
-  .pflow li:not(:last-child)::after{content:"";position:absolute;left:21px;top:50px;bottom:-6px;width:2px;background:linear-gradient(rgba(21,21,21,.2),rgba(21,21,21,.08));}
-  .pflow .pn{position:relative;z-index:1;width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--yellow);font-family:var(--mono);font-weight:600;font-size:13.5px;letter-spacing:.02em;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px var(--paper-2);}
-  .pflow li:nth-child(2) .pn{background:var(--blue);color:#fff;}
-  .pflow li:nth-child(3) .pn{background:var(--yellow);color:var(--ink);}
-  .pflow li:nth-child(4) .pn{background:var(--red);color:#fff;}
-  .pflow li > div{padding-top:9px;}
-  .pflow h3{font-size:19px;line-height:1.25;margin:0;}
-  .pflow p{margin-top:8px;font-size:15.5px;line-height:1.6;color:var(--ink-2);max-width:46ch;}
-  .pflow li .pn{transition:transform .35s cubic-bezier(.34,1.56,.64,1);}
-  .pflow li.act .pn{transform:scale(1.12);}
-  .pflow li h3{transition:color .3s;} .pflow li.act h3{color:var(--blue);}
-  .pside{display:flex;flex-direction:column;gap:28px;}
-  .pest{position:relative;overflow:hidden;border-radius:22px;padding:34px 34px 28px;color:var(--paper);
+  /* ---------- method, driven by the scroll: the left column (title, text, the drawing of the step in view) stays put,
+     the six steps scroll on the right; the one crossing the middle of the screen lights up, the line fills down to it ---------- */
+  #process{padding:72px 0;}
+  .mgrid{display:grid;grid-template-columns:420px minmax(0,1fr);column-gap:64px;align-items:start;}
+  .mside{align-self:stretch;}
+  @media(min-width:901px){.mstick h2{font-size:clamp(28px,2.6vw,36px);}}
+  .mstick{position:sticky;top:104px;}
+  .mart{margin-top:26px;background:#fff;border:2px solid var(--ink);border-radius:20px;overflow:hidden;box-shadow:8px 8px 0 var(--mc,var(--yellow));transition:box-shadow .4s ease;}
+  .mart-vis{background:var(--paper);border-bottom:2px solid var(--ink);padding:16px 20px;display:flex;justify-content:center;}
+  .mart-foot{padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;}
+  .fx-count{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--ink-2);}
+  .fx-count b{color:var(--ink);font-weight:600;}
+  .msegs{display:flex;gap:5px;}
+  .msegs i{width:22px;height:4px;border-radius:4px;background:rgba(21,21,21,.14);transition:background-color .3s ease;}
+  .msegs i.done{background:var(--ink);} .msegs i.on{background:var(--mc,var(--yellow));}
+  #process .wrap{max-width:1180px;}
+  .mlist{position:relative;}
+  .mlist::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;border-radius:2px;background:rgba(21,21,21,.12);}
+  .msteps{list-style:none;margin:0;padding:0;}
+  .mfill{position:absolute;left:0;top:0;width:2px;height:0;border-radius:2px;background:var(--ink);}
+  .mstep{display:grid;grid-template-columns:80px minmax(0,1fr);column-gap:16px;align-items:start;padding:20px 0 20px 40px;}
+  .mstep:nth-of-type(3n+1){--sc:var(--yellow);} .mstep:nth-of-type(3n+2){--sc:var(--blue);} .mstep:nth-of-type(3n){--sc:var(--red);}
+  .mn{font-family:var(--disp);font-weight:800;font-size:52px;line-height:1;letter-spacing:-.04em;color:var(--ink);text-shadow:4px 4px 0 var(--sc);transition:color .4s ease,text-shadow .4s ease;}
+  .mstep > div{padding-top:3px;}
+  .ml{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);transition:color .4s ease;}
+  .mstep[data-step="2"] .ml{color:var(--blue);}
+  .mstep h3{margin-top:5px;font-size:22px;font-weight:700;line-height:1.2;letter-spacing:-.01em;transition:color .4s ease;}
+  .mstep p{margin-top:6px;font-size:15px;line-height:1.55;color:var(--ink-2);max-width:50ch;transition:color .4s ease;}
+  /* with the script, only the step in view keeps its colours; without it, all six read in full */
+  html.js .mstep:not(.on) .mn{color:rgba(21,21,21,.13);text-shadow:none;}
+  html.js .mstep:not(.on) .ml{color:rgba(21,21,21,.3);}
+  html.js .mstep:not(.on) h3{color:rgba(21,21,21,.3);}
+  html.js .mstep:not(.on) p{color:rgba(21,21,21,.28);}
+  /* the drawings: one visual language — ink outline, paper blocks, blue for what matters */
+  .vg{display:none;width:100%;max-width:320px;height:auto;}
+  .vg.on{display:block;}
+  .vg .k{fill:#fff;stroke:var(--ink);stroke-width:2;stroke-linejoin:round;stroke-linecap:round;}
+  .vg .kl{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .vg .s{fill:var(--paper-2);}
+  .vg .b{fill:var(--blue);}
+  .vg .bs{fill:#2823EE14;}
+  .vg .bl{fill:none;stroke:var(--blue);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .vg .w{fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+  .vg .g{fill:none;stroke:#15151540;stroke-width:2;stroke-linecap:round;}
+  .vg .r{fill:var(--red);} .vg .y{fill:var(--yellow);}
+  .vg .ybadge{fill:var(--yellow);stroke:var(--ink);stroke-width:2;}
+  .vg .cur{fill:var(--ink);stroke:#fff;stroke-width:1.5;stroke-linejoin:round;}
+  .vg text{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;}
+  .vg .tw{fill:#fff;} .vg .tk{fill:var(--ink);font-size:13px;}
+  .vg.on .va{animation:vgin .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--d,0s);}
+  @keyframes vgin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .vg .grow{transform-box:fill-box;transform-origin:left center;}
+  .vg.on .grow{animation:growx 1.3s .55s cubic-bezier(.65,0,.35,1) both;}
+  @keyframes growx{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .vg .dash{stroke-dasharray:5 6;}
+  .vg.on .dash{animation:vgin .55s cubic-bezier(.2,.8,.2,1) both, dashflow 1.1s linear infinite;animation-delay:var(--d,0s), 0s;}
+  @keyframes dashflow{to{stroke-dashoffset:-22}}
+  .vg .pulse,.vg .pop{transform-box:fill-box;transform-origin:center;}
+  .vg.on .pulse{animation:vpulse 1.6s ease-out infinite;}
+  @keyframes vpulse{0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.9);opacity:0}}
+  .vg.on .pop{animation:vpop .5s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--d,0s);}
+  @keyframes vpop{from{transform:scale(0)}to{transform:scale(1)}}
+  .vg .swapv{opacity:0;}
+  .vg.on .swapx{animation:vout .3s 2.3s ease both;}
+  .vg.on .swapv{animation:vin .3s 2.5s ease both;}
+  .vg.on .swapc{animation:toblue .3s 2.3s ease both;}
+  @keyframes vout{to{opacity:0}} @keyframes vin{from{opacity:0}to{opacity:1}} @keyframes toblue{to{fill:var(--blue)}}
+  @media(max-width:900px){
+    /* Phone and tablet: nothing but the drawing stays put; it rides at the top of the screen, under the bar,
+       and changes as each step crosses the line (a flex column, so the sticky drawing can travel along the steps). */
+    .mgrid{display:flex;flex-direction:column;align-items:stretch;}
+    .mside,.mstick{display:contents;}
+    /* the pin carries a band of the section's paper, so the steps slide under it, not around it */
+    .mart-pin{position:sticky;top:66px;z-index:2;margin:18px -28px 0;padding:10px 28px 18px;background:var(--paper-2);}
+    .mart{margin:0;box-shadow:6px 6px 0 var(--mc,var(--yellow));}
+    .mart-vis{padding:12px 16px;} .vg{max-width:230px;}
+    .mart-foot{padding:10px 14px;}
+    .mstep{grid-template-columns:56px minmax(0,1fr);column-gap:12px;padding:18px 0 18px 24px;}
+    .mn{font-size:38px;text-shadow:3px 3px 0 var(--sc);}
+    .mstep h3{font-size:19px;} .mstep p{font-size:15px;}
+  }
+  @media(max-width:600px){
+    .mart-pin{top:60px;margin:14px -20px 0;padding:10px 20px 16px;} .vg{max-width:200px;}
+    .msegs i{width:16px;}
+  }
+  @media (min-width:901px) and (max-height:780px){
+    .mstick{top:86px;} .mart{margin-top:22px;} .vg{max-width:250px;} .mart-vis{padding:14px 18px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .vg.on *{animation-duration:.001s!important;animation-delay:0s!important;animation-iteration-count:1!important;}
+    .mn,.ml,.mstep h3,.mstep p,.msegs i,.mart{transition:none;}
+  }
+
+  /* under the method: the online estimate as a band, then the four promises */
+  .pest{position:relative;overflow:hidden;border-radius:22px;padding:30px 34px;margin-top:44px;display:grid;grid-template-columns:minmax(0,1fr) 380px;column-gap:48px;align-items:center;color:var(--paper);
     background:radial-gradient(420px 260px at 100% 0%,rgba(40,35,238,.55),transparent 70%),radial-gradient(360px 240px at 0% 100%,rgba(226,69,44,.22),transparent 70%),linear-gradient(160deg,#24242c,var(--ink) 60%);
     box-shadow:0 24px 48px -18px rgba(21,21,21,.45);}
   .pek{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(250,248,242,.72);}
   .pek::before{content:"";width:26px;height:2px;background:var(--red);}
-  .pest h3{margin-top:14px;font-size:30px;font-weight:800;line-height:1.16;letter-spacing:-.01em;max-width:18ch;color:var(--paper);}
-  .pest p{margin-top:12px;font-size:15.5px;line-height:1.6;color:rgba(250,248,242,.78);}
-  .pchips{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px;}
+  .pest h3{margin-top:12px;font-size:28px;font-weight:800;line-height:1.16;letter-spacing:-.01em;color:var(--paper);}
+  .pest p{margin-top:10px;font-size:15px;line-height:1.6;color:rgba(250,248,242,.78);max-width:56ch;}
+  .pchips{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px;}
   .pchips li{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 12px;border-radius:999px;background:rgba(250,248,242,.07);border:1px solid rgba(250,248,242,.16);color:rgba(250,248,242,.9);font-size:13.5px;font-weight:500;white-space:nowrap;}
   .pchips svg{width:15px;height:15px;flex:none;}
-  .pest .pbtn{display:flex;width:100%;margin-top:24px;height:54px;padding:0 22px;border-radius:12px;font-size:15.5px;border-color:#4a46ff;box-shadow:0 1px 2px rgba(0,0,0,.3),0 12px 28px -10px rgba(40,35,238,.9);}
+  .pest-act{display:flex;flex-direction:column;}
+  .pest .pbtn{display:flex;width:100%;margin-top:0;height:54px;padding:0 22px;border-radius:12px;font-size:15.5px;border-color:#4a46ff;box-shadow:0 1px 2px rgba(0,0,0,.3),0 12px 28px -10px rgba(40,35,238,.9);}
   .pest .pbtn .barr{width:17px;height:17px;}
-  .plink{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px;color:rgba(250,248,242,.86);font-size:14.5px;font-weight:600;text-decoration:none;}
+  .plink{margin-top:14px;display:flex;align-items:center;justify-content:center;gap:8px;color:rgba(250,248,242,.86);font-size:14.5px;font-weight:600;text-decoration:none;}
   .plink svg{width:15px;height:15px;flex:none;transition:transform .2s ease;}
   .plink:hover{color:#fff;} .plink:hover svg{transform:translateX(3px);}
-  .pprom{list-style:none;margin:0;padding:0 6px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 20px;}
+  .pprom{list-style:none;margin:24px 0 0;padding:0 6px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px 24px;}
   .pprom li{display:flex;align-items:center;gap:12px;font-size:15px;font-weight:600;line-height:1.35;color:var(--ink);}
   .pck{flex:none;width:24px;height:24px;border-radius:50%;background:var(--yellow);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;}
   .pck svg{width:13px;height:13px;}
-  @media(max-width:1060px){.pgrid{grid-template-columns:minmax(0,1fr) 460px;gap:44px;}}
-  @media(max-width:900px){.pgrid{grid-template-columns:1fr;gap:44px;margin-top:40px;} .pside{max-width:560px;}}
+  @media(max-width:900px){.pest{grid-template-columns:1fr;row-gap:22px;} .pprom{grid-template-columns:repeat(2,minmax(0,1fr));}}
 
   /* ---------- motion ---------- */
   @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
@@ -620,11 +712,10 @@
   @media (prefers-reduced-motion: reduce){
     .hgrid > *{opacity:1;animation:none;}
     .hero h1 .u svg path{stroke-dashoffset:0;animation:none;}
-    .hero h1 .rot b,.hillu .s-shape,.hillu .s-icon,.hrow,.hrow *{transition:none;}
+    .hero h1 .rot b,.hillu .s-shape,.hillu .s-icon,.hrow,.hrow *,.hbg i,.hero .kick::before,.hero h1 .u svg path{transition:none;}
     .hero.turning .hrow.on .hbar::after{animation:none;}
     .fq p{animation:none;}
     .rv.kick::before{transform:none;transition:none;}
-    .pflow li .pn,.pflow li h3{transition:none;}
     .cbtn,.cdots button{transition:none;}
   }
 
@@ -712,10 +803,8 @@
     .slide .sbody{padding:20px 18px 20px;}
     .slide .sbody .btn{width:100%;justify-content:center;}
     .caro-track{gap:14px;}
-    .pflow li{column-gap:16px;padding-bottom:26px;}
-    .pflow h3{font-size:17.5px;} .pflow p{font-size:15px;}
-    .pest{padding:26px 22px 22px;border-radius:20px;}
-    .pest h3{font-size:25px;}
+    .pest{padding:26px 22px 22px;border-radius:20px;margin-top:36px;}
+    .pest h3{font-size:24px;}
     .pprom{grid-template-columns:1fr;gap:12px;padding:0 2px;}
     .about{gap:18px;}
     img.avatar,.avatar-fb{width:104px;height:104px;}
@@ -951,6 +1040,7 @@
 
 <!-- ================= HERO ================= -->
 <header class="hero" id="top" tabindex="-1" data-svc="sites">
+  <div class="hbg" aria-hidden="true"><i data-svc="sites"></i><i data-svc="auto"></i><i data-svc="strat"></i></div>
   <div class="wrap">
     <div class="hgrid">
       <div class="hhead">
@@ -1091,17 +1181,86 @@
 <!-- ================= HOW IT WORKS — the short version; the method lives on pricing.html ================= -->
 <section id="process">
   <div class="wrap">
-    <div class="kick rv" data-i18n="proc_kick">How it works</div>
-    <h2 class="rv" data-i18n="proc_h2">Four steps, and you validate each one.</h2>
-    <div class="pgrid">
-      <ol class="pflow rv">
-        <li><span class="pn">01</span><div><h3 data-i18n="ps1_h">Free call</h3><p data-i18n="ps1_p">30 minutes to understand how you work today, and what is worth building.</p></div></li>
-        <li><span class="pn">02</span><div><h3 data-i18n="ps2_h">Plan &amp; fixed price</h3><p data-i18n="ps2_p">What will be delivered, in writing, for one price. Nothing starts without your green light.</p></div></li>
-        <li><span class="pn">03</span><div><h3 data-i18n="ps3_h">Build in the open</h3><p data-i18n="ps3_p">You follow the progress every week and test it on real work before delivery.</p></div></li>
-        <li><span class="pn">04</span><div><h3 data-i18n="ps4_h">Handover</h3><p data-i18n="ps4_p">Code, data and keys are yours. 5 hours of maintenance included within 3 months, defects fixed free for six months.</p></div></li>
-      </ol>
-      <div class="pside rv">
-        <div class="pest">
+      <div class="mgrid" id="flowx">
+        <div class="mside">
+          <div class="mstick">
+            <div class="kick rv" data-i18n="proc_kick">How it works</div>
+            <h2 class="rv" data-i18n="proc_h2">Transparent from the first meeting to the handover.</h2>
+            <p class="sub rv" data-i18n="proc_sub">You validate every step. You see everything. And you test the solution yourself: by delivery day, you already know how to run it.</p>
+            <div class="mart-pin"><div class="mart rv" aria-hidden="true">
+              <div class="mart-vis">
+                <svg class="vg on" data-step="1" viewBox="0 0 320 200" aria-hidden="true">
+                  <g class="va"><rect class="k" x="38" y="24" width="244" height="152" rx="14"/><path class="g" d="M38 56h244"/><circle class="r" cx="58" cy="40" r="4"/><circle class="y" cx="72" cy="40" r="4"/><circle class="b" cx="86" cy="40" r="4"/></g>
+                  <g class="va" style="--d:.15s"><circle class="s" cx="112" cy="104" r="28"/><circle class="k" cx="112" cy="96" r="9"/><path class="kl" d="M95 122c2-9 8-14 17-14s15 5 17 14"/></g>
+                  <g class="va" style="--d:.3s"><circle class="bs" cx="208" cy="104" r="28"/><circle class="bl" cx="208" cy="96" r="9"/><path class="bl" d="M191 122c2-9 8-14 17-14s15 5 17 14"/></g>
+                  <path class="bl dash va" style="--d:.45s" d="M146 104h28"/>
+                  <g class="va" style="--d:.6s"><rect class="b" x="118" y="144" width="84" height="20" rx="10"/><text class="tw" x="160" y="158" text-anchor="middle">30 min</text></g>
+                </svg>
+                <svg class="vg" data-step="2" viewBox="0 0 320 200" aria-hidden="true">
+                  <g class="va"><rect class="k" x="86" y="16" width="148" height="168" rx="10"/><rect class="s" x="104" y="34" width="72" height="10" rx="5"/></g>
+                  <g class="va" style="--d:.15s"><circle class="b" cx="110" cy="68" r="7"/><path class="w" d="M106.500 68l2.600 2.600 4.600-5"/><rect class="s" x="126" y="64" width="90" height="8" rx="4"/></g>
+                  <g class="va" style="--d:.3s"><circle class="b" cx="110" cy="92" r="7"/><path class="w" d="M106.500 92l2.600 2.600 4.600-5"/><rect class="s" x="126" y="88" width="74" height="8" rx="4"/></g>
+                  <g class="va" style="--d:.45s"><circle class="b" cx="110" cy="116" r="7"/><path class="w" d="M106.500 116l2.600 2.600 4.600-5"/><rect class="s" x="126" y="112" width="82" height="8" rx="4"/></g>
+                  <g class="va" style="--d:.6s"><path class="g" d="M104 136h112"/><rect class="s" x="104" y="151" width="44" height="8" rx="4"/><rect class="k" x="164" y="143" width="52" height="24" rx="12"/><text class="tk" x="190" y="159.500" text-anchor="middle">€</text></g>
+                  <g class="pop" style="--d:1.1s"><circle class="b" cx="236" cy="36" r="21"/><path class="w" style="stroke-width:3.2" d="M226 36l7 7 13-14"/></g>
+                </svg>
+                <svg class="vg" data-step="3" viewBox="0 0 320 200" aria-hidden="true">
+                  <g class="va"><rect class="k" x="24" y="30" width="172" height="140" rx="12"/><path class="g" d="M24 54h172"/><circle class="r" cx="40" cy="42" r="3.500"/><circle class="y" cx="52" cy="42" r="3.500"/><circle class="b" cx="64" cy="42" r="3.500"/></g>
+                  <g class="va" style="--d:.15s"><rect class="s" x="38" y="66" width="144" height="34" rx="6"/><rect class="b" x="48" y="78" width="46" height="10" rx="5"/></g>
+                  <g class="va" style="--d:.3s"><rect class="s" x="38" y="110" width="42" height="46" rx="6"/><rect class="s" x="89" y="110" width="42" height="46" rx="6"/><rect class="s" x="140" y="110" width="42" height="46" rx="6"/></g>
+                  <path class="bl dash va" style="--d:.5s" d="M196 84 C220 84 220 52 244 52"/>
+                  <path class="bl dash va" style="--d:.6s" d="M196 100 H244"/>
+                  <path class="bl dash va" style="--d:.7s" d="M196 116 C220 116 220 148 244 148"/>
+                  <g class="pop" style="--d:.85s"><rect class="k" x="244" y="36" width="54" height="32" rx="9"/><path class="kl" style="stroke-width:1.800" d="M259 46h24M259 52h24M259 58h14"/></g>
+                  <g class="pop" style="--d:1s"><rect class="k" x="244" y="84" width="54" height="32" rx="9"/><text class="tk" x="271" y="105" text-anchor="middle">€</text></g>
+                  <g class="pop" style="--d:1.15s"><rect class="k" x="244" y="132" width="54" height="32" rx="9"/><circle class="kl" style="stroke-width:1.800" cx="271" cy="143" r="4"/><path class="kl" style="stroke-width:1.800" d="M263 157c1-5 4-7 8-7s7 2 8 7"/></g>
+                </svg>
+                <svg class="vg" data-step="4" viewBox="0 0 320 200" aria-hidden="true">
+                  <g class="va"><rect class="k" x="38" y="24" width="244" height="152" rx="14"/><rect class="s" x="56" y="42" width="96" height="10" rx="5"/></g>
+                  <g class="va" style="--d:.15s"><rect class="s" x="56" y="68" width="208" height="12" rx="6"/><rect class="b grow" x="56" y="68" width="138" height="12" rx="6"/></g>
+                  <g class="va" style="--d:.3s"><path class="g" d="M56 98h208"/><circle class="b" cx="56" cy="98" r="4.500"/><circle class="b" cx="125" cy="98" r="4.500"/><circle class="b" cx="194" cy="98" r="4.500"/><circle class="k" cx="264" cy="98" r="4.500"/></g>
+                  <g class="va" style="--d:.45s"><circle class="b" cx="64" cy="126" r="7"/><path class="w" d="M60.500 126l2.600 2.600 4.600-5"/><rect class="s" x="80" y="122" width="110" height="8" rx="4"/></g>
+                  <g class="va" style="--d:.6s"><circle class="b" cx="64" cy="150" r="7"/><path class="w" d="M60.500 150l2.600 2.600 4.600-5"/><rect class="s" x="80" y="146" width="86" height="8" rx="4"/></g>
+                  <g class="va" style="--d:.8s"><path class="k" d="M220 138 Q242 121 264 138 Q242 155 220 138z"/><circle class="b" cx="242" cy="138" r="5.500"/></g>
+                </svg>
+                <svg class="vg" data-step="5" viewBox="0 0 320 200" aria-hidden="true">
+                  <g class="va"><rect class="k" x="50" y="14" width="92" height="172" rx="16"/><path class="g" d="M84 27h24"/><rect class="s" x="64" y="42" width="64" height="40" rx="6"/><rect class="s" x="64" y="92" width="64" height="8" rx="4"/><rect class="s" x="64" y="106" width="44" height="8" rx="4"/><rect class="b" x="64" y="132" width="64" height="22" rx="11"/></g>
+                  <circle class="bl pulse" cx="112" cy="143" r="11"/>
+                  <g class="va" style="--d:.25s"><path class="cur" d="M110 139 L110 157 L115 152.500 L119 160 L122.500 158.500 L118.500 151 L125 150.500 Z"/></g>
+                  <g class="va" style="--d:.35s"><rect class="k" x="172" y="38" width="112" height="124" rx="12"/></g>
+                  <g class="pop" style="--d:.65s"><circle class="b" cx="194" cy="68" r="8"/><path class="w" d="M190 68l3 3 5-5.500"/></g><rect class="s va" style="--d:.65s" x="210" y="64" width="58" height="8" rx="4"/>
+                  <g class="pop" style="--d:.95s"><circle class="b" cx="194" cy="100" r="8"/><path class="w" d="M190 100l3 3 5-5.500"/></g><rect class="s va" style="--d:.95s" x="210" y="96" width="44" height="8" rx="4"/>
+                  <g class="pop" style="--d:1.25s"><circle class="r swapc" cx="194" cy="132" r="8"/><path class="w swapx" d="M190.500 128.500l7 7M197.500 128.500l-7 7"/><path class="w swapv" d="M190 132l3 3 5-5.500"/></g><rect class="s va" style="--d:1.25s" x="210" y="128" width="50" height="8" rx="4"/>
+                </svg>
+                <svg class="vg" data-step="6" viewBox="0 0 320 200" aria-hidden="true">
+                  <g class="va"><rect class="k" x="28" y="22" width="78" height="44" rx="10"/><text class="tk" x="67" y="49" text-anchor="middle">&lt;/&gt;</text></g>
+                  <g class="va" style="--d:.15s"><rect class="k" x="28" y="78" width="78" height="44" rx="10"/><ellipse class="kl" cx="67" cy="92" rx="13" ry="5"/><path class="kl" d="M54 92v14c0 3 6 5 13 5s13-2 13-5V92"/></g>
+                  <g class="va" style="--d:.3s"><rect class="k" x="28" y="134" width="78" height="44" rx="10"/><circle class="kl" cx="57" cy="156" r="6"/><path class="kl" d="M63 156h18M75 156v5M80 156v4"/></g>
+                  <path class="bl dash va" style="--d:.45s" d="M106 44 C152 44 150 100 194 100"/>
+                  <path class="bl dash va" style="--d:.5s" d="M106 100 H194"/>
+                  <path class="bl dash va" style="--d:.55s" d="M106 156 C152 156 150 100 194 100"/>
+                  <g class="pop" style="--d:.8s"><circle class="b" cx="236" cy="100" r="42"/><circle class="w" cx="236" cy="90" r="11"/><path class="w" d="M214 126c3-13 10-19 22-19s19 6 22 19"/></g>
+                  <g class="pop" style="--d:1.3s"><circle class="ybadge" cx="270" cy="66" r="14"/><path class="kl" d="M263.500 66l4.500 4.500 8.500-9"/></g>
+                </svg>
+              </div>
+              <div class="mart-foot"><span class="fx-count"><b id="fxcur">01</b> / 06</span><span class="msegs"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="mlist">
+          <span class="mfill" aria-hidden="true"></span>
+          <ol class="msteps">
+          <li class="mstep on" data-step="1"><span class="mn" aria-hidden="true">01</span><div><div class="ml" data-i18n="ml1">30 minutes, free</div><h3 data-i18n="st1_h">We meet</h3><p data-i18n="st1_p">A free introduction call to understand your needs and how you work today.</p></div></li>
+          <li class="mstep" data-step="2"><span class="mn" aria-hidden="true">02</span><div><div class="ml" data-i18n="ml2">You validate</div><h3 data-i18n="st2_h">We agree on the plan</h3><p data-i18n="st2_p">I propose an approach, define exactly what will be delivered, and give you one fixed price. Nothing starts without your green light.</p></div></li>
+          <li class="mstep" data-step="3"><span class="mn" aria-hidden="true">03</span><div><div class="ml" data-i18n="ml3">Architecture and documentation</div><h3 data-i18n="st3_h">We design</h3><p data-i18n="st3_p">Full architecture and documentation: the blueprint we both work from.</p></div></li>
+          <li class="mstep" data-step="4"><span class="mn" aria-hidden="true">04</span><div><div class="ml" data-i18n="ml4">Progress throughout</div><h3 data-i18n="st4_h">We build, in the open</h3><p data-i18n="st4_p">You see progress throughout. Along the way, I train you to use and change what's being built.</p></div></li>
+          <li class="mstep" data-step="5"><span class="mn" aria-hidden="true">05</span><div><div class="ml" data-i18n="ml5">Before delivery</div><h3 data-i18n="st5_h">You test it</h3><p data-i18n="st5_p">You use the solution on real work before delivery. What doesn't fit gets fixed.</p></div></li>
+          <li class="mstep" data-step="6"><span class="mn" aria-hidden="true">06</span><div><div class="ml" data-i18n="ml6">Delivery day</div><h3 data-i18n="st6_h">Delivery &amp; handover</h3><p data-i18n="st6_p">It's yours: the code, the data and the keys. You can run it, and with AI tools, even change it yourself.</p></div></li>
+          </ol>
+        </div>
+      </div>
+      <div class="pest rv">
+        <div class="pest-txt">
           <div class="pek" data-i18n="pe_kick">Online estimate</div>
           <h3 data-i18n="pe_h">Get a price range in two minutes.</h3>
           <p data-i18n="pe_p">A few questions about the services you need, an indicative range straight away, no e-mail required. The exact price is then fixed in writing after the free call.</p>
@@ -1110,17 +1269,18 @@
             <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.75a6.25 6.25 0 1 0 0 12.5a6.25 6.25 0 1 0 0-12.5zM8 4.6V8l2.3 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="pe_c2">2 minutes</span></li>
             <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.75l5 1.9v4c0 3.1-2.1 5.4-5 6.6c-2.9-1.2-5-3.5-5-6.6v-4zM5.7 8.1l1.6 1.6l3-3.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="pe_c3">No commitment</span></li>
           </ul>
-          <button class="btn primary pbtn" type="button" data-estimator="home" data-track="cta_estimate"><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.75 1.75h8.5v12.5h-8.5zM5.75 4h4.5v2.25h-4.5zM5.9 9h.01M8 9h.01M10.1 9h.01M5.9 11.6h.01M8 11.6h.01M10.1 11.6h.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="proc_est">Estimate my project</span></button>
-          <a class="plink" href="pricing.html" data-track="cta_pricing"><span data-i18n="proc_btn">The method and the pricing, in detail</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
-        <ul class="pprom">
+        <div class="pest-act">
+          <button class="btn primary pbtn" type="button" data-estimator="home" data-track="cta_estimate"><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.75 1.75h8.5v12.5h-8.5zM5.75 4h4.5v2.25h-4.5zM5.9 9h.01M8 9h.01M10.1 9h.01M5.9 11.6h.01M8 11.6h.01M10.1 11.6h.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="proc_est">Estimate my project</span></button>
+          <a class="plink" href="pricing.html" data-track="cta_pricing"><span data-i18n="proc_btn">The pricing, in detail</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <ul class="pprom rv">
           <li><span class="pck"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.2 8.3l2.5 2.4l5-5.2" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="pp1">Fixed price, in writing</span></li>
           <li><span class="pck"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.2 8.3l2.5 2.4l5-5.2" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="pp2">Maintenance, if you want it</span></li>
           <li><span class="pck"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.2 8.3l2.5 2.4l5-5.2" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="pp3">Code and data are yours</span></li>
           <li><span class="pck"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.2 8.3l2.5 2.4l5-5.2" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="pp4">One person, start to finish</span></li>
-        </ul>
-      </div>
-    </div>
+      </ul>
   </div>
 </section>
 
@@ -1263,12 +1423,16 @@ const FR = {
   cs5_tag:"Projet perso · 3D", cs5_p:"Un CV interactif en 3D : entrez dans le café, prenez la chaise en face de moi, et je vous raconte mon parcours de vive voix.",
   cs_btn:"Voir le cas →", work_all:"Toutes les réalisations, en détail →",
   proc_kick:"Comment ça marche",
-  proc_h2:"Quatre étapes, et vous validez chacune.",
-  ps1_h:"Appel gratuit", ps1_p:"30 minutes pour comprendre comment vous travaillez aujourd'hui, et ce qui vaut la peine d'être construit.",
-  ps2_h:"Plan &amp; prix fixe", ps2_p:"Ce qui sera livré, par écrit, pour un seul prix. Rien ne démarre sans votre feu vert.",
-  ps3_h:"Construction ouverte", ps3_p:"Vous suivez l'avancement chaque semaine et testez sur du vrai travail avant la livraison.",
-  ps4_h:"Remise des clés", ps4_p:"Le code, les données et les clés sont à vous. 5 heures d'entretien incluses dans les 3 mois, défauts corrigés gratuitement six mois.",
-  proc_est:"Estimer mon projet", proc_btn:"La méthode et les tarifs, en détail",
+  proc_h2:"Transparent du premier rendez-vous à la remise des clés.",
+  proc_sub:"Vous validez chaque étape. Vous voyez tout. Et vous testez la solution vous-même : le jour de la livraison, vous savez déjà la faire tourner.",
+  st1_h:"On se rencontre", st1_p:"Un appel d'introduction gratuit pour comprendre vos besoins et votre façon de travailler.",
+  st2_h:"On valide le plan", st2_p:"Je propose une approche, je définis exactement ce qui sera livré, et je vous donne un prix fixe unique. Rien ne démarre sans votre feu vert.",
+  st3_h:"On conçoit", st3_p:"Architecture complète et documentation : le plan sur lequel nous travaillons tous les deux.",
+  st4_h:"On construit, en toute transparence", st4_p:"Vous suivez l'avancement en continu. En chemin, je vous forme à utiliser et à modifier ce qui se construit.",
+  st5_h:"Vous testez", st5_p:"Vous utilisez la solution sur du vrai travail avant la livraison. Ce qui ne convient pas est corrigé.",
+  st6_h:"Livraison &amp; remise des clés", st6_p:"C'est à vous : le code, les données, et les clés. Vous pouvez la faire tourner, et avec les outils IA, même la modifier vous-même.",
+  ml1:"30 minutes, gratuit", ml2:"Vous validez", ml3:"Architecture et documentation", ml4:"Suivi en continu", ml5:"Avant la livraison", ml6:"Le jour J",
+  proc_est:"Estimer mon projet", proc_btn:"Les tarifs, en détail",
   pe_kick:"Estimation en ligne", pe_h:"Une fourchette de prix en deux minutes.",
   pe_p:"Quelques questions selon les services qui vous intéressent, une fourchette indicative tout de suite, sans e-mail obligatoire. Le prix exact est ensuite fixé par écrit après l'appel gratuit.",
   pe_c1:"6 questions max", pe_c2:"2 minutes", pe_c3:"Sans engagement",
@@ -1746,17 +1910,43 @@ let caroLabels = null;
   paint(); start();
 })();
 
-/* --- the four steps light up in turn while they are on screen --- */
+/* =========================================================
+   THE METHOD — driven by the scroll. The step whose number crosses
+   the line (the middle of the screen; lower on a phone, under the
+   sticky drawing) lights up: its colours come back, the drawing on
+   the left becomes its own (the drawing's keyframes run on .on),
+   the counter and the six bars follow, and the vertical line fills
+   down to the line. Nothing moves by itself. Without the script all
+   six steps read in full and the first drawing shows.
+   ========================================================= */
+document.documentElement.classList.add('js');
 (function(){
-  const flow=document.querySelector('.pflow'); if(!flow || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const items=[...flow.children]; let i=-1, timer=null, hover=false, seen=false;
-  function tick(){ i=(i+1)%items.length; items.forEach((li,k)=>li.classList.toggle('act',k===i)); }
-  function start(){ if(timer || hover || !seen || document.hidden) return; tick(); timer=setInterval(tick, 2200); }
-  function stop(){ clearInterval(timer); timer=null; }
-  flow.addEventListener('pointerenter', ()=>{ hover=true; stop(); });
-  flow.addEventListener('pointerleave', ()=>{ hover=false; start(); });
-  new IntersectionObserver(es=>{ es.forEach(en=>{ seen=en.isIntersecting; }); if(seen) start(); else stop(); },{threshold:.4}).observe(flow);
-  document.addEventListener('visibilitychange', ()=>{ if(document.hidden) stop(); else start(); });
+  const box=document.getElementById('flowx'); if(!box) return;
+  const items=[...box.querySelectorAll('.mstep')], nums=items.map(li=>li.querySelector('.mn'));
+  const arts=[...box.querySelectorAll('.vg')], segs=[...box.querySelectorAll('.msegs i')];
+  const list=box.querySelector('.mlist'), fill=box.querySelector('.mfill'), art=box.querySelector('.mart'), curEl=document.getElementById('fxcur');
+  const COL=['var(--yellow)','var(--blue)','var(--red)'], narrow=matchMedia('(max-width: 900px)');
+  let cur=-1, queued=false;
+  function show(i){
+    if(i===cur) return; cur=i;
+    items.forEach((li,k)=>li.classList.toggle('on',k===i));
+    arts.forEach((a,k)=>a.classList.toggle('on',k===i));
+    segs.forEach((g,k)=>{ g.classList.toggle('on',k===i); g.classList.toggle('done',k<i); });
+    art.style.setProperty('--mc', COL[i%3]);
+    curEl.textContent=String(i+1).padStart(2,'0');
+  }
+  function update(){
+    queued=false;
+    const L=innerHeight*(narrow.matches ? .64 : .5), r=list.getBoundingClientRect();
+    fill.style.height=Math.max(0, Math.min(r.height, L-r.top))+'px';
+    let k=0;
+    nums.forEach((n,j)=>{ const b=n.getBoundingClientRect(); if(b.top+b.height/2<=L) k=j; });
+    show(k);
+  }
+  function ask(){ if(!queued){ queued=true; requestAnimationFrame(update); } }
+  addEventListener('scroll', ask, {passive:true});
+  addEventListener('resize', ask);
+  update();
 })();
 
 /* --- the bar gets a shadow once the page has moved --- */
