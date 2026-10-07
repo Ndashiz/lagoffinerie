@@ -5,6 +5,11 @@ is what Jarvis has to add so that every estimate becomes a prospect on the « La
 site already works: Jarvis answers 404, and FormSubmit carries Simon's copy and the visitor's auto-reply (see
 *Fallback* below).
 
+**Switching it off** (Jarvis v1.89.0, site v2.28): Jarvis → La Goffinerie → Technique → « Project estimator ».
+`GET /api/gf/config` then answers `estimator: { on: false }` and `site-state.js` hides every `data-estimator`
+element; `estimator.js` never opens, so no estimate reaches this route or FormSubmit. The prices it shows can be
+set on the same tab (`pricing`, a patch over `config.js`).
+
 ## The questions (for reading the answers)
 
 Question 1 ticks one or more services; the next questions depend on them. Each step has a fixed id, but its number

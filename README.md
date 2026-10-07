@@ -12,9 +12,14 @@ Static pages, vanilla HTML/CSS/JS, bilingual EN/FR (auto-detected, manual toggle
   `about.html`, the legal pages (`mentions-legales.html`, `cgu.html`,
   `donnees-personnelles.html`, `cookies.html` — keep it true), `404.html`, `robots.txt`, `sitemap.xml`.
 - **Site state**: `site-state.js`, loaded by every page — reads the public `GET /api/gf/config` of Jarvis
-  (the call the home page already makes for its logo intro) and renders what the owner switched on there:
-  a full-screen maintenance screen (fresh answers only, re-checked every 60 s, fail-open) and an announcement
-  banner above the top bar (three tones, optional link, period, × for the visit). Keys `lg_site_cfg` and
+  (the call the home page already makes for its logo intro) and renders what the owner set in Jarvis →
+  La Goffinerie → **Technique**: a full-screen maintenance screen (fresh answers only, re-checked every 60 s,
+  fail-open), an announcement banner above the top bar (three tones, optional link, period, × for the visit),
+  the **project estimator switch** (`estimator.on === false` puts `lg-est-off` on `<html>`: every
+  `[data-estimator]` and `[data-estimator-block]` is hidden, the `[data-estimator-alt]` stand-ins of
+  `pricing.html` show, and `estimator.js` never opens) and the **prices** (`pricing`, a patch over `config.js`
+  with the same keys and shapes, or `null`: a fresh answer is laid over `window.LG_CONFIG` in place and
+  `LGEstimator.fill()` rewrites every `data-price`; never from the cache). Keys `lg_site_cfg` and
   `lg_banner` are listed on `cookies.html`. `404.html` is the GitHub Pages not-found page, in the site's style.
 - **Config**: `config.js` holds **every price** of the site (euros excl. VAT, `[TBC]` marks the defaults
   still to confirm): `estimator` (the build ranges, the options, the monthly plans, the floor — the « from »
@@ -25,11 +30,17 @@ Static pages, vanilla HTML/CSS/JS, bilingual EN/FR (auto-detected, manual toggle
   JSON-LD. **After any price change in `config.js`, run `node tools/prerender-prices.mjs`**
   (`--check` changes nothing and exits 1 if a page is out of date). `estimator.js` writes the same amounts
   at run time, in the language's format.
+  **Prices set in Jarvis win**: once the owner saves prices in Jarvis → La Goffinerie → Technique, visitors
+  see them at once (`site-state.js`), and the GitHub Action **« Sync prices from Jarvis »**
+  (`.github/workflows/sync-prices.yml`, hourly and on « Run workflow ») writes them into `config.js`
+  (`node tools/sync-prices.mjs`, literals only, comments kept; `--check`, `--from file.json`), pre-renders
+  the pages and commits to `main`. While Jarvis drives the prices, a price edited by hand in `config.js`
+  lasts an hour at most: « Hand back to config.js » in Jarvis first.
   `assets/work/*.jpg` are the project illustrations of the carousel and cases.
 - **Estimator**: `estimator.js`, loaded by the home, pricing and service pages right after `config.js` — a pop-up
   that starts from the three services (several can be ticked) and asks only the questions they need, up to six
-  (any `data-estimator` element opens it, never by itself, never over the booking window; `data-estimator-service`
-  pre-ticks a service)
+  (any `data-estimator` element opens it, never by itself, never over the booking window, never while the owner
+  has switched it off in Jarvis; `data-estimator-service` pre-ticks a service)
   that shows an indicative range on screen, then sends the detail by e-mail (`POST /api/gf/estimates` on
   Jarvis, FormSubmit as fallback) or hands over to the booking window pre-filled (`/?book=1` on the home
   page, which also opens the booking window from the estimate e-mail). Answers are kept for the tab in

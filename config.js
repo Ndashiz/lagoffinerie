@@ -14,7 +14,10 @@
                  The range shown = base + modifiers, rounded to the nearest 50 €, never below the floor.
    rates       : work outside the maintenance plan, and the yearly cost of a domain name.
    BOOKING_URL : a booking page (cal.com, Google Calendar appointments…) → shows the
-                 « choose a slot now » buttons on the home page. */
+                 « choose a slot now » buttons on the home page.
+   Jarvis (La Goffinerie → Technique) can set the amounts below: visitors see them at once, and the
+   hourly GitHub Action « Sync prices from Jarvis » (tools/sync-prices.mjs) rewrites them here. While
+   Jarvis drives the prices, change them there — or « Hand back to config.js » first. */
 window.LG_CONFIG = {
   estimator: {
     base: {

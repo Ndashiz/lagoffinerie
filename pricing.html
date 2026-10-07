@@ -165,6 +165,8 @@
   .tbtn{margin-top:20px;justify-content:center;width:100%;min-height:50px;padding:0 14px;text-align:center;}
   .tbtn:not(.primary){background:#fff;color:var(--ink);box-shadow:4px 4px 0 #15151522;}
   .tbtn:not(.primary):hover{box-shadow:7px 7px 0 #15151544;}
+  /* The booking stand-ins of the estimate buttons: only while the estimator is switched off in Jarvis (site-state.js). */
+  html:not(.lg-est-off) [data-estimator-alt]{display:none!important;}
   .tier-body{padding:22px 16px 18px;}
   .tlab{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);}
   .tier-body ul{list-style:none;margin-top:16px;display:grid;gap:13px;}
@@ -433,6 +435,7 @@
             <p data-i18n="t1_l">A clean, fast site that brings enquiries.</p>
             <div class="tp"><span data-i18n="from">from</span> <b data-price="vitrine">€1,950</b> <span data-i18n="vat">excl. VAT</span></div>
             <button class="btn tbtn" type="button" data-estimator="pricing" data-i18n="est_btn">Estimate my project</button>
+            <a class="btn tbtn" href="./?book=1#contact" data-i18n="book_btn" data-estimator-alt>Book my free call</a>
           </div>
           <div class="tier-body">
             <div class="tlab" data-i18n="t1_lab">What's included</div>
@@ -445,6 +448,7 @@
             <p data-i18n="t2_l">The showcase site, plugged into your tools to work for you.</p>
             <div class="tp"><span data-i18n="from">from</span> <b data-price="connecte">€3,900</b> <span data-i18n="vat">excl. VAT</span></div>
             <button class="btn primary tbtn" type="button" data-estimator="pricing" data-i18n="est_btn">Estimate my project</button>
+            <a class="btn primary tbtn" href="./?book=1#contact" data-i18n="book_btn" data-estimator-alt>Book my free call</a>
           </div>
           <div class="tier-body">
             <div class="tlab" data-i18n="t2_lab">Everything in the showcase site, plus</div>
@@ -474,7 +478,7 @@
         </ul>
       </div>
       <div class="pr-foot rv">
-        <p class="pr-unsure" data-i18n="unsure">Not sure which plan? <a href="#estimate" data-estimator="pricing">Estimate your project in two minutes →</a></p>
+        <p class="pr-unsure" data-i18n="unsure" data-estimator-block>Not sure which plan? <a href="#estimate" data-estimator="pricing">Estimate your project in two minutes →</a></p>
         <p class="pr-note" data-i18n="pr_note">No licence, no per-user fee. Hosting and maintenance are optional: you can run everything yourself.</p>
       </div>
     </div>

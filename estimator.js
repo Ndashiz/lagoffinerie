@@ -1,5 +1,5 @@
 /* =========================================================
-   LA GOFFINERIE — estimator.js (site v2.27)
+   LA GOFFINERIE — estimator.js (site v2.28)
    The project estimator: a pop-up of short questions that ends on
    an indicative price range, then offers to send the detail by
    e-mail and to book the free call. The first question ticks one
@@ -11,7 +11,9 @@
    statistics), and data-estimator-service="sites|seo|auto" on it
    pre-ticks that service when the visitor starts fresh. It never
    opens by itself, never moves on by itself, and never opens over
-   the booking window.
+   the booking window. The owner can switch it off from Jarvis
+   (site-state.js puts lg-est-off on <html>, which hides every
+   data-estimator element): it then never opens at all.
      · Prices: every number comes from config.js (LG_CONFIG.estimator
        and .rates). fill() also writes the prices into the page,
        wherever an element carries data-price="…"; the pages call it
@@ -890,6 +892,7 @@
   /* service: « sites », « seo » or « auto » (data-estimator-service on a service page's button), ticked only on a fresh start. */
   function open(source, service){
     if(OPEN) return;
+    if(root.classList.contains('lg-est-off')) return;                     // switched off in Jarvis (site-state.js)
     if(document.querySelector('.modal-bg:not([hidden])')) return;          // one window at a time: never over the booking form
     build();
     if(LISTS.services.indexOf(service)>=0 && !answered('1')){ A.services=[service]; STEP='1'; save(); }
