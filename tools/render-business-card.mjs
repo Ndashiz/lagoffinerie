@@ -41,6 +41,22 @@ try {
   };
 
   await open();
+  // rien ne doit sortir de la zone de sécurité (.face) : un texte trop long ou une ligne qui passe à la ligne
+  // finirait dans les 4 mm de marge, voire sous la coupe ; 1 mm de tolérance (le logo du recto en déborde de 0,6)
+  const overflow = await page.evaluate(() => {
+    const px = 96 / 25.4, out = [];
+    document.querySelectorAll('.face').forEach((face, i) => {
+      const f = face.getBoundingClientRect();
+      face.querySelectorAll('*').forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (!r.width && !r.height) return;
+        const d = Math.max(f.left - r.left, r.right - f.right, f.top - r.top, r.bottom - f.bottom) / px;
+        if (d > 1) out.push(`${['recto', 'verso'][i]} : <${el.tagName.toLowerCase()}${el.classList[0] ? '.' + el.classList[0] : ''}> sort de la zone de sécurité de ${d.toFixed(1)} mm`);
+      });
+    });
+    return out;
+  });
+  if (overflow.length) throw new Error(overflow.join('\n'));
   await page.emulateMedia({ media: 'print' });
   const pdf = (file, pageRanges) => page.pdf({
     path: join(out, file), printBackground: true, preferCSSPageSize: true,

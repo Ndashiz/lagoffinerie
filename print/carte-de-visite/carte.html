@@ -9,7 +9,7 @@
   LA GOFFINERIE — carte de visite, source des fichiers d'impression.
   Format fini 90 × 50 mm, fond perdu 2 mm de chaque côté → document 94 × 54 mm.
   Tout le texte et le logo restent à 4 mm au moins de la ligne de coupe (zone de sécurité).
-  Page 1 = recto (marque), page 2 = verso (Simon, contact, QR code).
+  Page 1 = recto (marque, accroche, les trois services en bandeau), page 2 = verso (Simon, contact, QR code).
   Rendu : node tools/render-business-card.mjs → export/recto.pdf, verso.pdf, carte.pdf (2 pages),
   recto.png, verso.png (600 dpi), apercu.png — le script vérifie aussi que le QR code se lit encore.
   ?guides  affiche la ligne de coupe (pointillés) et la zone de sécurité (rose) ; ?preview  montre les deux faces découpées.
@@ -41,15 +41,17 @@
   @media print{html,body{background:var(--paper);}.page{break-after:page;}.page:last-child{break-after:auto;}}
 
   /* ---- recto ---- */
-  .recto .mark{position:absolute;right:-.6mm;top:50%;width:31mm;height:28.93mm;transform:translateY(-50%);}
+  .recto .mark{position:absolute;right:-.6mm;top:46%;width:31mm;height:28.93mm;transform:translateY(-50%);}
   .recto .word{position:absolute;left:0;top:1.2mm;font-family:var(--disp);font-weight:800;font-size:19.5pt;line-height:1.02;letter-spacing:-.02em;}
-  .recto .tag{position:absolute;left:0;top:19.6mm;font-size:8pt;line-height:1.38;color:var(--ink-2);}
+  .recto .tag{position:absolute;left:0;top:20.4mm;font-size:8pt;line-height:1.38;color:var(--ink-2);}
   .recto .tag b{font-weight:700;color:var(--ink);}
   .u{position:relative;display:inline-block;white-space:nowrap;}
   .u svg{position:absolute;left:0;right:0;bottom:-.16em;width:100%;height:.3em;overflow:visible;}
   .u path{fill:none;stroke:var(--red);stroke-width:1.15;stroke-linecap:round;vector-effect:non-scaling-stroke;}
-  .recto .url{position:absolute;left:0;bottom:-.4mm;display:flex;align-items:center;gap:1.6mm;font-family:var(--disp);font-weight:700;font-size:7.2pt;}
-  .recto .url i{width:1.7mm;height:1.7mm;border-radius:50%;background:var(--blue);}
+  /* les trois services, en bandeau sur toute la largeur sous le logo, chacun avec sa forme aux couleurs du site */
+  .recto .svc{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:center;gap:2.5mm;list-style:none;font-family:var(--mono);font-weight:600;font-size:5.1pt;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);white-space:nowrap;}
+  .recto .svc li{display:flex;align-items:center;gap:1.4mm;}
+  .recto .svc svg{width:2mm;height:2mm;flex:none;}
 
   /* ---- verso ---- */
   .verso .who{position:absolute;left:0;top:0;}
@@ -100,8 +102,12 @@
   <div class="face">
     <div class="word">La<br>Goffinerie</div>
     <p class="tag">Digital solutions<br>that <span class="u"><b>work for you.</b><svg viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M1 7 Q 25 2, 50 5.5 T 99 4"/></svg></span></p>
-    <div class="url"><i></i>lagoffinerie.be</div>
     <svg class="mark" viewBox="0 0 120 112" aria-hidden="true"><use href="#mark"/></svg>
+    <ul class="svc" aria-label="Services">
+      <li><svg viewBox="0 0 10 10" aria-hidden="true"><rect x=".8" y=".8" width="8.4" height="8.4" rx="2.2" fill="#2823EE"/></svg>Web &amp; App development</li>
+      <li><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M5 .6 9.6 9.2H.4Z" fill="#EDAF2F"/></svg>Digital Strategy</li>
+      <li><svg viewBox="0 0 10 10" aria-hidden="true"><circle cx="5" cy="5" r="4.4" fill="#E2452C"/></svg>AI tool Automation</li>
+    </ul>
   </div>
 </section>
 
