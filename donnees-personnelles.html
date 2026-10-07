@@ -57,8 +57,10 @@
   td:first-child{font-family:var(--mono);font-size:12.5px;white-space:nowrap;}
   .card{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:20px 22px;margin-top:14px;box-shadow:6px 6px 0 var(--yellow);}
   .card p{color:var(--ink-2);}
-  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;border-radius:12px;padding:12px 20px;border:2px solid var(--ink);background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:5px 5px 0 var(--ink);transition:transform .15s,box-shadow .15s;margin-top:14px;}
-  .btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink);}
+  /* the button: blue, flat, a soft shadow, a one-pixel lift under the mouse */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--disp);font-weight:600;font-size:15px;line-height:1.2;text-decoration:none;cursor:pointer;border-radius:10px;padding:15px 22px;border:1px solid var(--blue);background:var(--blue);color:#fff;box-shadow:0 1px 2px rgba(21,21,21,.2),0 10px 24px -10px rgba(40,35,238,.65);transition:transform .15s ease,box-shadow .2s ease,background-color .2s ease,border-color .2s ease;margin-top:14px;}
+  .btn:hover{transform:translateY(-1px);background:#1d19d8;border-color:#1d19d8;box-shadow:0 2px 4px rgba(21,21,21,.2),0 14px 28px -10px rgba(40,35,238,.75);}
+  .btn:active{transform:none;box-shadow:0 1px 2px rgba(21,21,21,.14);}
   .legal h2{font-size:19px;margin:26px 0 8px;}
   .legal h3{font-family:var(--disp);font-size:16px;font-weight:700;margin:16px 0 6px;}
   .legal p,.legal li{font-size:15px;color:var(--ink-2);}

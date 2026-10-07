@@ -114,14 +114,15 @@
   .nlinks a:hover::after,.nlinks a[aria-current]::after{transform:scaleX(1);}
   .nright{display:flex;align-items:center;gap:14px;margin-left:auto;}
   .nlinks + .nright{margin-left:0;}
-  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;border-radius:12px;padding:14px 24px;border:2px solid var(--ink);transition:transform .15s ease, box-shadow .15s ease;}
-  .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:5px 5px 0 var(--ink);}
-  .btn.ghost{background:transparent;color:var(--ink);box-shadow:5px 5px 0 #15151522;}
-  .btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink);}
-  .btn.ghost:hover{box-shadow:8px 8px 0 #15151544;}
-  .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink);}
-  .topnav .btn{padding:10px 18px;font-size:13.5px;box-shadow:3px 3px 0 var(--ink);border-radius:10px;white-space:nowrap;}
-  .topnav .btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink);}
+  /* buttons: flat, a soft shadow, a one-pixel lift under the mouse */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--disp);font-weight:600;font-size:15px;line-height:1.2;text-decoration:none;cursor:pointer;border-radius:10px;padding:15px 22px;border:1px solid rgba(21,21,21,.18);background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(21,21,21,.06);transition:transform .15s ease,box-shadow .2s ease,background-color .2s ease,border-color .2s ease;}
+  .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 1px 2px rgba(21,21,21,.2),0 10px 24px -10px rgba(40,35,238,.65);}
+  .btn.ghost{background:#fff;color:var(--ink);}
+  .btn:hover{transform:translateY(-1px);border-color:rgba(21,21,21,.32);box-shadow:0 2px 4px rgba(21,21,21,.08),0 12px 24px -14px rgba(21,21,21,.4);}
+  .btn.primary:hover{background:#1d19d8;border-color:#1d19d8;box-shadow:0 2px 4px rgba(21,21,21,.2),0 14px 28px -10px rgba(40,35,238,.75);}
+  .btn:active,.btn.primary:active{transform:none;box-shadow:0 1px 2px rgba(21,21,21,.14);}
+  .topnav .btn{padding:10px 16px;font-size:13.5px;border-radius:10px;white-space:nowrap;}
+  .nquote .ndoc{width:15px;height:15px;flex:none;}
   .topnav .logo-txt{white-space:nowrap;}
   .langsw{display:flex;border:1.5px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;}
   .langsw button{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;border:none;background:transparent;color:var(--ink-2);padding:6px 11px;cursor:pointer;min-height:36px;}
@@ -129,7 +130,7 @@
   .bottombar{display:none;}
   @media(max-width:900px){
     body{padding-top:60px;padding-bottom:calc(74px + env(safe-area-inset-bottom));}
-    .nlinks{display:none;}
+    .nlinks{display:none;} .nlinks + .nright{margin-left:auto;}
     .topnav .nwrap{height:60px;gap:12px;}
     .topnav .btn{padding:9px 14px;font-size:12.5px;}
     .bottombar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:80;height:64px;background:rgba(250,248,242,.97);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border-top:2px solid var(--ink);align-items:stretch;justify-content:space-around;padding-bottom:env(safe-area-inset-bottom);}
@@ -138,6 +139,9 @@
     .bottombar a:hover,.bottombar a:active,.bottombar a[aria-current]{color:var(--blue);}
   }
   @media(max-width:560px){.topnav .logo-txt{display:none;}}
+  /* « Demander un devis » on a small phone: the icon goes first, then a little padding; the button always stays */
+  @media(max-width:380px){.nquote .ndoc{display:none;}}
+  @media(max-width:340px){.topnav .nwrap{padding:0 16px;} .nright{gap:10px;} .langsw button{padding:6px 9px;} .topnav .btn{padding:9px 12px;}}
 
   /* ---------- page ---------- */
   .kick{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:10px;margin-bottom:16px;}
@@ -263,11 +267,13 @@
   .cta{background:var(--blue);color:#fff;border:2px solid var(--ink);border-radius:20px;padding:30px 28px;box-shadow:8px 8px 0 var(--yellow);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
   .cta h2{color:#fff;margin:0;max-width:22ch;font-size:clamp(22px,3vw,30px);}
   .cta p{color:#d8d7ff;font-size:14.5px;margin-top:6px;}
-  .cta .btn{background:var(--yellow);border-color:var(--ink);color:var(--ink);box-shadow:5px 5px 0 rgba(0,0,0,.35);}
+  .cta .btn{background:var(--yellow);border-color:var(--yellow);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.3),0 12px 26px -12px rgba(237,175,47,.6);}
+  .cta .btn:hover{background:#f3bd4c;border-color:#f3bd4c;box-shadow:0 2px 4px rgba(0,0,0,.3),0 14px 28px -12px rgba(237,175,47,.7);}
+  .cta .btn:active{box-shadow:0 1px 2px rgba(0,0,0,.3);}
   .cta .reach{flex-basis:100%;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px;color:#d8d7ff;}
   .cta .reach > span{margin-right:4px;}
-  .ricon{width:44px;height:44px;border-radius:50%;background:#fff;border:2px solid var(--ink);display:inline-flex;align-items:center;justify-content:center;box-shadow:3px 3px 0 rgba(0,0,0,.3);text-decoration:none;transition:transform .15s ease;}
-  .ricon:hover{transform:translate(-1px,-1px);}
+  .ricon{width:44px;height:44px;border-radius:50%;background:#fff;border:1px solid #fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 1px 2px rgba(0,0,0,.25),0 8px 18px -10px rgba(0,0,0,.5);text-decoration:none;transition:transform .15s ease,box-shadow .2s ease;}
+  .ricon:hover{transform:translateY(-1px);box-shadow:0 2px 4px rgba(0,0,0,.25),0 12px 22px -10px rgba(0,0,0,.55);}
   .ricon svg{width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
   .ricon .li{font-family:Arial,sans-serif;font-weight:700;font-size:18px;line-height:1;color:#0a66c2;}
   .faqlink{margin-top:26px;font-size:15px;color:var(--ink-2);}
@@ -320,10 +326,9 @@
       <span class="logo-txt">La Goffinerie</span>
     </a>
     <div class="nlinks">
-      <a class="nsvc" href="./#alive"><span data-i18n="nav_alive">Our services</span></a>
+      <a class="nsvc" href="./#alive"><span data-i18n="nav_alive">Services</span></a>
       <a href="work.html" data-i18n="nav_work">Work</a>
       <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
-      <a href="about.html" data-i18n="nav_about">About</a>
       <a href="./#faq" data-i18n="nav_faq">FAQ</a>
     </div>
     <div class="nright">
@@ -331,7 +336,7 @@
         <button id="lang-en" onclick="setLang('en')" aria-pressed="false">EN</button>
         <button id="lang-fr" onclick="setLang('fr')" aria-pressed="false">FR</button>
       </div>
-      <a class="btn primary" href="./#contact" data-i18n="nav_book">Free call</a>
+      <a class="btn primary nquote" href="pricing.html" data-estimator="nav"><svg class="ndoc" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.75h5.2L12.5 5v9.25H4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 1.75V5.2h3.4M6.3 8.4h3.9M6.3 11h3.9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span data-i18n="nav_book">Get a quote</span></a>
     </div>
   </div>
 </nav>
@@ -544,12 +549,11 @@ const FR = {
   cta_btn:"Réserver mon appel gratuit",
   cta_reach:"Ou joignez-moi directement",
   ex_link:"Voir la réalisation →",
-  nav_alive:"Nos services",
+  nav_alive:"Services",
   nav_work:"Réalisations",
   nav_pricing:"Tarifs",
-  nav_about:"À propos",
   nav_faq:"FAQ",
-  nav_book:"Appel gratuit",
+  nav_book:"Demander un devis",
   nav_call:"Appeler",
   nav_contact:"Contact",
   foot_legal:"Mentions légales",

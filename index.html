@@ -105,10 +105,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.27 — three services with their own pages (websites.html, digital-strategy.html, ai-automation.html),
-     the hero rotating the services, an editorial FAQ, the estimator starting from the services, the floating bar (nav.js)
+     LA GOFFINERIE v2.28 — nav: Services · Work · Pricing · FAQ and a « Get a quote » button (the estimator);
+     the hero on a grid (title | logo shapes, text | the list of the three services); « How it works » as a vertical
+     line of steps beside the online estimate card; flat buttons with a soft shadow.
+     (v2.27: three services with their own pages, the editorial FAQ, the estimator starting from the services, the floating bar.)
      Design language: "paper & shapes" — Bauhaus-leaning,
-     hard edges, offset shadows, logo geometry as ornament.
+     hard edges, offset shadows on the cards, logo geometry as ornament.
      Locked to LIGHT scheme (phone dark-mode must not invert).
      Bilingual EN/FR — auto-detected from browser language,
      manual toggle top-right.
@@ -155,17 +157,21 @@
   a{color:inherit;}
 
   /* ---------- buttons ---------- */
+  /* flat, a thin border and a soft shadow; the offset block shadows stay on the cards */
   .btn{
-    display:inline-flex;align-items:center;gap:9px;
-    font-family:var(--disp);font-weight:700;font-size:15px;
-    text-decoration:none;cursor:pointer;border-radius:12px;
-    padding:14px 24px;border:2px solid var(--ink);
-    transition:transform .15s ease, box-shadow .15s ease;
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    font-family:var(--disp);font-weight:600;font-size:15px;line-height:1.2;
+    text-decoration:none;cursor:pointer;border-radius:10px;
+    padding:15px 22px;border:1px solid rgba(21,21,21,.18);background:#fff;color:var(--ink);
+    box-shadow:0 1px 2px rgba(21,21,21,.06);
+    transition:transform .15s ease,box-shadow .2s ease,background-color .2s ease,border-color .2s ease;
   }
-  .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:5px 5px 0 var(--ink);}
-  .btn.ghost{background:transparent;color:var(--ink);box-shadow:5px 5px 0 #15151522;}
-  .btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink);}
-  .btn.ghost:hover{box-shadow:8px 8px 0 #15151544;}
+  .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 1px 2px rgba(21,21,21,.2),0 10px 24px -10px rgba(40,35,238,.65);}
+  .btn.ghost{background:#fff;color:var(--ink);}
+  .btn:hover{transform:translateY(-1px);border-color:rgba(21,21,21,.32);box-shadow:0 2px 4px rgba(21,21,21,.08),0 12px 24px -14px rgba(21,21,21,.4);}
+  .btn.primary:hover{background:#1d19d8;border-color:#1d19d8;box-shadow:0 2px 4px rgba(21,21,21,.2),0 14px 28px -10px rgba(40,35,238,.75);}
+  .btn .barr,.nquote .ndoc{width:16px;height:16px;flex:none;}
+  .nquote .ndoc{width:15px;height:15px;}
 
   /* ---------- top nav (desktop) / bottom bar (mobile) ---------- */
   .topnav{
@@ -194,8 +200,7 @@
   .nlinks a:hover::after{transform:scaleX(1);}
   .nright{display:flex;align-items:center;gap:14px;margin-left:auto;}
   .nlinks + .nright{margin-left:0;}
-  .topnav .btn{padding:10px 18px;font-size:13.5px;box-shadow:3px 3px 0 var(--ink);border-radius:10px;}
-  .topnav .btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink);}
+  .topnav .btn{padding:10px 16px;font-size:13.5px;border-radius:10px;gap:8px;}
   .langsw{display:flex;border:1.5px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;}
   .langsw button{
     font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;
@@ -206,7 +211,7 @@
   .bottombar{display:none;}
   @media(max-width:900px){
     body{padding-top:60px;padding-bottom:calc(74px + env(safe-area-inset-bottom));}
-    .nlinks{display:none;}
+    .nlinks{display:none;} .nlinks + .nright{margin-left:auto;}
     .topnav .nwrap{height:60px;gap:12px;}
     .topnav .btn{padding:9px 14px;font-size:12.5px;}
     .bottombar{
@@ -231,12 +236,12 @@
   /* ---------- hero: the service rotates in its colour block; its logo shape and its card answer ---------- */
   .hero{position:relative;padding:84px 0 64px;overflow:hidden;
     background:radial-gradient(520px 420px at 4% 70%,rgba(40,35,238,.08),transparent 70%),radial-gradient(640px 460px at 94% 100%,rgba(226,69,44,.08),transparent 70%),radial-gradient(560px 380px at 80% 0%,rgba(237,175,47,.15),transparent 70%);}
-  .hero .wrap{max-width:1180px;position:relative;z-index:2;}
-  .hero h1{font-size:clamp(38px,5.4vw,70px);font-weight:800;line-height:1.16;letter-spacing:-.02em;max-width:none;margin-top:20px;}
+  .hero .wrap{max-width:1260px;position:relative;z-index:2;}
+  .hero h1{font-size:clamp(34px,4.86vw,63px);font-weight:800;line-height:1.16;letter-spacing:-.02em;max-width:none;margin-top:20px;}
   /* The three services sit in one grid cell, so the line keeps one height and never reflows.
      Each one has its colour block; the hidden ones come in from below and leave towards the top. */
   .hero h1 .rot{display:inline-grid;vertical-align:bottom;}
-  .hero h1 .rot b{grid-area:1/1;justify-self:start;font-weight:inherit;white-space:nowrap;padding:0 .26em .06em;border-radius:.22em;opacity:0;transform:translateY(.4em);transition:opacity .45s ease,transform .5s cubic-bezier(.2,.8,.2,1);}
+  .hero h1 .rot b{grid-area:1/1;justify-self:start;align-self:end;font-weight:inherit;white-space:nowrap;padding:0 .26em .06em;border-radius:.22em;opacity:0;transform:translateY(.4em);transition:opacity .45s ease,transform .5s cubic-bezier(.2,.8,.2,1);}
   .hero h1 .rot b[data-svc="sites"]{background:var(--blue);color:#fff;}
   .hero h1 .rot b[data-svc="auto"]{background:var(--red);color:#fff;}
   .hero h1 .rot b[data-svc="strat"]{background:var(--yellow);color:var(--ink);}
@@ -246,30 +251,57 @@
   .hero h1 .u{position:relative;display:inline-block;white-space:nowrap;}
   .hero h1 .u svg{position:absolute;left:0;right:0;bottom:-.12em;width:100%;height:.17em;}
   .hero h1 .u svg path{fill:none;stroke:var(--red);stroke-width:4;stroke-linecap:round;}
-  .hgrid{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:56px;align-items:start;margin-top:40px;}
+  /* A 2 x 2 grid: the title and the drawing on one line, the text and the list of services under them, top-aligned.
+     The title may run under the empty left part of the drawing's column. */
+  .hgrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;column-gap:48px;row-gap:40px;}
+  .hhead{grid-row:1;grid-column:1/-1;align-self:center;}
+  .hvis{grid-row:1;grid-column:2;justify-self:center;align-self:center;}
+  .hleft{grid-row:2;grid-column:1;}
+  .hsvc{grid-row:2;grid-column:2;display:flex;flex-direction:column;gap:4px;}
   .hero .sub{font-size:19px;margin-top:0;max-width:46ch;}
-  .ctas{display:flex;gap:16px;flex-wrap:wrap;margin-top:34px;}
+  .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px;}
   .hero .note{margin-top:16px;font-size:14px;color:var(--ink-2);}
   /* The logo answers: the shape of the service's colour grows and takes its pictogram, the other two fade. */
-  .hright{display:flex;flex-direction:column;align-items:center;gap:18px;margin-top:-36px;}
-  .hillu{width:300px;height:270px;overflow:visible;isolation:isolate;}
+  .hillu{display:block;width:clamp(170px,18vw,230px);height:auto;aspect-ratio:300/270;overflow:visible;isolation:isolate;}
   .hillu .s-shape{mix-blend-mode:multiply;opacity:.5;transform-box:fill-box;transform-origin:center;transition:opacity .5s ease,transform .6s cubic-bezier(.34,1.56,.64,1);}
   .hero[data-svc="sites"] .s-sq,.hero[data-svc="auto"] .s-ci,.hero[data-svc="strat"] .s-tri{opacity:1;transform:scale(1.12);}
   .hillu .s-icon{opacity:0;transition:opacity .35s ease;}
   .hero[data-svc="sites"] .i-code,.hero[data-svc="auto"] .i-spark,.hero[data-svc="strat"] .i-mega{opacity:1;transition-delay:.15s;}
-  .hcards{display:grid;width:380px;max-width:100%;}
-  .hcard{grid-area:1/1;display:block;text-decoration:none;color:var(--ink);background:rgba(255,255,255,.78);border:1.5px solid #15151514;border-radius:14px;box-shadow:0 12px 32px rgba(21,21,21,.08);padding:16px 18px;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .35s ease,transform .35s ease,visibility 0s linear .35s;}
-  .hcard.on{opacity:1;visibility:visible;transform:none;transition:opacity .4s ease .1s,transform .4s ease .1s,visibility 0s;}
-  .hcard:hover .ht{color:var(--blue);}
-  .hcard .ht{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:700;font-size:16px;}
-  .hcard .ht i{flex:none;width:9px;height:9px;border-radius:50%;}
-  .hcard[data-svc="sites"] .ht i{background:var(--blue);} .hcard[data-svc="auto"] .ht i{background:var(--red);} .hcard[data-svc="strat"] .ht i{background:var(--yellow);}
-  .hcard .hd{display:block;margin:5px 0 0 19px;font-size:14px;line-height:1.5;color:var(--ink-2);}
+  /* The list answers too: each service carries the shape of the drawing; the current one opens with its description,
+     and a thin bar of its colour fills during its 3.5 s. Hovering a line shows that service and holds the turn. */
+  .hrow{position:relative;display:grid;grid-template-columns:22px minmax(0,1fr) 16px;column-gap:14px;align-items:center;padding:11px 16px;border:1px solid transparent;border-radius:14px;color:var(--ink-2);text-decoration:none;transition:background-color .35s ease,border-color .35s ease,box-shadow .35s ease,color .35s ease,padding .35s ease;}
+  .hrow .hm{width:22px;height:22px;opacity:.45;transition:opacity .35s ease;}
+  .hrow b{font-family:var(--disp);font-weight:600;font-size:15px;line-height:1.35;}
+  .hrow .harr{width:16px;height:16px;opacity:0;transition:opacity .35s ease,transform .2s ease;}
+  .hrow .hdw{grid-column:2;display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease;}
+  .hrow .hd{overflow:hidden;min-height:0;font-size:14px;line-height:1.5;color:var(--ink-2);}
+  .hrow .hbar{position:absolute;left:16px;right:16px;bottom:0;height:2px;border-radius:2px;background:rgba(21,21,21,.06);overflow:hidden;opacity:0;transition:opacity .3s ease;}
+  .hrow .hbar::after{content:"";display:block;width:0;height:100%;}
+  .hrow[data-svc="sites"] .hbar::after{background:var(--blue);} .hrow[data-svc="auto"] .hbar::after{background:var(--red);} .hrow[data-svc="strat"] .hbar::after{background:var(--yellow);}
+  .hrow.on{padding:15px 16px 17px;align-items:start;background:#fff;border-color:rgba(21,21,21,.1);box-shadow:0 14px 30px rgba(21,21,21,.08);color:var(--ink);}
+  .hrow.on .hm,.hrow.on .harr{opacity:1;}
+  .hrow.on b{font-weight:700;font-size:16px;}
+  .hrow.on .hdw{grid-template-rows:1fr;}
+  .hrow.on .hd{padding-top:4px;}
+  .hrow.on .hbar{opacity:1;}
+  .hero.turning .hrow.on .hbar::after{animation:hbar 3.5s linear forwards;}
+  .hrow:hover{color:var(--ink);}
+  .hrow.on:hover .harr{transform:translateX(3px);}
+  .hrow:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+  @keyframes hbar{to{width:100%}}
   @media(max-width:900px){
-    .hgrid{grid-template-columns:1fr;gap:26px;margin-top:28px;}
-    .hright{order:-1;margin-top:0;flex-direction:row;align-items:center;gap:14px;}
-    .hillu{width:120px;height:108px;flex:none;}
-    .hcards{width:auto;flex:1;}
+    /* Phone and tablet: the drawing and the current service side by side, under the title. */
+    .hgrid{grid-template-columns:120px minmax(0,1fr);column-gap:14px;row-gap:24px;}
+    .hhead{grid-row:1;grid-column:1/-1;}
+    .hvis{grid-row:2;grid-column:1;}
+    .hsvc{grid-row:2;grid-column:2;display:grid;align-self:center;}
+    .hleft{grid-row:3;grid-column:1/-1;}
+    .hillu{width:120px;}
+    .hrow{grid-area:1/1;visibility:hidden;opacity:0;transform:translateY(6px);transition:opacity .35s ease,transform .35s ease,visibility 0s linear .35s;}
+    .hrow.on{visibility:visible;opacity:1;transform:none;transition:opacity .4s ease .1s,transform .4s ease .1s,visibility 0s;}
+    .hrow .harr{display:none;}
+    .hrow{grid-template-columns:18px minmax(0,1fr);column-gap:10px;}
+    .hrow .hm{width:18px;height:18px;}
   }
   /* the floating logo geometry, kept for the booking window */
   .geo{position:absolute;z-index:1;pointer-events:none;opacity:.9;}
@@ -352,7 +384,8 @@
   .xlink .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:34px;padding-bottom:34px;flex-wrap:wrap;}
   .xlink h3{font-size:clamp(19px,2.4vw,25px);font-weight:800;max-width:28ch;}
   .xlink p{font-size:14.5px;color:#d8d7ff;margin-top:4px;}
-  .xlink .btn{background:var(--yellow);border-color:var(--ink);color:var(--ink);box-shadow:5px 5px 0 rgba(0,0,0,.35);}
+  .xlink .btn{background:var(--yellow);border-color:var(--yellow);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.3),0 12px 26px -12px rgba(237,175,47,.6);}
+  .xlink .btn:hover{background:#f3bd4c;border-color:#f3bd4c;}
 
   /* ---------- contact ---------- */
   #contact{padding-bottom:96px;}
@@ -486,8 +519,6 @@
   .modal .book-slot{margin-top:18px;}
 
   /* ---------- direct reach (phone, WhatsApp) ---------- */
-  .hero .reach{margin-top:10px;font-size:14.5px;color:var(--ink-2);}
-  .hero .reach a{font-family:var(--disp);font-weight:700;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--yellow);white-space:nowrap;}
   /* ---------- founder photo ---------- */
   img.avatar{width:120px;height:120px;object-fit:cover;display:block;padding:0;font-size:0;background:var(--paper-2);}
   .avatar-fb{width:120px;height:120px;}
@@ -527,21 +558,44 @@
 
   /* ---------- how it works, the short version ---------- */
   #process{background:var(--paper-2);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
-  .pflow{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-top:40px;position:relative;}
-  .pflow::before{content:"";position:absolute;left:34px;right:34px;top:23px;height:2px;background:repeating-linear-gradient(90deg,var(--ink) 0 8px,transparent 8px 16px);opacity:.4;}
-  .pflow.on::before{animation:flow 1.1s linear infinite;}
-  .pflow li{position:relative;}
-  .pflow .pn{position:relative;z-index:1;width:48px;height:48px;border-radius:50%;background:var(--ink);color:var(--yellow);font-family:var(--disp);font-weight:800;font-size:17px;display:flex;align-items:center;justify-content:center;border:2px solid var(--ink);box-shadow:4px 4px 0 var(--yellow);margin-bottom:16px;}
-  .pflow li:nth-child(2) .pn{background:var(--blue);color:#fff;box-shadow:4px 4px 0 var(--ink);}
-  .pflow li:nth-child(3) .pn{background:var(--yellow);color:var(--ink);box-shadow:4px 4px 0 var(--ink);}
-  .pflow li:nth-child(4) .pn{background:var(--red);color:#fff;box-shadow:4px 4px 0 var(--ink);}
-  .pflow h3{font-size:17.5px;margin-bottom:6px;}
-  .pflow p{font-size:14.5px;color:var(--ink-2);}
-  #process .ctas{margin-top:34px;}
+  /* The four steps on a vertical line, and beside them the online estimate (a dark card) with four promises under it. */
+  .pgrid{display:grid;grid-template-columns:minmax(0,1fr) 520px;gap:64px;align-items:start;margin-top:52px;}
+  .pflow{list-style:none;margin:0;padding:0;}
+  .pflow li{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr);column-gap:22px;padding-bottom:34px;}
+  .pflow li:last-child{padding-bottom:0;}
+  .pflow li:not(:last-child)::after{content:"";position:absolute;left:21px;top:50px;bottom:-6px;width:2px;background:linear-gradient(rgba(21,21,21,.2),rgba(21,21,21,.08));}
+  .pflow .pn{position:relative;z-index:1;width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--yellow);font-family:var(--mono);font-weight:600;font-size:13.5px;letter-spacing:.02em;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px var(--paper-2);}
+  .pflow li:nth-child(2) .pn{background:var(--blue);color:#fff;}
+  .pflow li:nth-child(3) .pn{background:var(--yellow);color:var(--ink);}
+  .pflow li:nth-child(4) .pn{background:var(--red);color:#fff;}
+  .pflow li > div{padding-top:9px;}
+  .pflow h3{font-size:19px;line-height:1.25;margin:0;}
+  .pflow p{margin-top:8px;font-size:15.5px;line-height:1.6;color:var(--ink-2);max-width:46ch;}
   .pflow li .pn{transition:transform .35s cubic-bezier(.34,1.56,.64,1);}
-  .pflow li.act .pn{transform:scale(1.14);}
+  .pflow li.act .pn{transform:scale(1.12);}
   .pflow li h3{transition:color .3s;} .pflow li.act h3{color:var(--blue);}
-  @media(max-width:900px){.pflow{grid-template-columns:1fr 1fr;} .pflow::before{display:none;}}
+  .pside{display:flex;flex-direction:column;gap:28px;}
+  .pest{position:relative;overflow:hidden;border-radius:22px;padding:34px 34px 28px;color:var(--paper);
+    background:radial-gradient(420px 260px at 100% 0%,rgba(40,35,238,.55),transparent 70%),radial-gradient(360px 240px at 0% 100%,rgba(226,69,44,.22),transparent 70%),linear-gradient(160deg,#24242c,var(--ink) 60%);
+    box-shadow:0 24px 48px -18px rgba(21,21,21,.45);}
+  .pek{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(250,248,242,.72);}
+  .pek::before{content:"";width:26px;height:2px;background:var(--red);}
+  .pest h3{margin-top:14px;font-size:30px;font-weight:800;line-height:1.16;letter-spacing:-.01em;max-width:18ch;color:var(--paper);}
+  .pest p{margin-top:12px;font-size:15.5px;line-height:1.6;color:rgba(250,248,242,.78);}
+  .pchips{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px;}
+  .pchips li{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 12px;border-radius:999px;background:rgba(250,248,242,.07);border:1px solid rgba(250,248,242,.16);color:rgba(250,248,242,.9);font-size:13.5px;font-weight:500;white-space:nowrap;}
+  .pchips svg{width:15px;height:15px;flex:none;}
+  .pest .pbtn{display:flex;width:100%;margin-top:24px;height:54px;padding:0 22px;border-radius:12px;font-size:15.5px;border-color:#4a46ff;box-shadow:0 1px 2px rgba(0,0,0,.3),0 12px 28px -10px rgba(40,35,238,.9);}
+  .pest .pbtn .barr{width:17px;height:17px;}
+  .plink{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px;color:rgba(250,248,242,.86);font-size:14.5px;font-weight:600;text-decoration:none;}
+  .plink svg{width:15px;height:15px;flex:none;transition:transform .2s ease;}
+  .plink:hover{color:#fff;} .plink:hover svg{transform:translateX(3px);}
+  .pprom{list-style:none;margin:0;padding:0 6px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 20px;}
+  .pprom li{display:flex;align-items:center;gap:12px;font-size:15px;font-weight:600;line-height:1.35;color:var(--ink);}
+  .pck{flex:none;width:24px;height:24px;border-radius:50%;background:var(--yellow);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;}
+  .pck svg{width:13px;height:13px;}
+  @media(max-width:1060px){.pgrid{grid-template-columns:minmax(0,1fr) 460px;gap:44px;}}
+  @media(max-width:900px){.pgrid{grid-template-columns:1fr;gap:44px;margin-top:40px;} .pside{max-width:560px;}}
 
   /* ---------- motion ---------- */
   @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
@@ -549,15 +603,14 @@
   @keyframes draw{to{stroke-dashoffset:0}}
   @keyframes flow{to{background-position:16px 0}}
   /* The hero rises once the logo intro has left (html.lg-ready), or straight away when there is no intro. */
-  .hero .wrap > *{opacity:0;}
-  html.lg-ready .hero .wrap > *{animation:rise .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0) * .09s);}
-  .hero .wrap > :nth-child(2){--i:1} .hero .wrap > :nth-child(3){--i:2} .hero .wrap > :nth-child(4){--i:3}
-  .hero .wrap > :nth-child(5){--i:4} .hero .wrap > :nth-child(6){--i:5} .hero .wrap > :nth-child(7){--i:6}
+  .hgrid > *{opacity:0;}
+  html.lg-ready .hgrid > *{animation:rise .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0) * .09s);}
+  .hgrid > .hvis{--i:1} .hgrid > .hleft{--i:2} .hgrid > .hsvc{--i:3}
   .hero h1 .u svg path{stroke-dasharray:320;stroke-dashoffset:320;}
   html.lg-ready .hero h1 .u svg path{animation:draw .9s .75s cubic-bezier(.2,.8,.2,1) forwards;}
   .topnav{transition:box-shadow .25s;}
   html.scrolled .topnav{box-shadow:0 10px 24px -18px rgba(0,0,0,.45);}
-  .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink);}
+  .btn:active{transform:none;box-shadow:0 1px 2px rgba(21,21,21,.14);}
   .kick::before{transform-origin:left;}
   .rv.kick::before{transform:scaleX(0);transition:transform .6s .25s ease;}
   .rv.kick.on::before{transform:scaleX(1);}
@@ -565,10 +618,11 @@
   .grid .card.rv:nth-child(4){transition-delay:.21s} .grid .card.rv:nth-child(5){transition-delay:.28s} .grid .card.rv:nth-child(6){transition-delay:.35s}
   .fq p{animation:evin .35s ease both;}
   @media (prefers-reduced-motion: reduce){
-    .hero .wrap > *{opacity:1;animation:none;}
+    .hgrid > *{opacity:1;animation:none;}
     .hero h1 .u svg path{stroke-dashoffset:0;animation:none;}
-    .hero h1 .rot b,.hillu .s-shape,.hillu .s-icon,.hcard{transition:none;}
-    .pflow.on::before,.fq p{animation:none;}
+    .hero h1 .rot b,.hillu .s-shape,.hillu .s-icon,.hrow,.hrow *{transition:none;}
+    .hero.turning .hrow.on .hbar::after{animation:none;}
+    .fq p{animation:none;}
     .rv.kick::before{transform:none;transition:none;}
     .pflow li .pn,.pflow li h3{transition:none;}
     .cbtn,.cdots button{transition:none;}
@@ -624,8 +678,8 @@
   .form-note a{color:var(--ink);font-weight:600;}
   .slot-note{margin-top:-6px;font-size:12.5px;color:var(--ink-2);}
   .cal-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
-  .cal-btns a{display:inline-flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:700;font-size:14px;text-decoration:none;color:var(--ink);background:#fff;border:2px solid var(--ink);border-radius:999px;padding:10px 16px;box-shadow:4px 4px 0 var(--ink);transition:transform .15s,box-shadow .15s;}
-  .cal-btns a:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);}
+  .cal-btns a{display:inline-flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:600;font-size:14px;text-decoration:none;color:var(--ink);background:#fff;border:1px solid rgba(21,21,21,.18);border-radius:999px;padding:11px 17px;box-shadow:0 1px 2px rgba(21,21,21,.06);transition:transform .15s,box-shadow .2s,border-color .2s;}
+  .cal-btns a:hover{transform:translateY(-1px);border-color:rgba(21,21,21,.32);box-shadow:0 2px 4px rgba(21,21,21,.08),0 12px 24px -14px rgba(21,21,21,.4);}
   .form-ok .slot{font-family:var(--mono);font-size:13px;color:var(--ink);margin-top:6px;}
 
   /* ---------- footer links ---------- */
@@ -641,12 +695,12 @@
     .kick{font-size:10.5px;letter-spacing:.14em;}
     .hero{padding:40px 0 40px;}
     /* The service block may wrap on two lines on a phone; the three blocks share one cell, so the line height stays put. */
-    .hero h1{font-size:clamp(26px,8.4vw,34px);line-height:1.24;margin-top:14px;}
+    .hero h1{font-size:clamp(24px,7.6vw,30px);line-height:1.24;margin-top:14px;}
     .hero h1 .rot b{white-space:normal;}
     .hero h1 .u{white-space:normal;text-wrap:balance;}
     .hero .sub{font-size:16.5px;}
-    .hright{gap:12px;} .hillu{width:96px;height:86px;}
-    .hcard{padding:12px 14px;} .hcard .ht{font-size:14.5px;} .hcard .hd{font-size:13px;}
+    .hgrid{grid-template-columns:96px minmax(0,1fr);column-gap:12px;row-gap:20px;} .hillu{width:96px;}
+    .hrow.on{padding:12px 14px 13px;} .hrow b,.hrow.on b{font-size:14.5px;} .hrow .hd{font-size:13px;} .hrow .hbar{left:14px;right:14px;}
     .ctas{gap:12px;margin-top:26px;}
     .ctas .btn,form button.btn{width:100%;justify-content:center;}
     .ccard{padding:16px 16px 8px;box-shadow:6px 6px 0 var(--yellow);} .crow .ct b{font-size:15px;} .cfacts{margin-top:22px;}
@@ -658,10 +712,11 @@
     .slide .sbody{padding:20px 18px 20px;}
     .slide .sbody .btn{width:100%;justify-content:center;}
     .caro-track{gap:14px;}
-    .pflow{grid-template-columns:1fr;gap:18px;}
-    .pflow li{display:grid;grid-template-columns:46px 1fr;gap:2px 16px;align-items:start;}
-    .pflow .pn{grid-row:1/3;margin:0;width:46px;height:46px;}
-    .pflow h3{margin:0;}
+    .pflow li{column-gap:16px;padding-bottom:26px;}
+    .pflow h3{font-size:17.5px;} .pflow p{font-size:15px;}
+    .pest{padding:26px 22px 22px;border-radius:20px;}
+    .pest h3{font-size:25px;}
+    .pprom{grid-template-columns:1fr;gap:12px;padding:0 2px;}
     .about{gap:18px;}
     img.avatar,.avatar-fb{width:104px;height:104px;}
     form{padding:22px 18px;box-shadow:6px 6px 0 var(--blue);}
@@ -673,7 +728,7 @@
     .modal h3{font-size:22px;}
   }
   @media(max-width:360px){
-    .hero h1{font-size:8.2vw;}
+    .hero h1{font-size:7.4vw;}
     .topnav .btn{padding:9px 11px;font-size:12px;}
     .langsw button{padding:6px 8px;}
   }
@@ -857,7 +912,7 @@
 })();
 </script>
 
-<noscript><style>.hero .wrap > *{opacity:1!important;}</style></noscript>
+<noscript><style>.hgrid > *{opacity:1!important;}</style></noscript>
 <a class="skip" href="#top" data-i18n="skip">Skip to content</a>
 
 <!-- ================= SIDE / BOTTOM NAV ================= -->
@@ -872,10 +927,9 @@
       <span class="logo-txt">La Goffinerie</span>
     </a>
     <div class="nlinks">
-      <a class="nsvc" href="#alive" data-track="nav_alive"><span data-i18n="nav_alive">Our services</span></a>
+      <a class="nsvc" href="#alive" data-track="nav_alive"><span data-i18n="nav_alive">Services</span></a>
       <a href="work.html" data-track="nav_work" data-i18n="nav_work">Work</a>
       <a href="pricing.html" data-track="nav_pricing" data-i18n="nav_pricing">Pricing</a>
-      <a href="about.html" data-track="nav_about" data-i18n="nav_about">About</a>
       <a href="#faq" data-track="nav_faq" data-i18n="nav_faq">FAQ</a>
     </div>
     <div class="nright">
@@ -883,7 +937,7 @@
         <button id="lang-en" onclick="setLang('en')">EN</button>
         <button id="lang-fr" onclick="setLang('fr')">FR</button>
       </div>
-      <a class="btn primary" href="#contact" data-track="nav_book" data-open="nav" data-i18n="nav_book">Free call</a>
+      <a class="btn primary nquote" href="pricing.html" data-track="nav_quote" data-estimator="nav"><svg class="ndoc" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.75h5.2L12.5 5v9.25H4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 1.75V5.2h3.4M6.3 8.4h3.9M6.3 11h3.9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span data-i18n="nav_book">Get a quote</span></a>
     </div>
   </div>
 </nav>
@@ -898,19 +952,12 @@
 <!-- ================= HERO ================= -->
 <header class="hero" id="top" tabindex="-1" data-svc="sites">
   <div class="wrap">
-    <div class="kick" data-i18n="hero_kick">Websites, AI &amp; digital strategy · Belgium</div>
-    <h1 data-i18n="hero_h1"><span class="vh">Websites and apps, automated AI tools and digital strategies that get to work for you.</span><span aria-hidden="true"><span class="rot"><b class="on" data-svc="sites">Websites &amp; apps</b><b data-svc="auto">Automated AI tools</b><b data-svc="strat">Digital strategies</b></span><br><span class="u">that get to work for you.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span></span></h1>
     <div class="hgrid">
-      <div class="hleft">
-        <p class="sub" data-i18n="hero_sub">A website that fills your calendar, sends your invoices and tells you what your visitors do. From <span data-price="vitrine">€1,950</span> excl. VAT, price fixed in writing. <strong>You own it.</strong></p>
-        <div class="ctas">
-          <a class="btn primary" href="#contact" data-track="cta_hero_book" data-open="hero" data-i18n="hero_cta1">Book my free call</a>
-          <a class="btn ghost" href="work.html" data-track="cta_hero_work" data-i18n="hero_cta2">See our work →</a>
-        </div>
-        <p class="note" data-i18n="hero_note">30 minutes, no obligation. I'll tell you honestly what's worth building, and what it would be worth to your business.</p>
-        <p class="reach"><span data-i18n="hero_call">Or reach me directly:</span> <a href="tel:+32479487608" data-track="cta_phone">+32 479 48 76 08</a></p>
+      <div class="hhead">
+        <div class="kick" data-i18n="hero_kick">Websites, AI &amp; digital strategy · Belgium</div>
+        <h1 data-i18n="hero_h1"><span class="vh">Websites and apps, automated AI tools and digital strategies that get to work for you.</span><span aria-hidden="true"><span class="rot"><b class="on" data-svc="sites">Websites &amp; apps</b><b data-svc="auto">Automated AI tools</b><b data-svc="strat">Digital strategies</b></span><br><span class="u">that get to work for you.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span></span></h1>
       </div>
-      <div class="hright">
+      <div class="hvis">
         <svg class="hillu" viewBox="0 0 300 270" aria-hidden="true">
           <path class="s-shape s-tri" d="M150 8 L264 204 L36 204 Z" fill="#EDAF2F"/>
           <rect class="s-shape s-sq" x="34" y="98" width="150" height="150" rx="36" fill="#2823EE"/>
@@ -919,12 +966,20 @@
           <g class="s-icon i-spark" transform="translate(222 186) scale(1.12)" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round"><path d="M-4 -26 C-2 -10 4 -4 20 -2 C4 0 -2 6 -4 22 C-6 6 -12 0 -28 -2 C-12 -4 -6 -10 -4 -26 Z"/><path d="M20 -26 C21 -20 23 -18 29 -17 C23 -16 21 -14 20 -8 C19 -14 17 -16 11 -17 C17 -18 19 -20 20 -26 Z" stroke-width="3.5"/></g>
           <g class="s-icon i-mega" transform="translate(150 150) scale(1.12)" fill="none" stroke="#151515" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path d="M-22 -8 L6 -20 L6 20 L-22 8 Z"/><path d="M-22 -8 L-28 -8 L-28 8 L-22 8"/><path d="M-14 10 L-10 24"/><path d="M14 -8 L20 -10 M14 8 L20 10"/></g>
         </svg>
-        <div class="hcards">
-          <a class="hcard on" data-svc="sites" href="websites.html" data-track="hero_card"><span class="ht"><i></i><span data-i18n="hc1_t">Websites &amp; apps</span></span><span class="hd" data-i18n="hc1_d">Showcase site, small application, hosting and maintenance, visual identity.</span></a>
-          <a class="hcard" data-svc="auto" href="ai-automation.html" data-track="hero_card"><span class="ht"><i></i><span data-i18n="hc2_t">AI automation</span></span><span class="hd" data-i18n="hc2_d">For example an AI digest of your inbox every morning, or quotes that draft themselves.</span></a>
-          <a class="hcard" data-svc="strat" href="digital-strategy.html" data-track="hero_card"><span class="ht"><i></i><span data-i18n="hc3_t">Digital strategy</span></span><span class="hd" data-i18n="hc3_d">SEO to be found on Google, GEO to be recommended by ChatGPT and the others.</span></a>
-        </div>
       </div>
+      <div class="hleft">
+        <p class="sub" data-i18n="hero_sub">A website that fills your calendar, sends your invoices and tells you what your visitors do. From <span data-price="vitrine">€1,950</span> excl. VAT, price fixed in writing. <strong>You own it.</strong></p>
+        <div class="ctas">
+          <a class="btn primary" href="#contact" data-track="cta_hero_book" data-open="hero"><span data-i18n="hero_cta1">Book my free call</span><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a class="btn ghost" href="work.html" data-track="cta_hero_work" data-i18n="hero_cta2">See our work</a>
+        </div>
+        <p class="note" data-i18n="hero_note">30 minutes, no obligation. I'll tell you honestly what's worth building, and what it would be worth to your business.</p>
+      </div>
+      <nav class="hsvc" aria-label="Our three services">
+        <a class="hrow on" data-svc="sites" href="websites.html" data-track="hero_card"><svg class="hm" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" fill="#2823EE"/></svg><b data-i18n="hc1_t">Websites &amp; apps</b><svg class="harr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="hdw"><span class="hd" data-i18n="hc1_d">Showcase site, small application, hosting and maintenance, visual identity.</span></span><i class="hbar" aria-hidden="true"></i></a>
+        <a class="hrow" data-svc="auto" href="ai-automation.html" data-track="hero_card"><svg class="hm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#E2452C"/></svg><b data-i18n="hc2_t">AI automation</b><svg class="harr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="hdw"><span class="hd" data-i18n="hc2_d">For example an AI digest of your inbox every morning, or quotes that draft themselves.</span></span><i class="hbar" aria-hidden="true"></i></a>
+        <a class="hrow" data-svc="strat" href="digital-strategy.html" data-track="hero_card"><svg class="hm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L23 21 L1 21 Z" fill="#EDAF2F"/></svg><b data-i18n="hc3_t">Digital strategy</b><svg class="harr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="hdw"><span class="hd" data-i18n="hc3_d">SEO to be found on Google, GEO to be recommended by ChatGPT and the others.</span></span><i class="hbar" aria-hidden="true"></i></a>
+      </nav>
     </div>
   </div>
 </header>
@@ -1038,13 +1093,34 @@
   <div class="wrap">
     <div class="kick rv" data-i18n="proc_kick">How it works</div>
     <h2 class="rv" data-i18n="proc_h2">Four steps, and you validate each one.</h2>
-    <ol class="pflow rv">
-      <li><span class="pn">1</span><h3 data-i18n="ps1_h">Free call</h3><p data-i18n="ps1_p">30 minutes to understand how you work today, and what is worth building.</p></li>
-      <li><span class="pn">2</span><h3 data-i18n="ps2_h">Plan &amp; fixed price</h3><p data-i18n="ps2_p">What will be delivered, in writing, for one price. Nothing starts without your green light.</p></li>
-      <li><span class="pn">3</span><h3 data-i18n="ps3_h">Build in the open</h3><p data-i18n="ps3_p">You follow the progress every week and test it on real work before delivery.</p></li>
-      <li><span class="pn">4</span><h3 data-i18n="ps4_h">Handover</h3><p data-i18n="ps4_p">Code, data and keys are yours. 5 hours of maintenance included within 3 months, defects fixed free for six months.</p></li>
-    </ol>
-    <div class="ctas rv"><button class="btn primary" type="button" data-estimator="home" data-track="cta_estimate" data-i18n="proc_est">Estimate my project</button><a class="btn ghost" href="pricing.html" data-track="cta_pricing" data-i18n="proc_btn">The method and the pricing, in detail →</a></div>
+    <div class="pgrid">
+      <ol class="pflow rv">
+        <li><span class="pn">01</span><div><h3 data-i18n="ps1_h">Free call</h3><p data-i18n="ps1_p">30 minutes to understand how you work today, and what is worth building.</p></div></li>
+        <li><span class="pn">02</span><div><h3 data-i18n="ps2_h">Plan &amp; fixed price</h3><p data-i18n="ps2_p">What will be delivered, in writing, for one price. Nothing starts without your green light.</p></div></li>
+        <li><span class="pn">03</span><div><h3 data-i18n="ps3_h">Build in the open</h3><p data-i18n="ps3_p">You follow the progress every week and test it on real work before delivery.</p></div></li>
+        <li><span class="pn">04</span><div><h3 data-i18n="ps4_h">Handover</h3><p data-i18n="ps4_p">Code, data and keys are yours. 5 hours of maintenance included within 3 months, defects fixed free for six months.</p></div></li>
+      </ol>
+      <div class="pside rv">
+        <div class="pest">
+          <div class="pek" data-i18n="pe_kick">Online estimate</div>
+          <h3 data-i18n="pe_h">Get a price range in two minutes.</h3>
+          <p data-i18n="pe_p">A few questions about the services you need, an indicative range straight away, no e-mail required. The exact price is then fixed in writing after the free call.</p>
+          <ul class="pchips">
+            <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 4h8M5.5 8h8M5.5 12h8M2.5 4h.01M2.5 8h.01M2.5 12h.01" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="pe_c1">6 questions max</span></li>
+            <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.75a6.25 6.25 0 1 0 0 12.5a6.25 6.25 0 1 0 0-12.5zM8 4.6V8l2.3 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="pe_c2">2 minutes</span></li>
+            <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.75l5 1.9v4c0 3.1-2.1 5.4-5 6.6c-2.9-1.2-5-3.5-5-6.6v-4zM5.7 8.1l1.6 1.6l3-3.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="pe_c3">No commitment</span></li>
+          </ul>
+          <button class="btn primary pbtn" type="button" data-estimator="home" data-track="cta_estimate"><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.75 1.75h8.5v12.5h-8.5zM5.75 4h4.5v2.25h-4.5zM5.9 9h.01M8 9h.01M10.1 9h.01M5.9 11.6h.01M8 11.6h.01M10.1 11.6h.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="proc_est">Estimate my project</span></button>
+          <a class="plink" href="pricing.html" data-track="cta_pricing"><span data-i18n="proc_btn">The method and the pricing, in detail</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+        <ul class="pprom">
+          <li><span class="pck"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.2 8.3l2.5 2.4l5-5.2" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="pp1">Fixed price, in writing</span></li>
+          <li><span class="pck"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.2 8.3l2.5 2.4l5-5.2" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="pp2">Maintenance, if you want it</span></li>
+          <li><span class="pck"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.2 8.3l2.5 2.4l5-5.2" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="pp3">Code and data are yours</span></li>
+          <li><span class="pck"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.2 8.3l2.5 2.4l5-5.2" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="pp4">One person, start to finish</span></li>
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1168,11 +1244,11 @@
    ========================================================= */
 const FR = {
   title:"La Goffinerie — Des sites web qui travaillent pour vous",
-  nav_alive:"Nos services", nav_work:"Réalisations", nav_about:"À propos", nav_faq:"FAQ", nav_pricing:"Tarifs", nav_book:"Appel gratuit", nav_call:"Appeler", skip:"Aller au contenu", nav_contact:"Contact", hero_call:"Ou joignez-moi directement :", ct_call:"Appeler",
+  nav_alive:"Services", nav_work:"Réalisations", nav_about:"À propos", nav_faq:"FAQ", nav_pricing:"Tarifs", nav_book:"Demander un devis", nav_call:"Appeler", skip:"Aller au contenu", nav_contact:"Contact", ct_call:"Appeler",
   hero_kick:"Sites web, IA &amp; stratégie digitale · Belgique",
   hero_h1:'<span class="vh">Des sites web et applis, des outils IA automatisés et des stratégies digitales qui travaillent pour vous.</span><span aria-hidden="true"><span class="rot"><b class="on" data-svc="sites">Des sites web &amp; applis</b><b data-svc="auto">Des outils IA automatisés</b><b data-svc="strat">Des stratégies digitales</b></span><br><span class="u">qui travaillent pour vous.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 10 Q 75 2, 150 8 T 296 6"/></svg></span></span>',
   hero_sub:"Un site qui remplit votre agenda, envoie vos factures et vous dit ce que font vos visiteurs. Dès <span data-price=\"vitrine\">1 950 €</span> HTVA, prix fixé par écrit. <strong>Il vous appartient.</strong>",
-  hero_cta1:"Réserver mon appel gratuit", hero_cta2:"Voir nos réalisations →",
+  hero_cta1:"Réserver mon appel gratuit", hero_cta2:"Voir nos réalisations",
   hero_note:"30 minutes, sans engagement. Je vous dirai honnêtement ce qui vaut la peine d'être construit, et ce que ça peut rapporter à votre entreprise.",
   hc1_t:"Sites web &amp; applications", hc1_d:"Site vitrine, petite application, hébergement et maintenance, identité visuelle.",
   hc2_t:"Automatisation IA", hc2_d:"Par exemple un résumé IA de votre boîte mail chaque matin, ou des devis préparés tout seuls.",
@@ -1192,7 +1268,11 @@ const FR = {
   ps2_h:"Plan &amp; prix fixe", ps2_p:"Ce qui sera livré, par écrit, pour un seul prix. Rien ne démarre sans votre feu vert.",
   ps3_h:"Construction ouverte", ps3_p:"Vous suivez l'avancement chaque semaine et testez sur du vrai travail avant la livraison.",
   ps4_h:"Remise des clés", ps4_p:"Le code, les données et les clés sont à vous. 5 heures d'entretien incluses dans les 3 mois, défauts corrigés gratuitement six mois.",
-  proc_est:"Estimer mon projet", proc_btn:"La méthode et les tarifs, en détail →",
+  proc_est:"Estimer mon projet", proc_btn:"La méthode et les tarifs, en détail",
+  pe_kick:"Estimation en ligne", pe_h:"Une fourchette de prix en deux minutes.",
+  pe_p:"Quelques questions selon les services qui vous intéressent, une fourchette indicative tout de suite, sans e-mail obligatoire. Le prix exact est ensuite fixé par écrit après l'appel gratuit.",
+  pe_c1:"6 questions max", pe_c2:"2 minutes", pe_c3:"Sans engagement",
+  pp1:"Prix fixe, par écrit", pp2:"L'entretien, si vous le voulez", pp3:"Code et données à vous", pp4:"Une seule personne, du début à la fin",
   ct_kick:"Parlons-en",
   ct_h2:"Dites-moi ce qui mange votre temps.",
   ct_sub:"Un appel gratuit de 30 minutes. Racontez-moi comment vous travaillez aujourd'hui : je vous dirai honnêtement ce qui vaut la peine d'être automatisé, et ce que ça peut rapporter.",
@@ -1286,6 +1366,7 @@ function setLang(l, silent){
   document.getElementById('lang-en').setAttribute('aria-pressed', String(LANG==='en'));
   document.getElementById('lang-fr').setAttribute('aria-pressed', String(LANG==='fr'));
   const lmc=document.getElementById('lm-close'); if(lmc) lmc.setAttribute('aria-label', LANG==='fr'?'Fermer':'Close');
+  const hsv=document.querySelector('.hsvc'); if(hsv) hsv.setAttribute('aria-label', LANG==='fr'?'Nos trois services':'Our three services');
   const fl = document.getElementById('f-lang'); if(fl) fl.value = LANG;
   const waText = LANG==='fr' ? "Bonjour Simon, je voudrais parler d'un site web pour mon entreprise." : "Hello Simon, I'd like to talk about a website for my business.";
   document.querySelectorAll('[data-wa]').forEach(a=>{ a.href='https://wa.me/32479487608?text='+encodeURIComponent(waText); });
@@ -1688,24 +1769,46 @@ const rvObs = new IntersectionObserver(es=>{
 document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
 
 /* The hero: websites & apps → automated AI tools → digital strategies, every 3.5 s, paused while the tab is hidden.
-   The service's block slides in, its logo shape grows and takes its pictogram, and its card replaces the previous one.
+   The service's block slides in, its logo shape grows and takes its pictogram, and its line opens in the list of
+   services, where a thin bar of its colour fills during the 3.5 s (.turning on the hero runs the bar).
+   Hovering or focusing a line shows that service and holds the turn until the pointer or the focus leaves the list.
    setLang() calls this again after re-rendering the h1; the hero keeps the current service in data-svc. */
 function heroRot(){
   clearInterval(heroRot.t);
   const hero=document.querySelector('.hero'); if(!hero) return;
-  const ws=[...hero.querySelectorAll('h1 .rot b')], cs=[...hero.querySelectorAll('.hcard')];
+  const ws=[...hero.querySelectorAll('h1 .rot b')], rs=[...hero.querySelectorAll('.hrow')];
   if(ws.length<2) return;
-  const order=ws.map(w=>w.dataset.svc);
+  const order=ws.map(w=>w.dataset.svc), RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
   let i=Math.max(0, order.indexOf(hero.dataset.svc));
-  const show=(k, prev)=>{
+  const show=(k, anim)=>{
+    const prev=i; i=k;
     ws.forEach((w,j)=>w.classList.toggle('on', j===k));
-    if(prev!=null){ const p=ws[prev]; p.classList.add('out'); setTimeout(()=>p.classList.remove('out'), 550); }
-    cs.forEach(c=>c.classList.toggle('on', c.dataset.svc===order[k]));
+    if(anim && prev!==k){ const p=ws[prev]; p.classList.add('out'); setTimeout(()=>p.classList.remove('out'), 550); }
+    rs.forEach(r=>r.classList.toggle('on', r.dataset.svc===order[k]));
     hero.dataset.svc=order[k];
   };
-  show(i);
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  heroRot.t=setInterval(()=>{ if(document.hidden) return; const prev=i; i=(i+1)%ws.length; show(i, prev); }, 3500);
+  const turn=()=>{
+    clearInterval(heroRot.t); hero.classList.remove('turning');
+    if(RM || heroRot.held || document.hidden) return;
+    void hero.offsetWidth; hero.classList.add('turning');
+    heroRot.t=setInterval(()=>show((i+1)%ws.length, true), 3500);
+  };
+  heroRot.pick=svc=>{ const k=order.indexOf(svc); if(k<0) return; heroRot.held=true; clearInterval(heroRot.t); hero.classList.remove('turning'); if(k!==i) show(k, !RM); };
+  heroRot.release=()=>{ heroRot.held=false; turn(); };
+  heroRot.turn=turn;
+  show(i, false); turn();
+  if(heroRot.bound) return;
+  heroRot.bound=true;
+  const list=hero.querySelector('.hsvc');
+  rs.forEach(r=>{
+    r.addEventListener('pointerenter', e=>{ if(e.pointerType==='mouse') heroRot.pick(r.dataset.svc); });
+    r.addEventListener('focus', ()=>heroRot.pick(r.dataset.svc));
+  });
+  if(list){
+    list.addEventListener('pointerleave', e=>{ if(e.pointerType==='mouse') heroRot.release(); });
+    list.addEventListener('focusout', e=>{ if(!list.contains(e.relatedTarget)) heroRot.release(); });
+  }
+  document.addEventListener('visibilitychange', ()=>heroRot.turn());
 }
 heroRot();
 </script>

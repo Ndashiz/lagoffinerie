@@ -1,13 +1,19 @@
 /* =========================================================
-   LA GOFFINERIE — nav.js (v2.27)
-   The top bar, on every page:
-     · « Our services » opens a menu with the three service pages:
+   LA GOFFINERIE — nav.js (v2.28)
+   The top bar, on every page: Services · Work · Pricing · FAQ, the language switch, and
+   « Get a quote » on the right.
+     · « Services » opens a menu with the three service pages:
        on hover with a mouse, on focus with the keyboard, on a first tap on a touch screen;
        Escape or a click elsewhere closes it;
+     · « Get a quote » (data-estimator="nav") opens the project estimator, the site's quote funnel.
+       Pages that load estimator.js (home, pricing, the service pages) open it through its own click
+       handler. The others (work, about, the 404) load config.js then estimator.js on the first click,
+       once, and open it; if loading fails, the button follows its link to the pricing page;
      · once the page has moved 80 px, the bar comes off the top and floats as a dark,
        slightly transparent rounded bar, the page passing behind it; back at the top it docks again.
    The menu speaks the page's language: it follows <html lang>, which every page's setLang() sets.
-   Pages without a fixed bar (the 404) keep the menu and skip the floating.
+   Pages without a fixed bar (the 404) keep the menu and skip the floating. The 404 is served at any
+   address, so its links start with « / », and so do the scripts loaded here for it.
    ========================================================= */
 (function(){
   var SVC=[
@@ -26,6 +32,7 @@
   var CSS=''
   /* the menu */
   +'.ndrop{position:relative;display:flex;align-items:center;}'
+  +'.ndrop .nsvc{white-space:nowrap;}'
   +'.nsvc .nchev{display:inline-block;width:10px;height:10px;margin-left:6px;transition:transform .2s ease;}'
   +'.nsvc .nchev svg{display:block;width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}'
   +'.ndrop.open .nchev{transform:rotate(180deg);}'
@@ -53,21 +60,45 @@
   +'html.floated .topnav .langsw{background:transparent;border-color:rgba(250,248,242,.35);}'
   +'html.floated .topnav .langsw button{color:rgba(250,248,242,.72);}'
   +'html.floated .topnav .langsw button.active{background:#faf8f2;color:#151515;}'
-  +'html.floated .topnav .btn.primary{box-shadow:3px 3px 0 #EDAF2F;}'
+  +'html.floated .topnav .btn.primary{box-shadow:0 1px 2px rgba(0,0,0,.3),0 8px 18px -8px rgba(40,35,238,.8);}'
   +'html.floated .nmenu{background:rgba(21,21,21,.94);border-color:transparent;box-shadow:0 22px 48px rgba(21,21,21,.32);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);}'
   +'html.floated .topnav .nmenu a.ni{color:#fff;} html.floated .nmenu .ni small{color:rgba(250,248,242,.7);}'
   +'html.floated .topnav .nmenu a.ni:hover,html.floated .topnav .nmenu a.ni:focus-visible{background:rgba(250,248,242,.08);}'
   +'html.floated .nmenu .nall{border-color:rgba(250,248,242,.14);} html.floated .topnav .nmenu .nall a{color:#fff;border-color:#EDAF2F;}'
+  /* just above 900 px the floating bar is 30 px narrower than the docked one: tighter gaps keep the four links and « Demander un devis » on one line */
+  +'@media(min-width:901px) and (max-width:1000px){html.floated .topnav .nwrap{gap:18px;}}'
   +'@media(max-width:900px){html.floated .topnav{top:10px;left:10px;right:10px;border-radius:16px;} html.floated .topnav .nwrap{height:56px;padding:0 8px 0 12px;}}'
   +'@media (prefers-reduced-motion: reduce){.topnav,.topnav .nwrap,.nmenu,.nchev{transition:none!important;}}';
   var st=document.createElement('style'); st.textContent=CSS; document.head.appendChild(st);
 
   var nav=document.querySelector('.topnav'); if(!nav) return;
+  var trig=nav.querySelector('.nsvc');
+  /* « / » on the 404 (its links are absolute), the page's own folder everywhere else. */
+  var base=(trig && /^\//.test(trig.getAttribute('href')||'')) ? '/' : '';
+
+  /* ---------- the quote button: the estimator, loaded on the first click where the page lacks it ---------- */
+  var loading=false;
+  var loadScript=function(src){
+    return new Promise(function(ok, ko){
+      var s=document.createElement('script'); s.src=src; s.async=false;
+      s.onload=ok; s.onerror=ko; document.head.appendChild(s);
+    });
+  };
+  document.addEventListener('click', function(e){
+    if(window.LGEstimator) return;                     // estimator.js is on the page: its own click handler opens it
+    var el=e.target.closest && e.target.closest('[data-estimator]'); if(!el) return;
+    e.preventDefault();
+    if(loading) return;                                // already on its way: one load, one pop-up
+    loading=true;
+    var href=el.getAttribute('href'), from=el.getAttribute('data-estimator')||'nav', svc=el.getAttribute('data-estimator-service');
+    (window.LG_CONFIG ? Promise.resolve() : loadScript(base+'config.js'))
+      .then(function(){ return window.LGEstimator ? null : loadScript(base+'estimator.js'); })
+      .then(function(){ if(!window.LGEstimator) throw new Error('estimator'); window.LGEstimator.open(from, svc); })
+      .catch(function(){ loading=false; if(href) location.href=href; });
+  });
 
   /* ---------- the services menu ---------- */
-  var trig=nav.querySelector('.nsvc');
   if(trig){
-    var base=/^\//.test(trig.getAttribute('href')||'') ? '/' : '';
     var wrap=document.createElement('div'); wrap.className='ndrop';
     trig.parentNode.insertBefore(wrap, trig); wrap.appendChild(trig);
     var chev=document.createElement('span'); chev.className='nchev'; chev.setAttribute('aria-hidden','true');
@@ -79,7 +110,7 @@
     var esc=function(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); };
     var render=function(){
       var L=document.documentElement.lang==='fr'?'fr':'en';
-      menu.setAttribute('aria-label', L==='fr'?'Nos services':'Our services');
+      menu.setAttribute('aria-label', 'Services');
       menu.innerHTML=SVC.map(function(s){
         return '<a class="ni" href="'+base+s.href+'" data-track="nav_service"><svg viewBox="0 0 24 24" aria-hidden="true">'+s.shape+'</svg><span><b>'+esc(s[L][0])+'</b><small>'+esc(s[L][1])+'</small></span></a>';
       }).join('')+'<span class="nall"><a href="'+trig.getAttribute('href')+'">'+ALL[L]+'</a></span>';

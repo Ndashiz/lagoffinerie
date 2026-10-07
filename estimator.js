@@ -1,12 +1,15 @@
 /* =========================================================
-   LA GOFFINERIE — estimator.js (site v2.27)
+   LA GOFFINERIE — estimator.js (site v2.28)
    The project estimator: a pop-up of short questions that ends on
    an indicative price range, then offers to send the detail by
    e-mail and to book the free call. The first question ticks one
    or more of the three services (sites & apps, SEO & GEO, AI
    automation); the next ones depend on them (three to six steps
-   in all, each asked once). Loaded by the home page and the
-   pricing page right after config.js; any element carrying
+   in all, each asked once). Loaded by the home, pricing and
+   service pages right after config.js; on the other pages, nav.js
+   loads both on the first click of « Get a quote » in the top bar
+   (by « / » paths on the 404, and then this file's links start
+   with « / » too). Any element carrying
    data-estimator opens it (the value says from where, for the
    statistics), and data-estimator-service="sites|seo|auto" on it
    pre-ticks that service when the visitor starts fresh. It never
@@ -18,8 +21,9 @@
        after each language switch.
      · Answers: kept for the tab in sessionStorage (lg_estimate,
        { v:2, step, a }; an older shape is dropped), answers only. The name, e-mail and phone stay in memory, except
-       for the hop from the pricing page to the booking form of the
-       home page, where they are read and removed at once.
+       for the hop from any other page to the booking form of the
+       home page (./?book=1, /?book=1 from the 404), where they are
+       read and removed at once.
      · Sending: POST /api/gf/estimates on Jarvis (text/plain, like the
        leads) stores the prospect and sends both e-mails. If Jarvis does
        not confirm Simon's copy, FormSubmit carries it, with the
@@ -39,6 +43,8 @@
   var CFG=window.LG_CONFIG||{}, E=CFG.estimator||{}, R=CFG.rates||{};
   var KEY='lg_estimate', JARVIS='https://jarvis.ndashiz.be', EST_PATH='/api/gf/estimates', EV_PATH='/api/gf/events';
   var FORMSUBMIT='https://formsubmit.co/ajax/info@lagoffinerie.be', SITE='https://lagoffinerie.be/';
+  /* The site's root for the links of the window: « / » when this file came by an absolute path (the 404, served at any address), else the page's folder. */
+  var HOME=(function(){ var s=document.currentScript; return (s && /^\//.test(s.getAttribute('src')||'')) ? '/' : './'; })();
   var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var TXT={
@@ -75,7 +81,7 @@
          disc:'Estimation indicative. Le prix final est fixé par écrit après notre appel gratuit, sur mesure pour votre projet.',
          cap_h:'Recevez le détail par e-mail et réservez votre appel gratuit.',
          f_name:"Votre nom ou nom d'entreprise", name_ph:'Jean Dupont ou Dupont SRL', f_email:'Votre e-mail', f_phone:'Téléphone (optionnel)',
-         consent:"J'accepte que La Goffinerie utilise mes réponses et mes coordonnées pour m'envoyer cette estimation et me recontacter à son sujet. <a href=\"donnees-personnelles.html\" target=\"_blank\" rel=\"noopener\">Protection des données</a>",
+         consent:"J'accepte que La Goffinerie utilise mes réponses et mes coordonnées pour m'envoyer cette estimation et me recontacter à son sujet. <a href=\""+HOME+"donnees-personnelles.html\" target=\"_blank\" rel=\"noopener\">Protection des données</a>",
          send:'Recevoir mon estimation', book:'Réserver mon appel gratuit', sending:'Envoi…',
          sent_h:"C'est envoyé{n} !", sent_p:"Le détail arrive dans votre boîte mail ; pensez à jeter un œil aux indésirables. Il ne reste qu'à réserver votre appel gratuit.",
          err:"L'envoi n'a pas abouti. Réessayez dans un instant, ou réservez directement votre appel.", restart:'Recommencer',
@@ -123,7 +129,7 @@
          disc:'Indicative estimate. The final price is set in writing after our free call, tailored to your project.',
          cap_h:'Get the detail by e-mail and book your free call.',
          f_name:'Your name or company name', name_ph:'Jean Dupont or Dupont SRL', f_email:'Your e-mail', f_phone:'Phone (optional)',
-         consent:'I agree that La Goffinerie uses my answers and contact details to send me this estimate and to get back to me about it. <a href="donnees-personnelles.html" target="_blank" rel="noopener">Data protection</a>',
+         consent:'I agree that La Goffinerie uses my answers and contact details to send me this estimate and to get back to me about it. <a href="'+HOME+'donnees-personnelles.html" target="_blank" rel="noopener">Data protection</a>',
          send:'Send me my estimate', book:'Book my free call', sending:'Sending…',
          sent_h:"It's on its way{n}!", sent_p:'The detail is arriving in your inbox; have a look in the spam folder too. All that is left is to book your free call.',
          err:"The estimate could not be sent. Try again in a moment, or book your call directly.", restart:'Start again',
@@ -423,8 +429,8 @@
     +'.lg-est-prog{display:block;margin-top:5px;font-family:"Sora",system-ui,sans-serif;font-weight:700;font-size:14.5px;}'
     +'.lg-est-bar{position:absolute;left:0;right:0;bottom:-2px;height:4px;}'
     +'.lg-est-bar i{display:block;height:100%;width:0;background:#2823EE;transition:width .35s ease;}'
-    +'.lg-est-x{position:absolute;top:14px;right:14px;width:42px;height:42px;border-radius:50%;border:2px solid #151515;background:#fff;color:#151515;cursor:pointer;font-family:"Sora",system-ui,sans-serif;font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;transition:transform .15s,box-shadow .15s;}'
-    +'@media(hover:hover){.lg-est-x:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 #151515;}}'
+    +'.lg-est-x{position:absolute;top:14px;right:14px;width:42px;height:42px;border-radius:50%;border:1px solid rgba(21,21,21,.18);background:#fff;color:#151515;cursor:pointer;font-family:"Sora",system-ui,sans-serif;font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;box-shadow:0 1px 2px rgba(21,21,21,.06);transition:transform .15s ease,box-shadow .2s ease,border-color .2s ease;}'
+    +'@media(hover:hover){.lg-est-x:hover{transform:translateY(-1px);border-color:rgba(21,21,21,.32);box-shadow:0 2px 4px rgba(21,21,21,.08),0 10px 20px -12px rgba(21,21,21,.4);}}'
     +'.lg-est-body{flex:1 1 auto;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;overflow-anchor:none;padding:24px 26px 28px;}'
     +'.lg-est-foot{flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 26px;border-top:2px solid #151515;background:#faf8f2;}'
     +'.lg-est-step{animation:lgEstStep .35s ease both;}.lg-est-step.back{animation-name:lgEstStepBack;}'
@@ -501,10 +507,12 @@
     +'.lg-est-pill:has(input:focus-visible){outline:3px solid #2823EE;outline-offset:3px;}'
     +'.lg-est-sub{margin-top:16px;padding:14px 16px;border-left:3px solid #2823EE;background:#faf8f2;border-radius:0 12px 12px 0;}'
     +'.lg-est-sub .lg-est-xh{font-size:15px;}'
-    +'.lg-est-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 22px;border:2px solid #151515;border-radius:12px;background:#fff;color:#151515;cursor:pointer;font-family:"Sora",system-ui,sans-serif;font-weight:700;font-size:15px;line-height:1.2;text-align:center;box-shadow:4px 4px 0 #15151526;transition:transform .15s ease,box-shadow .15s ease;}'
-    +'@media(hover:hover){.lg-est-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #151515;}}'
-    +'.lg-est-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #151515;}'
-    +'.lg-est-btn.pri{background:#2823EE;border-color:#2823EE;color:#fff;box-shadow:4px 4px 0 #151515;}'
+    /* The buttons: flat, a soft shadow, a one-pixel lift under the mouse (same family as the pages' .btn). */
+    +'.lg-est-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 22px;border:1px solid rgba(21,21,21,.18);border-radius:10px;background:#fff;color:#151515;cursor:pointer;font-family:"Sora",system-ui,sans-serif;font-weight:600;font-size:15px;line-height:1.2;text-align:center;box-shadow:0 1px 2px rgba(21,21,21,.06);transition:transform .15s ease,box-shadow .2s ease,background-color .2s ease,border-color .2s ease;}'
+    +'.lg-est-btn.pri{background:#2823EE;border-color:#2823EE;color:#fff;box-shadow:0 1px 2px rgba(21,21,21,.2),0 10px 24px -10px rgba(40,35,238,.65);}'
+    +'@media(hover:hover){.lg-est-btn:hover{transform:translateY(-1px);border-color:rgba(21,21,21,.32);box-shadow:0 2px 4px rgba(21,21,21,.08),0 12px 24px -14px rgba(21,21,21,.4);}'
+    +  '.lg-est-btn.pri:hover{background:#1d19d8;border-color:#1d19d8;box-shadow:0 2px 4px rgba(21,21,21,.2),0 14px 28px -10px rgba(40,35,238,.75);}}'
+    +'.lg-est-btn:active,.lg-est-btn.pri:active{transform:none;box-shadow:0 1px 2px rgba(21,21,21,.14);}'
     +'.lg-est-btn[disabled]{opacity:.6;cursor:progress;transform:none!important;}'
     +'.lg-est-btn.lg-est-back[disabled]{opacity:.4;cursor:not-allowed;box-shadow:none;}'
     +'.lg-est-figs{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;margin-top:20px;}'
@@ -812,7 +820,7 @@
     if(typeof window.lgOpenBooking==='function'){ close('booking'); window.lgOpenBooking(pre); return; }
     var s=readStore(); s.v=2; s.a=A; s.step=STEP; s.book=pre; writeStore(s);
     close('booking');
-    location.href='./?book=1#contact';
+    location.href=HOME+'?book=1#contact';
   }
   function takeHandoff(){
     var s=readStore(); if(!s.book) return null;
