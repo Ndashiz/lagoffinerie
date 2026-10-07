@@ -9,7 +9,7 @@
   LA GOFFINERIE — carte de visite, source des fichiers d'impression.
   Format fini 90 × 50 mm, fond perdu 2 mm de chaque côté → document 94 × 54 mm.
   Tout le texte et le logo restent à 4 mm au moins de la ligne de coupe (zone de sécurité).
-  Page 1 = recto (marque, accroche, les trois services en bandeau), page 2 = verso (Simon, contact, QR code).
+  Page 1 = recto (marque, accroche, les trois services en bandeau), page 2 = verso (bandeau tricolore à gauche, Simon, contact, QR code).
   Rendu : node tools/render-business-card.mjs → export/recto.pdf, verso.pdf, carte.pdf (2 pages),
   recto.png, verso.png (600 dpi), apercu.png — le script vérifie aussi que le QR code se lit encore.
   ?guides  affiche la ligne de coupe (pointillés) et la zone de sécurité (rose) ; ?preview  montre les deux faces découpées.
@@ -54,6 +54,13 @@
   .recto .svc svg{width:2mm;height:2mm;flex:none;}
 
   /* ---- verso ---- */
+  /* bandeau tricolore bord à bord sur la gauche : 6 mm dans le document, 4 mm une fois coupé (il va dans le fond perdu) */
+  .verso .band{position:absolute;left:0;top:0;bottom:0;width:6mm;display:grid;grid-template-rows:1fr 1fr 1fr;}
+  .verso .band i{display:block;}
+  .verso .band i:nth-child(1){background:var(--yellow);}
+  .verso .band i:nth-child(2){background:var(--blue);}
+  .verso .band i:nth-child(3){background:var(--red);}
+  .verso .face{inset:6mm 6mm 6mm 12mm;} /* 6 mm après le bandeau */
   .verso .who{position:absolute;left:0;top:0;}
   .verso .name{font-family:var(--disp);font-weight:800;font-size:12.5pt;line-height:1.1;letter-spacing:-.015em;}
   .verso .role{margin-top:1.7mm;display:flex;align-items:center;gap:1.8mm;font-family:var(--mono);font-weight:600;font-size:5.6pt;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);}
@@ -113,6 +120,7 @@
 
 <!-- VERSO -->
 <section class="page verso" aria-label="Verso">
+  <div class="band" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="face">
     <div class="who">
       <p class="name">Simon Goffin</p>
