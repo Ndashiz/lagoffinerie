@@ -5,7 +5,7 @@ Static pages, vanilla HTML/CSS/JS, bilingual EN/FR (auto-detected, manual toggle
 
 - **Prod**: <https://lagoffinerie.be/> — GitHub Pages from `main`, custom domain in `CNAME`.
   A push to `main` deploys in 1–2 minutes.
-- **Files**: `index.html` (home: hero, work carousel, four-step method, the three packages in `#pricing`,
+- **Files**: `index.html` (home: hero, the work as dark panels that stack while you scroll, the scroll-driven method, the three packages in `#pricing`,
   FAQ, contact and its form), `work.html` (all the work, one case per project), `pricing.html` (retired: a tiny
   `noindex` page that sends old links to `./#pricing`, by meta refresh and `location.replace`, out of the
   sitemap; the former full page is in the git history), `about.html`, the legal pages
@@ -26,7 +26,8 @@ Static pages, vanilla HTML/CSS/JS, bilingual EN/FR (auto-detected, manual toggle
   JSON-LD. **After any price change in `config.js`, run `node tools/prerender-prices.mjs`**
   (`--check` changes nothing and exits 1 if a page is out of date). `estimator.js` writes the same amounts
   at run time, in the language's format.
-  `assets/work/*.jpg` are the project illustrations of the carousel and cases.
+  `assets/work/*.jpg` are the project screenshots of the home page's work section (in a browser window, and cropped
+  into a phone until real phone screenshots exist) and of the cases.
 - **Estimator**: `estimator.js`, loaded by the home and service pages right after `config.js` (on the other
   pages, `nav.js` loads both on the first click of « Get a quote » in the top bar) — a pop-up
   that starts from the three services (several can be ticked) and asks only the questions they need, up to six
@@ -46,7 +47,7 @@ Static pages, vanilla HTML/CSS/JS, bilingual EN/FR (auto-detected, manual toggle
   « Quote » / « Devis » pill and a menu button; the menu is a full-screen sheet built by `nav.js` (the three
   services, Work, Pricing, FAQ, the language switch, « Get a quote » and « Book my free call »), and each page's
   bottom bar (`.bottombar`) becomes a floating dark dock whose entry lights up for the page (Work) or, on the
-  home page, for the section in view (#pricing, #contact). The buttons are flat with a soft shadow; the offset
+  home page, for the section in view (#work, #pricing, #contact). The buttons are flat with a soft shadow; the offset
   block shadows stay on cards, panels and illustrations.
 - **Contact form**: always in the page (`#contact`, no pop-up): every « Book my free call » button scrolls to it
   (the packages pre-fill « What can I help with? »), the day and time of the call are optional, and a sent request

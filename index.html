@@ -105,10 +105,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.32 — the contact form lives in #contact, always visible (no more booking window): every
+     LA GOFFINERIE v2.33 — the work section turns dark: a two-tone title, then one full-screen panel per project
+     (browser window, phone, text) that sticks while the next slides over it.
+     (v2.32: the contact form lives in #contact, always visible (no more booking window): every
      « Book my free call » button scrolls to it, the packages pre-fill it, a sent request folds into a paper plane;
      the FAQ in two columns (title and « Other questions? » on the left); the « Our services » catalogue is gone;
-     on phones nav.js draws the new top bar, the menu sheet and the floating dock.
+     on phones nav.js draws the new top bar, the menu sheet and the floating dock.)
      (v2.31: the three packages in #pricing, the estimator recommends one of them; the pricing page is retired.)
      (v2.30: the hero takes the colour of the service in view (washes, line, kicker, list edge);
      « How it works » is the scroll-driven six-step method (sticky drawing), the online estimate as a band under it.)
@@ -544,38 +546,76 @@
   img.avatar{width:120px;height:120px;object-fit:cover;display:block;padding:0;font-size:0;background:var(--paper-2);}
   .avatar-fb{width:120px;height:120px;}
 
-  /* ---------- work carousel ---------- */
-  .caro{margin-top:40px;position:relative;}
-  .caro-track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:0 0 12px 0;outline:none;}
-  .caro-track::-webkit-scrollbar{display:none;}
-  .caro-track:focus-visible{outline:3px solid var(--blue);outline-offset:6px;border-radius:12px;}
-  .slide{flex:0 0 calc(100% - 12px);scroll-snap-align:start;display:grid;grid-template-columns:1.15fr 1fr;background:#fff;border:2px solid var(--ink);border-radius:20px;overflow:hidden;box-shadow:8px 8px 0 var(--yellow);}
-  .slide:nth-child(2){box-shadow:8px 8px 0 var(--blue);} .slide:nth-child(3){box-shadow:8px 8px 0 var(--red);} .slide:nth-child(5){box-shadow:8px 8px 0 var(--blue);}
-  .slide .shot{border-right:2px solid var(--ink);background:var(--paper-2);display:flex;flex-direction:column;min-width:0;}
-  .slide .sbar{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:2px solid var(--ink);}
-  .slide .sbar i{width:10px;height:10px;border-radius:50%;background:var(--red);display:inline-block;flex:none;}
-  .slide .sbar i:nth-child(2){background:var(--yellow);} .slide .sbar i:nth-child(3){background:var(--blue);}
-  .slide .sbar span{margin-left:8px;font-family:var(--mono);font-size:11px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  /* The whole screenshot, full width from the top of the page: never cropped. */
-  .slide .frame{overflow:hidden;background:#111;}
-  .slide .frame img{display:block;width:100%;height:auto;}
-  .slide .sbody{padding:28px 28px 26px;display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0;}
-  .slide .sbody .tag{margin-bottom:2px;}
-  .slide .sbody h3{font-size:clamp(22px,2.6vw,28px);font-weight:800;}
-  .slide .sbody p{font-size:15.5px;color:var(--ink-2);}
-  .slide .sbody .btn{margin-top:auto;}
-  .caro-nav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:18px;}
-  .cbtn{width:44px;height:44px;border-radius:50%;border:2px solid var(--ink);background:#fff;color:var(--ink);font-family:var(--disp);font-weight:800;font-size:18px;line-height:1;cursor:pointer;transition:transform .15s,box-shadow .15s;}
-  .cbtn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);}
-  .cbtn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink);}
-  .cdots{display:flex;gap:9px;}
-  .cdots button{width:13px;height:13px;border-radius:50%;border:2px solid var(--ink);background:#fff;padding:0;cursor:pointer;transition:transform .2s,background .2s,border-color .2s;}
-  .cdots button[aria-selected="true"]{background:var(--blue);border-color:var(--blue);transform:scale(1.3);}
+  /* ---------- work: a dark section, the projects stack while you scroll ----------
+     Each project is a full-screen panel, sticky at the top: the next one slides over it with a rounded
+     edge while the one underneath steps back and dims (the scroll script sets --k from 0 to 1).
+     .wk-flat (reduced motion, or a panel taller than the screen): a plain list, nothing sticks. */
+  .wk{--wk-bg:#121212;--wk-line:rgba(250,248,242,.12);--wk-mute:rgba(250,248,242,.62);background:var(--wk-bg);color:var(--paper);padding:104px 0 0;}
+  .wk-wrap{max-width:1280px;margin:0 auto;padding:0 40px;}
+  .wk .kick{color:var(--wk-mute);}
+  .wk .kick::before{background:var(--yellow);}
+  .wk h2{margin-top:22px;font-size:clamp(44px,6.2vw,88px);font-weight:800;line-height:.98;letter-spacing:-.045em;color:var(--paper);}
+  .wk h2 .g{color:#8f8b80;}
+  .wk-list{list-style:none;margin:0;padding:0;}
+  .wk-p{position:sticky;top:0;min-height:100vh;min-height:100svh;display:flex;align-items:center;background:var(--wk-bg);padding:92px 0 32px;}
+  .wk-p + .wk-p{border-top:1px solid var(--wk-line);border-radius:36px 36px 0 0;box-shadow:0 -30px 60px rgba(0,0,0,.55);}
+  .wk-in{width:100%;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:56px;align-items:center;
+    transform:scale(calc(1 - .06*var(--k,0)));opacity:calc(1 - .62*var(--k,0));transform-origin:50% 0;will-change:transform,opacity;}
+  .wk-vis{position:relative;padding-bottom:9.5%;}
+  .wk-br{width:87%;border-radius:18px;overflow:hidden;background:#1a1a1a;border:1px solid var(--wk-line);box-shadow:0 40px 80px -30px rgba(0,0,0,.7);}
+  .wk-bar{height:44px;display:flex;align-items:center;gap:7px;padding:0 16px;background:#222;border-bottom:1px solid var(--wk-line);}
+  .wk-bar i{width:10px;height:10px;border-radius:50%;background:rgba(250,248,242,.22);flex:none;}
+  .wk-bar span{margin-left:12px;padding:5px 14px;border-radius:999px;background:rgba(250,248,242,.08);color:var(--wk-mute);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+  .wk-br img{display:block;width:100%;height:auto;}
+  .wk-ph{position:absolute;right:0;bottom:0;width:25.9%;aspect-ratio:1/2.05;padding:3.3%;border-radius:17% / 8.3%;background:#0b0b0b;border:1px solid rgba(250,248,242,.18);box-shadow:0 30px 60px -20px rgba(0,0,0,.8);}
+  .wk-scr{position:relative;width:100%;height:100%;border-radius:13% / 6.3%;overflow:hidden;background:#000;}
+  .wk-scr img{display:block;width:100%;height:100%;object-fit:cover;object-position:6% top;}
+  .wk-scr::after{content:"";position:absolute;top:4%;left:34%;width:32%;height:3.4%;border-radius:999px;background:#0b0b0b;}
+  .wk-txt{display:flex;flex-direction:column;align-items:flex-start;min-width:0;}
+  .wk-tag{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--yellow);}
+  .wk-txt h3{margin-top:16px;font-size:clamp(36px,4.1vw,58px);font-weight:800;line-height:1;letter-spacing:-.035em;color:var(--paper);}
+  .wk-txt p{margin-top:22px;font-size:18px;line-height:1.6;color:var(--wk-mute);max-width:34ch;}
+  .wk-pts{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:12px;}
+  .wk-pts li{display:flex;gap:12px;align-items:flex-start;font-size:17px;line-height:1.5;}
+  .wk-pts svg{width:18px;height:18px;flex:none;margin-top:3px;fill:none;stroke:var(--yellow);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+  .wk-btn{margin-top:34px;display:inline-flex;align-items:center;gap:10px;height:54px;padding:0 26px;border-radius:999px;border:1.5px solid var(--paper);color:var(--paper);font-family:var(--disp);font-weight:600;font-size:16px;text-decoration:none;transition:background-color .2s ease,color .2s ease;}
+  .wk-btn .barr{width:16px;height:16px;transition:transform .2s ease;}
+  .wk-btn:hover{background:var(--paper);color:var(--ink);} .wk-btn:hover .barr{transform:translateX(3px);}
+  .wk-btn:focus-visible,.wk-all:focus-visible{outline:3px solid var(--yellow);outline-offset:4px;}
+  .wk-count{order:9;margin-top:34px;display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--wk-mute);}
+  .wk-count b{font-weight:600;color:var(--paper);}
+  .wk-bars{display:flex;gap:6px;margin-left:12px;}
+  .wk-bars i{width:28px;height:3px;border-radius:2px;background:var(--wk-line);}
+  .wk-bars i.on{background:var(--yellow);}
+  .wk-foot{position:relative;z-index:1;background:var(--wk-bg);display:flex;justify-content:center;padding:8px 0 96px;}
+  .wk-all{font-family:var(--disp);font-weight:700;font-size:15px;color:var(--paper);text-decoration:none;border-bottom:2px solid var(--yellow);padding-bottom:2px;}
+  .wk-all:hover{color:var(--yellow);}
+  .wk-flat .wk-p{position:relative;min-height:0;padding:72px 0;}
+  .wk-flat .wk-p + .wk-p{border-radius:0;box-shadow:none;}
+  .wk-flat .wk-in{transform:none;opacity:1;will-change:auto;}
+  @media(max-width:1100px){.wk-in{gap:40px;} .wk-txt p{font-size:17px;}}
   @media(max-width:900px){
-    .slide{grid-template-columns:1fr;}
-    .slide .shot{border-right:0;border-bottom:2px solid var(--ink);}
-    .slide .sbody{padding:22px 20px 22px;}
+    .wk{padding-top:72px;}
+    .wk-wrap{padding:0 20px;}
+    .wk h2{margin-top:14px;font-size:clamp(34px,9.6vw,44px);line-height:1;letter-spacing:-.04em;}
+    .wk-p{padding:84px 0 96px;align-items:flex-start;}
+    .wk-p + .wk-p{border-radius:28px 28px 0 0;}
+    .wk-in{grid-template-columns:minmax(0,1fr);gap:18px;align-content:start;}
+    .wk-vis{max-width:520px;padding-bottom:11%;}
+    .wk-br{width:90%;border-radius:14px;}
+    .wk-bar{height:30px;padding:0 12px;gap:5px;} .wk-bar i{width:8px;height:8px;} .wk-bar span{margin-left:8px;padding:3px 10px;font-size:11px;}
+    .wk-ph{width:26%;}
+    .wk-txt{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;column-gap:12px;}
+    .wk-tag{grid-column:1 / -1;font-size:11px;}
+    .wk-txt h3{margin-top:8px;font-size:clamp(28px,8.6vw,34px);}
+    .wk-count{order:0;margin-top:0;font-size:11px;} .wk-bars{display:none;}
+    .wk-txt p{grid-column:1 / -1;margin-top:12px;font-size:15px;line-height:1.55;max-width:none;}
+    .wk-pts{grid-column:1 / -1;margin-top:12px;gap:8px;} .wk-pts li{font-size:14.5px;gap:10px;} .wk-pts svg{width:16px;height:16px;}
+    .wk-btn{grid-column:1 / -1;justify-self:start;margin-top:18px;height:46px;padding:0 20px;font-size:15px;}
+    .wk-foot{padding:8px 0 72px;}
+    .wk-flat .wk-p{padding:40px 0;}
   }
+  @media (prefers-reduced-motion: reduce){.wk-in{transform:none!important;opacity:1!important;} .wk-btn,.wk-btn .barr{transition:none;}}
 
   /* ---------- how it works, the short version ---------- */
   #process{background:var(--paper-2);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
@@ -779,7 +819,6 @@
     .hero.turning .hrow.on .hbar::after{animation:none;}
     .fq p{animation:none;}
     .rv.kick::before{transform:none;transition:none;}
-    .cbtn,.cdots button{transition:none;}
   }
 
   /* ---------- the request, sent: the card folds (0.38 s), a paper plane takes off towards the top right (0.7 s),
@@ -841,10 +880,6 @@
     h2{font-size:clamp(26px,7.4vw,30px);}
     .sub{font-size:16px;}
     .card{padding:20px 18px;}
-    .slide{box-shadow:6px 6px 0 var(--yellow);}
-    .slide .sbody{padding:20px 18px 20px;}
-    .slide .sbody .btn{width:100%;justify-content:center;}
-    .caro-track{gap:14px;}
     .pest{padding:26px 22px 22px;border-radius:20px;margin-top:36px;}
     .pest h3{font-size:24px;}
     .pprom{grid-template-columns:1fr;gap:12px;padding:0 2px;}
@@ -1072,7 +1107,7 @@
 
 <nav class="bottombar" aria-label="Mobile navigation">
   <a href="tel:+32479487608" data-track="bb_call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-i18n="nav_call">Call</span></a>
-  <a href="work.html" data-track="bb_work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg><span data-i18n="nav_work">Work</span></a>
+  <a href="work.html" data-track="bb_work" data-section="work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg><span data-i18n="nav_work">Work</span></a>
   <a href="#pricing" data-track="bb_pricing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="8" cy="8" r="1.6"/></svg><span data-i18n="nav_pricing">Pricing</span></a>
   <a href="#contact" data-track="bb_contact" data-open="bottombar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5c-1.7 0-3.3-.5-4.6-1.3L3 20l1.3-4.9A8.5 8.5 0 1 1 21 11.5z"/></svg><span data-i18n="nav_contact">Contact</span></a>
 </nav>
@@ -1114,68 +1149,95 @@
 </header>
 
 
-<!-- ================= WORK — a carousel of projects, the full page is work.html ================= -->
-<section id="work">
-  <div class="wrap">
+<!-- ================= WORK — the projects stack while you scroll, the full page is work.html ================= -->
+<section id="work" class="wk">
+  <div class="wk-wrap wk-head">
     <div class="kick rv" data-i18n="work_kick">Work</div>
-    <h2 class="rv" data-i18n="work_h2">Real work, for real businesses.</h2>
-    <p class="sub rv" data-i18n="work_sub">Sites and tools that run every day: client projects, and one of my own. A few of them, in one minute.</p>
-    <div class="caro rv" id="caro">
-      <div class="caro-track" id="carotrack" tabindex="0" aria-roledescription="carousel" aria-label="Projects">
-        <article class="slide" aria-roledescription="slide" aria-label="1 / 5">
-          <div class="shot"><div class="sbar"><i></i><i></i><i></i></div><div class="frame"><img src="assets/work/bravoreno.jpg" alt="The Bravo Reno website" loading="lazy" width="1200" height="617"></div></div>
-          <div class="sbody">
-            <span class="tag t-red" data-i18n="cs1_tag">Client · Electrician</span>
-            <h3>Bravo Reno</h3>
-            <p data-i18n="cs1_p">A modern site the client runs himself: content he edits without technical tools, a local SEO campaign, and contact requests that arrive by e-mail and create a lead automatically.</p>
-            <a class="btn primary" href="work.html#bravoreno" data-track="case_open" data-i18n="cs_btn">See the case →</a>
-          </div>
-        </article>
-        <article class="slide" aria-roledescription="slide" aria-label="2 / 5">
-          <div class="shot"><div class="sbar"><i></i><i></i><i></i><span>lazysyndic · demo data</span></div><div class="frame"><img src="assets/work/lazysyndic.jpg?v=15" alt="The LazySyndic dashboard" loading="lazy" width="1200" height="750"></div></div>
-          <div class="sbody">
-            <span class="tag t-blue" data-i18n="cs2_tag">Client · Volunteer syndic</span>
-            <h3>LazySyndic</h3>
-            <p data-i18n="cs2_p">Transactions tracked and categorised automatically, financial reports generated, general-meeting invitations sent and decisions signed online: the whole job of a volunteer syndic in one place.</p>
-            <a class="btn primary" href="work.html#lazysyndic" data-track="case_open" data-i18n="cs_btn">See the case →</a>
-          </div>
-        </article>
-        <article class="slide" aria-roledescription="slide" aria-label="3 / 5">
-          <div class="shot"><div class="sbar"><i></i><i></i><i></i><span>henry · demo data</span></div><div class="frame"><img src="assets/work/henry.jpg" alt="The Henry portfolio module" loading="lazy" width="1200" height="750"></div></div>
-          <div class="sbody">
-            <span class="tag t-yel" data-i18n="cs3_tag">Client · Investor</span>
-            <h3>Henry</h3>
-            <p data-i18n="cs3_p">A consolidated view of all his investment accounts: several platforms brought into one interface, a history kept up to date automatically, and a report every morning with the news on his assets.</p>
-            <a class="btn primary" href="work.html#henry" data-track="case_open" data-i18n="cs_btn">See the case →</a>
-          </div>
-        </article>
-        <article class="slide" aria-roledescription="slide" aria-label="4 / 5">
-          <div class="shot"><div class="sbar"><i></i><i></i><i></i></div><div class="frame"><img src="assets/work/scrumpoker.jpg" alt="Scrum Poker, the session screen" loading="lazy" width="1200" height="750"></div></div>
-          <div class="sbody">
-            <span class="tag t-red" data-i18n="cs4_tag">Client · IT company</span>
-            <h3>Scrum Poker</h3>
-            <p data-i18n="cs4_p">An online game to estimate tasks as a team: everyone proposes a complexity with the Fibonacci sequence, estimates are compared, and the score history helps the team get more accurate.</p>
-            <a class="btn primary" href="work.html#scrumpoker" data-track="case_open" data-i18n="cs_btn">See the case →</a>
-          </div>
-        </article>
-        <article class="slide" aria-roledescription="slide" aria-label="5 / 5">
-          <div class="shot"><div class="sbar"><i></i><i></i><i></i></div><div class="frame"><img src="assets/work/virtualcoffee.jpg" alt="Virtual Coffee, a 3D café" loading="lazy" width="1200" height="630"></div></div>
-          <div class="sbody">
-            <span class="tag t-blue" data-i18n="cs5_tag">Side project · 3D</span>
-            <h3>Virtual Coffee</h3>
-            <p data-i18n="cs5_p">An interactive 3D résumé: walk into the café, take the seat across from me, and I talk you through my CV out loud.</p>
-            <a class="btn primary" href="work.html#virtualcoffee" data-track="case_open" data-i18n="cs_btn">See the case →</a>
-          </div>
-        </article>
-      </div>
-      <div class="caro-nav">
-        <button class="cbtn" id="cprev" type="button" aria-label="Previous project" data-track="caro_prev">←</button>
-        <div class="cdots" id="cdots" role="tablist" aria-label="Projects"></div>
-        <button class="cbtn" id="cnext" type="button" aria-label="Next project" data-track="caro_next">→</button>
-      </div>
-    </div>
-    <div class="ctas rv"><a class="btn ghost" href="work.html" data-track="cta_work_all" data-i18n="work_all">All the work, in detail →</a></div>
+    <h2 class="rv" data-i18n="work_h2"><span>Real work,</span><br><span class="g">for real businesses.</span></h2>
   </div>
+  <ol class="wk-list">
+    <li class="wk-p" id="wk-bravoreno">
+      <div class="wk-wrap wk-in">
+        <div class="wk-vis">
+          <div class="wk-br"><div class="wk-bar" aria-hidden="true"><i></i><i></i><i></i><span>bravoreno.be</span></div><img src="assets/work/bravoreno.jpg" alt="The Bravo Reno website" loading="lazy" width="1200" height="617"></div>
+          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/bravoreno.jpg" alt="" loading="lazy"></div></div>
+        </div>
+        <div class="wk-txt">
+          <span class="wk-tag" data-i18n="cs1_tag">Client · Electrician</span>
+          <h3>Bravo Reno</h3>
+          <span class="wk-count" aria-hidden="true"><b>01</b> / 05<span class="wk-bars"><i class="on"></i><i></i><i></i><i></i><i></i></span></span>
+          <p data-i18n="cs1_p">A modern site the client runs himself: content he edits without technical tools, a local SEO campaign, and contact requests that create a lead automatically.</p>
+          <ul class="wk-pts"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs1_l1">Content the client edits himself</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs1_l2">A local SEO campaign</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs1_l3">Every contact request creates a lead</span></li></ul>
+          <a class="wk-btn" href="work.html#bravoreno" data-track="case_open"><span data-i18n="cs_btn">See the case</span><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+    </li>
+    <li class="wk-p" id="wk-lazysyndic">
+      <div class="wk-wrap wk-in">
+        <div class="wk-vis">
+          <div class="wk-br"><div class="wk-bar" aria-hidden="true"><i></i><i></i><i></i><span data-i18n="bar_l">lazysyndic · demo data</span></div><img src="assets/work/lazysyndic.jpg?v=15" alt="The LazySyndic dashboard" loading="lazy" width="1200" height="750"></div>
+          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/lazysyndic.jpg?v=15" alt="" loading="lazy"></div></div>
+        </div>
+        <div class="wk-txt">
+          <span class="wk-tag" data-i18n="cs2_tag">Client · Volunteer syndic</span>
+          <h3>LazySyndic</h3>
+          <span class="wk-count" aria-hidden="true"><b>02</b> / 05<span class="wk-bars"><i></i><i class="on"></i><i></i><i></i><i></i></span></span>
+          <p data-i18n="cs2_p">The whole job of a volunteer syndic in one place: the accounts keep themselves, the reports write themselves, general meetings are called and decided online.</p>
+          <ul class="wk-pts"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs2_l1">Transactions tracked and categorised</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs2_l2">Financial reports generated automatically</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs2_l3">Meeting invitations and decisions online</span></li></ul>
+          <a class="wk-btn" href="work.html#lazysyndic" data-track="case_open"><span data-i18n="cs_btn">See the case</span><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+    </li>
+    <li class="wk-p" id="wk-henry">
+      <div class="wk-wrap wk-in">
+        <div class="wk-vis">
+          <div class="wk-br"><div class="wk-bar" aria-hidden="true"><i></i><i></i><i></i><span data-i18n="bar_h">henry · demo data</span></div><img src="assets/work/henry.jpg" alt="The Henry portfolio module" loading="lazy" width="1200" height="750"></div>
+          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/henry.jpg" alt="" loading="lazy"></div></div>
+        </div>
+        <div class="wk-txt">
+          <span class="wk-tag" data-i18n="cs3_tag">Client · Investor</span>
+          <h3>Henry</h3>
+          <span class="wk-count" aria-hidden="true"><b>03</b> / 05<span class="wk-bars"><i></i><i></i><i class="on"></i><i></i><i></i></span></span>
+          <p data-i18n="cs3_p">All his investment accounts in a single view: several platforms brought together, a history that keeps itself up to date, and a report every morning.</p>
+          <ul class="wk-pts"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs3_l1">Several platforms, one interface</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs3_l2">A history kept up to date automatically</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs3_l3">A daily report with news on his assets</span></li></ul>
+          <a class="wk-btn" href="work.html#henry" data-track="case_open"><span data-i18n="cs_btn">See the case</span><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+    </li>
+    <li class="wk-p" id="wk-scrumpoker">
+      <div class="wk-wrap wk-in">
+        <div class="wk-vis">
+          <div class="wk-br"><div class="wk-bar" aria-hidden="true"><i></i><i></i><i></i><span>scrum poker</span></div><img src="assets/work/scrumpoker.jpg" alt="Scrum Poker, the session screen" loading="lazy" width="1200" height="750"></div>
+          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/scrumpoker.jpg" alt="" loading="lazy"></div></div>
+        </div>
+        <div class="wk-txt">
+          <span class="wk-tag" data-i18n="cs4_tag">Client · IT company</span>
+          <h3>Scrum Poker</h3>
+          <span class="wk-count" aria-hidden="true"><b>04</b> / 05<span class="wk-bars"><i></i><i></i><i></i><i class="on"></i><i></i></span></span>
+          <p data-i18n="cs4_p">An online game to estimate tasks as a team: everyone proposes a complexity, the estimates are compared, and the team gets more accurate.</p>
+          <ul class="wk-pts"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs4_l1">Estimates with the Fibonacci sequence</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs4_l2">The team's votes compared</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs4_l3">A history of the scores</span></li></ul>
+          <a class="wk-btn" href="work.html#scrumpoker" data-track="case_open"><span data-i18n="cs_btn">See the case</span><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+    </li>
+    <li class="wk-p" id="wk-virtualcoffee">
+      <div class="wk-wrap wk-in">
+        <div class="wk-vis">
+          <div class="wk-br"><div class="wk-bar" aria-hidden="true"><i></i><i></i><i></i><span>virtual coffee</span></div><img src="assets/work/virtualcoffee.jpg" alt="Virtual Coffee, a 3D café" loading="lazy" width="1200" height="630"></div>
+          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/virtualcoffee.jpg" alt="" loading="lazy"></div></div>
+        </div>
+        <div class="wk-txt">
+          <span class="wk-tag" data-i18n="cs5_tag">Side project · 3D</span>
+          <h3>Virtual Coffee</h3>
+          <span class="wk-count" aria-hidden="true"><b>05</b> / 05<span class="wk-bars"><i></i><i></i><i></i><i></i><i class="on"></i></span></span>
+          <p data-i18n="cs5_p">An interactive 3D résumé: walk into the café, take the seat across from me, and I talk you through my CV out loud.</p>
+          <ul class="wk-pts"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs5_l1">A 3D café in the browser</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs5_l2">My background, told out loud</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs5_l3">Works on a phone too</span></li></ul>
+          <a class="wk-btn" href="work.html#virtualcoffee" data-track="case_open"><span data-i18n="cs_btn">See the case</span><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+    </li>
+  </ol>
+  <div class="wk-foot"><a class="wk-all" href="work.html" data-track="cta_work_all" data-i18n="work_all">All the work, in detail →</a></div>
 </section>
 
 <!-- ================= HOW IT WORKS — the method, driven by the scroll ================= -->
@@ -1444,14 +1506,13 @@ const FR = {
   hc2_t:"Automatisation IA", hc2_d:"Par exemple un résumé IA de votre boîte mail chaque matin, ou des devis préparés tout seuls.",
   hc3_t:"Stratégie digitale", hc3_d:"Le SEO pour être trouvé sur Google, le GEO pour être recommandé par ChatGPT et les autres.",
   work_kick:"Réalisations",
-  work_h2:"Du vrai travail, pour de vraies entreprises.",
-  work_sub:"Des sites et des outils qui tournent chaque jour : des projets clients, et un projet personnel. Quelques-uns, en une minute.",
-  cs1_tag:"Client · Électricien", cs1_p:"Un site moderne que le client gère lui-même : des contenus qu'il modifie sans outil technique, une campagne SEO locale, et des demandes de contact qui arrivent par e-mail et créent un lead automatiquement.",
-  cs2_tag:"Client · Syndic bénévole", cs2_p:"Transactions suivies et catégorisées automatiquement, rapports financiers générés, convocations d'assemblée envoyées et décisions signées en ligne : toute la gestion d'un syndic bénévole au même endroit.",
-  cs3_tag:"Client · Investisseur", cs3_p:"Une vue consolidée de tous ses comptes de placement : plusieurs plateformes réunies dans une seule interface, un historique tenu à jour automatiquement, et un rapport chaque matin avec l'actualité de ses actifs.",
-  cs4_tag:"Client · PME informatique", cs4_p:"Un jeu en ligne pour estimer les tâches en équipe : chacun propose une complexité avec la suite de Fibonacci, les estimations sont comparées, et l'historique des scores aide à gagner en précision.",
+  work_h2:"<span>Du vrai travail,</span><br><span class=\"g\">pour de vraies entreprises.</span>",
+  cs1_tag:"Client · Électricien", cs1_p:"Un site moderne que le client gère lui-même : des contenus qu'il modifie sans outil technique, une campagne SEO locale, et des demandes de contact qui créent un lead automatiquement.",
+  cs2_tag:"Client · Syndic bénévole", cs2_p:"Toute la gestion d'un syndic bénévole au même endroit : les comptes se tiennent seuls, les rapports se génèrent, les assemblées se convoquent et se décident en ligne.",
+  cs3_tag:"Client · Investisseur", cs3_p:"Tous ses comptes de placement dans une seule vue : plusieurs plateformes réunies, un historique tenu à jour tout seul, et un rapport chaque matin.",
+  cs4_tag:"Client · PME informatique", cs4_p:"Un jeu en ligne pour estimer les tâches en équipe : chacun propose une complexité, les estimations se comparent, l'équipe gagne en précision.",
   cs5_tag:"Projet perso · 3D", cs5_p:"Un CV interactif en 3D : entrez dans le café, prenez la chaise en face de moi, et je vous raconte mon parcours de vive voix.",
-  cs_btn:"Voir le cas →", work_all:"Toutes les réalisations, en détail →",
+  bar_l:"lazysyndic · données de démo", bar_h:"henry · données de démo", cs1_l1:"Contenus modifiables par le client", cs1_l2:"Campagne SEO locale", cs1_l3:"Chaque demande de contact crée un lead", cs2_l1:"Transactions suivies et catégorisées", cs2_l2:"Rapports financiers générés automatiquement", cs2_l3:"Convocations et décisions d'AG en ligne", cs3_l1:"Plusieurs plateformes, une seule interface", cs3_l2:"Historique tenu à jour automatiquement", cs3_l3:"Rapport quotidien avec l'actualité de ses actifs", cs4_l1:"Estimations avec la suite de Fibonacci", cs4_l2:"Les votes de l'équipe comparés", cs4_l3:"Historique des scores", cs5_l1:"Un café en 3D dans le navigateur", cs5_l2:"Le parcours raconté de vive voix", cs5_l3:"Fonctionne aussi sur téléphone", cs_btn:"Voir le cas", work_all:"Toutes les réalisations, en détail →",
   proc_kick:"Comment ça marche",
   proc_h2:"Transparent du premier rendez-vous à la remise des clés.",
   proc_sub:"Vous validez chaque étape. Vous voyez tout. Et vous testez la solution vous-même : le jour de la livraison, vous savez déjà la faire tourner.",
@@ -1573,7 +1634,7 @@ function setLang(l, silent){
   const fl = document.getElementById('f-lang'); if(fl) fl.value = LANG;
   try{ localStorage.setItem('lg_lang', LANG); }catch(e){}
   // Not on the silent init call: these are declared further down the script.
-  if(!silent){ if(typeof track==='function') track('lang', LANG); if(typeof applyConfig==='function') applyConfig(); if(typeof caroLabels==='function') caroLabels(); }
+  if(!silent){ if(typeof track==='function') track('lang', LANG); if(typeof applyConfig==='function') applyConfig(); }
 }
 (function initLang(){
   let l = null;
@@ -1902,45 +1963,37 @@ try{
 }catch(e){}
 
 /* =========================================================
-   WORK CAROUSEL — native scroll-snap for the swipe, buttons
-   and dots for the mouse, autoplay that stops when a hand or
-   the keyboard is on it, when the tab is hidden, when it is
-   out of view, and never with prefers-reduced-motion.
+   WORK — the projects stack while you scroll. Each panel is sticky
+   at the top (CSS); here the panel underneath steps back and dims as
+   the next one covers it (--k, 0 to 1). Plain list (.wk-flat) with
+   prefers-reduced-motion, or when a panel is taller than the screen.
    ========================================================= */
-let caroLabels = null;
 (function(){
-  const rail=document.getElementById('carotrack'); if(!rail) return;
-  const slides=[...rail.querySelectorAll('.slide')], dots=document.getElementById('cdots');
-  const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let cur=0, timer=null, paused=false, visible=false, idle=null;
-  const L=()=>LANG==='fr' ? {dot:'Projet ', prev:'Projet précédent', next:'Projet suivant'} : {dot:'Project ', prev:'Previous project', next:'Next project'};
-  slides.forEach((sl,i)=>{
-    const b=document.createElement('button'); b.type='button'; b.setAttribute('role','tab');
-    b.addEventListener('click', ()=>{ go(i); restart(); });
-    dots.appendChild(b);
-  });
-  caroLabels=function(){ const t=L(); [...dots.children].forEach((b,i)=>b.setAttribute('aria-label', t.dot+(i+1))); document.getElementById('cprev').setAttribute('aria-label', t.prev); document.getElementById('cnext').setAttribute('aria-label', t.next); };
-  caroLabels();
-  const left=i=>slides[i].offsetLeft - slides[0].offsetLeft;
-  function paint(){ [...dots.children].forEach((b,i)=>b.setAttribute('aria-selected', String(i===cur))); }
-  function go(i){ cur=(i+slides.length)%slides.length; rail.scrollTo({left:left(cur), behavior: RM?'instant':'smooth'}); paint(); }
-  function nearest(){ let best=0, d=Infinity; slides.forEach((sl,i)=>{ const x=Math.abs(left(i)-rail.scrollLeft); if(x<d){ d=x; best=i; } }); return best; }
-  let raf=0; rail.addEventListener('scroll', ()=>{ if(raf) return; raf=requestAnimationFrame(()=>{ raf=0; const n=nearest(); if(n!==cur){ cur=n; paint(); } }); },{passive:true});
-  function start(){ if(RM || timer) return; timer=setInterval(()=>{ if(!paused && visible && !document.hidden) go(cur+1); }, 6000); }
-  function restart(){ clearInterval(timer); timer=null; start(); }
-  function hold(ms){ paused=true; clearTimeout(idle); idle=setTimeout(()=>{ paused=false; }, ms); }
-  document.getElementById('cprev').addEventListener('click', ()=>{ go(cur-1); restart(); });
-  document.getElementById('cnext').addEventListener('click', ()=>{ go(cur+1); restart(); });
-  const box=document.getElementById('caro');
-  box.addEventListener('pointerenter', ()=>{ paused=true; });
-  box.addEventListener('pointerleave', ()=>{ clearTimeout(idle); paused=false; });
-  box.addEventListener('focusin', ()=>{ paused=true; });
-  box.addEventListener('focusout', ()=>{ paused=false; });
-  rail.addEventListener('touchstart', ()=>hold(12000), {passive:true});
-  rail.addEventListener('keydown', e=>{ if(e.key==='ArrowRight'){ e.preventDefault(); go(cur+1); restart(); } if(e.key==='ArrowLeft'){ e.preventDefault(); go(cur-1); restart(); } });
-  new IntersectionObserver(es=>{ es.forEach(en=>{ visible=en.isIntersecting; }); },{threshold:.35}).observe(rail);
-  let rs; addEventListener('resize', ()=>{ clearTimeout(rs); rs=setTimeout(()=>{ rail.scrollTo({left:left(cur), behavior:'instant'}); }, 120); });
-  paint(); start();
+  const sec=document.getElementById('work'); if(!sec) return;
+  const ps=[...sec.querySelectorAll('.wk-p')], ins=ps.map(p=>p.querySelector('.wk-in'));
+  const RM=matchMedia('(prefers-reduced-motion: reduce)');
+  let flat=false, raf=0;
+  function fit(){
+    sec.classList.remove('wk-flat');
+    const H=innerHeight;
+    flat = RM.matches || ps.some(p=>{ const cs=getComputedStyle(p); return p.querySelector('.wk-in').offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) > H + 1; });
+    sec.classList.toggle('wk-flat', flat);
+    paint();
+  }
+  function paint(){
+    raf=0; const H=innerHeight;
+    ins.forEach((el,i)=>{
+      const nx=ps[i+1]; let k=0;
+      if(!flat && nx){ k=Math.min(1, Math.max(0, (H - nx.getBoundingClientRect().top) / H)); }
+      el.style.setProperty('--k', k.toFixed(3));
+    });
+  }
+  addEventListener('scroll', ()=>{ if(!flat && !raf) raf=requestAnimationFrame(paint); }, {passive:true});
+  let rs; addEventListener('resize', ()=>{ clearTimeout(rs); rs=setTimeout(fit, 120); });
+  if(RM.addEventListener) RM.addEventListener('change', fit);
+  addEventListener('load', fit);
+  sec.querySelectorAll('img').forEach(im=>{ if(!im.complete) im.addEventListener('load', ()=>{ clearTimeout(rs); rs=setTimeout(fit, 60); }, {once:true}); });
+  fit();
 })();
 
 /* =========================================================

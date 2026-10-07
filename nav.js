@@ -1,5 +1,5 @@
 /* =========================================================
-   LA GOFFINERIE — nav.js (v2.32)
+   LA GOFFINERIE — nav.js (v2.33)
    The top bar, on every page: Services · Work · Pricing · FAQ, the language switch, and
    « Get a quote » on the right. « Pricing » is the home page's #pricing section (./#pricing,
    /#pricing on the 404).
@@ -23,7 +23,7 @@
        any link closes it and focus goes back to the menu button; the page behind it does not scroll.
      · The bottom bar (.bottombar, each page's own Call · Work · Pricing · Contact) becomes a floating
        dark dock. Its lit entry is the page's own (aria-current: Work on the work page) or, on the
-       home page, the section in view (#pricing, #contact), followed as the page scrolls.
+       home page, the section in view (#work, #pricing, #contact), followed as the page scrolls.
    Everything here speaks the page's language: it follows <html lang>, which every page's setLang() sets.
    Pages without a fixed bar (the 404, the legal pages) keep the menus and skip the floating. The 404 is
    served at any address, so its links start with « / », and so do the scripts loaded here for it.
@@ -67,7 +67,7 @@
   /* the floating bar */
   +'.topnav{transition:top .3s ease,left .3s ease,right .3s ease,max-width .3s ease,border-radius .3s ease,background-color .3s ease,box-shadow .3s ease,border-color .3s ease;}'
   +'.topnav .nwrap{transition:height .3s ease,padding .3s ease;}'
-  +'html.floated .topnav{top:14px;left:24px;right:24px;max-width:1180px;margin:0 auto;border-radius:18px;border:0;background:rgba(21,21,21,.86);box-shadow:0 18px 40px rgba(21,21,21,.28),0 2px 6px rgba(21,21,21,.18);}'
+  +'html.floated .topnav{top:14px;left:24px;right:24px;max-width:1180px;margin:0 auto;border-radius:18px;border:0;background:rgba(21,21,21,.86);box-shadow:inset 0 0 0 1px rgba(250,248,242,.1),0 18px 40px rgba(21,21,21,.28),0 2px 6px rgba(21,21,21,.18);}'
   +'html.floated .topnav .nwrap{height:62px;padding:0 12px 0 18px;}'
   +'html.floated .topnav .logo,html.floated .topnav .logo-txt{color:#faf8f2;}'
   +'html.floated .topnav .mark *{mix-blend-mode:normal!important;}'
@@ -100,11 +100,11 @@
   +  'html .topnav .nquote > span:not(.nq-s){display:none;}'
   +  'html .topnav .nquote .nq-s{display:inline;}'
   +  'html .topnav .nmb{display:inline-flex;}'
-  +  'html.floated .topnav{top:10px;left:10px;right:10px;border-radius:18px;background:rgba(21,21,21,.88);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);box-shadow:0 18px 40px -16px rgba(21,21,21,.5);}'
+  +  'html.floated .topnav{top:10px;left:10px;right:10px;border-radius:18px;background:rgba(21,21,21,.88);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);box-shadow:inset 0 0 0 1px rgba(250,248,242,.1),0 18px 40px -16px rgba(21,21,21,.5);}'
   +  'html.floated .topnav .nrow{height:56px;padding:0 8px 0 14px;}'
   +  'html.floated .topnav .nmb{background:transparent;border-color:rgba(250,248,242,.22);color:#faf8f2;}'
   /* the dock: the page's bottom bar, floating 12 px from the edges (above the home indicator where there is one) */
-  +  'html .bottombar{left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));height:62px;gap:4px;padding:6px;border:0;border-radius:22px;background:rgba(21,21,21,.9);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);box-shadow:0 18px 36px -12px rgba(21,21,21,.5);}'
+  +  'html .bottombar{left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));height:62px;gap:4px;padding:6px;border:0;border-radius:22px;background:rgba(21,21,21,.9);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);box-shadow:inset 0 0 0 1px rgba(250,248,242,.1),0 18px 36px -12px rgba(21,21,21,.5);}'
   +  'html .bottombar a{min-width:0;border-radius:16px;gap:3px;font-family:"Sora",sans-serif;font-weight:600;font-size:10.5px;line-height:1.2;white-space:nowrap;color:rgba(250,248,242,.66);transition:background-color .2s ease,color .2s ease;}'
   +  'html .bottombar a svg{width:20px;height:20px;flex:none;}'
   +  'html .bottombar a:hover,html .bottombar a:active{color:#fff;}'
@@ -326,12 +326,14 @@
   var dock=document.querySelector('.bottombar');
   if(dock){
     root.classList.add('ndock');
-    var tabs=[].filter.call(dock.querySelectorAll('a[href^="#"]'), function(a){ var id=a.getAttribute('href').slice(1); return id && document.getElementById(id); });
+    /* an entry follows the section its #link points to, or the one named by data-section (Work on the home page, whose link leads to work.html) */
+    var sid=function(a){ var h=a.getAttribute('href')||''; return a.getAttribute('data-section') || (h.charAt(0)==='#' ? h.slice(1) : ''); };
+    var tabs=[].filter.call(dock.querySelectorAll('a'), function(a){ var id=sid(a); return id && document.getElementById(id); });
     if(tabs.length && 'IntersectionObserver' in window){
       var inView={};
       var light=function(){
         var cur=null;
-        tabs.forEach(function(a){ if(inView[a.getAttribute('href').slice(1)]) cur=a; });
+        tabs.forEach(function(a){ if(inView[sid(a)]) cur=a; });
         tabs.forEach(function(a){ if(a===cur) a.setAttribute('aria-current','location'); else a.removeAttribute('aria-current'); });
       };
       /* a section is « in view » while it crosses a thin band just above the middle of the screen */
@@ -339,7 +341,7 @@
         entries.forEach(function(en){ inView[en.target.id]=en.isIntersecting; });
         light();
       }, {rootMargin:'-45% 0px -50% 0px'});
-      tabs.forEach(function(a){ io.observe(document.getElementById(a.getAttribute('href').slice(1))); });
+      tabs.forEach(function(a){ io.observe(document.getElementById(sid(a))); });
     }
   }
 
