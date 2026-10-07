@@ -8,7 +8,7 @@ Static pages, vanilla HTML/CSS/JS, bilingual EN/FR (auto-detected, manual toggle
 - **Files**: `index.html` (home: offer, work carousel, four-step method, FAQ, contact),
   `work.html` (all the work, one case per project), `pricing.html` (the three build tiers, the three
   after-delivery offers: one-off, with maintenance, full plan on quote, the hourly rate outside the plan,
-  the maintenance scope and the add-ons, the six-step method, the guarantees),
+  the maintenance scope and the add-ons, the six-step method driven by the scroll, the guarantees),
   `about.html`, the legal pages (`mentions-legales.html`, `cgu.html`,
   `donnees-personnelles.html`, `cookies.html` — keep it true), `404.html`, `robots.txt`, `sitemap.xml`.
 - **Site state**: `site-state.js`, loaded by every page — reads the public `GET /api/gf/config` of Jarvis
