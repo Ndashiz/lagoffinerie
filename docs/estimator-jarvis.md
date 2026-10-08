@@ -1,14 +1,15 @@
 # Project estimator: the Jarvis side
 
-The site part is live in `estimator.js` (body **contract v2**: the three services, see *Changes from v1* below). This
-is what Jarvis has to add so that every estimate becomes a prospect on the « La Goffinerie » page. Until it does, the
-site already works: Jarvis answers 404, and FormSubmit carries Simon's copy and the visitor's auto-reply (see
-*Fallback* below).
+The site part is live in `estimator.js` (body **contract v3**: the result is one of the three packages, Essentiel,
+Pro or Sur mesure, see *Changes from v2* below). This is what Jarvis has to add so that every estimate becomes a
+prospect on the « La Goffinerie » page. Until it does, the site already works: Jarvis answers 404, and FormSubmit
+carries Simon's copy and the visitor's auto-reply (see *Fallback* below).
 
-**Switching it off** (Jarvis v1.89.0, site v2.28): Jarvis → La Goffinerie → Technique → « Project estimator ».
-`GET /api/gf/config` then answers `estimator: { on: false }` and `site-state.js` hides every `data-estimator`
-element; `estimator.js` never opens, so no estimate reaches this route or FormSubmit. The prices it shows can be
-set on the same tab (`pricing`, a patch over `config.js`).
+**Switching it off** (Jarvis v1.91.0, site v2.34): Jarvis → La Goffinerie → Technique → « Project estimator ».
+`GET /api/gf/config` then answers `estimator: { on: false }`: `site-state.js` hides the estimator buttons and the
+`data-estimator-block` parts, the « Get a quote » links simply go to `#pricing`, and neither `estimator.js` nor
+`nav.js` opens the pop-up, so no estimate reaches this route or FormSubmit. The prices it shows can be set on the
+same tab (`pricing`, a patch over `config.js`).
 
 ## The questions (for reading the answers)
 
@@ -22,7 +23,7 @@ on screen is its rank in the visitor's path (the statistics use that number, see
 | 3 | Votre identité visuelle | `sites` + `website`, optional | `branding` |
 | 4 | Avez-vous déjà un site ? (+ its link) | `sites` + `website`, `seo` or `auto`; optional | `existing`, `url` |
 | 5 | Que doit faire votre site pour vous ? / Que voulez-vous automatiser ? (several, with « Autre ») | `sites` + `website`, or `auto`; optional | `needs`, `needs_other` |
-| 6 | Quelques options (the SEO row is hidden when `seo` is ticked) | always, optional | `pro_email`, `seo`, `after`, `domain` |
+| 6 | Quelques options (the SEO row is hidden when `seo` is ticked; « Après la mise en ligne », and the domain name with it, is hidden for the SEO offer alone, see below) | always, optional | `pro_email`, `seo`, `after`, `domain` |
 
 Paths: `sites` + website 1 → 2 → 3 → 4 → 5 → 6; `sites` + app or tool 1 → 2 → 6; `seo` 1 → 4 → 6;
 `auto` 1 → 4 → 5 → 6. With several services, the steps add up, each asked once, in id order.
@@ -37,7 +38,7 @@ are required by the form). Body:
 
 | Field | Type | Notes |
 |---|---|---|
-| `v` | `2` | contract version (see *Changes from v1*) |
+| `v` | `3` | contract version (see *Changes from v2*) |
 | `s` | string | the tab's random session id (same as the events), never stored with an IP |
 | `l` | `"fr"` \| `"en"` | the site language: the prospect e-mail goes out in it |
 | `ts` | ISO string | browser time |
@@ -53,32 +54,64 @@ are required by the form). Body:
 | `answers.needs_other` | string \| null | the free text of « Autre » (≤ 200 chars), only when `other` is in `needs` and the text is not empty |
 | `answers.pro_email` | `yes` \| `no` \| `have` \| null | |
 | `answers.seo` | `yes` \| `no` \| null | `yes` whenever the `seo` service is ticked (the option is then hidden) |
-| `answers.after` | `self` \| `hosting` \| `full` \| `unsure` \| null | |
-| `answers.domain` | `have` \| `reserve` \| null | only when `after` is not `self` |
-| `estimate` | `{ base, quote, min, max, from, currency:"EUR", vat:"excl" }` | `quote:true` → `from` is set, `min`/`max` null. `base`: `website_presentation` \| `website_connected` \| `website_automation` \| `application` \| `custom_tool` for a `sites` build, else `ai_automation` (`auto` without a site), else `seo_google` (`seo` alone) |
-| `monthly` | `{ option, quote, min, max }` | `option` = `after` (`unsure` when not answered); `quote` true when the option is priced on quote (the full plan); `min`/`max` null for `unsure` and for a quote |
-| `items[]` | `{ key, label, amount, min, max, partner, quote, call, yearly }` | the line items shown on screen, already labelled in `l`; `quote` true for « sur devis » lines, `call` true for « à voir à l'appel » (the « Autre » need) |
-| `text` | `{ build, monthly, answers:[[label,value]…], summary, disclaimer, mail }` | ready-made copy in `l` (see §3); `answers` starts with the services |
-| `bookUrl` | string | `https://lagoffinerie.be/?book=1&lang=xx#contact`: opens the booking window |
+| `answers.after` | `hosting` \| `full` \| `unsure` \| null | « Juste l'hébergement et le nom de domaine » (→ Essentiel), « Surveillance et maintenance » (→ Pro), « Je ne sais pas encore »; null when not answered or not asked (the SEO offer alone) |
+| `answers.domain` | `have` \| `reserve` \| null | only when `after` is answered |
+| `estimate` | `{ base, quote, min, max, from, currency:"EUR", vat:"excl" }` | `base`: the package, `essentiel` \| `pro` \| `custom` (« Sur mesure »), or `seo` for the SEO offer alone (see below). `quote` is true for `custom` only: `min`/`max` are then null, never an amount. Otherwise `min`/`max` = the package build + the add-ons (equal when no add-on is a range). `from` is always null (kept for compatibility) |
+| `monthly` | `{ option, quote, min, max }` | `option` = `after` (`unsure` when not answered, `none` when not asked); `quote` true for `custom`; `min` = `max` = the package's monthly price, which the site shows as « environ » / « about » (Essentiel: hosting and domain name only; Pro: plus monitoring and maintenance); both null for `custom` and `seo` |
+| `items[]` | `{ key, label, amount, min, max, partner, quote, call, yearly }` | the line items shown on screen, already labelled in `l`, the package first; `quote` true for « sur devis » and « dans le devis » lines, `call` true for « à voir à l'appel » (the « Autre » need) |
+| `text` | `{ package, build, monthly, note, answers:[[label,value]…], summary, disclaimer, mail }` | ready-made copy in `l` (see §3); `package` is the package name (« Essentiel », « Pro », « Sur mesure » / « Custom », or the SEO offer's name); `note` is the word on Pro shown with Essentiel when `after` is `unsure` or not answered, else null; `answers` starts with the services |
+| `bookUrl` | string | `https://lagoffinerie.be/?book=1&lang=xx#contact`: leads to the contact form of the home page |
 
-Item keys: the bases above, `branding_refresh`, `branding_scratch`, `existing_rebuild`, `existing_improve`,
-`pro_email`, `seo_google` (the SEO option, or the `seo` service), `seo_follow` (« Accompagnement suivi (contenus,
-GEO) », on quote, `seo` service only), `needs_other` (« Autre : … », à voir à l'appel), `domain_reserve` (yearly).
+Item keys:
 
-How the site prices it (for reading the figures, not to recompute them):
+- the package: `pkg_essentiel`, `pkg_pro` (`min` = `max` = its build price), `pkg_custom` (`quote`, « sur devis »);
+- with `pkg_custom`, the reasons for it, each `quote` with the amount « dans le devis » / « in the quote »:
+  `ai_automation`, `application`, `custom_tool`, `website_connected`, `website_automation`, `existing_improve`
+  (new features on the current site), and `needs_other` (« Autre : … », `call`, « à voir à l'appel »);
+- the add-ons: `branding_refresh`, `branding_scratch` (`partner`, « chiffré séparément »), `seo_google` (« Bases du
+  référencement et fiche Google », the SEO option or the `seo` service; for `base: "seo"` it is the offer itself),
+  `seo_follow` (« Accompagnement suivi (contenus, GEO) », on quote, `seo` service only), `pro_email`;
+- `domain_reserve`: informational, `yearly` = the domain's yearly cost, amount « compris dans le mensuel » / « included
+  in the monthly fee » with a package, « environ … par an » with `custom`.
 
-- `sites` + website: the base follows the most complete need ticked (`automation` > `connected` > `presentation`);
-  with `other` alone or no need, the showcase site. With `auto` also ticked, at least the connected site.
-- `sites` + app or tool: on quote, from the config base.
-- `auto` without a website: `ai_automation`, on quote, from the low end of the connected site.
-- `seo`: the `seo_google` range (an add-on to a build, or the whole build estimate when nothing is built, then
-  without the floor) and `seo_follow` on quote.
+How the site picks the package (for reading the figures, not to recompute them):
+
+- **`custom`** (« Sur mesure », on quote, no price shown) when any of these is true: `services` includes `auto`;
+  `type` is `app` or `tool`; for a website, `needs` includes `connected`, `automation` or `other`, or `existing` is
+  `improve` (« Oui, à améliorer »: features added to an existing site).
+- **`essentiel`** or **`pro`** otherwise, for a website to present the business (optionally with SEO): `pro` when
+  `after` is `full`, else `essentiel` (`hosting`, `unsure` or not answered; with `unsure` or no answer, the result adds
+  the word on Pro, `text.note`). `seo` alone also gets a package when `existing` is `none` or `rebuild`.
+- **`seo`**: `seo` alone (no `sites`, no `auto`) on a current site (`existing` is `improve` or not answered): the
+  `seo_google` range on its own, no package, no monthly part; `after` and `domain` are not asked.
+- build = the package build + the add-ons ticked (SEO, brand refresh, pro e-mail; the partner designer is quoted
+  separately); with the `seo` service ticked, `seo_follow` on quote is added.
 
 The amounts come from `config.js` on the site; Jarvis must **store what it received**, not recompute it.
 Validate like the leads: lengths, e-mail shape, enums above (each array entry too, `services` not empty),
-honeypot already handled by the page, rate limit per IP.
+honeypot already handled by the page, rate limit per IP. Accept `v: 2` bodies too for a while (a tab opened before
+the update can still send one).
 
-### Changes from v1
+### Changes from v2
+
+- `v` is `3`.
+- `estimate.base` is now the package: `essentiel` \| `pro` \| `custom`, or `seo` for the SEO offer alone. The v2 bases
+  (`website_presentation`, `website_connected`, `website_automation`, `application`, `custom_tool`, `ai_automation`,
+  `seo_google`) are gone; the reasons for `custom` are item keys instead.
+- `estimate.quote` is true for `custom` only, and `estimate.from` is always null: « Sur mesure » never shows a price.
+- `answers.after` loses `self`; `hosting` now means « Juste l'hébergement et le nom de domaine » (Essentiel) and `full`
+  « Surveillance et maintenance » (Pro). `after` and `domain` are null for the SEO offer alone (not asked), and
+  `domain` is asked as soon as `after` is answered.
+- `monthly`: `option` can be `none` (not asked); `min` = `max` = the package's « about » monthly price; `quote` true
+  for `custom`. No more `self` or full-plan quote.
+- Items: new `pkg_essentiel`, `pkg_pro`, `pkg_custom`; the custom reasons (`ai_automation`, `application`,
+  `custom_tool`, `website_connected`, `website_automation`, `existing_improve`, `needs_other`); `existing_rebuild`
+  and `website_presentation` are gone; `seo_google` is labelled « Bases du référencement et fiche Google ».
+  The item `min` is no longer set for quote lines.
+- `text.package` and `text.note` are new; the disclaimer now ends « …après notre appel gratuit, selon votre projet. »
+- The site no longer rounds to 50 € nor applies a floor: the packages and add-ons are round already.
+
+### Changes from v1 (to v2)
 
 - `v` is `2`.
 - New `answers.services` (array) and `answers.needs_other` (string or null).
@@ -103,9 +136,10 @@ the fallback does not send the auto-reply again.
 ## 2. Storage and the « La Goffinerie » page
 
 - A prospect with status **`estimate`**: name, e-mail, phone, language, date, the services (`answers.services`,
-  handy as a filter), the answers (readable labels: `text.answers`), the range (`text.build`), the monthly option
-  (`text.monthly`), the existing site URL (clickable), the « Autre » need (`answers.needs_other`), the line items.
-- A **« Convertir en appel »** action: when a booking lead later arrives with the same e-mail (the booking window
+  handy as a filter), the package (`estimate.base`, also a good filter, and `text.package`), the answers (readable
+  labels: `text.answers`), the build price (`text.build`), the monthly part (`text.monthly`), the existing site URL
+  (clickable), the « Autre » need (`answers.needs_other`), the line items.
+- A **« Convertir en appel »** action: when a booking lead later arrives with the same e-mail (the contact form
   is pre-filled from the estimator, its subject starts with « Estimation en ligne : » / « Online estimate: »),
   link the two and move the prospect to the booked-call status; also allow doing it by hand.
 - Retention: the same as the booking requests (24 months after the last exchange; see `donnees-personnelles.html` §4).
@@ -116,9 +150,11 @@ the fallback does not send the auto-reply again.
 FormSubmit fallback and can be sent as is:
 
 - subject: « Votre estimation indicative, La Goffinerie » / « Your indicative estimate, La Goffinerie »;
-- summary of the answers (the services first), the build range, the monthly option, the line items;
-- the disclaimer, always: « Estimation indicative. Le prix final est fixé par écrit après notre appel gratuit, sur
-  mesure pour votre projet. »;
+- summary of the answers (the services first), the recommended package (and `text.note` when set), the build price
+  (« Sur devis » for « Sur mesure », with « Le prix est fixé par écrit après notre appel gratuit. »), the monthly part,
+  the line items;
+- the disclaimer, always: « Estimation indicative. Le prix final est fixé par écrit après notre appel gratuit, selon
+  votre projet. »;
 - a **« Réserver mon appel gratuit »** button → `bookUrl`.
 
 **To Simon**: the same content plus the contact details (name, e-mail, phone, language) and the existing site URL.
@@ -131,8 +167,8 @@ never generates an invoice.
 
 If the route is missing, slow (> 8 s) or `mailed.owner` is not true, the page re-posts the same body once with
 `keepalive` and sends a FormSubmit AJAX request to `info@lagoffinerie.be`: subject « Nouvelle estimation en ligne,
-lagoffinerie », a table with the answers in French, and `_autoresponse` = `text.mail` for the prospect. The range
-stays on screen either way.
+lagoffinerie », a table with the package and the answers in French, and `_autoresponse` = `text.mail` for the
+prospect. The estimate stays on screen either way.
 
 ## 5. Statistics: `POST /api/gf/events`
 
@@ -140,9 +176,9 @@ Anonymous, through the existing route and payload (`{ e, i, s, l, k }`; nothing 
 
 | `e` | `i` | When |
 |---|---|---|
-| `estimator_open` | where from: `pricing`, `home`, `faq`, or a service page's own value | the window opens |
+| `estimator_open` | where from: `home`, `faq`, a service page's own value (`pricing` from the retired pricing page) | the window opens |
 | `estimator_step` | `1` … `6` | a step is shown (once per page view), numbered as on screen — the brief's `estimator_step_n` |
-| `estimator_result_shown` | `range` \| `quote` | the result is shown (once per page view) |
+| `estimator_result_shown` | `range` \| `quote` | the result is shown (once per page view): `quote` for « Sur mesure », `range` for Essentiel, Pro or the SEO offer alone |
 | `estimator_email_sent` | `jarvis` \| `formsubmit` | the estimate was sent |
 | `estimator_to_booking` | — | « Réserver mon appel gratuit » from the estimator |
 | `estimator_abandon` | `1` … `6` \| `result` | closed (or tab left) before sending, numbered as on screen — the brief's `estimator_abandon_step_n` |

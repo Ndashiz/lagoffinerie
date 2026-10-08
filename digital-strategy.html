@@ -90,6 +90,8 @@
   [hidden]{display:none!important;}
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
   html,body{overflow-x:hidden;}
+  /* clip, not hidden, where supported: hidden would turn the body into a scroll box and break the sticky « Other questions? » box */
+  @supports (overflow:clip){html,body{overflow-x:clip;}}
   body{font-family:var(--sans);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;line-height:1.6;padding-top:66px;}
   section[id],header[id]{scroll-margin-top:80px;}
   ::selection{background:var(--yellow);color:var(--ink);}
@@ -114,14 +116,15 @@
   .nlinks a:hover::after,.nlinks a[aria-current]::after{transform:scaleX(1);}
   .nright{display:flex;align-items:center;gap:14px;margin-left:auto;}
   .nlinks + .nright{margin-left:0;}
-  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;border-radius:12px;padding:14px 24px;border:2px solid var(--ink);transition:transform .15s ease, box-shadow .15s ease;}
-  .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:5px 5px 0 var(--ink);}
-  .btn.ghost{background:transparent;color:var(--ink);box-shadow:5px 5px 0 #15151522;}
-  .btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink);}
-  .btn.ghost:hover{box-shadow:8px 8px 0 #15151544;}
-  .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink);}
-  .topnav .btn{padding:10px 18px;font-size:13.5px;box-shadow:3px 3px 0 var(--ink);border-radius:10px;white-space:nowrap;}
-  .topnav .btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink);}
+  /* buttons: flat, a soft shadow, a one-pixel lift under the mouse */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--disp);font-weight:600;font-size:15px;line-height:1.2;text-decoration:none;cursor:pointer;border-radius:10px;padding:15px 22px;border:1px solid rgba(21,21,21,.18);background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(21,21,21,.06);transition:transform .15s ease,box-shadow .2s ease,background-color .2s ease,border-color .2s ease;}
+  .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 1px 2px rgba(21,21,21,.2),0 10px 24px -10px rgba(40,35,238,.65);}
+  .btn.ghost{background:#fff;color:var(--ink);}
+  .btn:hover{transform:translateY(-1px);border-color:rgba(21,21,21,.32);box-shadow:0 2px 4px rgba(21,21,21,.08),0 12px 24px -14px rgba(21,21,21,.4);}
+  .btn.primary:hover{background:#1d19d8;border-color:#1d19d8;box-shadow:0 2px 4px rgba(21,21,21,.2),0 14px 28px -10px rgba(40,35,238,.75);}
+  .btn:active,.btn.primary:active{transform:none;box-shadow:0 1px 2px rgba(21,21,21,.14);}
+  .topnav .btn{padding:10px 16px;font-size:13.5px;border-radius:10px;white-space:nowrap;}
+  .nquote .ndoc{width:15px;height:15px;flex:none;}
   .topnav .logo-txt{white-space:nowrap;}
   .langsw{display:flex;border:1.5px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;}
   .langsw button{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;border:none;background:transparent;color:var(--ink-2);padding:6px 11px;cursor:pointer;min-height:36px;}
@@ -129,7 +132,7 @@
   .bottombar{display:none;}
   @media(max-width:900px){
     body{padding-top:60px;padding-bottom:calc(74px + env(safe-area-inset-bottom));}
-    .nlinks{display:none;}
+    .nlinks{display:none;} .nlinks + .nright{margin-left:auto;}
     .topnav .nwrap{height:60px;gap:12px;}
     .topnav .btn{padding:9px 14px;font-size:12.5px;}
     .bottombar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:80;height:64px;background:rgba(250,248,242,.97);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border-top:2px solid var(--ink);align-items:stretch;justify-content:space-around;padding-bottom:env(safe-area-inset-bottom);}
@@ -138,6 +141,9 @@
     .bottombar a:hover,.bottombar a:active,.bottombar a[aria-current]{color:var(--blue);}
   }
   @media(max-width:560px){.topnav .logo-txt{display:none;}}
+  /* « Demander un devis » on a small phone: the icon goes first, then a little padding; the button always stays */
+  @media(max-width:380px){.nquote .ndoc{display:none;}}
+  @media(max-width:340px){.topnav .nwrap{padding:0 16px;} .nright{gap:10px;} .langsw button{padding:6px 9px;} .topnav .btn{padding:9px 12px;}}
 
   /* ---------- page ---------- */
   .kick{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:10px;margin-bottom:16px;}
@@ -234,40 +240,63 @@
   .oth b{font-family:var(--disp);font-weight:700;font-size:16px;line-height:1.25;}
   .oth i{font-style:normal;font-family:var(--disp);font-weight:700;font-size:18px;color:var(--blue);}
 
-  /* ---------- FAQ: editorial accordion (label, title, subtitle, numbered questions), one answer open at a time ---------- */
-  .faq-ed{background:#F5F5F3;padding:120px 0 128px;}
+  /* ---------- FAQ: editorial accordion (label, title, subtitle, numbered questions), one answer open at a time ----------
+     Wide screens: the title on the left, the « Other questions? » box under it stays in view while the questions scroll
+     on the right. Up to 900px, one column: title, questions, then the box. */
+  .faq-ed{background:#F5F5F3;padding:104px 0;}
   .faq-ed .wrap{max-width:1160px;}
-  .fe-head{text-align:center;display:flex;flex-direction:column;align-items:center;}
+  .fe-grid{display:grid;grid-template-columns:clamp(300px,32vw,400px) minmax(0,1fr);grid-template-rows:auto 1fr;column-gap:clamp(40px,5vw,72px);align-items:start;}
+  .fe-head{grid-column:1;grid-row:1;display:flex;flex-direction:column;align-items:flex-start;padding-top:28px;}
   .fe-label{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:#555;}
-  .fe-head h2{margin:20px 0 0;font-size:clamp(34px,4.6vw,58px);line-height:1.08;letter-spacing:-.025em;color:#111;max-width:18ch;}
-  .fe-sub{margin:18px 0 0;font-size:clamp(17px,1.6vw,20px);line-height:1.5;color:#6F6F6F;}
-  .fe-list{margin-top:64px;}
+  .fe-head h2{margin:18px 0 0;font-size:clamp(32px,3.4vw,48px);line-height:1.08;letter-spacing:-.025em;color:#111;max-width:18ch;}
+  .fe-sub{margin:16px 0 0;font-size:18px;line-height:1.5;color:#6F6F6F;}
+  .fe-list{grid-column:2;grid-row:1 / 3;}
+  .fe-ask{grid-column:1;grid-row:2;position:sticky;top:104px;margin-top:34px;padding:22px 22px 20px;border-radius:18px;background:#fff;border:1px solid #E6E6E6;}
+  .fe-ask h3{font-size:17px;font-weight:700;line-height:1.3;letter-spacing:0;color:#111;}
+  .fe-ask p{margin-top:6px;font-size:15px;line-height:1.55;color:#6F6F6F;}
+  .fe-ask .fe-btn{margin-top:14px;display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 18px;border-radius:999px;background:#111;color:#fff;font-family:var(--disp);font-weight:600;font-size:14.5px;line-height:1.2;text-decoration:none;transition:background-color .2s ease;}
+  .fe-ask .fe-btn:hover{background:#333;}
+  .fe-ask .fe-btn:focus-visible{outline-offset:4px;}
+  .fe-btn .barr{width:15px;height:15px;flex:none;transition:transform .2s ease;}
+  .fe-btn:hover .barr{transform:translateX(3px);}
   .faq-ed .fq{background:none;border:0;border-top:1px solid #E6E6E6;border-radius:0;padding:0;}
   .faq-ed .fq:last-child{border-bottom:1px solid #E6E6E6;}
-  .faq-ed .fq summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:76px minmax(0,1fr) 52px;align-items:center;gap:0 20px;padding:32px 0;font-family:var(--disp);font-weight:700;font-size:22px;line-height:1.3;letter-spacing:-.01em;color:#111;}
+  .faq-ed .fq summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:56px minmax(0,1fr) 52px;align-items:center;gap:0 20px;padding:32px 0;font-family:var(--disp);font-weight:700;font-size:22px;line-height:1.3;letter-spacing:-.01em;color:#111;}
   .faq-ed .fq summary::-webkit-details-marker{display:none;}
   .fe-n{font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:.08em;color:#A3A3A0;}
   .fe-ic{justify-self:end;width:52px;height:52px;border-radius:50%;border:1.5px solid #D4D4D0;color:#111;display:flex;align-items:center;justify-content:center;transition:transform .3s ease,background-color .3s ease,border-color .3s ease,color .3s ease;}
   .fe-ic svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;}
   .faq-ed .fq summary:hover .fe-ic,.faq-ed .fq summary:focus-visible .fe-ic{border-color:#111;background:#EBEBE8;}
   .faq-ed .fq[open] .fe-ic{transform:rotate(45deg);background:#111;border-color:#111;color:#fff;}
-  .fe-a{padding:0 72px 36px 96px;margin-top:-8px;}
+  .fe-a{padding:0 56px 32px 76px;margin-top:-8px;}
   .faq-ed .fq p{padding:0;font-size:17px;line-height:1.7;color:#6F6F6F;max-width:68ch;}
   .fe-more{margin-top:40px;text-align:center;font-size:16px;line-height:1.8;color:#6F6F6F;}
   .fe-more a,.faq-ed .fq p a{font-family:var(--disp);font-weight:700;color:#111;text-decoration:none;border-bottom:1.5px solid #111;white-space:nowrap;}
+  @media(max-width:900px){
+    .fe-grid{display:block;}
+    .fe-head{padding-top:0;align-items:center;text-align:center;}
+    .fe-head h2{margin-top:20px;font-size:clamp(34px,4.6vw,58px);}
+    .fe-sub{margin-top:18px;font-size:17px;}
+    .fe-list{margin-top:56px;}
+    .fe-ask{position:static;margin-top:40px;}
+  }
   @media(max-width:700px){
     .faq-ed{padding:72px 0 80px;} .fe-list{margin-top:40px;}
     .faq-ed .fq summary{grid-template-columns:30px minmax(0,1fr) 40px;gap:0 12px;padding:22px 0;font-size:17px;}
     .fe-n{font-size:12px;} .fe-ic{width:40px;height:40px;} .fe-a{padding:0 0 24px 42px;margin-top:-4px;} .faq-ed .fq p{font-size:15.5px;}
+    .fe-ask{margin-top:32px;padding:20px 18px 18px;}
   }
+  @media (prefers-reduced-motion: reduce){.fe-ic,.fe-ask .fe-btn,.fe-btn .barr{transition:none;} .fe-btn:hover .barr{transform:none;}}
   .cta{background:var(--blue);color:#fff;border:2px solid var(--ink);border-radius:20px;padding:30px 28px;box-shadow:8px 8px 0 var(--yellow);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
   .cta h2{color:#fff;margin:0;max-width:22ch;font-size:clamp(22px,3vw,30px);}
   .cta p{color:#d8d7ff;font-size:14.5px;margin-top:6px;}
-  .cta .btn{background:var(--yellow);border-color:var(--ink);color:var(--ink);box-shadow:5px 5px 0 rgba(0,0,0,.35);}
+  .cta .btn{background:var(--yellow);border-color:var(--yellow);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.3),0 12px 26px -12px rgba(237,175,47,.6);}
+  .cta .btn:hover{background:#f3bd4c;border-color:#f3bd4c;box-shadow:0 2px 4px rgba(0,0,0,.3),0 14px 28px -12px rgba(237,175,47,.7);}
+  .cta .btn:active{box-shadow:0 1px 2px rgba(0,0,0,.3);}
   .cta .reach{flex-basis:100%;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px;color:#d8d7ff;}
   .cta .reach > span{margin-right:4px;}
-  .ricon{width:44px;height:44px;border-radius:50%;background:#fff;border:2px solid var(--ink);display:inline-flex;align-items:center;justify-content:center;box-shadow:3px 3px 0 rgba(0,0,0,.3);text-decoration:none;transition:transform .15s ease;}
-  .ricon:hover{transform:translate(-1px,-1px);}
+  .ricon{width:44px;height:44px;border-radius:50%;background:#fff;border:1px solid #fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 1px 2px rgba(0,0,0,.25),0 8px 18px -10px rgba(0,0,0,.5);text-decoration:none;transition:transform .15s ease,box-shadow .2s ease;}
+  .ricon:hover{transform:translateY(-1px);box-shadow:0 2px 4px rgba(0,0,0,.25),0 12px 22px -10px rgba(0,0,0,.55);}
   .ricon svg{width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
   .ricon .li{font-family:Arial,sans-serif;font-weight:700;font-size:18px;line-height:1;color:#0a66c2;}
   .faqlink{margin-top:26px;font-size:15px;color:var(--ink-2);}
@@ -320,10 +349,9 @@
       <span class="logo-txt">La Goffinerie</span>
     </a>
     <div class="nlinks">
-      <a class="nsvc" href="./#alive"><span data-i18n="nav_alive">Our services</span></a>
+      <a class="nsvc" href="./#top"><span data-i18n="nav_alive">Services</span></a>
       <a href="work.html" data-i18n="nav_work">Work</a>
-      <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
-      <a href="about.html" data-i18n="nav_about">About</a>
+      <a href="./#pricing" data-i18n="nav_pricing">Pricing</a>
       <a href="./#faq" data-i18n="nav_faq">FAQ</a>
     </div>
     <div class="nright">
@@ -331,21 +359,21 @@
         <button id="lang-en" onclick="setLang('en')" aria-pressed="false">EN</button>
         <button id="lang-fr" onclick="setLang('fr')" aria-pressed="false">FR</button>
       </div>
-      <a class="btn primary" href="./#contact" data-i18n="nav_book">Free call</a>
+      <a class="btn primary nquote" href="./#pricing" data-estimator="nav"><svg class="ndoc" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.75h5.2L12.5 5v9.25H4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 1.75V5.2h3.4M6.3 8.4h3.9M6.3 11h3.9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span data-i18n="nav_book">Get a quote</span></a>
     </div>
   </div>
 </nav>
 <nav class="bottombar" aria-label="Mobile navigation">
   <a href="tel:+32479487608"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-i18n="nav_call">Call</span></a>
   <a href="work.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg><span data-i18n="nav_work">Work</span></a>
-  <a href="pricing.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 12h20"/></svg><span data-i18n="nav_pricing">Pricing</span></a>
+  <a href="./#pricing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="8" cy="8" r="1.6"/></svg><span data-i18n="nav_pricing">Pricing</span></a>
   <a href="./#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5c-1.7 0-3.3-.5-4.6-1.3L3 20l1.3-4.9A8.5 8.5 0 1 1 21 11.5z"/></svg><span data-i18n="nav_contact">Contact</span></a>
 </nav>
 
 <header class="hero shero" id="main" tabindex="-1">
   <svg class="bigshape" viewBox="0 0 120 120" aria-hidden="true"><path d="M60 8 L114 104 L6 104 Z" fill="#EDAF2F"/></svg>
   <div class="wrap">
-    <div class="crumb"><a href="./#alive" data-i18n="crumb">Our services</a><span aria-hidden="true">/</span><span class="cn">02 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L23 21 L1 21 Z" fill="#EDAF2F"/></svg></span></div>
+    <div class="crumb"><a href="./#top" data-i18n="crumb">Our services</a><span aria-hidden="true">/</span><span class="cn">02 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L23 21 L1 21 Z" fill="#EDAF2F"/></svg></span></div>
     <h1 data-i18n="h1">Get found on Google, and cited by AI.</h1>
     <p class="sub" data-i18n="intro">Your clients search on Google, and more and more by asking ChatGPT, Gemini or Perplexity. I make sure your business shows up in both, and that you can see what it brings in.</p>
     <div class="chip"><span class="tag t-yel" data-i18n="chip_tag">Price</span><span data-i18n="chip">Search basics and Google profile: <span data-price="seo">€400 to €800</span> excl. VAT, ongoing support on quote</span></div>
@@ -381,6 +409,7 @@
 
   <section id="faq" class="faq-ed">
     <div class="wrap">
+     <div class="fe-grid">
       <div class="fe-head rv">
         <span class="fe-label" data-i18n="faq_kick">Before you commit</span>
         <h2 data-i18n="faq_h2">Your questions. Clear answers.</h2>
@@ -394,6 +423,12 @@
       <details class="fq" name="faq-digital-strategy" data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">05</span><span class="fe-q" data-i18n="q5">Where do the visit statistics go?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a5">Into your own dashboard, which you check whenever you want: where your visitors come from, what they read, what brings enquiries. Nothing is sent to a third party.</p></div></details>
       <details class="fq" name="faq-digital-strategy" data-track="faq_open"><summary><span class="fe-n" aria-hidden="true">06</span><span class="fe-q" data-i18n="q6">How much does it cost?</span><span class="fe-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v14M3 10h14"/></svg></span></summary><div class="fe-a"><p data-i18n="a6">Search basics and the Google profile: <span data-price="seo">€400 to €800</span> excl. VAT, once. Ongoing support, with content and GEO work, is on quote, with a price fixed in writing.</p></div></details>
       </div>
+      <div class="fe-ask rv">
+        <h3 data-i18n="faq_ask_h">Other questions?</h3>
+        <p data-i18n="faq_ask_p">Write to me, I reply personally within one business day.</p>
+        <a class="fe-btn" href="./#contact" data-track="faq_more_contact"><span data-i18n="faq_ask_btn">Ask me a question</span><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+     </div>
     </div>
   </section>
 
@@ -475,6 +510,9 @@ const FR = {
   faq_kick:"Avant de vous engager",
   faq_h2:"Vos questions. Des réponses claires.",
   faq_sub:"SEO, GEO, délais, fiche Google, mesure et prix.",
+  faq_ask_h:"D'autres questions ?",
+  faq_ask_p:"Écrivez-moi, je réponds personnellement sous un jour ouvrable.",
+  faq_ask_btn:"Me poser une question",
   q1:"SEO, GEO : quelle différence ?",
   a1:"Le SEO vous fait remonter dans les résultats de Google. Le GEO vous fait citer dans les réponses des assistants IA, comme ChatGPT, Gemini ou les résumés IA de Google, quand quelqu'un leur demande un professionnel comme vous. Les deux reposent sur la même base : un site clair, rapide, et des contenus qui répondent aux vraies questions de vos clients.",
   q2:"En combien de temps verrai-je des résultats ?",
@@ -495,12 +533,11 @@ const FR = {
   cta_btn:"Réserver mon appel gratuit",
   cta_reach:"Ou joignez-moi directement",
   ex_link:"Voir la réalisation →",
-  nav_alive:"Nos services",
+  nav_alive:"Services",
   nav_work:"Réalisations",
   nav_pricing:"Tarifs",
-  nav_about:"À propos",
   nav_faq:"FAQ",
-  nav_book:"Appel gratuit",
+  nav_book:"Demander un devis",
   nav_call:"Appeler",
   nav_contact:"Contact",
   foot_legal:"Mentions légales",

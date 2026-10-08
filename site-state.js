@@ -1,5 +1,5 @@
 /* =========================================================
-   LA GOFFINERIE — site-state.js (site v2.28)
+   LA GOFFINERIE — site-state.js (site v2.34)
    What the owner drives from Jarvis (La Goffinerie → Technique),
    read by every page on load through the public GET /api/gf/config
    (the same call the home page makes for its logo intro):
@@ -12,15 +12,20 @@
        hides it for the visit. Painted from the last good answer
        first (localStorage lg_site_cfg), then refreshed.
      · estimator — the project estimator (« module devis ») on or
-       off. Off: html.lg-est-off hides every [data-estimator] and
-       [data-estimator-block], shows the [data-estimator-alt]
-       stand-ins (pricing.html), and estimator.js no longer opens.
-       From the last good answer first, then refreshed.
+       off. Off: html.lg-est-off hides every estimator BUTTON and
+       every [data-estimator-block] (what only speaks of the online
+       estimate); the estimator LINKS (« Get a quote » in the top
+       bar and the menu) stay and simply go to their href, #pricing;
+       estimator.js and nav.js no longer open it. From the last good
+       answer first, then refreshed.
      · pricing — the amounts Jarvis lays over config.js (same keys,
        same shapes), or null for « config.js decides ». Only a FRESH
        answer re-prices the page (a cached one may be older than
        config.js): the amounts are replaced in window.LG_CONFIG, in
        place, and LGEstimator.fill() rewrites every [data-price].
+       A page that loads config.js late (nav.js, on the first « Get
+       a quote ») gets the same through LGSiteState.reprice(), which
+       estimator.js calls once it is loaded.
        The hourly GitHub Action « Sync prices from Jarvis »
        (tools/sync-prices.mjs) then writes them into config.js and
        the pre-rendered pages, and this has nothing left to do.
@@ -117,9 +122,8 @@
     +'@media(max-width:900px){.lg-maint-wrap{grid-template-columns:1fr;gap:28px;padding:32px 20px;}.lg-maint-art{order:-1;}.lg-maint-art svg{max-width:300px;}.lg-maint p{font-size:16px;}.lg-maint-geo{width:150px;height:140px;right:-50px;top:-20px;opacity:.3;}.lg-maint-fwrap{padding:0 20px;}}'
     +'@media(max-width:600px){.lg-maint-bar{height:60px;padding:0 16px;}.lg-maint-bar .lg-name{display:none;}.lg-maint-tag{font-size:10px;padding:6px 9px;}}'
     +'@media (prefers-reduced-motion: reduce){.lg-w-arm,.lg-w-body,.lg-w-sparks,.lg-w-sign{animation:none;}.lg-w-arm{transform:rotate(-12deg);}.lg-w-sparks{opacity:0;}}'
-    /* The estimator switched off in Jarvis. The stand-ins' own rule, html:not(.lg-est-off) [data-estimator-alt]
-       {display:none}, is in the page that has them, so they never show before this script has run. */
-    +'html.lg-est-off [data-estimator],html.lg-est-off [data-estimator-block]{display:none!important;}';
+    /* The estimator switched off in Jarvis: its buttons and what only speaks of it go; its links stay (#pricing). */
+    +'html.lg-est-off button[data-estimator],html.lg-est-off [data-estimator-block]{display:none!important;}';
   var style=document.createElement('style'); style.textContent=CSS; document.head.appendChild(style);
 
   /* English by default; French only when the visitor picked it on the site: ?lang=fr, or the lg_lang choice the pages save. */
@@ -208,10 +212,14 @@
   function estimator(e){ root.classList.toggle('lg-est-off', !!(e && e.on===false)); }
 
   /* ---------- the prices ----------
-     ORIG is config.js as this page loaded it: what « pricing: null » goes back to. Only the pages that
-     show prices load config.js; elsewhere there is nothing to re-price. */
-  var CFG=window.LG_CONFIG, ORIG=null, priceSig='null';
-  try{ if(CFG && CFG.estimator && CFG.rates) ORIG=JSON.parse(JSON.stringify({estimator:CFG.estimator, rates:CFG.rates})); }catch(e){ ORIG=null; }
+     ORIG is config.js as this page got it, before anything was laid over it: what « pricing: null » goes
+     back to. The pages that show prices load config.js before this script; the others load it with the
+     estimator, on the first « Get a quote » (nav.js), so it is taken the first time it is there. */
+  var CFG=null, ORIG=null, priceSig='null', freshPricing, gotFresh=false;
+  function orig(){
+    if(!ORIG && window.LG_CONFIG){ try{ CFG=window.LG_CONFIG; ORIG=JSON.parse(JSON.stringify(CFG)); }catch(e){ ORIG=null; } }
+    return ORIG;
+  }
   function isNum(v){ return typeof v==='number' && isFinite(v) && Math.abs(v)<=1e7; }
   function isRange(v){ return Array.isArray(v) && v.length===2 && isNum(v[0]) && isNum(v[1]) && v[0]<=v[1]; }
   function isFrom(v){ return !!v && typeof v==='object' && !Array.isArray(v) && v.quote===true && isNum(v.from); }
@@ -235,10 +243,10 @@
     })(p, ORIG, []);
     return out.length ? out : null;
   }
-  /* Leaf by leaf, in place: estimator.js holds LG_CONFIG.estimator and .rates and reads them when it computes. */
+  /* Leaf by leaf, in place: estimator.js holds LG_CONFIG.packages, .addons and .rates and reads them when it computes. */
   function assign(dst, src){ for(var k in src){ if(isObj(src[k]) && isObj(dst[k])) assign(dst[k], src[k]); else dst[k]=JSON.parse(JSON.stringify(src[k])); } }
   function reprice(p){
-    if(!ORIG) return;
+    if(!orig()) return;
     var list=priced(p), s=JSON.stringify(list);
     if(s===priceSig) return;               // the same as now: no rewrite every 60 s
     priceSig=s;
@@ -271,7 +279,9 @@
   }
   var cached=null; try{ cached=norm(JSON.parse(localStorage.getItem(CFG_KEY)||'null')); }catch(e){}
   if(cached){ cur=cached; apply(cur, false); }
-  function refresh(){ load().then(function(c){ if(c){ cur=c; apply(cur, true); reprice(c.pricing); } }); }
+  function refresh(){ load().then(function(c){ if(c){ cur=c; apply(cur, true); gotFresh=true; freshPricing=c.pricing; reprice(c.pricing); } }); }
+  /* For estimator.js when it arrives after this script (nav.js loads it on demand): only ever a fresh answer. */
+  window.LGSiteState={ reprice:function(){ if(gotFresh) reprice(freshPricing); } };
   refresh();
   setInterval(function(){ if(!document.hidden) refresh(); }, EVERY);
   new MutationObserver(function(){ if(cur) apply(cur, !!maint); }).observe(root, {attributes:true, attributeFilter:['lang']});

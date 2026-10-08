@@ -56,11 +56,14 @@
   .nlinks a:hover::after,.nlinks a[aria-current]::after{transform:scaleX(1);}
   .nright{display:flex;align-items:center;gap:14px;margin-left:auto;}
   .nlinks + .nright{margin-left:0;}
-  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;border-radius:12px;padding:14px 24px;border:2px solid var(--ink);transition:transform .15s ease, box-shadow .15s ease;}
-  .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:5px 5px 0 var(--ink);}
-  .btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink);}
-  .topnav .btn{padding:10px 18px;font-size:13.5px;box-shadow:3px 3px 0 var(--ink);border-radius:10px;white-space:nowrap;}
-  .topnav .btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink);}
+  /* buttons: flat, a soft shadow, a one-pixel lift under the mouse */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--disp);font-weight:600;font-size:15px;line-height:1.2;text-decoration:none;cursor:pointer;border-radius:10px;padding:15px 22px;border:1px solid rgba(21,21,21,.18);background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(21,21,21,.06);transition:transform .15s ease,box-shadow .2s ease,background-color .2s ease,border-color .2s ease;}
+  .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 1px 2px rgba(21,21,21,.2),0 10px 24px -10px rgba(40,35,238,.65);}
+  .btn:hover{transform:translateY(-1px);border-color:rgba(21,21,21,.32);box-shadow:0 2px 4px rgba(21,21,21,.08),0 12px 24px -14px rgba(21,21,21,.4);}
+  .btn.primary:hover{background:#1d19d8;border-color:#1d19d8;box-shadow:0 2px 4px rgba(21,21,21,.2),0 14px 28px -10px rgba(40,35,238,.75);}
+  .btn:active,.btn.primary:active{transform:none;box-shadow:0 1px 2px rgba(21,21,21,.14);}
+  .topnav .btn{padding:10px 16px;font-size:13.5px;border-radius:10px;white-space:nowrap;}
+  .nquote .ndoc{width:15px;height:15px;flex:none;}
   .topnav .logo-txt{white-space:nowrap;}
   .langsw{display:flex;border:1.5px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;}
   .langsw button{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;border:none;background:transparent;color:var(--ink-2);padding:6px 11px;cursor:pointer;min-height:36px;}
@@ -68,7 +71,7 @@
   .bottombar{display:none;}
   @media(max-width:900px){
     body{padding-top:60px;padding-bottom:calc(74px + env(safe-area-inset-bottom));}
-    .nlinks{display:none;}
+    .nlinks{display:none;} .nlinks + .nright{margin-left:auto;}
     .topnav .nwrap{height:60px;gap:12px;}
     .topnav .btn{padding:9px 14px;font-size:12.5px;}
     .bottombar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:80;height:64px;background:rgba(250,248,242,.97);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border-top:2px solid var(--ink);align-items:stretch;justify-content:space-around;padding-bottom:env(safe-area-inset-bottom);}
@@ -77,6 +80,9 @@
     .bottombar a:hover,.bottombar a:active{color:var(--blue);}
   }
   @media(max-width:560px){.topnav .logo-txt{display:none;}}
+  /* « Demander un devis » on a small phone: the icon goes first, then a little padding; the button always stays */
+  @media(max-width:380px){.nquote .ndoc{display:none;}}
+  @media(max-width:340px){.topnav .nwrap{padding:0 16px;} .nright{gap:10px;} .langsw button{padding:6px 9px;} .topnav .btn{padding:9px 12px;}}
 
   /* ---------- page ---------- */
   .kick{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:10px;margin-bottom:16px;}
@@ -122,11 +128,13 @@
   .cta{margin-top:26px;background:var(--blue);color:#fff;border:2px solid var(--ink);border-radius:20px;padding:30px 28px;box-shadow:8px 8px 0 var(--yellow);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
   .cta h2{color:#fff;margin:0;max-width:22ch;}
   .cta p{color:#d8d7ff;font-size:14.5px;margin-top:6px;}
-  .cta .btn{background:var(--yellow);border-color:var(--ink);color:var(--ink);box-shadow:5px 5px 0 rgba(0,0,0,.35);}
+  .cta .btn{background:var(--yellow);border-color:var(--yellow);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.3),0 12px 26px -12px rgba(237,175,47,.6);}
+  .cta .btn:hover{background:#f3bd4c;border-color:#f3bd4c;box-shadow:0 2px 4px rgba(0,0,0,.3),0 14px 28px -12px rgba(237,175,47,.7);}
+  .cta .btn:active{box-shadow:0 1px 2px rgba(0,0,0,.3);}
   .cta .reach{flex-basis:100%;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
   .cta .reach > span{font-size:14px;color:#d8d7ff;margin-right:4px;}
-  .cta .ric{width:44px;height:44px;border-radius:50%;background:#fff;border:2px solid var(--ink);display:inline-flex;align-items:center;justify-content:center;box-shadow:3px 3px 0 rgba(0,0,0,.3);text-decoration:none;transition:transform .15s ease, box-shadow .15s ease;}
-  .cta .ric:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 rgba(0,0,0,.3);}
+  .cta .ric{width:44px;height:44px;border-radius:50%;background:#fff;border:1px solid #fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 1px 2px rgba(0,0,0,.25),0 8px 18px -10px rgba(0,0,0,.5);text-decoration:none;transition:transform .15s ease, box-shadow .2s ease;}
+  .cta .ric:hover{transform:translateY(-1px);box-shadow:0 2px 4px rgba(0,0,0,.25),0 12px 22px -10px rgba(0,0,0,.55);}
   .cta .ric:focus-visible{outline-color:var(--yellow);}
   .cta .ric svg{width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
   .cta .ric .in{font-family:Arial,sans-serif;font-weight:700;font-size:18px;line-height:1;color:#0a66c2;}
@@ -155,7 +163,6 @@
   .facts .fact.rv:nth-child(3n+2){transition-delay:.07s} .facts .fact.rv:nth-child(3n){transition-delay:.14s}
   html.scrolled .topnav{box-shadow:0 10px 24px -18px rgba(0,0,0,.45);}
   .topnav{transition:box-shadow .25s;}
-  .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink);}
   @media (prefers-reduced-motion: reduce){.card,.btn,.cta .ric{transition:none;} .rv{opacity:1;transform:none;transition:none;} header.hero .wrap > *,.geo{animation:none;}}
 </style>
 </head>
@@ -172,10 +179,9 @@
       <span class="logo-txt">La Goffinerie</span>
     </a>
     <div class="nlinks">
-      <a class="nsvc" href="./#alive"><span data-i18n="nav_alive">Our services</span></a>
+      <a class="nsvc" href="./#top"><span data-i18n="nav_alive">Services</span></a>
       <a href="work.html" data-i18n="nav_work">Work</a>
-      <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
-      <a href="about.html" aria-current="page" data-i18n="nav_about">About</a>
+      <a href="./#pricing" data-i18n="nav_pricing">Pricing</a>
       <a href="./#faq" data-i18n="nav_faq">FAQ</a>
     </div>
     <div class="nright">
@@ -183,7 +189,7 @@
         <button id="lang-en" onclick="setLang('en')" aria-pressed="false">EN</button>
         <button id="lang-fr" onclick="setLang('fr')" aria-pressed="false">FR</button>
       </div>
-      <a class="btn primary" href="./#contact" data-i18n="nav_book">Free call</a>
+      <a class="btn primary nquote" href="./#pricing" data-estimator="nav"><svg class="ndoc" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.75h5.2L12.5 5v9.25H4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 1.75V5.2h3.4M6.3 8.4h3.9M6.3 11h3.9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span data-i18n="nav_book">Get a quote</span></a>
     </div>
   </div>
 </nav>
@@ -191,7 +197,7 @@
 <nav class="bottombar" aria-label="Mobile navigation">
   <a href="tel:+32479487608"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-i18n="nav_call">Call</span></a>
   <a href="work.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg><span data-i18n="nav_work">Work</span></a>
-  <a href="pricing.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 12h20"/></svg><span data-i18n="nav_pricing">Pricing</span></a>
+  <a href="./#pricing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="8" cy="8" r="1.6"/></svg><span data-i18n="nav_pricing">Pricing</span></a>
   <a href="./#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5c-1.7 0-3.3-.5-4.6-1.3L3 20l1.3-4.9A8.5 8.5 0 1 1 21 11.5z"/></svg><span data-i18n="nav_contact">Contact</span></a>
 </nav>
 
@@ -270,7 +276,7 @@
 const FR = {
   title:"À propos — La Goffinerie",
   skip:"Aller au contenu",
-  nav_alive:"Nos services", nav_work:"Réalisations", nav_pricing:"Tarifs", nav_about:"À propos", nav_faq:"FAQ", nav_book:"Appel gratuit", nav_call:"Appeler", nav_contact:"Contact",
+  nav_alive:"Services", nav_work:"Réalisations", nav_pricing:"Tarifs", nav_faq:"FAQ", nav_book:"Demander un devis", nav_call:"Appeler", nav_contact:"Contact",
   kick:"Qui est derrière",
   h1:"Simon Goffin, fondateur",
   sub:"Passionné par la transformation digitale et par la livraison de solutions. Le pont entre l'IT et le métier en grande entreprise, aujourd'hui au service des PME en Europe.",

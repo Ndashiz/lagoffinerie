@@ -20,10 +20,12 @@
    { quote: true, from }), or null when Jarvis does not drive the
    prices. Then config.js is left alone.
 
-   What it writes: only the literal next to each key, the comments
-   and the alignment kept. Every key must appear exactly once in
-   config.js, outside the comments; the new file is evaluated and
-   compared with what was asked before it is written.
+   What it writes: only the literal at each path (packages.pro.build:
+   « packages » among LG_CONFIG's keys, then « pro » among its keys,
+   then « build »), the comments and the alignment kept. Each step
+   of a path must be there once, outside the comments; the new file
+   is evaluated and compared with what was asked before it is
+   written.
 
    Exit codes: 0 done or nothing to do (Jarvis unreachable is a
    warning, not a failure: the next run tries again), 1 --check
@@ -109,20 +111,71 @@ function blankComments(src) {
   return src.replace(/\/\*[\s\S]*?\*\//g, blank).replace(/(^|[^:'"\\])(\/\/.*)$/gm, (m, pre, c) => pre + blank(c));
 }
 
-/** Rewrite one literal in place, keeping a trailing comment in its column. */
-function rewrite(src, key, value) {
-  const code = blankComments(src);
-  const re = new RegExp(String.raw`(?:^|[\s{,])${key}\s*:\s*(\[[^\]]*\]|\{[^}]*\}|-?\d+(?:\.\d+)?)`, 'gm');
-  const hits = [...code.matchAll(re)];
-  if (hits.length !== 1) fail(`« ${key} » appears ${hits.length} times in config.js (outside the comments); it must appear once`);
-  const end = hits[0].index + hits[0][0].length;
-  const start = end - hits[0][1].length;
+/* ---------- where a value sits: path by path, inside its parent's braces ----------
+   `packages.pro.build`: « packages » once among LG_CONFIG's own keys, « pro » once among its keys,
+   « build » once among pro's — so the two `build:` of config.js are never confused. */
+function skipString(code, j) { const q = code[j]; for (j++; j < code.length && code[j] !== q; j++) if (code[j] === '\\') j++; return j; }
+function closing(code, i) {
+  let depth = 0;
+  for (let j = i; j < code.length; j++) {
+    const c = code[j];
+    if (c === '"' || c === "'") { j = skipString(code, j); continue; }
+    if (c === '{' || c === '[') depth++;
+    else if ((c === '}' || c === ']') && --depth === 0) return j;
+  }
+  fail('config.js: unbalanced brackets');
+}
+/** The start of the value of `key` among the keys of the object body [from, to): -1 absent, -2 twice. */
+function findKey(code, from, to, key) {
+  const re = new RegExp(String.raw`^${key}\s*:\s*`);
+  let depth = 0, hit = -1;
+  for (let j = from; j < to; j++) {
+    const c = code[j];
+    if (c === '"' || c === "'") { j = skipString(code, j); continue; }
+    if (c === '{' || c === '[') { depth++; continue; }
+    if (c === '}' || c === ']') { depth--; continue; }
+    if (depth || !/[A-Za-z_$]/.test(c) || /[\w$]/.test(code[j - 1] || '')) continue;
+    const m = re.exec(code.slice(j, to));
+    if (!m) continue;
+    if (hit !== -1) return -2;
+    hit = j + m[0].length;
+  }
+  return hit;
+}
+function valueEnd(code, i) {
+  if (code[i] === '{' || code[i] === '[') return closing(code, i) + 1;
+  const m = /^-?\d+(?:\.\d+)?/.exec(code.slice(i));
+  return m ? i + m[0].length : -1;
+}
+/** [start, end) of the literal at `path` in config.js. */
+function locate(code, path) {
+  let from = code.indexOf('{', code.indexOf('LG_CONFIG'));
+  if (from < 0) fail('config.js: no « window.LG_CONFIG = { … } »');
+  let to = closing(code, from);
+  for (let i = 0; i < path.length; i++) {
+    const where = path.slice(0, i + 1).join('.');
+    const at = findKey(code, from + 1, to, path[i]);
+    if (at === -1) fail(`« ${where} » is not in config.js (outside the comments)`);
+    if (at === -2) fail(`« ${where} » is written twice in config.js; it must be there once`);
+    const end = valueEnd(code, at);
+    if (end < 0) fail(`« ${where} » in config.js is not a literal this tool can rewrite`);
+    if (i === path.length - 1) return [at, end];
+    if (code[at] !== '{') fail(`« ${where} » in config.js is not a group of amounts`);
+    from = at; to = end - 1;
+  }
+}
+
+/** Rewrite one literal in place; a trailing comment on the same line keeps its column. */
+function rewrite(src, path, value) {
+  const [start, end] = locate(blankComments(src), path);
   const next = literal(value);
-  // `[1950, 2500],               // [TBC]`: give or take spaces so the comment does not move.
-  const tail = /^(,?)( +)(?=\/\/)/.exec(src.slice(end));
-  if (!tail) return src.slice(0, start) + next + src.slice(end);
-  const pad = Math.max(1, tail[2].length - (next.length - (end - start)));
-  return src.slice(0, start) + next + tail[1] + ' '.repeat(pad) + src.slice(end + tail[0].length);
+  const delta = next.length - (end - start);
+  let rest = src.slice(end);
+  const eol = rest.indexOf('\n') < 0 ? rest.length : rest.indexOf('\n');
+  // `essentiel: { build: 700,  monthly: 20 },            // …`: give or take spaces before the `//`.
+  const line = rest.slice(0, eol).replace(/( +)(?=\/\/)/, (sp) => ' '.repeat(Math.max(1, sp.length - delta)));
+  rest = line + rest.slice(eol);
+  return src.slice(0, start) + next + rest;
 }
 
 /* ---------- run ---------- */
@@ -149,7 +202,7 @@ if (CHECK) {
 }
 
 let out = src;
-for (const u of todo) out = rewrite(out, u.path[u.path.length - 1], u.to);
+for (const u of todo) out = rewrite(out, u.path, u.to);
 // The new file must say exactly what was asked, and nothing else may have moved.
 const expected = JSON.parse(JSON.stringify(cfg));
 for (const u of todo) u.path.slice(0, -1).reduce((o, k) => o[k], expected)[u.path[u.path.length - 1]] = u.to;
