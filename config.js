@@ -18,7 +18,10 @@
                  seo_google is also the « Bases du référencement et fiche Google » offer of the SEO page.
    rates       : work outside the packages, and the yearly cost of a domain name.
    BOOKING_URL : a booking page (cal.com, Google Calendar appointments…) → shows the
-                 « choose a slot now » buttons on the home page. */
+                 « choose a slot now » buttons on the home page.
+   Jarvis (La Goffinerie → Technique) can set the amounts below: visitors see them at once, and the
+   hourly GitHub Action « Sync prices from Jarvis » (tools/sync-prices.mjs) rewrites them here. While
+   Jarvis drives the prices, change them there — or « Hand back to config.js » first. */
 window.LG_CONFIG = {
   packages: {
     essentiel: { build: 700,  monthly: 20 },            // monthly is « about »; hosting + domain only; maintenance for the first 3 months

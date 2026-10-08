@@ -1,0 +1,52 @@
+# Sync prices from Jarvis
+#
+# Jarvis (La Goffinerie → Technique) can set the site's prices over config.js. Visitors see them at
+# once — site-state.js re-prices every page from Jarvis's answer — but the page source, search
+# engines and link previews read config.js and the pre-rendered pages. This writes Jarvis's prices
+# into config.js (tools/sync-prices.mjs), pre-renders them into the pages
+# (tools/prerender-prices.mjs) and commits what changed to main, which redeploys GitHub Pages.
+#
+# Nothing happens while Jarvis does not drive the prices (pricing: null), when everything is already
+# in step, or when Jarvis does not answer (a warning; the next run tries again).
+name: Sync prices from Jarvis
+
+on:
+  schedule:
+    - cron: '17 * * * *'   # every hour
+  workflow_dispatch:        # « Run workflow » — the « Run the sync now » link in Jarvis
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-prices
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Read the prices set in Jarvis into config.js
+        run: node tools/sync-prices.mjs
+
+      - name: Write them into the pages
+        run: node tools/prerender-prices.mjs
+
+      - name: Commit and push what changed
+        run: |
+          if git diff --quiet; then
+            echo "Nothing to publish: config.js and the pages already show these prices."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -u   # config.js and the pages the two tools rewrote, nothing else
+          git commit -m "chore(tarifs): prix réglés dans Jarvis écrits dans config.js et les pages"
+          git push

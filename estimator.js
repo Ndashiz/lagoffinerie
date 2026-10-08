@@ -1,5 +1,5 @@
 /* =========================================================
-   LA GOFFINERIE — estimator.js (site v2.32)
+   LA GOFFINERIE — estimator.js (site v2.34)
    The project estimator: a pop-up of short questions that ends on
    the package that fits (Essentiel, Pro or Sur mesure) with its
    price, the add-ons ticked and the monthly part, then offers to
@@ -14,7 +14,10 @@
    data-estimator opens it (the value says from where, for the
    statistics), and data-estimator-service="sites|seo|auto" on it
    pre-ticks that service when the visitor starts fresh. It never
-   opens by itself and never moves on by itself.
+   opens by itself and never moves on by itself. The owner can
+   switch it off from Jarvis (site-state.js puts lg-est-off on
+   <html>): it then never opens, its buttons are hidden and its
+   links (« Get a quote ») simply go to their href.
      · Prices: every number comes from config.js (LG_CONFIG.packages,
        .addons and .rates). fill() also writes the prices into the
        page, wherever an element carries data-price="…" (the keys are
@@ -950,6 +953,7 @@
   /* service: « sites », « seo » or « auto » (data-estimator-service on a service page's button), ticked only on a fresh start. */
   function open(source, service){
     if(OPEN) return;
+    if(root.classList.contains('lg-est-off')) return;                     // switched off in Jarvis (site-state.js)
     build();
     if(LISTS.services.indexOf(service)>=0 && !answered('1')){ A.services=[service]; STEP='1'; save(); }
     OPEN=true; USED=true; lastFocus=document.activeElement;
@@ -967,9 +971,13 @@
 
   document.addEventListener('click', function(e){
     var el=e.target.closest && e.target.closest('[data-estimator]'); if(!el) return;
+    if(root.classList.contains('lg-est-off')) return;                     // off: « Get a quote » is a plain link to #pricing
     e.preventDefault(); open(el.getAttribute('data-estimator'), el.getAttribute('data-estimator-service'));
   });
   window.LGEstimator={ open:open, close:close, isOpen:function(){ return OPEN; }, used:function(){ return USED; },
                        fill:fill, price:price, takeHandoff:takeHandoff };
   fill();
+  /* Loaded late (nav.js, on the first « Get a quote » of a page without prices): lay the prices set in
+     Jarvis over config.js now, if site-state.js already has a fresh answer. */
+  if(window.LGSiteState) window.LGSiteState.reprice();
 })();

@@ -9,6 +9,8 @@
      · « Get a quote » (data-estimator="nav") opens the project estimator, the site's quote funnel.
        Pages that load estimator.js (home, the service pages) open it through its own click
        handler. The others (work, about, the 404) load config.js then estimator.js on the first click,
+       unless the owner switched the estimator off in Jarvis (html.lg-est-off, site-state.js): the link
+       then simply goes to its href.
        once, and open it; if loading fails, the button follows its link to the prices on the home
        page (#pricing), or goes there itself when it has no link;
      · once the page has moved 80 px, the bar comes off the top and floats as a dark,
@@ -167,6 +169,7 @@
   };
   document.addEventListener('click', function(e){
     if(window.LGEstimator) return;                     // estimator.js is on the page: its own click handler opens it
+    if(document.documentElement.classList.contains('lg-est-off')) return;   // switched off in Jarvis: the link just goes to #pricing
     var el=e.target.closest && e.target.closest('[data-estimator]'); if(!el) return;
     e.preventDefault();
     if(loading) return;                                // already on its way: one load, one pop-up
