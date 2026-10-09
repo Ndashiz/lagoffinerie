@@ -119,8 +119,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.37 — on a phone or a tablet the hero keeps one height while the three services turn: every line of
-     the stacked list is laid out open, so the cell is as tall as the longest description and nothing below it jumps.
+     LA GOFFINERIE v2.38 — the work carousel moves on by itself every 6 s (was 7 s), and only the controls (bars, arrows)
+     or the keyboard pause it: a mouse resting on the project no longer holds it.
+     (v2.37: on a phone or a tablet the hero keeps one height while the three services turn: every line of
+     the stacked list is laid out open, so the cell is as tall as the longest description and nothing below it jumps.)
      (v2.36: SEO: every screenshot has an alt in English and in French (data-i18n-alt, the phones too), titles
      lead with the service and Belgium, WebSite / Service / ProfilePage structured data, images listed in sitemap.xml.)
      (v2.35: the phone of the work section is a thin-bezel iPhone: a 7 px frame, the side buttons, a status bar in
@@ -588,8 +590,9 @@
      project that leaves goes off to the left while the next one comes in from the right (the other way
      round for « previous »). --wk-x is where a slide waits off screen (set by the script before each move);
      the controls counter it with the same timing, so they stay put and cross-fade while the project slides
-     under them. The current bar fills in 7 s (wkFill), then the next project comes; the bar pauses while a
-     hand, the mouse or the keyboard is on the carousel, when it is out of view or the tab is hidden. No
+     under them. The current bar fills in 6 s (wkFill), then the next project comes; the bar pauses while a
+     hand is on the carousel, the mouse on its controls (bars, arrows) or the keyboard in it, when it is out of
+     view or the tab is hidden. A mouse resting on the project itself does not hold it. No
      autoplay and no movement with prefers-reduced-motion. */
   .wk{--wk-line:rgba(250,248,242,.14);--wk-mute:rgba(255,255,255,.82);--wk-sh1:rgba(12,9,96,.6);--wk-sh2:rgba(12,9,96,.7);--wk-ease:cubic-bezier(.65,.05,.25,1);position:relative;isolation:isolate;background:var(--blue);color:var(--paper);padding:104px 0 96px;overflow:hidden;}
   .wk-p[data-svc="auto"]{--wk-mute:#fff;--wk-sh1:rgba(96,20,8,.55);--wk-sh2:rgba(96,20,8,.65);}
@@ -651,7 +654,7 @@
   .wk-bars button::before{background:rgba(255,255,255,.3);}
   .wk-bars button::after{background:#fff;transform:scaleX(0);transform-origin:left;}
   .wk-bars button:hover::before{background:rgba(255,255,255,.5);}
-  .wk-p.on .wk-bars button[aria-current="true"]::after{animation:wkFill 7s linear forwards;}
+  .wk-p.on .wk-bars button[aria-current="true"]::after{animation:wkFill 6s linear forwards;}
   .wk.hold .wk-bars button::after{animation-play-state:paused!important;}
   @keyframes wkFill{from{transform:scaleX(0);}to{transform:scaleX(1);}}
   .wk-arrows{display:flex;gap:10px;margin-left:14px;}
@@ -2061,8 +2064,8 @@ try{
 /* =========================================================
    WORK — the carousel. One project at a time, sliding sideways: arrows,
    the five bars, a swipe on a touch screen, the arrow keys. The current bar fills in
-   7 s (CSS) and its animationend brings the next project; .hold
-   pauses it (pointer or keyboard on it, a touch in the last 10 s,
+   6 s (CSS) and its animationend brings the next project; .hold
+   pauses it (mouse on the controls, keyboard in it, a touch in the last 10 s,
    out of view, tab hidden). No autoplay with prefers-reduced-motion.
    ========================================================= */
 let wkLabels = null;
@@ -2108,8 +2111,9 @@ let wkLabels = null;
     if(e.key==='ArrowLeft'){ e.preventDefault(); go(cur-1, true); }
   });
   const list=sec.querySelector('.wk-list');
-  list.addEventListener('pointerenter', e=>{ if(e.pointerType==='mouse'){ over=true; hold(); } });
-  list.addEventListener('pointerleave', e=>{ if(e.pointerType==='mouse'){ over=false; hold(); } });
+  /* the mouse holds it only on the controls: resting on the project while reading or scrolling must not stop it */
+  sec.addEventListener('pointerover', e=>{ if(e.pointerType==='mouse'){ over=!!e.target.closest('.wk-ctl'); hold(); } });
+  sec.addEventListener('pointerleave', e=>{ if(e.pointerType==='mouse'){ over=false; hold(); } });
   sec.addEventListener('focusin', e=>{ if(e.target.matches(':focus-visible')){ focus=true; hold(); } });
   sec.addEventListener('focusout', e=>{ if(!sec.contains(e.relatedTarget)){ focus=false; hold(); } });
   /* a horizontal swipe changes the project; any touch holds the bar for 10 s */
