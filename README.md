@@ -5,7 +5,7 @@ Static pages, vanilla HTML/CSS/JS, bilingual EN/FR (auto-detected, manual toggle
 
 - **Prod**: <https://lagoffinerie.be/> — GitHub Pages from `main`, custom domain in `CNAME`.
   A push to `main` deploys in 1–2 minutes.
-- **Files**: `index.html` (home: hero, the work as dark panels that stack while you scroll, the scroll-driven method, the three packages in `#pricing`,
+- **Files**: `index.html` (home: hero, the work as a carousel, one project at a time, each in the colour of its main service with a chip per service, the scroll-driven method, the three packages in `#pricing`,
   FAQ, contact and its form), `work.html` (all the work, one case per project), `pricing.html` (retired: a tiny
   `noindex` page that sends old links to `./#pricing`, by meta refresh and `location.replace`, out of the
   sitemap; the former full page is in the git history), `about.html`, the legal pages
@@ -26,8 +26,9 @@ Static pages, vanilla HTML/CSS/JS, bilingual EN/FR (auto-detected, manual toggle
   JSON-LD. **After any price change in `config.js`, run `node tools/prerender-prices.mjs`**
   (`--check` changes nothing and exits 1 if a page is out of date). `estimator.js` writes the same amounts
   at run time, in the language's format.
-  `assets/work/*.jpg` are the project screenshots of the home page's work section (in a browser window, and cropped
-  into a phone until real phone screenshots exist) and of the cases.
+  `assets/work/*.jpg` are the project screenshots of the home page's work section (in a browser window) and of the cases;
+  `assets/work/*-mobile.jpg` are the real phone pages shown in the phone frame (390×830 at 2x, JPEG; each project run
+  locally with its fictional demo data, Bravo Reno taken from bravoreno.be itself, cookie banner refused).
 - **Estimator**: `estimator.js`, loaded by the home and service pages right after `config.js` (on the other
   pages, `nav.js` loads both on the first click of « Get a quote » in the top bar) — a pop-up
   that starts from the three services (several can be ticked) and asks only the questions they need, up to six

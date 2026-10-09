@@ -105,8 +105,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.33 — the work section turns dark: a two-tone title, then one full-screen panel per project
-     (browser window, phone, text) that sticks while the next slides over it.
+     LA GOFFINERIE v2.34 — the work section is a carousel again, one project at a time, in the dark design: the bar
+     of the current project fills in 7 s, arrows, five bars, swipe; the projects slide sideways (the one leaving goes
+     left, the next comes from the right) under controls that stay put; the phone shows the real phone page of all five.
+     Each project wears the colour of its main service (blue websites, red AI automation) and a chip per service with its
+     logo shape; the Pro package is blue instead of black; the contact rounds are coloured, WhatsApp added.
+     (v2.33: the work section turned dark, a two-tone title, the projects stacking while you scroll.)
      (v2.32: the contact form lives in #contact, always visible (no more booking window): every
      « Book my free call » button scrolls to it, the packages pre-fill it, a sent request folds into a paper plane;
      the FAQ in two columns (title and « Other questions? » on the left); the « Our services » catalogue is gone;
@@ -417,6 +421,11 @@
   .clinks a{position:relative;width:48px;height:48px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;background:#fff;border:1px solid #15151524;color:var(--ink);box-shadow:0 1px 2px rgba(21,21,21,.08);transition:transform .15s ease,box-shadow .2s ease,border-color .2s ease;}
   .clinks a:hover{transform:translateY(-1px);border-color:rgba(21,21,21,.32);box-shadow:0 2px 4px rgba(21,21,21,.08),0 12px 24px -14px rgba(21,21,21,.4);}
   .clinks svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  /* every round has its colour, the icon in white: call and e-mail in the logo's blue and red, WhatsApp and LinkedIn in their own */
+  .clinks a.call{background:var(--blue);border-color:var(--blue);color:#fff;}
+  .clinks a.wa{background:#25D366;border-color:#25D366;color:#fff;}
+  .clinks a.wa svg{width:22px;height:22px;stroke:none;}
+  .clinks a.mail{background:var(--red);border-color:var(--red);color:#fff;}
   .clinks a.li{background:#0a66c2;border-color:#0a66c2;color:#fff;font-family:Arial,sans-serif;font-weight:700;font-size:17px;}
   .cfacts{list-style:none;margin-top:30px;display:grid;gap:9px;}
   .cfacts li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.5;color:var(--ink-2);font-weight:500;}
@@ -546,80 +555,111 @@
   img.avatar{width:120px;height:120px;object-fit:cover;display:block;padding:0;font-size:0;background:var(--paper-2);}
   .avatar-fb{width:120px;height:120px;}
 
-  /* ---------- work: a dark section, the projects stack while you scroll ----------
-     Each project is a full-screen panel, sticky at the top: the next one slides over it with a rounded
-     edge while the one underneath steps back and dims (the scroll script sets --k from 0 to 1).
-     .wk-flat (reduced motion, or a panel taller than the screen): a plain list, nothing sticks. */
-  .wk{--wk-bg:#121212;--wk-line:rgba(250,248,242,.12);--wk-mute:rgba(250,248,242,.62);background:var(--wk-bg);color:var(--paper);padding:104px 0 0;}
+  /* ---------- work: a section in the colour of each project's main service, a carousel, one project at a time ----------
+     Each project wears the colour of its main service, the hero's colours (data-svc: sites blue, auto red): a full-section
+     panel in .wk-bg moves with its slide, so the colour slides in with the project, under the title and the controls,
+     which stay put in white. The slides share one grid cell (the tallest sets the height) and slide sideways as one block: the
+     project that leaves goes off to the left while the next one comes in from the right (the other way
+     round for « previous »). --wk-x is where a slide waits off screen (set by the script before each move);
+     the controls counter it with the same timing, so they stay put and cross-fade while the project slides
+     under them. The current bar fills in 7 s (wkFill), then the next project comes; the bar pauses while a
+     hand, the mouse or the keyboard is on the carousel, when it is out of view or the tab is hidden. No
+     autoplay and no movement with prefers-reduced-motion. */
+  .wk{--wk-line:rgba(250,248,242,.14);--wk-mute:rgba(255,255,255,.82);--wk-sh1:rgba(12,9,96,.6);--wk-sh2:rgba(12,9,96,.7);--wk-ease:cubic-bezier(.65,.05,.25,1);position:relative;isolation:isolate;background:var(--blue);color:var(--paper);padding:104px 0 96px;overflow:hidden;}
+  .wk-p[data-svc="auto"]{--wk-mute:#fff;--wk-sh1:rgba(96,20,8,.55);--wk-sh2:rgba(96,20,8,.65);}
+  .wk-bg{position:absolute;inset:0;z-index:-1;}
+  .wk-bg i{position:absolute;inset:0;}
+  .wk-bg i[data-svc="sites"]{background:var(--blue);} .wk-bg i[data-svc="auto"]{background:var(--red);}
+  @supports (overflow:clip){.wk{overflow:clip;}}
   .wk-wrap{max-width:1280px;margin:0 auto;padding:0 40px;}
-  .wk .kick{color:var(--wk-mute);}
-  .wk .kick::before{background:var(--yellow);}
+  .wk .kick{color:#fff;}
+  .wk .kick::before{background:#fff;}
   .wk h2{margin-top:22px;font-size:clamp(44px,6.2vw,88px);font-weight:800;line-height:.98;letter-spacing:-.045em;color:var(--paper);}
-  .wk h2 .g{color:#8f8b80;}
-  .wk-list{list-style:none;margin:0;padding:0;}
-  .wk-p{position:sticky;top:0;min-height:100vh;min-height:100svh;display:flex;align-items:center;background:var(--wk-bg);padding:92px 0 32px;}
-  .wk-p + .wk-p{border-top:1px solid var(--wk-line);border-radius:36px 36px 0 0;box-shadow:0 -30px 60px rgba(0,0,0,.55);}
-  .wk-in{width:100%;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:56px;align-items:center;
-    transform:scale(calc(1 - .06*var(--k,0)));opacity:calc(1 - .62*var(--k,0));transform-origin:50% 0;will-change:transform,opacity;}
+  .wk h2 .g{color:rgba(255,255,255,.75);}
+  .wk-list{list-style:none;margin:80px 0 0;padding:0;display:grid;touch-action:pan-y;}
+  .wk-p,.wk-bg i{visibility:hidden;transform:translateX(var(--wk-x,100vw));transition:transform .75s var(--wk-ease),visibility 0s linear .75s;}
+  .wk-p.on,.wk-bg i.on{visibility:visible;transform:none;transition:transform .75s var(--wk-ease),visibility 0s;}
+  .wk-p{grid-area:1 / 1;}
+  .wk-in{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:56px;align-items:center;}
   .wk-vis{position:relative;padding-bottom:9.5%;}
-  .wk-br{width:87%;border-radius:18px;overflow:hidden;background:#1a1a1a;border:1px solid var(--wk-line);box-shadow:0 40px 80px -30px rgba(0,0,0,.7);}
+  .wk-txt{display:flex;flex-direction:column;align-items:flex-start;min-width:0;}
+  .wk-br{width:87%;border-radius:18px;overflow:hidden;background:#1a1a1a;border:1px solid var(--wk-line);box-shadow:0 40px 80px -30px var(--wk-sh1);}
   .wk-bar{height:44px;display:flex;align-items:center;gap:7px;padding:0 16px;background:#222;border-bottom:1px solid var(--wk-line);}
   .wk-bar i{width:10px;height:10px;border-radius:50%;background:rgba(250,248,242,.22);flex:none;}
   .wk-bar span{margin-left:12px;padding:5px 14px;border-radius:999px;background:rgba(250,248,242,.08);color:var(--wk-mute);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
-  .wk-br img{display:block;width:100%;height:auto;}
-  .wk-ph{position:absolute;right:0;bottom:0;width:25.9%;aspect-ratio:1/2.05;padding:3.3%;border-radius:17% / 8.3%;background:#0b0b0b;border:1px solid rgba(250,248,242,.18);box-shadow:0 30px 60px -20px rgba(0,0,0,.8);}
+  .wk-br img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:top center;}
+  .wk-ph{position:absolute;right:0;bottom:0;width:25.9%;aspect-ratio:1/2.05;padding:3.3%;border-radius:17% / 8.3%;background:#0b0b0b;border:1px solid rgba(250,248,242,.18);box-shadow:0 30px 60px -20px var(--wk-sh2);}
   .wk-scr{position:relative;width:100%;height:100%;border-radius:13% / 6.3%;overflow:hidden;background:#000;}
-  .wk-scr img{display:block;width:100%;height:100%;object-fit:cover;object-position:6% top;}
-  .wk-scr::after{content:"";position:absolute;top:4%;left:34%;width:32%;height:3.4%;border-radius:999px;background:#0b0b0b;}
-  .wk-txt{display:flex;flex-direction:column;align-items:flex-start;min-width:0;}
-  .wk-tag{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--yellow);}
+  .wk-scr img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;}
+  .wk-scr::after{content:"";position:absolute;top:2.2%;left:36%;width:28%;height:2.6%;border-radius:999px;background:#0b0b0b;}
+  /* what the project is: one light chip per service, with its shape from the logo, to the service's page */
+  .wk-svc{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+  .wk-svc a{display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 12px 0 9px;border-radius:999px;background:var(--paper);color:var(--ink);font-family:var(--disp);font-weight:600;font-size:12.5px;line-height:1;text-decoration:none;white-space:nowrap;transition:transform .15s ease,box-shadow .2s ease;}
+  .wk-svc a:hover{transform:translateY(-1px);box-shadow:0 8px 18px -10px rgba(0,0,0,.45);}
+  .wk-svc svg{width:14px;height:14px;flex:none;}
+  .wk-tag{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#fff;}
   .wk-txt h3{margin-top:16px;font-size:clamp(36px,4.1vw,58px);font-weight:800;line-height:1;letter-spacing:-.035em;color:var(--paper);}
   .wk-txt p{margin-top:22px;font-size:18px;line-height:1.6;color:var(--wk-mute);max-width:34ch;}
   .wk-pts{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:12px;}
   .wk-pts li{display:flex;gap:12px;align-items:flex-start;font-size:17px;line-height:1.5;}
-  .wk-pts svg{width:18px;height:18px;flex:none;margin-top:3px;fill:none;stroke:var(--yellow);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+  .wk-pts svg{width:18px;height:18px;flex:none;margin-top:3px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
   .wk-btn{margin-top:34px;display:inline-flex;align-items:center;gap:10px;height:54px;padding:0 26px;border-radius:999px;border:1.5px solid var(--paper);color:var(--paper);font-family:var(--disp);font-weight:600;font-size:16px;text-decoration:none;transition:background-color .2s ease,color .2s ease;}
   .wk-btn .barr{width:16px;height:16px;transition:transform .2s ease;}
   .wk-btn:hover{background:var(--paper);color:var(--ink);} .wk-btn:hover .barr{transform:translateX(3px);}
-  .wk-btn:focus-visible,.wk-all:focus-visible{outline:3px solid var(--yellow);outline-offset:4px;}
-  .wk-count{order:9;margin-top:34px;display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--wk-mute);}
+  .wk-btn:focus-visible,.wk-all:focus-visible,.wk-ctl button:focus-visible,.wk-svc a:focus-visible{outline:3px solid #fff;outline-offset:4px;}
+  .wk-ctl{margin-top:34px;display:flex;align-items:center;gap:14px;opacity:0;transform:translateX(calc(-1 * var(--wk-x,100vw)));transition:transform .75s var(--wk-ease),opacity .35s ease;}
+  .wk-p.on .wk-ctl{opacity:1;transform:none;}
+  .wk-p.wk-snap,.wk-p.wk-snap .wk-ctl,.wk-bg i.wk-snap{transition:none!important;}
+  .wk-count{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--wk-mute);white-space:nowrap;}
   .wk-count b{font-weight:600;color:var(--paper);}
-  .wk-bars{display:flex;gap:6px;margin-left:12px;}
-  .wk-bars i{width:28px;height:3px;border-radius:2px;background:var(--wk-line);}
-  .wk-bars i.on{background:var(--yellow);}
-  .wk-foot{position:relative;z-index:1;background:var(--wk-bg);display:flex;justify-content:center;padding:8px 0 96px;}
-  .wk-all{font-family:var(--disp);font-weight:700;font-size:15px;color:var(--paper);text-decoration:none;border-bottom:2px solid var(--yellow);padding-bottom:2px;}
-  .wk-all:hover{color:var(--yellow);}
-  .wk-flat .wk-p{position:relative;min-height:0;padding:72px 0;}
-  .wk-flat .wk-p + .wk-p{border-radius:0;box-shadow:none;}
-  .wk-flat .wk-in{transform:none;opacity:1;will-change:auto;}
+  .wk-bars{display:flex;gap:6px;}
+  .wk-bars button{position:relative;width:28px;height:20px;padding:0;border:0;background:transparent;cursor:pointer;}
+  .wk-bars button::before,.wk-bars button::after{content:"";position:absolute;left:0;right:0;top:8.5px;height:3px;border-radius:2px;}
+  .wk-bars button::before{background:rgba(255,255,255,.3);}
+  .wk-bars button::after{background:#fff;transform:scaleX(0);transform-origin:left;}
+  .wk-bars button:hover::before{background:rgba(255,255,255,.5);}
+  .wk-p.on .wk-bars button[aria-current="true"]::after{animation:wkFill 7s linear forwards;}
+  .wk.hold .wk-bars button::after{animation-play-state:paused!important;}
+  @keyframes wkFill{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+  .wk-arrows{display:flex;gap:10px;margin-left:14px;}
+  .wk-arrows button{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(255,255,255,.75);background:transparent;color:var(--paper);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background-color .2s ease,border-color .2s ease,color .2s ease;}
+  .wk-arrows button:hover{background:var(--paper);border-color:var(--paper);color:var(--ink);}
+  .wk-arrows svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+  .wk-foot{display:flex;justify-content:center;margin-top:64px;}
+  .wk-all{font-family:var(--disp);font-weight:700;font-size:15px;color:var(--paper);text-decoration:none;border-bottom:2px solid #fff;padding-bottom:2px;}
+  .wk-all:hover{border-bottom-color:rgba(255,255,255,.4);}
   @media(max-width:1100px){.wk-in{gap:40px;} .wk-txt p{font-size:17px;}}
   @media(max-width:900px){
-    .wk{padding-top:72px;}
+    .wk{padding:72px 0 80px;}
     .wk-wrap{padding:0 20px;}
     .wk h2{margin-top:14px;font-size:clamp(34px,9.6vw,44px);line-height:1;letter-spacing:-.04em;}
-    .wk-p{padding:84px 0 96px;align-items:flex-start;}
-    .wk-p + .wk-p{border-radius:28px 28px 0 0;}
-    .wk-in{grid-template-columns:minmax(0,1fr);gap:18px;align-content:start;}
+    .wk-list{margin-top:28px;}
+    .wk-in{grid-template-columns:minmax(0,1fr);gap:14px;align-items:start;}
     .wk-vis{max-width:520px;padding-bottom:11%;}
-    .wk-br{width:90%;border-radius:14px;}
+    .wk-br{width:88%;border-radius:14px;}
     .wk-bar{height:30px;padding:0 12px;gap:5px;} .wk-bar i{width:8px;height:8px;} .wk-bar span{margin-left:8px;padding:3px 10px;font-size:11px;}
-    .wk-ph{width:26%;}
-    .wk-txt{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;column-gap:12px;}
-    .wk-tag{grid-column:1 / -1;font-size:11px;}
+    .wk-ph{width:28%;}
+    .wk-txt{display:grid;grid-template-columns:minmax(0,1fr);}
+    .wk-ctl{order:-1;margin-top:0;margin-bottom:14px;justify-content:space-between;}
+    .wk-count{order:2;font-size:11px;} .wk-bars{gap:6px;} .wk-bars button{width:40px;}
+    .wk-arrows{display:none;}
+    .wk-svc{margin-bottom:12px;gap:6px;} .wk-svc a{height:28px;font-size:11.5px;} .wk-svc svg{width:13px;height:13px;}
+    .wk-tag{font-size:11px;}
     .wk-txt h3{margin-top:8px;font-size:clamp(28px,8.6vw,34px);}
-    .wk-count{order:0;margin-top:0;font-size:11px;} .wk-bars{display:none;}
-    .wk-txt p{grid-column:1 / -1;margin-top:12px;font-size:15px;line-height:1.55;max-width:none;}
-    .wk-pts{grid-column:1 / -1;margin-top:12px;gap:8px;} .wk-pts li{font-size:14.5px;gap:10px;} .wk-pts svg{width:16px;height:16px;}
-    .wk-btn{grid-column:1 / -1;justify-self:start;margin-top:18px;height:46px;padding:0 20px;font-size:15px;}
-    .wk-foot{padding:8px 0 72px;}
-    .wk-flat .wk-p{padding:40px 0;}
+    .wk-txt p{margin-top:12px;font-size:15px;line-height:1.55;max-width:none;}
+    .wk-pts{margin-top:12px;gap:8px;} .wk-pts li{font-size:14.5px;gap:10px;} .wk-pts svg{width:16px;height:16px;}
+    .wk-btn{justify-self:start;margin-top:18px;height:46px;padding:0 20px;font-size:15px;}
+    .wk-foot{margin-top:40px;}
   }
-  @media (prefers-reduced-motion: reduce){.wk-in{transform:none!important;opacity:1!important;} .wk-btn,.wk-btn .barr{transition:none;}}
+  @media (prefers-reduced-motion: reduce){
+    .wk-p,.wk-p.on,.wk-bg i,.wk-ctl,.wk-btn,.wk-btn .barr,.wk-arrows button,.wk-svc a{transition:none!important;}
+    .wk-p,.wk-bg i,.wk-ctl{transform:none!important;}
+    .wk-p.on .wk-bars button[aria-current="true"]::after{animation:none;transform:none;}
+  }
 
   /* ---------- how it works, the short version ---------- */
   #process{background:var(--paper-2);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
-  /* ---------- pricing: the three packages (Essentiel, Pro on dark, Sur mesure); « Pricing » in the bar leads here ---------- */
+  /* ---------- pricing: the three packages (Essentiel, Pro in the logo's blue, Sur mesure); « Pricing » in the bar leads here ---------- */
   #pricing{background:var(--paper);}
   #pricing .wrap{max-width:1240px;}
   .pk-head{display:flex;flex-direction:column;align-items:center;text-align:center;}
@@ -630,10 +670,10 @@
   /* the cards share their rows (subgrid), so prices, buttons and lists line up across the three */
   .pk-grid{margin-top:48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 22px;align-items:stretch;}
   .pk{grid-row:span 7;display:grid;grid-template-rows:subgrid;align-content:start;background:#fcfbf7;border:1px solid rgba(21,21,21,.1);border-radius:28px;padding:36px 34px 38px;box-shadow:0 1px 2px rgba(21,21,21,.04),0 24px 48px -30px rgba(21,21,21,.25);}
-  .pk.dark{background:var(--ink);color:var(--paper);border-color:var(--ink);box-shadow:0 30px 60px -28px rgba(21,21,21,.55);}
+  .pk.rec{background:var(--blue);color:var(--paper);border-color:var(--blue);box-shadow:0 30px 60px -28px rgba(40,35,238,.5);}
   .pk-top{display:flex;align-items:center;justify-content:space-between;gap:12px;}
   .pk h3{font-size:40px;font-weight:800;line-height:1.05;letter-spacing:-.03em;}
-  .pk.dark h3{color:var(--paper);}
+  .pk.rec h3{color:var(--paper);}
   .pk-badge{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;background:var(--yellow);color:var(--ink);border-radius:999px;padding:7px 12px;white-space:nowrap;}
   .pk-sub{margin-top:10px;font-size:16.5px;line-height:1.5;color:#6f6f6f;}
   .pk-price{margin-top:34px;display:flex;align-items:baseline;gap:10px;}
@@ -645,18 +685,19 @@
   .pk-month:empty{background:none;padding:0;}
   .pk-month b{display:block;font-family:var(--disp);font-weight:700;font-size:16px;}
   .pk-month small{display:block;margin-top:3px;font-size:13.5px;line-height:1.5;color:#6f6f6f;}
-  .pk.dark .pk-sub,.pk.dark .pk-once,.pk.dark .pk-price span,.pk.dark .pk-month small{color:rgba(250,248,242,.66);}
-  .pk.dark .pk-month{background:rgba(250,248,242,.06);}
+  .pk.rec .pk-sub,.pk.rec .pk-once,.pk.rec .pk-price span,.pk.rec .pk-month small{color:rgba(250,248,242,.82);}
+  .pk.rec .pk-month{background:rgba(250,248,242,.1);}
   .pk-btn{margin-top:24px;display:flex;align-items:center;justify-content:center;gap:10px;height:58px;border-radius:999px;background:var(--ink);color:#fff;font-family:var(--disp);font-weight:600;font-size:16px;text-decoration:none;box-shadow:0 1px 2px rgba(21,21,21,.2);transition:transform .15s ease,box-shadow .2s ease,background-color .2s ease;}
   .pk-btn svg{width:16px;height:16px;flex:none;}
   .pk-btn:hover{transform:translateY(-1px);box-shadow:0 14px 26px -14px rgba(21,21,21,.6);}
-  .pk.dark .pk-btn{background:var(--yellow);color:var(--ink);}
-  .pk.dark .pk-btn:hover{background:#f3bd4c;}
+  .pk.rec .pk-btn{background:var(--yellow);color:var(--ink);}
+  .pk.rec .pk-btn:hover{background:#f3bd4c;}
   .pk-btn:focus-visible{outline:3px solid var(--blue);outline-offset:3px;}
+  .pk.rec .pk-btn:focus-visible{outline-color:var(--paper);}
   .pk-list{list-style:none;margin:30px 0 0;padding:0;display:grid;gap:13px;align-content:start;}
   .pk-list li{position:relative;padding-left:30px;font-size:15.5px;line-height:1.5;}
   .pk-list li::before{content:"";position:absolute;left:0;top:3px;width:18px;height:18px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.4l3.2 3.1L13 4.6' fill='none' stroke='%232823EE' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center/contain;}
-  .pk.dark .pk-list li::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.4l3.2 3.1L13 4.6' fill='none' stroke='%23EDAF2F' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");}
+  .pk.rec .pk-list li::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.4l3.2 3.1L13 4.6' fill='none' stroke='%23EDAF2F' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");}
   .pk-no{margin-top:22px;padding-top:18px;border-top:1px dashed rgba(21,21,21,.16);}
   .pk-nol{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(21,21,21,.45);}
   .pk-no ul{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px;}
@@ -1149,90 +1190,96 @@
 </header>
 
 
-<!-- ================= WORK — the projects stack while you scroll, the full page is work.html ================= -->
-<section id="work" class="wk">
+<!-- ================= WORK — a carousel, one project at a time; the full page is work.html ================= -->
+<section id="work" class="wk" aria-roledescription="carousel" aria-label="Work">
+  <div class="wk-bg" aria-hidden="true"><i class="on" data-svc="sites"></i><i data-svc="auto"></i><i data-svc="auto"></i><i data-svc="auto"></i><i data-svc="auto"></i></div>
   <div class="wk-wrap wk-head">
     <div class="kick rv" data-i18n="work_kick">Work</div>
     <h2 class="rv" data-i18n="work_h2"><span>Real work,</span><br><span class="g">for real businesses.</span></h2>
   </div>
   <ol class="wk-list">
-    <li class="wk-p" id="wk-bravoreno">
+    <li class="wk-p on" id="wk-bravoreno" data-svc="sites" aria-roledescription="slide" aria-label="1 / 5">
       <div class="wk-wrap wk-in">
         <div class="wk-vis">
           <div class="wk-br"><div class="wk-bar" aria-hidden="true"><i></i><i></i><i></i><span>bravoreno.be</span></div><img src="assets/work/bravoreno.jpg" alt="The Bravo Reno website" loading="lazy" width="1200" height="617"></div>
-          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/bravoreno.jpg" alt="" loading="lazy"></div></div>
+          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/bravoreno-mobile.jpg" alt="" loading="lazy" width="780" height="1660"></div></div>
         </div>
         <div class="wk-txt">
+          <div class="wk-svc"><a href="websites.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" fill="#2823EE"/></svg><span data-i18n="hc1_t">Websites &amp; apps</span></a><a href="ai-automation.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#E2452C"/></svg><span data-i18n="hc2_t">AI automation</span></a><a href="digital-strategy.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L23 21 L1 21 Z" fill="#EDAF2F"/></svg><span data-i18n="hc3_t">Digital strategy</span></a></div>
           <span class="wk-tag" data-i18n="cs1_tag">Client · Electrician</span>
           <h3>Bravo Reno</h3>
-          <span class="wk-count" aria-hidden="true"><b>01</b> / 05<span class="wk-bars"><i class="on"></i><i></i><i></i><i></i><i></i></span></span>
           <p data-i18n="cs1_p">A modern site the client runs himself: content he edits without technical tools, a local SEO campaign, and contact requests that create a lead automatically.</p>
           <ul class="wk-pts"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs1_l1">Content the client edits himself</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs1_l2">A local SEO campaign</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs1_l3">Every contact request creates a lead</span></li></ul>
           <a class="wk-btn" href="work.html#bravoreno" data-track="case_open"><span data-i18n="cs_btn">See the case</span><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <div class="wk-ctl"><span class="wk-count" aria-hidden="true"><b>01</b> / 05</span><span class="wk-bars"><button type="button" data-go="0" aria-current="true" aria-label="1 / 5"></button><button type="button" data-go="1" aria-label="2 / 5"></button><button type="button" data-go="2" aria-label="3 / 5"></button><button type="button" data-go="3" aria-label="4 / 5"></button><button type="button" data-go="4" aria-label="5 / 5"></button></span><span class="wk-arrows"><button type="button" class="wk-prev" data-step="-1" aria-label="Previous project"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5"/></svg></button><button type="button" class="wk-next" data-step="1" aria-label="Next project"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg></button></span></div>
         </div>
       </div>
     </li>
-    <li class="wk-p" id="wk-lazysyndic">
+    <li class="wk-p" id="wk-lazysyndic" data-svc="auto" aria-roledescription="slide" aria-label="2 / 5" aria-hidden="true" inert>
       <div class="wk-wrap wk-in">
         <div class="wk-vis">
           <div class="wk-br"><div class="wk-bar" aria-hidden="true"><i></i><i></i><i></i><span data-i18n="bar_l">lazysyndic · demo data</span></div><img src="assets/work/lazysyndic.jpg?v=15" alt="The LazySyndic dashboard" loading="lazy" width="1200" height="750"></div>
-          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/lazysyndic.jpg?v=15" alt="" loading="lazy"></div></div>
+          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/lazysyndic-mobile.jpg" alt="" loading="lazy" width="780" height="1660"></div></div>
         </div>
         <div class="wk-txt">
+          <div class="wk-svc"><a href="ai-automation.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#E2452C"/></svg><span data-i18n="hc2_t">AI automation</span></a></div>
           <span class="wk-tag" data-i18n="cs2_tag">Client · Volunteer syndic</span>
           <h3>LazySyndic</h3>
-          <span class="wk-count" aria-hidden="true"><b>02</b> / 05<span class="wk-bars"><i></i><i class="on"></i><i></i><i></i><i></i></span></span>
           <p data-i18n="cs2_p">The whole job of a volunteer syndic in one place: the accounts keep themselves, the reports write themselves, general meetings are called and decided online.</p>
           <ul class="wk-pts"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs2_l1">Transactions tracked and categorised</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs2_l2">Financial reports generated automatically</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs2_l3">Meeting invitations and decisions online</span></li></ul>
           <a class="wk-btn" href="work.html#lazysyndic" data-track="case_open"><span data-i18n="cs_btn">See the case</span><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <div class="wk-ctl"><span class="wk-count" aria-hidden="true"><b>02</b> / 05</span><span class="wk-bars"><button type="button" data-go="0" aria-label="1 / 5"></button><button type="button" data-go="1" aria-current="true" aria-label="2 / 5"></button><button type="button" data-go="2" aria-label="3 / 5"></button><button type="button" data-go="3" aria-label="4 / 5"></button><button type="button" data-go="4" aria-label="5 / 5"></button></span><span class="wk-arrows"><button type="button" class="wk-prev" data-step="-1" aria-label="Previous project"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5"/></svg></button><button type="button" class="wk-next" data-step="1" aria-label="Next project"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg></button></span></div>
         </div>
       </div>
     </li>
-    <li class="wk-p" id="wk-henry">
+    <li class="wk-p" id="wk-henry" data-svc="auto" aria-roledescription="slide" aria-label="3 / 5" aria-hidden="true" inert>
       <div class="wk-wrap wk-in">
         <div class="wk-vis">
           <div class="wk-br"><div class="wk-bar" aria-hidden="true"><i></i><i></i><i></i><span data-i18n="bar_h">henry · demo data</span></div><img src="assets/work/henry.jpg" alt="The Henry portfolio module" loading="lazy" width="1200" height="750"></div>
-          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/henry.jpg" alt="" loading="lazy"></div></div>
+          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/henry-mobile.jpg" alt="" loading="lazy" width="780" height="1660"></div></div>
         </div>
         <div class="wk-txt">
+          <div class="wk-svc"><a href="ai-automation.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#E2452C"/></svg><span data-i18n="hc2_t">AI automation</span></a></div>
           <span class="wk-tag" data-i18n="cs3_tag">Client · Investor</span>
           <h3>Henry</h3>
-          <span class="wk-count" aria-hidden="true"><b>03</b> / 05<span class="wk-bars"><i></i><i></i><i class="on"></i><i></i><i></i></span></span>
           <p data-i18n="cs3_p">All his investment accounts in a single view: several platforms brought together, a history that keeps itself up to date, and a report every morning.</p>
           <ul class="wk-pts"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs3_l1">Several platforms, one interface</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs3_l2">A history kept up to date automatically</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs3_l3">A daily report with news on his assets</span></li></ul>
           <a class="wk-btn" href="work.html#henry" data-track="case_open"><span data-i18n="cs_btn">See the case</span><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <div class="wk-ctl"><span class="wk-count" aria-hidden="true"><b>03</b> / 05</span><span class="wk-bars"><button type="button" data-go="0" aria-label="1 / 5"></button><button type="button" data-go="1" aria-label="2 / 5"></button><button type="button" data-go="2" aria-current="true" aria-label="3 / 5"></button><button type="button" data-go="3" aria-label="4 / 5"></button><button type="button" data-go="4" aria-label="5 / 5"></button></span><span class="wk-arrows"><button type="button" class="wk-prev" data-step="-1" aria-label="Previous project"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5"/></svg></button><button type="button" class="wk-next" data-step="1" aria-label="Next project"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg></button></span></div>
         </div>
       </div>
     </li>
-    <li class="wk-p" id="wk-scrumpoker">
+    <li class="wk-p" id="wk-scrumpoker" data-svc="auto" aria-roledescription="slide" aria-label="4 / 5" aria-hidden="true" inert>
       <div class="wk-wrap wk-in">
         <div class="wk-vis">
           <div class="wk-br"><div class="wk-bar" aria-hidden="true"><i></i><i></i><i></i><span>scrum poker</span></div><img src="assets/work/scrumpoker.jpg" alt="Scrum Poker, the session screen" loading="lazy" width="1200" height="750"></div>
-          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/scrumpoker.jpg" alt="" loading="lazy"></div></div>
+          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/scrumpoker-mobile.jpg" alt="" loading="lazy" width="780" height="1660"></div></div>
         </div>
         <div class="wk-txt">
+          <div class="wk-svc"><a href="ai-automation.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#E2452C"/></svg><span data-i18n="hc2_t">AI automation</span></a><a href="websites.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" fill="#2823EE"/></svg><span data-i18n="hc1_t">Websites &amp; apps</span></a></div>
           <span class="wk-tag" data-i18n="cs4_tag">Client · IT company</span>
           <h3>Scrum Poker</h3>
-          <span class="wk-count" aria-hidden="true"><b>04</b> / 05<span class="wk-bars"><i></i><i></i><i></i><i class="on"></i><i></i></span></span>
           <p data-i18n="cs4_p">An online game to estimate tasks as a team: everyone proposes a complexity, the estimates are compared, and the team gets more accurate.</p>
           <ul class="wk-pts"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs4_l1">Estimates with the Fibonacci sequence</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs4_l2">The team's votes compared</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs4_l3">A history of the scores</span></li></ul>
           <a class="wk-btn" href="work.html#scrumpoker" data-track="case_open"><span data-i18n="cs_btn">See the case</span><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <div class="wk-ctl"><span class="wk-count" aria-hidden="true"><b>04</b> / 05</span><span class="wk-bars"><button type="button" data-go="0" aria-label="1 / 5"></button><button type="button" data-go="1" aria-label="2 / 5"></button><button type="button" data-go="2" aria-label="3 / 5"></button><button type="button" data-go="3" aria-current="true" aria-label="4 / 5"></button><button type="button" data-go="4" aria-label="5 / 5"></button></span><span class="wk-arrows"><button type="button" class="wk-prev" data-step="-1" aria-label="Previous project"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5"/></svg></button><button type="button" class="wk-next" data-step="1" aria-label="Next project"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg></button></span></div>
         </div>
       </div>
     </li>
-    <li class="wk-p" id="wk-virtualcoffee">
+    <li class="wk-p" id="wk-virtualcoffee" data-svc="auto" aria-roledescription="slide" aria-label="5 / 5" aria-hidden="true" inert>
       <div class="wk-wrap wk-in">
         <div class="wk-vis">
           <div class="wk-br"><div class="wk-bar" aria-hidden="true"><i></i><i></i><i></i><span>virtual coffee</span></div><img src="assets/work/virtualcoffee.jpg" alt="Virtual Coffee, a 3D café" loading="lazy" width="1200" height="630"></div>
-          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/virtualcoffee.jpg" alt="" loading="lazy"></div></div>
+          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/virtualcoffee-mobile.jpg" alt="" loading="lazy" width="780" height="1660"></div></div>
         </div>
         <div class="wk-txt">
+          <div class="wk-svc"><a href="ai-automation.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#E2452C"/></svg><span data-i18n="hc2_t">AI automation</span></a></div>
           <span class="wk-tag" data-i18n="cs5_tag">Side project · 3D</span>
           <h3>Virtual Coffee</h3>
-          <span class="wk-count" aria-hidden="true"><b>05</b> / 05<span class="wk-bars"><i></i><i></i><i></i><i></i><i class="on"></i></span></span>
           <p data-i18n="cs5_p">An interactive 3D résumé: walk into the café, take the seat across from me, and I talk you through my CV out loud.</p>
           <ul class="wk-pts"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs5_l1">A 3D café in the browser</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs5_l2">My background, told out loud</span></li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.6"/></svg><span data-i18n="cs5_l3">Works on a phone too</span></li></ul>
           <a class="wk-btn" href="work.html#virtualcoffee" data-track="case_open"><span data-i18n="cs_btn">See the case</span><svg class="barr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <div class="wk-ctl"><span class="wk-count" aria-hidden="true"><b>05</b> / 05</span><span class="wk-bars"><button type="button" data-go="0" aria-label="1 / 5"></button><button type="button" data-go="1" aria-label="2 / 5"></button><button type="button" data-go="2" aria-label="3 / 5"></button><button type="button" data-go="3" aria-label="4 / 5"></button><button type="button" data-go="4" aria-current="true" aria-label="5 / 5"></button></span><span class="wk-arrows"><button type="button" class="wk-prev" data-step="-1" aria-label="Previous project"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5"/></svg></button><button type="button" class="wk-next" data-step="1" aria-label="Next project"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg></button></span></div>
         </div>
       </div>
     </li>
@@ -1364,7 +1411,7 @@
         <a class="pk-btn" href="#contact" data-pack-en="Essentiel" data-pack-fr="Essentiel" data-track="pack_essentiel"><span data-i18n="pk1_btn">Choose Essentiel</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div><ul class="pk-list"><li data-i18n="pk1_i1">A one-page site, made to measure</li><li data-i18n="pk1_i2">Mobile-friendly</li><li data-i18n="pk1_i3">Contact form</li><li data-i18n="pk1_i4">Domain name</li><li data-i18n="pk1_i5">Secure hosting (HTTPS)</li><li data-i18n="pk1_i6">Backups</li><li data-i18n="pk1_i7">Maintenance for 3 months</li></ul><div class="pk-no"><div class="pk-nol" data-i18n="pk_no">Not included</div><ul><li data-i18n="pk1_x1">24/7 monitoring</li><li data-i18n="pk1_x2">Changes after launch</li><li data-i18n="pk1_x3">Follow-up after the first 3 months</li></ul></div></div>
       </article>
-      <article class="pk dark rv">
+      <article class="pk rec rv">
         <div class="pk-top"><h3 data-i18n="pk2_name">Pro</h3><span class="pk-badge" data-i18n="pk_badge">Recommended</span></div>
         <p class="pk-sub" data-i18n="pk2_sub">For a site that's looked after and grows with you.</p>
         <div class="pk-price"><b data-price="pro">€1,000</b><span data-i18n="pk_vat">excl. VAT</span></div>
@@ -1425,8 +1472,9 @@
         <h2 class="rv" data-i18n="ct_h2">Let's talk about your project.</h2>
         <p class="sub rv" data-i18n="ct_sub">A free 30-minute call or a simple message: tell me what you want to build, and I'll tell you honestly what's worth doing.</p>
         <div class="clinks rv">
-          <a href="tel:+32479487608" data-track="cta_phone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span class="vh" data-i18n="ct_call_l">Call +32 479 48 76 08</span></a>
-          <a href="mailto:info@lagoffinerie.be" data-track="cta_email"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span class="vh" data-i18n="ct_mail_l">Write to info@lagoffinerie.be</span></a>
+          <a class="call" href="tel:+32479487608" data-track="cta_phone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span class="vh" data-i18n="ct_call_l">Call +32 479 48 76 08</span></a>
+          <a class="wa" href="https://wa.me/32479487608" target="_blank" rel="noopener" data-track="cta_whatsapp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M9.2 8.1c.2-.4.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.7 1.6c.1.2.1.4 0 .6l-.4.5c-.1.2-.2.3 0 .6.4.7 1.4 1.8 2.6 2.3.3.1.4.1.6-.1l.6-.7c.2-.2.3-.2.6-.1l1.5.7c.3.1.4.2.4.4 0 .5-.2 1.1-.6 1.4-.4.4-1.2.6-2 .4-1.4-.4-3.2-1.5-4.4-3-.8-1-1.3-2.1-1.4-2.9-.1-.8.2-1.5.4-1.9z" fill="currentColor"/></svg><span class="vh" data-i18n="ct_wa_l">WhatsApp, +32 479 48 76 08 (opens a new tab)</span></a>
+          <a class="mail" href="mailto:info@lagoffinerie.be" data-track="cta_email"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span class="vh" data-i18n="ct_mail_l">Write to info@lagoffinerie.be</span></a>
           <a class="li" href="https://www.linkedin.com/in/ndashiz/" target="_blank" rel="noopener" data-track="cta_linkedin"><span aria-hidden="true">in</span><span class="vh" data-i18n="ct_li_l">Simon Goffin on LinkedIn (opens a new tab)</span></a>
         </div>
         <ul class="cfacts rv">
@@ -1580,7 +1628,7 @@ const FR = {
   ct_kick:"Contact",
   ct_h2:"Parlons de votre projet.",
   ct_sub:"Un appel gratuit de 30 minutes ou un simple message : racontez-moi ce que vous voulez construire, je vous dirai honnêtement ce qui vaut la peine d'être fait.",
-  ct_call_l:"Appeler le +32 479 48 76 08", ct_mail_l:"Écrire à info@lagoffinerie.be", ct_li_l:"Simon Goffin sur LinkedIn (nouvel onglet)",
+  ct_call_l:"Appeler le +32 479 48 76 08", ct_wa_l:"WhatsApp, +32 479 48 76 08 (nouvel onglet)", ct_mail_l:"Écrire à info@lagoffinerie.be", ct_li_l:"Simon Goffin sur LinkedIn (nouvel onglet)",
   cf1:"Réponse sous un jour ouvrable", cf2:"Appels en semaine, de 9h à 20h", cf3:"Basé en Belgique, au service des PME en Europe",
   ct_card:"Votre demande", book_btn:"Choisir un créneau maintenant", book_or:"ou laissez vos coordonnées ci-dessous et je vous rappelle",
   f_name:"Votre nom ou nom d'entreprise", f_name_ph:"Jean Dupont ou Dupont SRL", f_email:"Votre e-mail", f_email_ph:"vous@entreprise.be",
@@ -1634,7 +1682,7 @@ function setLang(l, silent){
   const fl = document.getElementById('f-lang'); if(fl) fl.value = LANG;
   try{ localStorage.setItem('lg_lang', LANG); }catch(e){}
   // Not on the silent init call: these are declared further down the script.
-  if(!silent){ if(typeof track==='function') track('lang', LANG); if(typeof applyConfig==='function') applyConfig(); }
+  if(!silent){ if(typeof track==='function') track('lang', LANG); if(typeof applyConfig==='function') applyConfig(); if(typeof wkLabels==='function') wkLabels(); }
 }
 (function initLang(){
   let l = null;
@@ -1963,37 +2011,76 @@ try{
 }catch(e){}
 
 /* =========================================================
-   WORK — the projects stack while you scroll. Each panel is sticky
-   at the top (CSS); here the panel underneath steps back and dims as
-   the next one covers it (--k, 0 to 1). Plain list (.wk-flat) with
-   prefers-reduced-motion, or when a panel is taller than the screen.
+   WORK — the carousel. One project at a time, sliding sideways: arrows,
+   the five bars, a swipe on a touch screen, the arrow keys. The current bar fills in
+   7 s (CSS) and its animationend brings the next project; .hold
+   pauses it (pointer or keyboard on it, a touch in the last 10 s,
+   out of view, tab hidden). No autoplay with prefers-reduced-motion.
    ========================================================= */
+let wkLabels = null;
 (function(){
   const sec=document.getElementById('work'); if(!sec) return;
-  const ps=[...sec.querySelectorAll('.wk-p')], ins=ps.map(p=>p.querySelector('.wk-in'));
+  const ps=[...sec.querySelectorAll('.wk-p')]; if(!ps.length) return;
+  /* each slide and its colour panel (.wk-bg i, same index) move together */
+  const bgs=[...sec.querySelectorAll('.wk-bg i')], pair=k=>[ps[k], bgs[k]].filter(Boolean);
   const RM=matchMedia('(prefers-reduced-motion: reduce)');
-  let flat=false, raf=0;
-  function fit(){
-    sec.classList.remove('wk-flat');
-    const H=innerHeight;
-    flat = RM.matches || ps.some(p=>{ const cs=getComputedStyle(p); return p.querySelector('.wk-in').offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) > H + 1; });
-    sec.classList.toggle('wk-flat', flat);
-    paint();
+  let cur=0, over=false, focus=false, seen=false, touch=null, tid=0;
+  const T=()=>LANG==='fr' ? {sec:'Réalisations', prev:'Projet précédent', next:'Projet suivant'} : {sec:'Work', prev:'Previous project', next:'Next project'};
+  wkLabels=function(){ const t=T(); sec.setAttribute('aria-label', t.sec);
+    sec.querySelectorAll('.wk-prev').forEach(b=>b.setAttribute('aria-label', t.prev));
+    sec.querySelectorAll('.wk-next').forEach(b=>b.setAttribute('aria-label', t.next)); };
+  wkLabels();
+  function hold(){ sec.classList.toggle('hold', RM.matches || over || focus || !!touch || !seen || document.hidden); }
+  function go(i, keep){
+    /* forward (next, the autoplay, a later bar, a swipe to the left) slides to the left; back to the right */
+    const n=ps.length, dir=i>cur ? 1 : -1; i=(i%n+n)%n; if(i===cur) return;
+    /* the slide that leaves becomes inert: the focus moves to the same control in the new one */
+    const ae=document.activeElement, d=ae && ae.dataset;
+    const sel=keep && ps[cur].contains(ae) ? (d && d.step ? '[data-step="'+d.step+'"]' : d && d.go!=null ? '[data-go="'+i+'"]' : '.wk-next') : null;
+    const inc=pair(i), out=pair(cur);
+    /* the one coming in waits on its side first, without transition; one still sliding out turns back from where it is */
+    if(getComputedStyle(ps[i]).visibility!=='visible'){
+      inc.forEach(el=>{ el.classList.add('wk-snap'); el.style.setProperty('--wk-x', dir*100+'vw'); });
+      void ps[i].offsetWidth; inc.forEach(el=>el.classList.remove('wk-snap'));
+    }
+    out.forEach(el=>{ el.style.setProperty('--wk-x', -dir*100+'vw'); el.classList.remove('on'); });
+    ps[cur].setAttribute('aria-hidden','true'); ps[cur].inert=true;
+    cur=i;
+    inc.forEach(el=>el.classList.add('on')); ps[cur].removeAttribute('aria-hidden'); ps[cur].inert=false;
+    if(sel){ const b=ps[cur].querySelector(sel) || ps[cur].querySelector('[data-go="'+i+'"]'); if(b) b.focus({preventScroll:true}); }
   }
-  function paint(){
-    raf=0; const H=innerHeight;
-    ins.forEach((el,i)=>{
-      const nx=ps[i+1]; let k=0;
-      if(!flat && nx){ k=Math.min(1, Math.max(0, (H - nx.getBoundingClientRect().top) / H)); }
-      el.style.setProperty('--k', k.toFixed(3));
-    });
-  }
-  addEventListener('scroll', ()=>{ if(!flat && !raf) raf=requestAnimationFrame(paint); }, {passive:true});
-  let rs; addEventListener('resize', ()=>{ clearTimeout(rs); rs=setTimeout(fit, 120); });
-  if(RM.addEventListener) RM.addEventListener('change', fit);
-  addEventListener('load', fit);
-  sec.querySelectorAll('img').forEach(im=>{ if(!im.complete) im.addEventListener('load', ()=>{ clearTimeout(rs); rs=setTimeout(fit, 60); }, {once:true}); });
-  fit();
+  sec.addEventListener('click', e=>{
+    const b=e.target.closest && e.target.closest('.wk-ctl button'); if(!b) return;
+    if(b.dataset.step) go(cur + (+b.dataset.step), true); else go(+b.dataset.go, true);
+  });
+  sec.addEventListener('animationend', e=>{ if(e.animationName==='wkFill' && !RM.matches) go(cur+1); });
+  sec.addEventListener('keydown', e=>{
+    if(e.target.closest('input,textarea,select')) return;
+    if(e.key==='ArrowRight'){ e.preventDefault(); go(cur+1, true); }
+    if(e.key==='ArrowLeft'){ e.preventDefault(); go(cur-1, true); }
+  });
+  const list=sec.querySelector('.wk-list');
+  list.addEventListener('pointerenter', e=>{ if(e.pointerType==='mouse'){ over=true; hold(); } });
+  list.addEventListener('pointerleave', e=>{ if(e.pointerType==='mouse'){ over=false; hold(); } });
+  sec.addEventListener('focusin', e=>{ if(e.target.matches(':focus-visible')){ focus=true; hold(); } });
+  sec.addEventListener('focusout', e=>{ if(!sec.contains(e.relatedTarget)){ focus=false; hold(); } });
+  /* a horizontal swipe changes the project; any touch holds the bar for 10 s */
+  let sx=0, sy=0;
+  list.addEventListener('touchstart', e=>{ const t=e.touches[0]; sx=t.clientX; sy=t.clientY; touch=true; clearTimeout(tid); hold(); }, {passive:true});
+  list.addEventListener('touchend', e=>{
+    const t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy;
+    if(Math.abs(dx)>48 && Math.abs(dx)>Math.abs(dy)*1.3) go(cur + (dx<0 ? 1 : -1));
+    clearTimeout(tid); tid=setTimeout(()=>{ touch=null; hold(); }, 10000);
+  }, {passive:true});
+  new IntersectionObserver(es=>{ es.forEach(en=>{ seen=en.isIntersecting; }); hold(); }, {threshold:.35}).observe(list);
+  /* the slides waiting off screen never reach the viewport, so lazy images would only load as they slide in (black
+     screens mid-slide): load them all once the section comes near */
+  const warm=new IntersectionObserver(es=>{ if(!es.some(en=>en.isIntersecting)) return; warm.disconnect();
+    sec.querySelectorAll('.wk-p img[loading="lazy"]').forEach(im=>{ im.loading='eager'; }); }, {rootMargin:'0px 0px 800px 0px'});
+  warm.observe(list);
+  document.addEventListener('visibilitychange', hold);
+  if(RM.addEventListener) RM.addEventListener('change', hold);
+  hold();
 })();
 
 /* =========================================================
