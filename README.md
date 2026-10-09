@@ -60,5 +60,12 @@ Static pages, vanilla HTML/CSS/JS, bilingual EN/FR (auto-detected, manual toggle
   the Jarvis repo, `docs/17-goffinerie-tracking.md`.
 - **Own devices**: open `https://lagoffinerie.be/?crew=goffinerie` once per device to keep your
   visits out of the statistics (`?crew=off` to disarm). `localhost` is always excluded.
+- **SEO**: every `<img>` carries an alt that says what the picture shows and for whom (« an electrician… »,
+  « a volunteer syndic… »), in English in the HTML and in French under `data-i18n-alt="key"` in the page's `FR`
+  dictionary; the phone screenshots too (their frame is `aria-hidden`, so screen readers skip them, but image
+  search reads them). Titles lead with the service and Belgium, the brand comes last. Structured data: the home
+  page has `ProfessionalService` (`@id` `#org`, the one `prerender-prices.mjs` keeps in step) and `WebSite` (the
+  site name Google shows), each service page a `Service`, `about.html` a `ProfilePage`. `sitemap.xml` lists the
+  images of each page: add a new screenshot there too, with the same `?v=` as in the page.
 
 Whatever changes in what the page measures must first be reflected in `cookies.html`.

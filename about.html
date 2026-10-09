@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light only">
 <meta name="theme-color" content="#faf8f2">
-<title>About — La Goffinerie</title>
+<title>About Simon Goffin, founder — La Goffinerie</title>
 <meta name="description" content="Simon Goffin, founder of La Goffinerie: the bridge between IT and business in large companies, passionate about digital transformation, now delivering digital solutions for SMEs across Europe.">
 <link rel="canonical" href="https://lagoffinerie.be/about.html">
 <link rel="alternate" hreflang="en" href="https://lagoffinerie.be/about.html?lang=en">
@@ -17,7 +17,42 @@
 <meta property="og:title" content="About Simon Goffin — La Goffinerie">
 <meta property="og:description" content="The bridge between IT and business in large companies, passionate about digital transformation, now delivering digital solutions for SMEs across Europe.">
 <meta property="og:image" content="https://lagoffinerie.be/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="La Goffinerie — des sites web qui se mettent au travail">
+<meta property="og:locale" content="en_BE">
+<meta property="og:locale:alternate" content="fr_BE">
 <meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "ProfilePage",
+ "url": "https://lagoffinerie.be/about.html",
+ "mainEntity": {
+  "@type": "Person",
+  "@id": "https://lagoffinerie.be/about.html#simon",
+  "name": "Simon Goffin",
+  "jobTitle": "Founder",
+  "image": "https://lagoffinerie.be/assets/simon.jpg",
+  "worksFor": {
+   "@type": "ProfessionalService",
+   "@id": "https://lagoffinerie.be/#org",
+   "name": "La Goffinerie",
+   "url": "https://lagoffinerie.be/"
+  },
+  "knowsAbout": [
+   "Digital transformation",
+   "Product ownership",
+   "Website design",
+   "AI automation",
+   "SEO"
+  ],
+  "sameAs": [
+   "https://www.linkedin.com/in/ndashiz/"
+  ]
+ }
+}
+</script>
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 112" style="isolation:isolate"><path d="M62 6 L102 80 L22 80 Z" fill="%23EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="%232823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="%23E2452C" style="mix-blend-mode:multiply"/></svg>'>
 <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -216,7 +251,7 @@
   <div class="wrap">
     <section>
       <div class="about rv">
-        <img class="avatar" src="assets/simon.jpg" alt="Simon Goffin" width="150" height="150" decoding="async"
+        <img class="avatar" src="assets/simon.jpg" alt="Simon Goffin, founder of La Goffinerie" data-i18n-alt="avatar_alt" width="150" height="150" decoding="async"
              onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'avatar-fb',textContent:'SG'}))">
         <div>
           <p data-i18n="p1">For years, I have stood between IT and the business in large companies, in charge of several applications from end to end: <strong>user design, integration architecture, testing, budgeting</strong>.</p>
@@ -274,7 +309,8 @@
 
 <script>
 const FR = {
-  title:"À propos — La Goffinerie",
+  title:"À propos de Simon Goffin, fondateur — La Goffinerie",
+  avatar_alt:"Simon Goffin, fondateur de La Goffinerie",
   skip:"Aller au contenu",
   nav_alive:"Services", nav_work:"Réalisations", nav_pricing:"Tarifs", nav_faq:"FAQ", nav_book:"Demander un devis", nav_call:"Appeler", nav_contact:"Contact",
   kick:"Qui est derrière",
@@ -298,6 +334,7 @@ const FR = {
 const EN_TITLE=document.title, EN={};
 document.querySelectorAll('[data-i18n]').forEach(el=>{ EN[el.getAttribute('data-i18n')]=el.innerHTML; });
 document.querySelectorAll('[data-i18n-aria]').forEach(el=>{ EN[el.getAttribute('data-i18n-aria')]=el.getAttribute('aria-label'); });
+document.querySelectorAll('[data-i18n-alt]').forEach(el=>{ EN[el.getAttribute('data-i18n-alt')]=el.getAttribute('alt'); });
 let LANG='en';
 function setLang(l){
   LANG=(l==='fr')?'fr':'en';
@@ -305,6 +342,7 @@ function setLang(l){
   document.title=(LANG==='fr')?FR.title:EN_TITLE;
   document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.getAttribute('data-i18n'); el.innerHTML=(LANG==='fr'&&FR[k]!==undefined)?FR[k]:EN[k]; });
   document.querySelectorAll('[data-i18n-aria]').forEach(el=>{ const k=el.getAttribute('data-i18n-aria'); el.setAttribute('aria-label',(LANG==='fr'&&FR[k]!==undefined)?FR[k]:EN[k]); });
+  document.querySelectorAll('[data-i18n-alt]').forEach(el=>{ const k=el.getAttribute('data-i18n-alt'); el.setAttribute('alt',(LANG==='fr'&&FR[k]!==undefined)?FR[k]:EN[k]); });
   document.getElementById('lang-en').classList.toggle('active',LANG==='en');
   document.getElementById('lang-fr').classList.toggle('active',LANG==='fr');
   document.getElementById('lang-en').setAttribute('aria-pressed', String(LANG==='en'));
