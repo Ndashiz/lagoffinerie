@@ -105,11 +105,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.34 — the work section is a carousel again, one project at a time, in the dark design: the bar
+     LA GOFFINERIE v2.35 — the phone of the work section is a thin-bezel iPhone: a 7 px frame, the side buttons, a status bar in
+     the app's own colour with the time, the Dynamic Island in it.
+     (v2.34: the work section is a carousel again, one project at a time, in the dark design: the bar
      of the current project fills in 7 s, arrows, five bars, swipe; the projects slide sideways (the one leaving goes
      left, the next comes from the right) under controls that stay put; the phone shows the real phone page of all five.
      Each project wears the colour of its main service (blue websites, red AI automation) and a chip per service with its
-     logo shape; the Pro package is blue instead of black; the contact rounds are coloured, WhatsApp added.
+     logo shape; the Pro package is blue instead of black; the contact rounds are coloured, WhatsApp added.)
      (v2.33: the work section turned dark, a two-tone title, the projects stacking while you scroll.)
      (v2.32: the contact form lives in #contact, always visible (no more booking window): every
      « Book my free call » button scrolls to it, the packages pre-fill it, a sent request folds into a paper plane;
@@ -588,10 +590,17 @@
   .wk-bar i{width:10px;height:10px;border-radius:50%;background:rgba(250,248,242,.22);flex:none;}
   .wk-bar span{margin-left:12px;padding:5px 14px;border-radius:999px;background:rgba(250,248,242,.08);color:var(--wk-mute);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
   .wk-br img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:top center;}
-  .wk-ph{position:absolute;right:0;bottom:0;width:25.9%;aspect-ratio:1/2.05;padding:3.3%;border-radius:17% / 8.3%;background:#0b0b0b;border:1px solid rgba(250,248,242,.18);box-shadow:0 30px 60px -20px var(--wk-sh2);}
-  .wk-scr{position:relative;width:100%;height:100%;border-radius:13% / 6.3%;overflow:hidden;background:#000;}
+  /* the phone: a thin even bezel (3.6 % of its width, 1.75 % of its height, about 7 px), the screen inset in it with
+     matching corners, the Dynamic Island, and the side buttons drawn as slim tabs on the frame */
+  .wk-ph{position:absolute;right:0;bottom:0;width:25.9%;aspect-ratio:1/2.05;container-type:inline-size;border-radius:17% / 8.3%;background:#0b0b0b;border:1px solid rgba(250,248,242,.24);box-shadow:inset 0 0 0 1.5px #262626,0 30px 60px -20px var(--wk-sh2);}
+  .wk-ph::before,.wk-ph::after{content:"";position:absolute;width:2px;border-radius:2px;background:#2a2a2a;}
+  .wk-ph::before{right:-3px;top:24%;height:11%;}
+  .wk-ph::after{left:-3px;top:19%;height:15%;background:linear-gradient(#2a2a2a 0 42%,transparent 42% 58%,#2a2a2a 58%);}
+  .wk-scr{position:absolute;top:1.75%;bottom:1.75%;left:3.6%;right:3.6%;border-radius:14.5% / 6.9%;overflow:hidden;background:var(--sb,#000);padding-top:13%;}
+  /* the status bar (the captures have none): the app's own top colour, the time on the left, the island in the middle */
+  .wk-scr::before{content:"9:41";position:absolute;top:3.2%;left:11%;font:600 5.8cqw/1 var(--disp);letter-spacing:-.01em;color:var(--sbt,#fff);}
   .wk-scr img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;}
-  .wk-scr::after{content:"";position:absolute;top:2.2%;left:36%;width:28%;height:2.6%;border-radius:999px;background:#0b0b0b;}
+  .wk-scr::after{content:"";position:absolute;top:1.9%;left:33%;width:34%;height:3.1%;border-radius:999px;background:#000;}
   /* what the project is: one light chip per service, with its shape from the logo, to the service's page */
   .wk-svc{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
   .wk-svc a{display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 12px 0 9px;border-radius:999px;background:var(--paper);color:var(--ink);font-family:var(--disp);font-weight:600;font-size:12.5px;line-height:1;text-decoration:none;white-space:nowrap;transition:transform .15s ease,box-shadow .2s ease;}
@@ -1202,7 +1211,7 @@
       <div class="wk-wrap wk-in">
         <div class="wk-vis">
           <div class="wk-br"><div class="wk-bar" aria-hidden="true"><i></i><i></i><i></i><span>bravoreno.be</span></div><img src="assets/work/bravoreno.jpg" alt="The Bravo Reno website" loading="lazy" width="1200" height="617"></div>
-          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/bravoreno-mobile.jpg" alt="" loading="lazy" width="780" height="1660"></div></div>
+          <div class="wk-ph" aria-hidden="true"><div class="wk-scr" style="--sb:#020808;--sbt:#fff"><img src="assets/work/bravoreno-mobile.jpg" alt="" loading="lazy" width="780" height="1660"></div></div>
         </div>
         <div class="wk-txt">
           <div class="wk-svc"><a href="websites.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" fill="#2823EE"/></svg><span data-i18n="hc1_t">Websites &amp; apps</span></a><a href="ai-automation.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#E2452C"/></svg><span data-i18n="hc2_t">AI automation</span></a><a href="digital-strategy.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L23 21 L1 21 Z" fill="#EDAF2F"/></svg><span data-i18n="hc3_t">Digital strategy</span></a></div>
@@ -1219,7 +1228,7 @@
       <div class="wk-wrap wk-in">
         <div class="wk-vis">
           <div class="wk-br"><div class="wk-bar" aria-hidden="true"><i></i><i></i><i></i><span data-i18n="bar_l">lazysyndic · demo data</span></div><img src="assets/work/lazysyndic.jpg?v=15" alt="The LazySyndic dashboard" loading="lazy" width="1200" height="750"></div>
-          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/lazysyndic-mobile.jpg" alt="" loading="lazy" width="780" height="1660"></div></div>
+          <div class="wk-ph" aria-hidden="true"><div class="wk-scr" style="--sb:#21503c;--sbt:#fff"><img src="assets/work/lazysyndic-mobile.jpg" alt="" loading="lazy" width="780" height="1660"></div></div>
         </div>
         <div class="wk-txt">
           <div class="wk-svc"><a href="ai-automation.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#E2452C"/></svg><span data-i18n="hc2_t">AI automation</span></a></div>
@@ -1236,7 +1245,7 @@
       <div class="wk-wrap wk-in">
         <div class="wk-vis">
           <div class="wk-br"><div class="wk-bar" aria-hidden="true"><i></i><i></i><i></i><span data-i18n="bar_h">henry · demo data</span></div><img src="assets/work/henry.jpg" alt="The Henry portfolio module" loading="lazy" width="1200" height="750"></div>
-          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/henry-mobile.jpg" alt="" loading="lazy" width="780" height="1660"></div></div>
+          <div class="wk-ph" aria-hidden="true"><div class="wk-scr" style="--sb:#f0f5fb;--sbt:#111"><img src="assets/work/henry-mobile.jpg" alt="" loading="lazy" width="780" height="1660"></div></div>
         </div>
         <div class="wk-txt">
           <div class="wk-svc"><a href="ai-automation.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#E2452C"/></svg><span data-i18n="hc2_t">AI automation</span></a></div>
@@ -1253,7 +1262,7 @@
       <div class="wk-wrap wk-in">
         <div class="wk-vis">
           <div class="wk-br"><div class="wk-bar" aria-hidden="true"><i></i><i></i><i></i><span>scrum poker</span></div><img src="assets/work/scrumpoker.jpg" alt="Scrum Poker, the session screen" loading="lazy" width="1200" height="750"></div>
-          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/scrumpoker-mobile.jpg" alt="" loading="lazy" width="780" height="1660"></div></div>
+          <div class="wk-ph" aria-hidden="true"><div class="wk-scr" style="--sb:#101116;--sbt:#fff"><img src="assets/work/scrumpoker-mobile.jpg" alt="" loading="lazy" width="780" height="1660"></div></div>
         </div>
         <div class="wk-txt">
           <div class="wk-svc"><a href="ai-automation.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#E2452C"/></svg><span data-i18n="hc2_t">AI automation</span></a><a href="websites.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" fill="#2823EE"/></svg><span data-i18n="hc1_t">Websites &amp; apps</span></a></div>
@@ -1270,7 +1279,7 @@
       <div class="wk-wrap wk-in">
         <div class="wk-vis">
           <div class="wk-br"><div class="wk-bar" aria-hidden="true"><i></i><i></i><i></i><span>virtual coffee</span></div><img src="assets/work/virtualcoffee.jpg" alt="Virtual Coffee, a 3D café" loading="lazy" width="1200" height="630"></div>
-          <div class="wk-ph" aria-hidden="true"><div class="wk-scr"><img src="assets/work/virtualcoffee-mobile.jpg" alt="" loading="lazy" width="780" height="1660"></div></div>
+          <div class="wk-ph" aria-hidden="true"><div class="wk-scr" style="--sb:#784f22;--sbt:#fff"><img src="assets/work/virtualcoffee-mobile.jpg" alt="" loading="lazy" width="780" height="1660"></div></div>
         </div>
         <div class="wk-txt">
           <div class="wk-svc"><a href="ai-automation.html" data-track="case_svc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#E2452C"/></svg><span data-i18n="hc2_t">AI automation</span></a></div>
