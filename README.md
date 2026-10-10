@@ -90,4 +90,11 @@ generated from the English pages (see « French pages » below).
   images of each page: add a new screenshot to the English entry, with the same `?v=` as in the page (`build-fr.mjs`
   copies it to the French one).
 
+- **Cookies & Google Analytics**: `consent.js`, loaded by every page, asks before Google Analytics 4 runs: a banner
+  (Refuse and Accept alike, Customize opens a settings panel), `gtag.js` only loaded after « Accept », the choice in
+  `lg_consent` for six months, « Cookie settings » added to every footer and a button on `cookies.html#choices`.
+  `GA_ID` at the top of the file is the measurement id: empty, the whole thing is dormant. Pages send their own
+  events through `window.lgGa()` (`generate_lead` from the contact form and the estimator). The events and the
+  setup on Google's side are in `docs/google-analytics.md`.
+
 Whatever changes in what the page measures must first be reflected in `cookies.html`.

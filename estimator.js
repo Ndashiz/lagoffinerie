@@ -447,7 +447,15 @@
     }catch(e){}
   }
   var seen={};
+  /* Google Analytics (consent.js, only once the visitor accepted): the funnel, and the estimate e-mailed as a lead */
+  var GA_EV={estimator_open:1, estimator_result_shown:1, estimator_to_booking:1};
+  function ga(e, i){
+    if(!window.lgGa) return;
+    if(e==='estimator_email_sent') window.lgGa('generate_lead', {lead_source:'estimator'});
+    else if(GA_EV[e]) window.lgGa(e, i==null ? {} : {detail:String(i)});
+  }
   function ev(e, i, beacon){
+    ga(e, i);
     if(typeof window.track==='function'){ try{ window.track(e, i, undefined, beacon); }catch(x){} return; }
     if(DNT) return;
     var p={e:e, s:sid(), l:lang()}; if(i!=null) p.i=String(i); if(crew()) p.k=1;

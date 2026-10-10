@@ -123,9 +123,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     LA GOFFINERIE v2.39 — the French pages are real pages: /fr/x.html, written by tools/build-fr.mjs from the FR
+     LA GOFFINERIE v2.40 — cookies: consent.js on every page asks before Google Analytics 4 (nothing reaches Google before
+     « Accept », refuse and accept alike, « Cookie settings » in every footer); a sent request is a generate_lead.
+     (v2.39: the French pages are real pages: /fr/x.html, written by tools/build-fr.mjs from the FR
      dictionaries (French in the HTML, title, description, JSON-LD, self-canonical, hreflang en/fr/x-default on both, both
-     in sitemap.xml); the EN/FR switch goes to the other page, old ?lang= links are sent there.
+     in sitemap.xml); the EN/FR switch goes to the other page, old ?lang= links are sent there.)
      (v2.38: the work carousel moves on by itself every 6 s (was 7 s), and only the controls (bars, arrows)
      or the keyboard pause it: a mouse resting on the project no longer holds it.)
      (v2.37: on a phone or a tablet the hero keeps one height while the three services turn: every line of
@@ -2010,6 +2012,8 @@ function showOk(f, name, slot, live){
     (card||box).scrollIntoView({block:'nearest', behavior: RM_Q.matches ? 'instant' : 'smooth'});
   }
 }
+/* Google Analytics (consent.js, only once the visitor accepted): the request reached Simon. */
+function gaLead(){ if(window.lgGa) window.lgGa('generate_lead', {lead_source:'contact_form'}); }
 function bindForm(f){
   f.addEventListener('submit', async e=>{
     e.preventDefault();
@@ -2026,7 +2030,7 @@ function bindForm(f){
     const lead = Object.assign({ s:SESSION, l:LANG, via, slotStart: slot ? slot.start.toISOString() : null, slotEnd: slot ? slot.end.toISOString() : null }, fields);
     const r = await postLead(lead, 8000);
     let ok = !!(r && r.ok && r.mailed && r.mailed.owner);
-    if(ok){ await flyAway(f); showOk(f, fields.name, slot, true); return; }
+    if(ok){ gaLead(); await flyAway(f); showOk(f, fields.name, slot, true); return; }
     // 2. Jarvis could not e-mail (not configured, down, or Resend failed): FormSubmit carries the mail.
     if(!(r && r.ok)) send(JARVIS.leads, lead);   // keepalive retry of the copy, in case the wait above was the problem
     try{
@@ -2036,7 +2040,7 @@ function bindForm(f){
       const data=await res.json().catch(()=>({}));
       ok = res.ok && String(data.success)!=='false';
     }catch(err){ ok=false; }
-    if(ok){ await flyAway(f); showOk(f, fields.name, slot, true); }
+    if(ok){ gaLead(); await flyAway(f); showOk(f, fields.name, slot, true); }
     else { try{ localStorage.setItem('lg_slot', JSON.stringify({d:v('date'), t:v('time'), n:fields.name})); }catch(e){} delete f.dataset.busy; btn.disabled=false; btn.innerHTML=label; f.submit(); }
   });
 }
@@ -2249,5 +2253,6 @@ heroRot();
 </script>
 <script src="nav.js" defer></script>
 <script src="site-state.js" defer></script>
+<script src="consent.js" defer></script>
 </body>
 </html>

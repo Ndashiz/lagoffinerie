@@ -68,6 +68,8 @@
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--disp);font-weight:600;font-size:15px;line-height:1.2;text-decoration:none;cursor:pointer;border-radius:10px;padding:15px 22px;border:1px solid var(--blue);background:var(--blue);color:#fff;box-shadow:0 1px 2px rgba(21,21,21,.2),0 10px 24px -10px rgba(40,35,238,.65);transition:transform .15s ease,box-shadow .2s ease,background-color .2s ease,border-color .2s ease;margin-top:14px;}
   .btn:hover{transform:translateY(-1px);background:#1d19d8;border-color:#1d19d8;box-shadow:0 2px 4px rgba(21,21,21,.2),0 14px 28px -10px rgba(40,35,238,.75);}
   .btn:active{transform:none;box-shadow:0 1px 2px rgba(21,21,21,.14);}
+  .cstate{margin-top:14px;padding:12px 14px;background:#fff;border:1.5px solid var(--line);border-radius:12px;font-size:15px;}
+  .cstate:empty{display:none;}
   .updated{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:30px;}
   footer{border-top:2px solid var(--ink);padding:30px 0 40px;}
   footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;}
@@ -102,8 +104,8 @@
 <header class="hero">
   <div class="wrap">
     <div class="kick" data-i18n="kick">Cookie policy</div>
-    <h1 data-i18n="h1">Cookie policy: no tracking cookies, and exactly what happens instead.</h1>
-    <p class="sub" data-i18n="sub">What a cookie is, why this site does not need any to track you, what it stores on your device instead, and the choices you have. Written for humans, not lawyers, and complete.</p>
+    <h1 data-i18n="h1">Cookie policy: Google Analytics only if you agree, and everything else in plain words.</h1>
+    <p class="sub" data-i18n="sub">What a cookie is, the one tool on this site that sets cookies, and only once you accept it, what the site stores on your device otherwise, and how to change your mind at any time. Written for humans, not lawyers, and complete.</p>
   </div>
 </header>
 
@@ -117,12 +119,13 @@
 
     <section>
       <h2 data-i18n="s1_h">Why, and which cookies, on lagoffinerie.be?</h2>
-      <p data-i18n="s1_why">Most sites use cookies for two reasons: to let you browse comfortably, and to measure their audience. This site does both <strong>without any tracking cookie</strong>: it keeps a few preferences in your browser's own storage (never sent anywhere), and it measures its audience with anonymous events that carry no cookie, no IP address and no fingerprint. Accepting cookies is therefore <strong>not required</strong> to access the site or any of its features, and no cookie banner is needed.</p>
-      <p data-i18n="s1_p">The site sets <strong>no cookie of its own</strong>. It keeps eight small values in your browser's storage. None of them leaves your device, and the only two that can hold your name or e-mail are erased as soon as they have been used:</p>
+      <p data-i18n="s1_why">Most sites use cookies for two reasons: to let you browse comfortably, and to measure their audience. This site keeps your preferences without any cookie, in your browser's own storage (never sent anywhere), and measures its audience in two ways: anonymous events sent to my own server, with no cookie, no IP address and no fingerprint; and, <strong>only if you accept it</strong>, Google Analytics, which does set cookies. Accepting is <strong>not required</strong> to access the site or any of its features: refusing changes nothing for you.</p>
+      <p data-i18n="s1_p">The site itself sets <strong>no cookie</strong>: the only cookies are Google Analytics', and only if you accept it (see below). It keeps nine small values in your browser's storage. None of them leaves your device, and the only two that can hold your name or e-mail are erased as soon as they have been used:</p>
       <table>
         <thead><tr><th data-i18n="t_key">Key</th><th data-i18n="t_what">What it holds</th><th data-i18n="t_life">How long</th></tr></thead>
         <tbody>
           <tr><td>lg_lang</td><td data-i18n="r1_w">Your language choice (EN or FR), so the page opens in the language you picked.</td><td data-i18n="r1_l">Until you clear your browser storage.</td></tr>
+          <tr><td>lg_consent</td><td data-i18n="rc_w">Your choice about Google Analytics (accepted or refused) and its date, so the question is not asked on every page. After six months, it is asked again.</td><td data-i18n="rc_l">Six months, or until you clear your browser storage.</td></tr>
           <tr><td>lg_slot</td><td data-i18n="r4_w">Only if the form falls back to a plain submission: the slot you proposed, so the thank-you message can still offer the calendar file. Removed as soon as it is read.</td><td data-i18n="r4_l">A few seconds.</td></tr>
           <tr><td>lg_crew</td><td data-i18n="r3_w">Only on my own devices: a flag that excludes my test visits from the statistics. It is never set for a visitor.</td><td data-i18n="r3_l">Until cleared.</td></tr>
           <tr><td>lg_intro</td><td data-i18n="r5_w">A flag saying the logo animation has already played in this tab, so it does not play on every page you come back to.</td><td data-i18n="r5_l">Until you close the tab.</td></tr>
@@ -136,8 +139,22 @@
     </section>
 
     <section>
-      <h2 data-i18n="s2_h">Audience measurement: first party, no third party</h2>
-      <p data-i18n="s2_p1">To know whether the site works, it sends a handful of anonymous events to <strong>my own server</strong>, in the European Union, not to Google Analytics, not to any advertising network:</p>
+      <h2 data-i18n="s6_h">Google Analytics, only if you accept</h2>
+      <p data-i18n="s6_p1">On your first visit, a banner asks whether I may measure your visit with <strong>Google Analytics</strong>. Until you click « Accept », Google Analytics is not even loaded: no request goes to Google and no cookie is set. If you accept, it sets two cookies on lagoffinerie.be:</p>
+      <table>
+        <thead><tr><th data-i18n="g_name">Cookie</th><th data-i18n="t_what">What it holds</th><th data-i18n="t_life">How long</th></tr></thead>
+        <tbody>
+          <tr><td>_ga</td><td data-i18n="g1_w">A random number that tells one browser from another, so that visitors are counted rather than pages.</td><td data-i18n="g1_l">13 months.</td></tr>
+          <tr><td>_ga_…</td><td data-i18n="g2_w">The state of the current visit: its number, when it started, how many pages it has seen. What follows <code>_ga_</code> is the site's Google Analytics identifier.</td><td data-i18n="g2_l">13 months.</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:12px" data-i18n="s6_p2">What Google receives: the address and title of the page, the page that sent you, the buttons and links you click (call, WhatsApp, e-mail, quote), whether the contact form or the estimate was sent (never what you typed in them), your browser, device, screen size and language, and an approximate location (city, country) derived from your IP address; Google Analytics does not log or store the IP address itself. Google signals and every advertising feature are switched off: the data is not used to show you ads, and is not linked to a Google account.</p>
+      <p data-i18n="s6_p3">Google Ireland Limited processes this data on my behalf, as a processor. It may be transferred to Google LLC in the United States, under the EU-US Data Privacy Framework. It is kept 14 months in Google Analytics, then deleted. If your browser sends the <strong>Do Not Track</strong> or <strong>Global Privacy Control</strong> signal, the site takes it as a refusal and does not ask.</p>
+    </section>
+
+    <section>
+      <h2 data-i18n="s2_h">Audience measurement on my own server, without cookies</h2>
+      <p data-i18n="s2_p1">Whatever you choose for Google Analytics, the site sends a handful of anonymous events to <strong>my own server</strong>, in the European Union, to know whether it works. No cookie, and nothing that identifies you:</p>
       <ul>
         <li data-i18n="s2_l1">the page was loaded; which sections scrolled into view; how far down you scrolled;</li>
         <li data-i18n="s2_l2">which buttons were clicked, and which one led to the contact form;</li>
@@ -163,13 +180,16 @@
       <ul>
         <li data-i18n="s4_l1"><strong>Google Fonts</strong>: the three typefaces are loaded from Google's servers, which therefore see your IP address when the page loads. No cookie is set.</li>
         <li data-i18n="s4_l2"><strong>GitHub Pages</strong>: the hosting keeps standard server logs for security.</li>
+        <li data-i18n="s4_l4"><strong>Google Analytics</strong> (Google Ireland Limited): only if you accept the audience measurement, see above.</li>
         <li data-i18n="s4_l3"><strong>FormSubmit</strong>: only when you send the contact form, or as a fallback when you ask for your estimate (see above).</li>
       </ul>
     </section>
 
-    <section>
+    <section id="choices">
       <h2 data-i18n="s5_h">Your choices regarding cookies</h2>
-      <p data-i18n="s5_choice">There is no tracking cookie to refuse here. If you want to keep even the local preferences off your device, your browser can block site data for lagoffinerie.be or clear it at any time (Settings → Privacy → Site data): the site keeps working, it simply forgets your language between two visits. If your browser sends the <strong>Do Not Track</strong> or <strong>Global Privacy Control</strong> signal, the audience measurement is reduced to a single anonymous page count.</p>
+      <p data-i18n="s5_choice">You decide about Google Analytics: in the banner on your first visit, then at any time with the button below or « Cookie settings » at the bottom of every page. Withdrawing is as easy as accepting: Google Analytics stops at once and its cookies are deleted. Your browser can also block or clear the site data of lagoffinerie.be (Settings → Privacy → Site data): the site keeps working, it simply forgets your language and your choice between two visits. If your browser sends the <strong>Do Not Track</strong> or <strong>Global Privacy Control</strong> signal, Google Analytics stays off and the measurement on my own server is reduced to a single anonymous page count.</p>
+      <p class="cstate" data-consent-status role="status"></p>
+      <button type="button" class="btn" data-consent-open data-i18n="cc_btn">Change my cookie choice</button>
       <p data-i18n="s5_pol">The full picture (purposes, legal bases, processors, retention, every right) is in the <a href="donnees-personnelles.html">personal data protection policy</a>.</p>
       <p data-i18n="s5_p">Under the GDPR you can ask what I hold about you, have it corrected or deleted, or object to its use. There is one person behind this site, and one address:</p>
       <div class="card">
@@ -177,7 +197,7 @@
         <p><a href="mailto:info@lagoffinerie.be">info@lagoffinerie.be</a></p>
         <a class="btn" href="./#contact" data-i18n="cta">Back to the contact form</a>
       </div>
-      <p class="updated" data-i18n="updated">Last updated: 7 October 2026.</p>
+      <p class="updated" data-i18n="updated">Last updated: 10 October 2026.</p>
     </section>
   </div>
 </main>
@@ -195,16 +215,17 @@ const FR = {
   title:"Politique relative aux cookies — La Goffinerie",
   desc:"Ce que La Goffinerie enregistre sur votre appareil, ce qu'elle mesure, et où vont vos coordonnées.",
   back:"← Retour", kick:"Politique relative aux cookies",
-  h1:"Politique relative aux cookies : pas de cookies de suivi, et exactement ce qui se passe à la place.",
-  sub:"Ce qu'est un cookie, pourquoi ce site n'en a besoin d'aucun pour vous suivre, ce qu'il enregistre sur votre appareil à la place, et les choix dont vous disposez. Écrit pour des humains, pas pour des juristes, et complet.",
+  h1:"Politique relative aux cookies : Google Analytics seulement si vous êtes d'accord, et tout le reste en clair.",
+  sub:"Ce qu'est un cookie, le seul outil de ce site qui en dépose, et seulement une fois que vous l'avez accepté, ce que le site enregistre sur votre appareil par ailleurs, et comment changer d'avis à tout moment. Écrit pour des humains, pas pour des juristes, et complet.",
   s0_h:"Qu'est-ce qu'un cookie ?",
   s0_p1:"Un cookie est un petit fichier texte que le serveur d'un site installe dans le navigateur de votre ordinateur ou sur votre appareil mobile lorsque vous consultez le site. Grâce à ce cookie, des informations sur votre visite sont enregistrées.",
   s0_p2:"Le serveur d'un site ne peut lire que les cookies qu'il a lui-même installés. Il n'a accès à aucune autre information se trouvant sur votre ordinateur ou votre appareil mobile.",
   s1_h:"Pourquoi, et quels cookies, sur lagoffinerie.be ?",
-  s1_why:"La plupart des sites utilisent des cookies pour deux raisons : permettre une navigation confortable, et réaliser des statistiques de visite. Ce site fait les deux <strong>sans aucun cookie de suivi</strong> : il garde quelques préférences dans le stockage de votre navigateur (jamais envoyées nulle part), et il mesure sa fréquentation par des événements anonymes sans cookie, sans adresse IP et sans empreinte. Accepter les cookies n'est donc <strong>pas nécessaire</strong> pour accéder au site ni à ses fonctionnalités, et aucun bandeau n'est requis.",
-  s1_p:"Le site ne dépose <strong>aucun cookie qui lui soit propre</strong>. Il garde huit petites valeurs dans le stockage de votre navigateur. Aucune ne quitte votre appareil, et les deux seules qui peuvent contenir votre nom ou votre e-mail sont effacées dès qu'elles ont servi :",
+  s1_why:"La plupart des sites utilisent des cookies pour deux raisons : permettre une navigation confortable, et réaliser des statistiques de visite. Ce site garde vos préférences sans aucun cookie, dans le stockage de votre navigateur (jamais envoyées nulle part), et mesure sa fréquentation de deux façons : des événements anonymes envoyés à mon propre serveur, sans cookie, sans adresse IP et sans empreinte ; et, <strong>seulement si vous l'acceptez</strong>, Google Analytics, qui dépose des cookies. Accepter n'est <strong>pas nécessaire</strong> pour accéder au site ni à ses fonctionnalités : refuser ne change rien pour vous.",
+  s1_p:"Le site lui-même ne dépose <strong>aucun cookie</strong> : les seuls cookies sont ceux de Google Analytics, et seulement si vous l'acceptez (voir plus bas). Il garde neuf petites valeurs dans le stockage de votre navigateur. Aucune ne quitte votre appareil, et les deux seules qui peuvent contenir votre nom ou votre e-mail sont effacées dès qu'elles ont servi :",
   t_key:"Clé", t_what:"Contenu", t_life:"Durée",
   r1_w:"Votre choix de langue (EN ou FR), pour que la page s'ouvre dans la langue choisie.", r1_l:"Jusqu'à ce que vous vidiez le stockage du navigateur.",
+  rc_w:"Votre choix au sujet de Google Analytics (accepté ou refusé) et sa date, pour que la question ne revienne pas à chaque page. Après six mois, elle est reposée.", rc_l:"Six mois, ou jusqu'à ce que vous vidiez le stockage de votre navigateur.",
   r4_w:"Uniquement si le formulaire se rabat sur un envoi classique : le créneau que vous avez proposé, pour que le message de remerciement puisse encore offrir le fichier d'agenda. Effacé dès qu'il est lu.", r4_l:"Quelques secondes.",
   r3_w:"Uniquement sur mes propres appareils : un drapeau qui exclut mes visites de test des statistiques. Il n'est jamais posé chez un visiteur.", r3_l:"Jusqu'à effacement.",
   r5_w:"Un drapeau indiquant que l'animation du logo a déjà été jouée dans cet onglet, pour ne pas la rejouer à chaque retour sur la page.", r5_l:"Jusqu'à la fermeture de l'onglet.",
@@ -213,8 +234,15 @@ const FR = {
   r9_w:"La bannière d'annonce que vous avez fermée avec son ×, pour qu'elle reste fermée pendant votre visite.", r9_l:"Jusqu'à la fermeture de l'onglet.",
   r6_w:"Si l'animation du logo est activée, et à quelle vitesse elle joue : le dernier réglage lu sur mon serveur, pour que la visite suivante n'ait pas à l'attendre.", r6_l:"Jusqu'à ce que vous vidiez le stockage du navigateur.",
   s1_p2:"Le site est hébergé sur <strong>GitHub Pages</strong>, qui ne dépose aucun cookie. Si un CDN comme <strong>Cloudflare</strong> était un jour placé devant, il pourrait déposer un cookie de sécurité de courte durée (<code>__cf_bm</code>, environ 30 minutes) pour distinguer les navigateurs des robots, strictement nécessaire pour servir la page, et sans donnée personnelle.",
-  s2_h:"Mesure d'audience : en propre, sans tiers",
-  s2_p1:"Pour savoir si le site fonctionne, il envoie une poignée d'événements anonymes à <strong>mon propre serveur</strong>, dans l'Union européenne, pas à Google Analytics, pas à une régie publicitaire :",
+  s6_h:"Google Analytics, seulement si vous l'acceptez",
+  s6_p1:"À votre première visite, un bandeau vous demande si je peux mesurer votre visite avec <strong>Google Analytics</strong>. Tant que vous n'avez pas cliqué sur « Accepter », Google Analytics n'est même pas chargé : aucune requête ne part vers Google et aucun cookie n'est déposé. Si vous acceptez, il dépose deux cookies sur lagoffinerie.be :",
+  g_name:"Cookie",
+  g1_w:"Un numéro aléatoire qui distingue un navigateur d'un autre, pour compter des visiteurs plutôt que des pages.", g1_l:"13 mois.",
+  g2_w:"L'état de la visite en cours : son numéro, son début, le nombre de pages vues. Ce qui suit <code>_ga_</code> est l'identifiant Google Analytics du site.", g2_l:"13 mois.",
+  s6_p2:"Ce que Google reçoit : l'adresse et le titre de la page, la page qui vous a envoyé ici, les boutons et liens cliqués (appel, WhatsApp, e-mail, devis), si le formulaire de contact ou l'estimation a été envoyé (jamais ce que vous y avez écrit), votre navigateur, votre appareil, la taille d'écran et la langue, et une localisation approximative (ville, pays) déduite de votre adresse IP ; Google Analytics ne journalise ni ne conserve l'adresse IP elle-même. Les signaux Google et toutes les fonctions publicitaires sont désactivés : les données ne servent pas à vous montrer de la publicité et ne sont reliées à aucun compte Google.",
+  s6_p3:"Google Ireland Limited traite ces données pour mon compte, en tant que sous-traitant. Elles peuvent être transférées à Google LLC aux États-Unis, dans le cadre de protection des données UE-États-Unis. Elles sont conservées 14 mois dans Google Analytics, puis supprimées. Si votre navigateur envoie le signal <strong>Do Not Track</strong> ou <strong>Global Privacy Control</strong>, le site le prend pour un refus et ne pose pas la question.",
+  s2_h:"Mesure d'audience sur mon propre serveur, sans cookie",
+  s2_p1:"Quel que soit votre choix pour Google Analytics, le site envoie une poignée d'événements anonymes à <strong>mon propre serveur</strong>, dans l'Union européenne, pour savoir s'il fonctionne. Sans cookie, et sans rien qui vous identifie :",
   s2_l1:"la page a été chargée ; quelles sections sont apparues à l'écran ; jusqu'où vous avez fait défiler ;",
   s2_l2:"quels boutons ont été cliqués, et lequel a mené au formulaire de contact ;",
   s2_l6:"jusqu'où l'outil d'estimation a été suivi : ouvert, quelle étape a été atteinte, si la fourchette a été affichée, envoyée par e-mail ou suivie d'une réservation, jamais vos réponses ;",
@@ -231,12 +259,14 @@ const FR = {
   s4_h:"Les tiers auxquels la page s'adresse",
   s4_l1:"<strong>Google Fonts</strong> : les trois polices sont chargées depuis les serveurs de Google, qui voient donc votre adresse IP au chargement de la page. Aucun cookie n'est déposé.",
   s4_l2:"<strong>GitHub Pages</strong> : l'hébergement garde des journaux serveur standard, pour la sécurité.",
+  s4_l4:"<strong>Google Analytics</strong> (Google Ireland Limited) : uniquement si vous acceptez la mesure d'audience, voir plus haut.",
   s4_l3:"<strong>FormSubmit</strong> : uniquement quand vous envoyez le formulaire de contact, ou en secours quand vous demandez votre estimation (voir ci-dessus).",
   s5_h:"Vos choix concernant les cookies",
-  s5_choice:"Il n'y a ici aucun cookie de suivi à refuser. Si vous préférez ne pas conserver même ces préférences locales, votre navigateur peut bloquer les données du site lagoffinerie.be ou les effacer à tout moment (Réglages → Confidentialité → Données de sites) : le site continue de fonctionner, il oublie simplement votre langue entre deux visites. Si votre navigateur envoie le signal <strong>Do Not Track</strong> ou <strong>Global Privacy Control</strong>, la mesure d'audience se réduit à un seul compteur de page anonyme.", s5_pol:"Le tableau complet (finalités, bases légales, sous-traitants, durées, chacun de vos droits) est dans la <a href=\"donnees-personnelles.html\">politique de protection des données</a>.",
+  s5_choice:"Pour Google Analytics, c'est vous qui décidez : dans le bandeau à votre première visite, puis à tout moment avec le bouton ci-dessous ou « Gérer les cookies » en bas de chaque page. Retirer son accord est aussi simple que le donner : Google Analytics s'arrête aussitôt et ses cookies sont effacés. Votre navigateur peut aussi bloquer ou effacer les données du site lagoffinerie.be (Réglages → Confidentialité → Données de sites) : le site continue de fonctionner, il oublie simplement votre langue et votre choix entre deux visites. Si votre navigateur envoie le signal <strong>Do Not Track</strong> ou <strong>Global Privacy Control</strong>, Google Analytics reste éteint et la mesure sur mon propre serveur se réduit à un seul compteur de page anonyme.",
+  cc_btn:"Modifier mon choix", s5_pol:"Le tableau complet (finalités, bases légales, sous-traitants, durées, chacun de vos droits) est dans la <a href=\"donnees-personnelles.html\">politique de protection des données</a>.",
   s5_p:"En vertu du RGPD, vous pouvez demander ce que je détiens sur vous, le faire corriger ou supprimer, ou vous opposer à son utilisation. Il y a une seule personne derrière ce site, et une seule adresse :",
   cta:"Retour au formulaire de contact",
-  updated:"Dernière mise à jour : 7 octobre 2026.",
+  updated:"Dernière mise à jour : 10 octobre 2026.",
   foot_legal:"Mentions légales", foot_cgu:"CGU", foot_privacy:"Protection des données", foot_cookies:"Cookies",
   sig:"<strong>Simon Goffin</strong> · La Goffinerie, Belgique",
   foot:"© 2026 La Goffinerie · Basée en Belgique."
@@ -269,5 +299,6 @@ function setLang(l, init){
 </script>
 <script src="nav.js" defer></script>
 <script src="site-state.js" defer></script>
+<script src="consent.js" defer></script>
 </body>
 </html>
