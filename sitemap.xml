@@ -5,8 +5,28 @@
     <lastmod>2026-10-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/"/>
+    <image:image><image:loc>https://lagoffinerie.be/assets/work/bravoreno.jpg</image:loc></image:image>
+    <image:image><image:loc>https://lagoffinerie.be/assets/work/lazysyndic.jpg?v=15</image:loc></image:image>
+    <image:image><image:loc>https://lagoffinerie.be/assets/work/henry.jpg</image:loc></image:image>
+    <image:image><image:loc>https://lagoffinerie.be/assets/work/scrumpoker.jpg</image:loc></image:image>
+    <image:image><image:loc>https://lagoffinerie.be/assets/work/virtualcoffee.jpg</image:loc></image:image>
+    <image:image><image:loc>https://lagoffinerie.be/assets/work/bravoreno-mobile.jpg</image:loc></image:image>
+    <image:image><image:loc>https://lagoffinerie.be/assets/work/lazysyndic-mobile.jpg</image:loc></image:image>
+    <image:image><image:loc>https://lagoffinerie.be/assets/work/henry-mobile.jpg</image:loc></image:image>
+    <image:image><image:loc>https://lagoffinerie.be/assets/work/scrumpoker-mobile.jpg</image:loc></image:image>
+    <image:image><image:loc>https://lagoffinerie.be/assets/work/virtualcoffee-mobile.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://lagoffinerie.be/fr/</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/"/>
     <image:image><image:loc>https://lagoffinerie.be/assets/work/bravoreno.jpg</image:loc></image:image>
     <image:image><image:loc>https://lagoffinerie.be/assets/work/lazysyndic.jpg?v=15</image:loc></image:image>
     <image:image><image:loc>https://lagoffinerie.be/assets/work/henry.jpg</image:loc></image:image>
@@ -23,8 +43,23 @@
     <lastmod>2026-10-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/work.html?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/work.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/work.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/work.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/work.html"/>
+    <image:image><image:loc>https://lagoffinerie.be/assets/work/bravoreno.jpg</image:loc></image:image>
+    <image:image><image:loc>https://lagoffinerie.be/assets/work/lazysyndic.jpg?v=15</image:loc></image:image>
+    <image:image><image:loc>https://lagoffinerie.be/assets/work/henry.jpg</image:loc></image:image>
+    <image:image><image:loc>https://lagoffinerie.be/assets/work/scrumpoker.jpg</image:loc></image:image>
+    <image:image><image:loc>https://lagoffinerie.be/assets/work/virtualcoffee.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://lagoffinerie.be/fr/work.html</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/work.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/work.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/work.html"/>
     <image:image><image:loc>https://lagoffinerie.be/assets/work/bravoreno.jpg</image:loc></image:image>
     <image:image><image:loc>https://lagoffinerie.be/assets/work/lazysyndic.jpg?v=15</image:loc></image:image>
     <image:image><image:loc>https://lagoffinerie.be/assets/work/henry.jpg</image:loc></image:image>
@@ -36,8 +71,19 @@
     <lastmod>2026-10-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/about.html?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/about.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/about.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/about.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/about.html"/>
+    <image:image><image:loc>https://lagoffinerie.be/assets/simon.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://lagoffinerie.be/fr/about.html</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/about.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/about.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/about.html"/>
     <image:image><image:loc>https://lagoffinerie.be/assets/simon.jpg</image:loc></image:image>
   </url>
   <url>
@@ -45,47 +91,125 @@
     <lastmod>2026-10-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/mentions-legales.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/mentions-legales.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/mentions-legales.html"/>
+  </url>
+  <url>
+    <loc>https://lagoffinerie.be/fr/mentions-legales.html</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/mentions-legales.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/mentions-legales.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/mentions-legales.html"/>
   </url>
   <url>
     <loc>https://lagoffinerie.be/cgu.html</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/cgu.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/cgu.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/cgu.html"/>
+  </url>
+  <url>
+    <loc>https://lagoffinerie.be/fr/cgu.html</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/cgu.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/cgu.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/cgu.html"/>
   </url>
   <url>
     <loc>https://lagoffinerie.be/donnees-personnelles.html</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/donnees-personnelles.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/donnees-personnelles.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/donnees-personnelles.html"/>
+  </url>
+  <url>
+    <loc>https://lagoffinerie.be/fr/donnees-personnelles.html</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/donnees-personnelles.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/donnees-personnelles.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/donnees-personnelles.html"/>
   </url>
   <url>
     <loc>https://lagoffinerie.be/cookies.html</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/cookies.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/cookies.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/cookies.html"/>
+  </url>
+  <url>
+    <loc>https://lagoffinerie.be/fr/cookies.html</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/cookies.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/cookies.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/cookies.html"/>
   </url>
   <url>
     <loc>https://lagoffinerie.be/websites.html</loc>
     <lastmod>2026-10-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/websites.html?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/websites.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/websites.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/websites.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/websites.html"/>
+  </url>
+  <url>
+    <loc>https://lagoffinerie.be/fr/websites.html</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/websites.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/websites.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/websites.html"/>
   </url>
   <url>
     <loc>https://lagoffinerie.be/digital-strategy.html</loc>
     <lastmod>2026-10-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/digital-strategy.html?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/digital-strategy.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/digital-strategy.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/digital-strategy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/digital-strategy.html"/>
+  </url>
+  <url>
+    <loc>https://lagoffinerie.be/fr/digital-strategy.html</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/digital-strategy.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/digital-strategy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/digital-strategy.html"/>
   </url>
   <url>
     <loc>https://lagoffinerie.be/ai-automation.html</loc>
     <lastmod>2026-10-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/ai-automation.html?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/ai-automation.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/ai-automation.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/ai-automation.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/ai-automation.html"/>
+  </url>
+  <url>
+    <loc>https://lagoffinerie.be/fr/ai-automation.html</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lagoffinerie.be/ai-automation.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/ai-automation.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/ai-automation.html"/>
   </url>
 </urlset>

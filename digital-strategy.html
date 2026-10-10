@@ -7,9 +7,13 @@
 <meta name="theme-color" content="#faf8f2">
 <title>SEO &amp; GEO for Belgian small businesses — La Goffinerie</title>
 <meta name="description" data-price-tpl="SEO and GEO for Belgian small businesses: get found on Google and cited by AI assistants such as ChatGPT. Search basics and Google Business profile {seo} excl. VAT, ongoing support on quote." content="SEO and GEO for Belgian small businesses: get found on Google and cited by AI assistants such as ChatGPT. Search basics and Google Business profile €400 to €800 excl. VAT, ongoing support on quote.">
+<script>/* An old ?lang= link: each language has its own page now (French under fr/, see tools/build-fr.mjs), so go there at once. */
+(function(){ var h=document.documentElement.lang==='fr'?'fr':'en', m=/[?&]lang=(en|fr)(&|$)/.exec(location.search); if(!m||m[1]===h) return; window.LG_LEAVING=true;
+  try{ localStorage.setItem('lg_lang',m[1]); }catch(e){}
+  location.replace((h==='fr'?'../':'fr/')+location.pathname.split('/').pop()+location.search.replace(/([?&])lang=(?:en|fr)(&|$)/,function(a,p,s){ return s?p:''; })+location.hash); })();</script>
 <link rel="canonical" href="https://lagoffinerie.be/digital-strategy.html">
-<link rel="alternate" hreflang="en" href="https://lagoffinerie.be/digital-strategy.html?lang=en">
-<link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/digital-strategy.html?lang=fr">
+<link rel="alternate" hreflang="en" href="https://lagoffinerie.be/digital-strategy.html">
+<link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/digital-strategy.html">
 <link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/digital-strategy.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="La Goffinerie">
@@ -502,6 +506,9 @@
 <script>
 const FR = {
   title:"Référencement SEO et GEO pour PME belges — La Goffinerie",
+  desc:"SEO et GEO pour PME belges : être trouvé sur Google et cité par les assistants IA comme ChatGPT. Bases du référencement et fiche Google {seo} HTVA, suivi dans la durée sur devis.",
+  ld_name:"Stratégie digitale (SEO & GEO)", ld_type:"Référencement naturel (SEO)",
+  ld_desc:"SEO et GEO pour PME belges : être trouvé sur Google, une fiche Google Business complète, et être cité par les assistants IA comme ChatGPT.",
   skip:"Aller au contenu",
   h1:"Être trouvé sur Google, et cité par les IA.",
   intro:"Vos clients cherchent sur Google, et de plus en plus en demandant à ChatGPT, Gemini ou Perplexity. Je fais en sorte que votre entreprise ressorte dans les deux, et que vous voyiez ce que ça rapporte.",
@@ -580,8 +587,13 @@ const FR = {
 function applyPrices(){ if(window.LGEstimator) window.LGEstimator.fill(); }
 const EN_TITLE=document.title, EN={};
 document.querySelectorAll('[data-i18n]').forEach(el=>{ EN[el.getAttribute('data-i18n')]=el.innerHTML; });
+/* Each language has its own page: English at the root, French under fr/ (written from FR by tools/build-fr.mjs,
+   with <html lang="fr">). The switch goes to the other one, keeping the section, and saves the choice. */
+const PAGE_LANG=document.documentElement.lang==='fr' ? 'fr' : 'en';
+function goLang(l){ try{ localStorage.setItem('lg_lang', l==='fr' ? 'fr' : 'en'); }catch(e){} location.href=(PAGE_LANG==='fr' ? '../' : 'fr/')+location.pathname.split('/').pop()+location.hash; }
 let LANG='en';
-function setLang(l){
+function setLang(l, init){
+  if(!init && (l==='fr'?'fr':'en')!==PAGE_LANG){ goLang(l); return; }   // the switch: the other language is the other page
   LANG=(l==='fr')?'fr':'en';
   document.documentElement.lang=LANG;
   document.title=(LANG==='fr')?FR.title:EN_TITLE;
@@ -597,11 +609,12 @@ function setLang(l){
   applyPrices();
 }
 (function(){
-  let l=null;
-  try{ l=new URLSearchParams(location.search).get('lang'); }catch(e){}
+  if(window.LG_LEAVING) return;                        // an old ?lang= link, on its way to the other page
+  let l=(PAGE_LANG==='fr')?'fr':null;                 // the French page is French, whatever the browser or the saved choice says
+  if(!l){ try{ l=new URLSearchParams(location.search).get('lang'); }catch(e){} }
   if(l!=='en'&&l!=='fr'){ try{ l=localStorage.getItem('lg_lang'); }catch(e){ l=null; } }
   if(l!=='en'&&l!=='fr'){ const nav=(navigator.languages&&navigator.languages[0])||navigator.language||'en'; l=String(nav).toLowerCase().startsWith('fr')?'fr':'en'; }
-  setLang(l);
+  setLang(l, true);
 })();
 /* --- scroll reveal + nav shadow --- */
 const rvObs=new IntersectionObserver(es=>{ es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('on'); rvObs.unobserve(en.target); } }); },{threshold:.12});

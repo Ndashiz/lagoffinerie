@@ -18,15 +18,18 @@
    into the menu. Floating, it is a dark rounded bar 10 px from the edges.
      · The menu is a full-screen sheet built here, on every page with a top bar: the three services,
        Work, Pricing and FAQ (with the paths of the page's own top-bar links), the language switch
-       (the page's setLang()), then « Get a quote » (the estimator) and « Book my free call » (the
-       home page's #contact). It is a modal dialog: focus goes into it and stays there; ×, Escape or
-       any link closes it and focus goes back to the menu button; the page behind it does not scroll.
+       (the page's setLang(), which goes to the same page in the other language), then « Get a quote »
+       (the estimator) and « Book my free call » (the home page's #contact). It is a modal dialog: focus
+       goes into it and stays there; ×, Escape or any link closes it and focus goes back to the menu
+       button; the page behind it does not scroll.
      · The bottom bar (.bottombar, each page's own Call · Work · Pricing · Contact) becomes a floating
        dark dock. Its lit entry is the page's own (aria-current: Work on the work page) or, on the
        home page, the section in view (#work, #pricing, #contact), followed as the page scrolls.
    Everything here speaks the page's language: it follows <html lang>, which every page's setLang() sets.
    Pages without a fixed bar (the 404, the legal pages) keep the menus and skip the floating. The 404 is
-   served at any address, so its links start with « / », and so do the scripts loaded here for it.
+   served at any address, so its links start with « / » (« /fr/ » when it speaks French), and so do the scripts
+   loaded here for it. The French pages live in fr/: their links stay there, and the scripts loaded here come
+   from the folder of nav.js itself (« ../ »).
    ========================================================= */
 (function(){
   var SVC=[
@@ -151,9 +154,12 @@
   var nav=document.querySelector('.topnav'); if(!nav) return;
   var root=document.documentElement;
   var trig=nav.querySelector('.nsvc');
-  /* « / » on the 404 (its links are absolute), the page's own folder everywhere else. */
-  var base=(trig && /^\//.test(trig.getAttribute('href')||'')) ? '/' : '';
   var lang=function(){ return root.lang==='fr' ? 'fr' : 'en'; };
+  /* The pages: « / » on the 404 (its links are absolute; « /fr/ » when it speaks French), the page's own folder
+     everywhere else (the French pages are in fr/, so their links stay there). */
+  var base=(trig && /^\//.test(trig.getAttribute('href')||'')) ? (lang()==='fr' ? '/fr/' : '/') : '';
+  /* The shared files (config.js, estimator.js): next to this one, « ../ » from a French page, « / » from the 404. */
+  var files=(function(){ var s=document.currentScript, src=(s && s.getAttribute('src'))||''; return src.slice(0, src.lastIndexOf('/')+1); })();
   var each=function(list, fn){ Array.prototype.forEach.call(list, fn); };
   var esc=function(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); };
 
@@ -172,8 +178,8 @@
     if(loading) return;                                // already on its way: one load, one pop-up
     loading=true;
     var href=el.getAttribute('href'), from=el.getAttribute('data-estimator')||'nav', svc=el.getAttribute('data-estimator-service');
-    (window.LG_CONFIG ? Promise.resolve() : loadScript(base+'config.js'))
-      .then(function(){ return window.LGEstimator ? null : loadScript(base+'estimator.js'); })
+    (window.LG_CONFIG ? Promise.resolve() : loadScript(files+'config.js'))
+      .then(function(){ return window.LGEstimator ? null : loadScript(files+'estimator.js'); })
       .then(function(){ if(!window.LGEstimator) throw new Error('estimator'); window.LGEstimator.open(from, svc); })
       .catch(function(){ loading=false; location.href=href || ((base||'./')+'#pricing'); });
   });

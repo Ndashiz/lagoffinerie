@@ -106,8 +106,10 @@
     +'@media (prefers-reduced-motion: reduce){.lg-w-arm,.lg-w-body,.lg-w-sparks,.lg-w-sign{animation:none;}.lg-w-arm{transform:rotate(-12deg);}.lg-w-sparks{opacity:0;}}';
   var style=document.createElement('style'); style.textContent=CSS; document.head.appendChild(style);
 
-  /* English by default; French only when the visitor picked it on the site: ?lang=fr, or the lg_lang choice the pages save. */
+  /* The page's language (<html lang>: French under fr/, or as the page's setLang() chose); else English by default,
+     French only when the visitor picked it on the site: ?lang=fr, or the lg_lang choice the pages save. */
   function lang(){
+    if(root.lang==='fr' || root.lang==='en') return root.lang;
     var l=null; try{ l=new URLSearchParams(location.search).get('lang'); }catch(e){}
     if(l!=='en' && l!=='fr'){ try{ l=localStorage.getItem('lg_lang'); }catch(e){ l=null; } }
     return l==='fr' ? 'fr' : 'en';

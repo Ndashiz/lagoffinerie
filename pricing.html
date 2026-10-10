@@ -13,10 +13,11 @@
 <script>
 /* LA GOFFINERIE v2.31 — the pricing page is retired: the prices live on the home page, in #pricing.
    This page only sends old links there (the meta refresh above does it without JavaScript),
-   and keeps the language when the old address carried one (?lang=en|fr). */
+   and keeps the language when the old address carried one (?lang=en|fr): French goes to the French home page, fr/. */
 (function(){
   var m=/[?&]lang=(en|fr)(?:&|$)/.exec(location.search);
-  location.replace(m ? './?lang='+m[1]+'#pricing' : './#pricing');
+  if(m){ try{ localStorage.setItem('lg_lang', m[1]); }catch(e){} }
+  location.replace(m && m[1]==='fr' ? './fr/#pricing' : './#pricing');
 })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,7 +38,7 @@
 <main>
   <svg viewBox="0 0 120 112" style="isolation:isolate" aria-hidden="true"><path d="M62 6 L102 80 L22 80 Z" fill="#EDAF2F" style="mix-blend-mode:multiply"/><rect x="12" y="48" width="58" height="58" rx="15" fill="#2823EE" style="mix-blend-mode:multiply"/><circle cx="90" cy="78" r="27" fill="#E2452C" style="mix-blend-mode:multiply"/></svg>
   <p><a href="./#pricing">Our prices are now on the home page →</a></p>
-  <p lang="fr"><a href="./?lang=fr#pricing">Nos tarifs sont désormais sur la page d'accueil →</a></p>
+  <p lang="fr"><a href="./fr/#pricing">Nos tarifs sont désormais sur la page d'accueil →</a></p>
 </main>
 </body>
 </html>

@@ -113,16 +113,27 @@
   </div>
 </footer>
 <script>
-/* English by default; French only when the visitor picked it on the site (?lang=fr, or the lg_lang choice the other pages save). */
+/* English by default; French under /fr/, or when the visitor picked it on the site (?lang=fr, or the lg_lang choice the
+   other pages save). In French the links lead to the French pages (/fr/…), and so do nav.js and estimator.js, which read
+   <html lang> and these links. The language switch (the phone menu of nav.js) goes to the same address in the other language. */
 (function(){
+  var path=location.pathname, rest=path.replace(/^\/fr(?=\/|$)/, '')||'/', inFr=rest!==path;
   var l=null; try{ l=new URLSearchParams(location.search).get('lang'); }catch(e){}
+  if(l!=='en' && l!=='fr' && inFr) l='fr';
   if(l!=='en' && l!=='fr'){ try{ l=localStorage.getItem('lg_lang'); }catch(e){ l=null; } }
   if(l!=='fr') l='en';
   document.documentElement.lang=l;
   if(l==='fr'){
     document.title='Page introuvable — La Goffinerie';
     var art=document.getElementById('art404'); if(art) art.setAttribute('aria-label', "Un écran affiche une erreur 404, son câble d'alimentation est coupé en deux");
+    Array.prototype.forEach.call(document.querySelectorAll('a[href^="/"]'), function(a){ var h=a.getAttribute('href'); if(!/^\/fr(\/|$)/.test(h)) a.setAttribute('href', '/fr'+h); });
   }
+  window.setLang=function(n){
+    if(n!=='en' && n!=='fr') return;
+    try{ localStorage.setItem('lg_lang', n); }catch(e){}
+    var to=(n==='fr' ? '/fr'+(rest==='/' ? '/' : rest) : rest)+location.hash;
+    if(to.split('#')[0]===path && !location.search) location.reload(); else location.href=to;
+  };
 })();
 </script>
 <script src="/nav.js" defer></script>

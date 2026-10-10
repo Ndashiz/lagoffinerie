@@ -54,7 +54,7 @@ are required by the form). Body:
 | `monthly` | `{ option, quote, min, max }` | `option` = `after` (`unsure` when not answered, `none` when not asked); `quote` true for `custom`; `min` = `max` = the package's monthly price, which the site shows as « environ » / « about » (Essentiel: hosting and domain name only; Pro: plus monitoring and maintenance); both null for `custom` and `seo` |
 | `items[]` | `{ key, label, amount, min, max, partner, quote, call, yearly }` | the line items shown on screen, already labelled in `l`, the package first; `quote` true for « sur devis » and « dans le devis » lines, `call` true for « à voir à l'appel » (the « Autre » need) |
 | `text` | `{ package, build, monthly, note, answers:[[label,value]…], summary, disclaimer, mail }` | ready-made copy in `l` (see §3); `package` is the package name (« Essentiel », « Pro », « Sur mesure » / « Custom », or the SEO offer's name); `note` is the word on Pro shown with Essentiel when `after` is `unsure` or not answered, else null; `answers` starts with the services |
-| `bookUrl` | string | `https://lagoffinerie.be/?book=1&lang=xx#contact`: leads to the contact form of the home page |
+| `bookUrl` | string | `https://lagoffinerie.be/?book=1#contact` (English) or `https://lagoffinerie.be/fr/?book=1#contact` (French): leads to the contact form of the home page, in the visitor's language |
 
 Item keys:
 

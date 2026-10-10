@@ -1,16 +1,16 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light only">
-<title>Terms of use — La Goffinerie</title>
-<meta name="description" content="The terms of use of the lagoffinerie.be website: access, offers and contract formation, liability, intellectual property, personal data, applicable law.">
+<title>CGU — La Goffinerie</title>
+<meta name="description" content="Les conditions générales d'utilisation du site lagoffinerie.be : accès, offres et formation du contrat, responsabilité, propriété intellectuelle, données personnelles, droit applicable.">
 <script>/* An old ?lang= link: each language has its own page now (French under fr/, see tools/build-fr.mjs), so go there at once. */
 (function(){ var h=document.documentElement.lang==='fr'?'fr':'en', m=/[?&]lang=(en|fr)(&|$)/.exec(location.search); if(!m||m[1]===h) return; window.LG_LEAVING=true;
   try{ localStorage.setItem('lg_lang',m[1]); }catch(e){}
   location.replace((h==='fr'?'../':'fr/')+location.pathname.split('/').pop()+location.search.replace(/([?&])lang=(?:en|fr)(&|$)/,function(a,p,s){ return s?p:''; })+location.hash); })();</script>
-<link rel="canonical" href="https://lagoffinerie.be/cgu.html">
+<link rel="canonical" href="https://lagoffinerie.be/fr/cgu.html">
 <link rel="alternate" hreflang="en" href="https://lagoffinerie.be/cgu.html">
 <link rel="alternate" hreflang="fr" href="https://lagoffinerie.be/fr/cgu.html">
 <link rel="alternate" hreflang="x-default" href="https://lagoffinerie.be/cgu.html">
@@ -95,26 +95,26 @@
       <span class="logo-txt">La Goffinerie</span>
     </a>
     <div class="nright">
-      <div class="langsw" role="group" aria-label="Language">
+      <div class="langsw" role="group" aria-label="Langue">
         <button id="lang-en" onclick="setLang('en')">EN</button>
         <button id="lang-fr" onclick="setLang('fr')">FR</button>
       </div>
-      <a class="back" href="./" data-i18n="back">← Back</a>
+      <a class="back" href="./" data-i18n="back">← Retour</a>
     </div>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <div class="kick" data-i18n="kick">Terms of use</div>
-    <h1 data-i18n="h1">Terms of use of the lagoffinerie.be website.</h1>
-    <p class="sub" data-i18n="sub">The rules that apply to anyone using this site and its services, and how a project moves from a proposal to a contract.</p>
+    <div class="kick" data-i18n="kick">Conditions générales d'utilisation</div>
+    <h1 data-i18n="h1">Conditions générales d'utilisation du site lagoffinerie.be.</h1>
+    <p class="sub" data-i18n="sub">Les règles qui s'appliquent à toute personne qui utilise ce site et ses services, et la façon dont un projet passe d'une proposition à un contrat.</p>
   </div>
 </header>
 
 <main>
   <div class="wrap">
-<div class="legal" data-lang="fr" hidden>
+<div class="legal" data-lang="fr">
 <h2>Article 1 : Objet</h2>
 <p>Les présentes conditions générales d'utilisation ont pour objet l'encadrement juridique de l'utilisation du site internet lagoffinerie.be et de ses services. Ce contrat est conclu entre le gérant du site internet, ci-après désigné « l'Éditeur », et toute personne physique ou morale souhaitant accéder au site et à ses services, ci-après appelée « l'Utilisateur ». Les conditions générales d'utilisation doivent être acceptées par tout Utilisateur, et son accès au site vaut acceptation de ces conditions.</p>
 <h2>Article 2 : Mentions légales</h2>
@@ -146,7 +146,7 @@
 <p>Le présent contrat est régi par le droit belge. En cas de litige non résolu à l'amiable entre l'Utilisateur et l'Éditeur, les cours et tribunaux de Bruxelles sont exclusivement compétents pour régler le litige.</p>
 <p class="updated">Dernière mise à jour : 6 octobre 2026.</p>
 </div>
-<div class="legal" data-lang="en">
+<div class="legal" data-lang="en" hidden>
 <h2>Article 1: Purpose</h2>
 <p>These terms of use provide the legal framework for the use of the lagoffinerie.be website and its services. This contract is entered into between the manager of the website, hereinafter “the Publisher”, and any natural or legal person wishing to access the site and its services, hereinafter “the User”. The terms of use must be accepted by every User, and accessing the site constitutes acceptance of these terms.</p>
 <h2>Article 2: Legal notice</h2>
@@ -184,8 +184,8 @@
 <footer>
   <div class="wrap">
     <span style="font-family:var(--disp);font-weight:700">La Goffinerie</span>
-    <nav class="flinks"><a href="mentions-legales.html" data-i18n="foot_legal">Legal notice</a><a href="cgu.html" data-i18n="foot_cgu">Terms of use</a><a href="donnees-personnelles.html" data-i18n="foot_privacy">Data protection</a><a href="cookies.html" data-i18n="foot_cookies">Cookies</a></nav>
-    <p data-i18n="foot">© 2026 La Goffinerie · Belgium-based.</p>
+    <nav class="flinks"><a href="mentions-legales.html" data-i18n="foot_legal">Mentions légales</a><a href="cgu.html" data-i18n="foot_cgu">CGU</a><a href="donnees-personnelles.html" data-i18n="foot_privacy">Protection des données</a><a href="cookies.html" data-i18n="foot_cookies">Cookies</a></nav>
+    <p data-i18n="foot">© 2026 La Goffinerie · Basée en Belgique.</p>
   </div>
 </footer>
 
@@ -226,7 +226,7 @@ function setLang(l, init){
   setLang(l, true);
 })();
 </script>
-<script src="nav.js" defer></script>
-<script src="site-state.js" defer></script>
+<script src="../nav.js" defer></script>
+<script src="../site-state.js" defer></script>
 </body>
 </html>

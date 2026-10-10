@@ -26,7 +26,7 @@
        no longer exists, such as after:"self" from v2.30, is dropped by
        clean()), answers only. The name, e-mail and phone stay in memory, except
        for the hop from any other page to the booking form of the
-       home page (./?book=1, /?book=1 from the 404), where they are
+       home page (./?book=1, /?book=1 or /fr/?book=1 from the 404), where they are
        read and removed at once.
      · Sending: POST /api/gf/estimates on Jarvis (text/plain, like the
        leads, body contract v3) stores the prospect and sends both
@@ -48,8 +48,9 @@
   var CFG=window.LG_CONFIG||{}, P=CFG.packages||{}, AD=CFG.addons||{}, R=CFG.rates||{};
   var KEY='lg_estimate', JARVIS='https://jarvis.ndashiz.be', EST_PATH='/api/gf/estimates', EV_PATH='/api/gf/events';
   var FORMSUBMIT='https://formsubmit.co/ajax/info@lagoffinerie.be', SITE='https://lagoffinerie.be/';
-  /* The site's root for the links of the window: « / » when this file came by an absolute path (the 404, served at any address), else the page's folder. */
-  var HOME=(function(){ var s=document.currentScript; return (s && /^\//.test(s.getAttribute('src')||'')) ? '/' : './'; })();
+  /* The site's root for the links of the window: the page's folder (a French page's links stay in fr/), or « / » when this
+     file came by an absolute path (the 404, served at any address: « /fr/ » when it speaks French). */
+  var HOME=(function(){ var s=document.currentScript; if(!(s && /^\//.test(s.getAttribute('src')||''))) return './'; return root.lang==='fr' ? '/fr/' : '/'; })();
   var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var TXT={
@@ -425,7 +426,7 @@
     if(c.monthly!=null) parts.push(monthMain(c,L));
     return t.sum+parts.join(', ');
   }
-  function bookUrl(L){ return SITE+'?book=1&lang='+L+'#contact'; }
+  function bookUrl(L){ return SITE+(L==='fr' ? 'fr/' : '')+'?book=1#contact'; }   // the home page in the visitor's language
   function mailText(c, L){
     var t=TXT[L], first=String(CAP.name||'').trim().split(/\s+/)[0], note=proNote(c,L);
     return fmt(t.mail, { n:first?' '+first:'', p:answerRows(L).map(function(r){ return '• '+r[0]+t.sep+r[1]; }).join('\n'),

@@ -9,22 +9,27 @@
      node tools/prerender-prices.mjs          rewrite every page that shows prices
      node tools/prerender-prices.mjs --check  change nothing; exit 1 if a file is out of date
 
-   Run it after every price change in config.js.
+   Run it after every price change in config.js, then node tools/build-fr.mjs (which rewrites the
+   French pages under fr/ from the English ones, with their prices filled by render() below).
    Exit codes: 0 all good; 1 (--check) a file is out of date; 2 a page uses a price key that PRICE
    does not know, or config.js has no value for one (each named with its file, key and lines; that
    file is left untouched, the other files are still processed).
+
+   The pages: the English ones at the root and, when they exist, their French copies in fr/. The
+   language of a page is its <html lang>: « fr » formats everything outside the dictionary in French
+   too (the French pages carry the same dictionary, and their visible text is French).
 
    The keys: PRICE in estimator.js, read from that file (the same map fill() uses in the browser):
    ess, ess_m (Essentiel build and monthly), pro, pro_m (Pro build and monthly), seo (the SEO add-on
    range), hourly, pack, pack_hours, domain.
 
    What it writes, in each page:
-     · every element carrying data-price="key": its text becomes the amount in English
-       format (the HTML is the English page: « €1,000 »);
+     · every element carrying data-price="key": its text becomes the amount in the page's
+       format (« €1,000 » on an English page, « 1 000 € » on a French one);
      · inside the French dictionary (const FR = { … };): data-price=\"key\">…< (or data-price="key">…<
        in a single-quoted string) gets the French format (« 1 000 € »);
      · <meta data-price-tpl="… {key} …" content="…">: content becomes the template with the
-       amounts, in English;
+       amounts, in the page's format;
      · JSON-LD: the ProfessionalService description repeats the page's meta description,
        and every FAQ answer that shows a price is copied from the visible answer.
 
@@ -36,7 +41,7 @@ import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const FILES = ['index.html', 'websites.html', 'digital-strategy.html', 'ai-automation.html'];
+export const FILES = ['index.html', 'websites.html', 'digital-strategy.html', 'ai-automation.html'];
 const CHECK = process.argv.includes('--check');
 
 /* ---------- config.js, read the way the browser reads it ---------- */
@@ -73,14 +78,15 @@ function span(v, L) {
   return L === 'fr' ? num(v[0], L) + ' à ' + money(v[1], L) : money(v[0], L) + ' to ' + money(v[1], L);
 }
 
-/* ---------- small helpers ---------- */
-const escAttr = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
-const escText = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-function decode(s) {
+/* ---------- small helpers (build-fr.mjs uses them too) ---------- */
+export const escAttr = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+export const escText = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+export function decode(s) {
   return s.replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"')
     .replace(/&#39;|&apos;/g, "'").replace(/&amp;/g, '&');
 }
-function plainText(html) {
+/* The text of an FAQ answer as the JSON-LD repeats it: no tags, no links. */
+export function plainText(html) {
   return decode(html.replace(/<a\b[^>]*>[\s\S]*?<\/a>/g, '').replace(/<[^>]+>/g, ''))
     .replace(/[ \t\r\n]+/g, ' ').trim();
 }
@@ -88,8 +94,9 @@ const lineAt = (s, i) => s.slice(0, i).split('\n').length;   // replacements nev
 function fail(msg) { console.error('prerender-prices: ' + msg); process.exit(2); }
 
 /* ---------- one page ---------- */
-function render(file, src) {
+export function render(file, src) {
   let out = src, count = 0;
+  const PL = /\slang="fr"/.test((/<html\b[^>]*>/.exec(src) || [''])[0]) ? 'fr' : 'en';   // the page's language (its first <html> tag): French under fr/
   const problems = new Map();                                 // message → lines
   const problem = (msg, line) => { if (!problems.has(msg)) problems.set(msg, []); if (line) problems.get(msg).push(line); };
   /* The amount for a key, or null (and a problem noted) when the key is unknown or config.js has no value. */
@@ -115,9 +122,9 @@ function render(file, src) {
     frEnd = frStart + fr.length;
   }
 
-  // 2. Elements outside the dictionary: English amounts.
+  // 2. Elements outside the dictionary: amounts in the page's language (English at the root, French under fr/).
   const fillEn = (part, base) => part.replace(/(<[a-zA-Z][^<>]*\sdata-price="(\w+)"[^<>]*>)([^<]*)(<\/)/g, (m, open, key, _old, close, off) => {
-    const s = price(key, 'en', lineAt(out, base + off));
+    const s = price(key, PL, lineAt(out, base + off));
     if (s == null) return m;
     count++; return open + escText(s) + close;
   });
@@ -128,7 +135,7 @@ function render(file, src) {
   out = out.replace(/<meta\b[^>]*\bdata-price-tpl="([^"]*)"[^>]*>/g, (tag, tpl, off) => {
     const line = lineAt(out, off);
     let missing = false;
-    const text = decode(tpl).replace(/\{(\w+)\}/g, (m, key) => { const s = price(key, 'en', line); if (s == null) { missing = true; return m; } return s; });
+    const text = decode(tpl).replace(/\{(\w+)\}/g, (m, key) => { const s = price(key, PL, line); if (s == null) { missing = true; return m; } return s; });
     if (!/\scontent="[^"]*"/.test(tag)) { problem('a meta with data-price-tpl has no content attribute', line); return tag; }
     if (missing) return tag;
     if (/\bname="description"/.test(tag)) description = text;
@@ -162,23 +169,31 @@ function render(file, src) {
   return { out, count, problems };
 }
 
-/* ---------- all pages ---------- */
-let stale = 0, broken = 0;
-for (const file of FILES) {
-  const full = path.join(ROOT, file);
-  const src = fs.readFileSync(full, 'utf8');
-  const { out, count, problems } = render(file, src);
-  if (problems.size) {
-    broken++;
-    for (const [msg, lines] of problems) console.error(`${file}${lines.length ? ':' + [...new Set(lines)].sort((a, b) => a - b).join(',') : ''}: ${msg}`);
-    console.error(`${file}: ${CHECK ? 'NOT CHECKED' : 'NOT WRITTEN'}, fix the problems above`);
-    continue;
-  }
-  if (out === src) { console.log(`${file}: up to date (${count} prices)`); continue; }
-  stale++;
-  if (CHECK) { console.log(`${file}: OUT OF DATE, run node tools/prerender-prices.mjs`); continue; }
-  fs.writeFileSync(full, out);
-  console.log(`${file}: written (${count} prices)`);
+/* The problems of one page, one line each, the way both tools print them. */
+export function report(file, problems) {
+  for (const [msg, lines] of problems) console.error(`${file}${lines.length ? ':' + [...new Set(lines)].sort((a, b) => a - b).join(',') : ''}: ${msg}`);
 }
-if (broken) process.exit(2);
-if (CHECK && stale) process.exit(1);
+
+/* ---------- all pages (when run, not when build-fr.mjs imports render()) ---------- */
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  let stale = 0, broken = 0;
+  const pages = [...FILES, ...FILES.map((f) => 'fr/' + f).filter((f) => fs.existsSync(path.join(ROOT, f)))];
+  for (const file of pages) {
+    const full = path.join(ROOT, file);
+    const src = fs.readFileSync(full, 'utf8');
+    const { out, count, problems } = render(file, src);
+    if (problems.size) {
+      broken++;
+      report(file, problems);
+      console.error(`${file}: ${CHECK ? 'NOT CHECKED' : 'NOT WRITTEN'}, fix the problems above`);
+      continue;
+    }
+    if (out === src) { console.log(`${file}: up to date (${count} prices)`); continue; }
+    stale++;
+    if (CHECK) { console.log(`${file}: OUT OF DATE, run node tools/prerender-prices.mjs`); continue; }
+    fs.writeFileSync(full, out);
+    console.log(`${file}: written (${count} prices)`);
+  }
+  if (broken) process.exit(2);
+  if (CHECK && stale) process.exit(1);
+}
