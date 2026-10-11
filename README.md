@@ -89,6 +89,11 @@ generated from the English pages (see « French pages » below).
   site name Google shows), each service page a `Service`, `about.html` a `ProfilePage`. `sitemap.xml` lists the
   images of each page: add a new screenshot to the English entry, with the same `?v=` as in the page (`build-fr.mjs`
   copies it to the French one).
+- **IndexNow (Bing)**: `789eedeea81e85056bf6e63230b1037b.txt` at the root is the IndexNow key (its content is its
+  name); keep it published, the engines fetch it to check each ping. After a push that changes pages, once it is live,
+  run `node tools/indexnow.mjs` (every page of the sitemap) or `node tools/indexnow.mjs fr/ websites.html` (only those;
+  `--dry-run` sends nothing): Bing, whose index also feeds ChatGPT search, Copilot and DuckDuckGo, comes to read them
+  within days. Only for pages that really changed. Google ignores IndexNow: the sitemap and Search Console are its way.
 
 - **Cookies & Google Analytics**: `consent.js`, loaded by every page, asks before Google Analytics 4 runs: a banner
   (Refuse and Accept alike, Customize opens a settings panel), `gtag.js` only loaded after « Accept », the choice in
