@@ -32,6 +32,8 @@
        amounts, in the page's format;
      · JSON-LD: the ProfessionalService description repeats the page's meta description,
        and every FAQ answer that shows a price is copied from the visible answer.
+   And llms.txt at the root (the summary of the site for AI assistants): tools/llms.txt.tpl with every
+   {key} written as a French amount. Edit the template, never llms.txt itself.
 
    The formats below copy num(), money() and span() of estimator.js: keep them in step.
    ========================================================= */
@@ -78,6 +80,14 @@ function span(v, L) {
   return L === 'fr' ? num(v[0], L) + ' à ' + money(v[1], L) : money(v[0], L) + ' to ' + money(v[1], L);
 }
 
+/* The amount of a key in language L, as { s }, or { err } when the key is unknown or config.js has no value. */
+function amountOf(key, L) {
+  if (!Object.prototype.hasOwnProperty.call(PRICE, key)) return { err: `unknown price key « ${key} » (known: ${KNOWN})` };
+  const v = PRICE[key].split('.').reduce((o, k) => (o == null ? undefined : o[k]), CFG);
+  if (v == null) return { err: `config.js has no value for « ${key} » (${PRICE[key]})` };
+  return { s: key === 'pack_hours' ? num(v, L) : span(v, L) };
+}
+
 /* ---------- small helpers (build-fr.mjs uses them too) ---------- */
 export const escAttr = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 export const escText = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
@@ -101,10 +111,9 @@ export function render(file, src) {
   const problem = (msg, line) => { if (!problems.has(msg)) problems.set(msg, []); if (line) problems.get(msg).push(line); };
   /* The amount for a key, or null (and a problem noted) when the key is unknown or config.js has no value. */
   function price(key, L, line) {
-    if (!Object.prototype.hasOwnProperty.call(PRICE, key)) { problem(`unknown price key « ${key} » (known: ${KNOWN})`, line); return null; }
-    const v = PRICE[key].split('.').reduce((o, k) => (o == null ? undefined : o[k]), CFG);
-    if (v == null) { problem(`config.js has no value for « ${key} » (${PRICE[key]})`, line); return null; }
-    return key === 'pack_hours' ? num(v, L) : span(v, L);
+    const a = amountOf(key, L);
+    if (a.err) { problem(a.err, line); return null; }
+    return a.s;
   }
 
   // 1. The French dictionary: cut it out, fill it in French, put it back.
@@ -193,6 +202,28 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     if (CHECK) { console.log(`${file}: OUT OF DATE, run node tools/prerender-prices.mjs`); continue; }
     fs.writeFileSync(full, out);
     console.log(`${file}: written (${count} prices)`);
+  }
+  // llms.txt: the template with French amounts.
+  const tpl = path.join(ROOT, 'tools', 'llms.txt.tpl');
+  if (fs.existsSync(tpl)) {
+    const errs = new Set(); let n = 0;
+    const out = fs.readFileSync(tpl, 'utf8').replace(/\{(\w+)\}/g, (m, key) => {
+      const a = amountOf(key, 'fr');
+      if (a.err) { errs.add(a.err); return m; }
+      n++; return a.s;
+    });
+    const dest = path.join(ROOT, 'llms.txt');
+    const cur = fs.existsSync(dest) ? fs.readFileSync(dest, 'utf8') : null;
+    if (errs.size) {
+      broken++;
+      for (const e of errs) console.error('tools/llms.txt.tpl: ' + e);
+      console.error(`llms.txt: ${CHECK ? 'NOT CHECKED' : 'NOT WRITTEN'}, fix the problems above`);
+    } else if (out === cur) console.log(`llms.txt: up to date (${n} prices)`);
+    else {
+      stale++;
+      if (CHECK) console.log('llms.txt: OUT OF DATE, run node tools/prerender-prices.mjs');
+      else { fs.writeFileSync(dest, out); console.log(`llms.txt: written (${n} prices)`); }
+    }
   }
   if (broken) process.exit(2);
   if (CHECK && stale) process.exit(1);

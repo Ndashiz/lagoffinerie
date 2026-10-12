@@ -40,8 +40,8 @@ generated from the English pages (see « French pages » below).
   professional e-mail), `rates` (hourly rate, 5-hour pack, domain name) and
   `BOOKING_URL` (shows the « choose a slot now » buttons). The amounts are **pre-rendered** in the HTML, so
   they are in the page source (search engines, link previews, « view source »): every element carrying
-  `data-price="…"`, the French dictionaries, the `<meta data-price-tpl="… {key} …">` descriptions and the
-  JSON-LD. **After any price change in `config.js`, run `node tools/prerender-prices.mjs`, then
+  `data-price="…"`, the French dictionaries, the `<meta data-price-tpl="… {key} …">` descriptions, the
+  JSON-LD and `llms.txt`. **After any price change in `config.js`, run `node tools/prerender-prices.mjs`, then
   `node tools/build-fr.mjs`** (`--check` changes nothing and exits 1 if a page is out of date; it checks the
   French pages too, in French format). `estimator.js` writes the same amounts at run time, in the language's format.
   `assets/work/*.jpg` are the project screenshots of the home page's work section (in a browser window) and of the cases;
@@ -94,6 +94,11 @@ generated from the English pages (see « French pages » below).
   run `node tools/indexnow.mjs` (every page of the sitemap) or `node tools/indexnow.mjs fr/ websites.html` (only those;
   `--dry-run` sends nothing): Bing, whose index also feeds ChatGPT search, Copilot and DuckDuckGo, comes to read them
   within days. Only for pages that really changed. Google ignores IndexNow: the sitemap and Search Console are its way.
+- **llms.txt**: the summary of the site for AI assistants (llmstxt.org format, in French: who, the packages and their
+  prices, the services, the work, contact), at `https://lagoffinerie.be/llms.txt`. It is **written** by
+  `prerender-prices.mjs` from `tools/llms.txt.tpl` (every `{key}` becomes a French amount from `config.js`): edit the
+  template, never `llms.txt`. Keep it true when a service, a case, the contact details or the area change. No engine has
+  said it reads it; it costs nothing and some AI tools fetch it.
 
 - **Cookies & Google Analytics**: `consent.js`, loaded by every page, asks before Google Analytics 4 runs: a banner
   (Refuse and Accept alike, Customize opens a settings panel), `gtag.js` only loaded after « Accept », the choice in
